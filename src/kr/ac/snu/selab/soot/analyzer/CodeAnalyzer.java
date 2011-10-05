@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import kr.ac.snu.selab.soot.MyUtil;
+
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Scene;
@@ -16,7 +18,10 @@ import soot.SootField;
 import soot.SootMethod;
 import soot.Unit;
 import soot.UnitBox;
+import soot.Value;
 import soot.ValueBox;
+import soot.jimple.internal.JAssignStmt;
+import soot.jimple.internal.JIdentityStmt;
 import soot.jimple.internal.JInvokeStmt;
 
 public class CodeAnalyzer extends BodyTransformer {
@@ -37,26 +42,22 @@ public class CodeAnalyzer extends BodyTransformer {
 		return unitList;
 	}
 
-	private String removeBracket(String aString) {
-		return aString.toString().replaceAll("<|>", " ");
-	}
-
 	private void writeClass(SootClass aClass, PrintWriter writer) {
 		writer.print("<Class>");
 		writer.print("<ToString>");
-		writer.print(removeBracket(aClass.toString()));
+		writer.print(MyUtil.removeBracket(aClass.toString()));
 		writer.print("</ToString>");
 		writer.print("<FieldList>");
 		for (SootField aField : aClass.getFields()) {
 			writer.print("<Field>");
 			writer.print("<ToString>");
-			writer.print(removeBracket(aField.toString()));
+			writer.print(MyUtil.removeBracket(aField.toString()));
 			writer.print("</ToString>");
 			writer.print("<Type>");
-			writer.print(removeBracket(aField.getType().toString()));
+			writer.print(MyUtil.removeBracket(aField.getType().toString()));
 			writer.print("</Type>");
 			writer.print("<Name>");
-			writer.print(removeBracket(aField.getName()));
+			writer.print(MyUtil.removeBracket(aField.getName()));
 			writer.print("</Name>");
 			writer.print("</Field>");
 		}
@@ -72,16 +73,16 @@ public class CodeAnalyzer extends BodyTransformer {
 	private void writeMethod(SootMethod aMethod, PrintWriter writer) {
 		writer.print("<Method>");
 		writer.print("<ToString>");
-		writer.print(removeBracket(aMethod.toString()));
+		writer.print(MyUtil.removeBracket(aMethod.toString()));
 		writer.print("</ToString>");
 		writer.print("<ReturnType>");
-		writer.print(removeBracket(aMethod.getReturnType().toString()));
+		writer.print(MyUtil.removeBracket(aMethod.getReturnType().toString()));
 		writer.print("</ReturnType>");
 		writer.print("<ParameterList>");
 		int i = 0;
 		for (Object aType : aMethod.getParameterTypes()) {
 			writer.print(String.format("<Parameter%d>", i));
-			writer.print(removeBracket(aType.toString()));
+			writer.print(MyUtil.removeBracket(aType.toString()));
 			writer.print(String.format("</Parameter%d>", i));
 		}
 		writer.print("</ParameterList>");
@@ -96,27 +97,37 @@ public class CodeAnalyzer extends BodyTransformer {
 	private void writeUnit(Unit aUnit, PrintWriter writer) {
 		writer.print("<Unit>");
 		writer.print("<ToString>");
-		writer.print(removeBracket(aUnit.toString()));
+		writer.print(MyUtil.removeBracket(aUnit.toString()));
 		writer.print("</ToString>");
 		writer.print("<UnitClass>");
-		writer.print(removeBracket(aUnit.getClass().getName()));
+		writer.print(MyUtil.removeBracket(aUnit.getClass().getName()));
 		writer.print("</UnitClass>");
 		for (UnitBox unitBox : aUnit.getBoxesPointingToThis()) {
 			writer.print("<UnitBoxPointingToThis>");
-			writer.print(removeBracket(unitBox.toString()));
+			writer.print(MyUtil.removeBracket(unitBox.toString()));
 			writer.print("</UnitBoxPointingToThis>");
 		}
 		int i = 0;
 		for (ValueBox valueBox : aUnit.getDefBoxes()) {
 			writer.print(String.format("<DefBox%d>", i));
-			writer.print(removeBracket(valueBox.toString()));
+			writer.print("<ToString>");
+			writer.print(MyUtil.removeBracket(valueBox.toString()));
+			writer.print("</ToString>");
+			writer.print("<Type>");
+			writer.print(MyUtil.removeBracket(valueBox.getValue().getType().toString()));
+			writer.print("</Type>");
 			writer.print(String.format("</DefBox%d>", i));
 			i = i + 1;
 		}
 		i = 0;
 		for (ValueBox valueBox : aUnit.getUseBoxes()) {
 			writer.print(String.format("<UseBox%d>", i));
-			writer.print(removeBracket(valueBox.toString()));
+			writer.print("<ToString>");
+			writer.print(MyUtil.removeBracket(valueBox.toString()));
+			writer.print("</ToString>");
+			writer.print("<Type>");
+			writer.print(MyUtil.removeBracket(valueBox.getValue().getType().toString()));
+			writer.print("</Type>");
 			writer.print(String.format("</UseBox%d>", i));
 			i = i + 1;
 		}
@@ -124,15 +135,37 @@ public class CodeAnalyzer extends BodyTransformer {
 			JInvokeStmt jInvokeStatement = (JInvokeStmt)aUnit;
 			SootMethod invokeMethod = jInvokeStatement.getInvokeExpr().getMethod();
 			writer.print("<InvokeMethod>");
-			writer.print(removeBracket(invokeMethod.toString()));
+			writer.print(MyUtil.removeBracket(invokeMethod.toString()));
 			writer.print("</InvokeMethod>");
 			writer.print("<ArgumentList>");
 			for (Object invokeExpr : jInvokeStatement.getInvokeExpr().getArgs()) {
 				writer.print("<Argument>");
-				writer.print(removeBracket(invokeExpr.toString()));
+				writer.print(MyUtil.removeBracket(invokeExpr.toString()));
 				writer.print("</Argument>");
 			}
 			writer.print("</ArgumentList>");
+		}
+		if (aUnit instanceof JIdentityStmt) {
+			JIdentityStmt jIdentityStatement = (JIdentityStmt)aUnit;
+			Value leftOp = jIdentityStatement.getLeftOp();
+			Value rightOp = jIdentityStatement.getRightOp();
+			writer.print("<LeftOp>");
+			writer.print(MyUtil.removeBracket(leftOp.toString()));
+			writer.print("</LeftOp>");
+			writer.print("<RightOp>");
+			writer.print(MyUtil.removeBracket(rightOp.toString()));
+			writer.print("</RightOp>");
+		}
+		if (aUnit instanceof JAssignStmt) {
+			JAssignStmt jAssignStatement = (JAssignStmt)aUnit;
+			Value leftOp = jAssignStatement.getLeftOp();
+			Value rightOp = jAssignStatement.getRightOp();
+			writer.print("<LeftOp>");
+			writer.print(MyUtil.removeBracket(leftOp.toString()));
+			writer.print("</LeftOp>");
+			writer.print("<RightOp>");
+			writer.print(MyUtil.removeBracket(rightOp.toString()));
+			writer.print("</RightOp>");
 		}
 		writer.print("</Unit>");
 	}

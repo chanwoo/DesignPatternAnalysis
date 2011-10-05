@@ -2,17 +2,30 @@ package kr.ac.snu.selab.soot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import soot.SootClass;
+import soot.Unit;
+
+import kr.ac.snu.selab.soot.analyzer.MyMethod;
+import kr.ac.snu.selab.soot.analyzer.MyNode;
 
 public class MethodAnalysisResult {
-	String methodName;
-	List<FlowIn> FlowInList;
-	List<FlowOut> FlowOutList;
-	HashMap<FlowIn, FlowOut> flowInToFlowOutMap;
-	HashMap<FlowOut, FlowIn> flowOutToFlowInMap;
+	SootClass abstractType;
+	MyMethod self;
+	boolean isCreater;
+	Unit createStatement;
+	boolean isCaller;
+	Unit callStatement;
+	Set<MyNode> sourceNodes;
+	Set<MyNode> targetNodes;
 	
 	public MethodAnalysisResult() {
-		FlowInList = new ArrayList<FlowIn>();
-		FlowOutList = new ArrayList<FlowOut>();
+		isCreater = false;
+		isCaller = false;
+		sourceNodes = new HashSet<MyNode>();
+		targetNodes = new HashSet<MyNode>();
 	}
 }

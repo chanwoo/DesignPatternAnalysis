@@ -2,17 +2,15 @@ package kr.ac.snu.selab.soot.analyzer;
 
 import java.util.ArrayList;
 
-import soot.SootMethod;
-
-public class Path {
+public class MyPath {
 	public ArrayList<MyNode> nodeList;
 
-	public Path() {
+	public MyPath() {
 		nodeList = new ArrayList<MyNode>();
 	}
 
-	public Path copy() {
-		Path p = new Path();
+	public MyPath copy() {
+		MyPath p = new MyPath();
 		p.nodeList.addAll(nodeList);
 		return p;
 	}

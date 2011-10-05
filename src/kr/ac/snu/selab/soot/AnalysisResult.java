@@ -3,6 +3,8 @@ package kr.ac.snu.selab.soot;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.ac.snu.selab.soot.analyzer.MyGraph;
+
 import soot.SootClass;
 
 public class AnalysisResult {
@@ -10,6 +12,7 @@ public class AnalysisResult {
 	List<Caller> callerList;
 	List<Creater> createrList;
 	List<Store> storeList;
+	MyGraph graph;
 	
 	public AnalysisResult() {
 		abstractType = null;

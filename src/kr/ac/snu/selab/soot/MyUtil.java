@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 
 public class MyUtil {
 	public static String removeBracket(String aString) {
-		return aString.toString().replaceAll("<|>", " ");
+		String result = aString.replaceAll("<", "{");
+		result = result.replaceAll(">", "}");
+		return result;
 	}
 
 	public static void stringToFile(String aString, String aFilePath) {
