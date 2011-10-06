@@ -15,13 +15,19 @@ public class Main {
 			return;
 		}
 
-		AbstractProject project = null;
+		String projectName = "";
 
-		// project = projects.getProject("JHotDraw_5_3");
-		// project = projects.getProject("StatePatternExample");
-		// project = projects.getProject("StrategyPatternExample");
-		project = projects.getProject("StatePatternExample2");
-		assert (project != null);
+		// projectName = "JHotDraw_5_3";
+		// projectName = "StatePatternExample";
+		// projectName = "StrategyPatternExample";
+		projectName = "StatePatternExample2";
+
+		AbstractProject project = projects.getProject(projectName);
+		if (project == null) {
+			System.err.println("Can not find project information: "
+					+ projectName);
+			return;
+		}
 
 		AnalyzerRunner.run(project);
 	}

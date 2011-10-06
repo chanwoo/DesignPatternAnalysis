@@ -15,7 +15,7 @@ import org.w3c.dom.NodeList;
 
 public class ProjectManager {
 
-	private static final String PROJECT_FILE_NAME = "projects.xml";
+	public static final String PROJECT_FILE_NAME = "projects.xml";
 
 	private static ProjectManager instance = null;
 
@@ -36,6 +36,7 @@ public class ProjectManager {
 	}
 
 	public void loadProejcts() throws ProjectFileNotFoundException {
+		map.clear();
 		InputStream is = null;
 		is = ClassLoader.getSystemResourceAsStream(PROJECT_FILE_NAME);
 		if (is == null) {
