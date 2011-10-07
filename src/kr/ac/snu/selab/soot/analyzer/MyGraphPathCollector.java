@@ -11,10 +11,9 @@ public abstract class MyGraphPathCollector {
 	protected MyNode startNode;
 	protected MyGraph graph;
 
-	private static final int PATH_SET_SIZE_LIMIT = 10;
+	private static final int PATH_SET_SIZE_LIMIT = 20;
 
-	public MyGraphPathCollector(MyNode aStartNode, MyGraph aGraph,
-			Map<String, MyNode> aNodeMap) {
+	public MyGraphPathCollector(MyNode aStartNode, MyGraph aGraph) {
 		pathsMap = new HashMap<String, ArrayList<MyPath>>();
 		hitSet = new HashSet<String>();
 

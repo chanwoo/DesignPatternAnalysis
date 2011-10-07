@@ -10,6 +10,8 @@ import kr.ac.snu.selab.soot.analyzer.MyField;
 import kr.ac.snu.selab.soot.analyzer.MyGraph;
 import kr.ac.snu.selab.soot.analyzer.MyMethod;
 import kr.ac.snu.selab.soot.analyzer.MyNode;
+import kr.ac.snu.selab.soot.analyzer.MyPath;
+import kr.ac.snu.selab.soot.analyzer.ReferenceFlowPathCollector;
 
 import soot.Body;
 import soot.Hierarchy;
@@ -53,7 +55,23 @@ public class Analysis {
 	}
 	
 	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
-		new Analysis(aClassList, aHierarchy, new MyCallGraph(classList, methodMap));
+		classList = new ArrayList<SootClass>();
+		classMap = new HashMap<String, SootClass>();
+		methodMap = new HashMap<String, SootMethod>();
+		fieldMap = new HashMap<String, SootField>();
+		
+		classList = aClassList;
+		for (SootClass aClass : classList) {
+			classMap.put(aClass.getName(), aClass);
+			for (SootField aField : aClass.getFields()) {
+				fieldMap.put(aField.toString(), aField);
+			}
+			for (SootMethod aMethod : aClass.getMethods()) {
+				methodMap.put(aMethod.toString(), aMethod);
+			}
+		}
+		callGraph = new MyCallGraph(classList, methodMap);
+		hierarchy = aHierarchy;
 	}
 	
 	private List<Unit> getUnits(SootMethod aMethod) {
@@ -83,6 +101,20 @@ public class Analysis {
 		return result;
 	}
 	
+	public List<SootClass> getSuperClassListExcludingInterface(SootClass aClass) {
+		List<SootClass> result = new ArrayList<SootClass>();
+		for (SootClass candidateClass : classList) {
+			if (!candidateClass.isInterface()) {
+				if (isClassOfSubType(aClass, candidateClass)) {
+					if (!aClass.equals(candidateClass)) {
+						result.add(candidateClass);
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
 	// <JInvokeStmt> interfaceinvoke temp$0.<State: void changeSpeed(CeilingFan)>(this)
 	// <UseBox> VB(temp$0)
 	// <Type> State
@@ -96,8 +128,11 @@ public class Analysis {
 		if (aUnit instanceof JInvokeStmt) {
 			JInvokeStmt statement = (JInvokeStmt) aUnit;
 			ValueBox receiver = (ValueBox)(statement.getUseBoxes().get(0));
-			SootClass receiverClass = classMap.get(receiver.getValue()
-					.getType().toString());
+			String key = receiver.getValue().getType().toString();
+			SootClass receiverClass = null;
+			if (classMap.containsKey(key)) {
+				receiverClass = classMap.get(key);
+			}
 			if (receiverClass != null) {
 				if (receiverClass instanceof SootClass) {
 					if (receiverClass.equals(aType)) {
@@ -116,9 +151,12 @@ public class Analysis {
 					.getImplementersOf(aType);
 			result = implementerList.contains(aClass);
 		} else if (aType.isInterface() && aClass.isInterface()) {
-			result = hierarchy.isInterfaceSubinterfaceOf(aClass, aType);
+			if (hierarchy.isInterfaceSubinterfaceOf(aClass, aType) ||
+					aClass.equals(aType)) {
+				result = true;
+			}
 		} else if (!(aType.isInterface()) && !(aClass.isInterface())) {
-			result = hierarchy.isClassSubclassOf(aClass, aType);
+			result = hierarchy.isClassSubclassOfIncluding(aClass, aType);
 		}
 		return result;
 	}
@@ -141,17 +179,21 @@ public class Analysis {
 		return result;
 	}
 	
-	private boolean isFieldOfType(SootField aField, SootClass aType) {
-		boolean result = false;
-		if (aType.getName().equals(aField.getType().toString())) {
-			result = true;
-		}
-		return result;
-	}
+//	private boolean isFieldOfType(SootField aField, SootClass aType) {
+//		boolean result = false;
+//		if (aType.getName().equals(aField.getType().toString())) {
+//			result = true;
+//		}
+//		return result;
+//	}
 	
 	public boolean isFieldOfSubType(SootField aField, SootClass aType) {
 		boolean result = false;
-		SootClass fieldClass = classMap.get(aField.getType().toString());
+		String key = aField.getType().toString();
+		SootClass fieldClass = null;
+		if (classMap.containsKey(key)) {
+			fieldClass = classMap.get(key);
+		}
 		if (fieldClass != null) {
 			if (isClassOfSubType(fieldClass, aType)) {
 				result = true;
@@ -160,52 +202,52 @@ public class Analysis {
 		return result;
 	}
 	
-	public SootField getReadFieldByThisStatement(Unit aUnit) {
-		SootField field = null;
+	public String getReadFieldStringByThisStatement(Unit aUnit) {
+		String result = null;
 		if (aUnit instanceof JAssignStmt) {
 			JAssignStmt assignStmt = (JAssignStmt)aUnit;
 			String rightSideString = assignStmt.getRightOp().toString();
 			if (rightSideString.startsWith("this.")) {
 				rightSideString = rightSideString.substring(5);
 			}
-			field = fieldMap.get(rightSideString);
+			result = rightSideString;
 		}
-		return field;
+		return result;
 	}
 	
-	public List<SootField> getReadFieldListByThisMethod(SootMethod aMethod) {
-		List<SootField> fieldList = new ArrayList<SootField>();
+	public List<String> getReadFieldStringListByThisMethod(SootMethod aMethod) {
+		List<String> fieldStringList = new ArrayList<String>();
 		for (Unit aUnit : getUnits(aMethod)) {
-			SootField field = getReadFieldByThisStatement(aUnit);
-			if (field != null) {
-				fieldList.add(field);
+			String fieldString = getReadFieldStringByThisStatement(aUnit);
+			if (fieldString != null) {
+				fieldStringList.add(fieldString);
 			}
 		}
-		return fieldList;
+		return fieldStringList;
 	}
 	
-	public SootField getWrittenFieldByThisStatement(Unit aUnit) {
-		SootField field = null;
+	public String getWrittenFieldStringByThisStatement(Unit aUnit) {
+		String result = null;
 		if (aUnit instanceof JAssignStmt) {
 			JAssignStmt assignStmt = (JAssignStmt)aUnit;
-			String rightSideString = assignStmt.getLeftOp().toString();
-			if (rightSideString.startsWith("this.")) {
-				rightSideString = rightSideString.substring(5);
+			String leftSideString = assignStmt.getLeftOp().toString();
+			if (leftSideString.startsWith("this.")) {
+				leftSideString = leftSideString.substring(5);
 			}
-			field = fieldMap.get(rightSideString);
+			result = leftSideString;
 		}
-		return field;
+		return result;
 	}
 	
-	public List<SootField> getWrittenFieldListByThisMethod(SootMethod aMethod) {
-		List<SootField> fieldList = new ArrayList<SootField>();
+	public List<String> getWrittenFieldStringListByThisMethod(SootMethod aMethod) {
+		List<String> fieldStringList = new ArrayList<String>();
 		for (Unit aUnit : getUnits(aMethod)) {
-			SootField field = getReadFieldByThisStatement(aUnit);
-			if (field != null) {
-				fieldList.add(field);
+			String fieldString = getWrittenFieldStringByThisStatement(aUnit);
+			if (fieldString != null) {
+				fieldStringList.add(fieldString);
 			}
 		}
-		return fieldList;
+		return fieldStringList;
 	}
 	
 	private String getReturnTypeString(SootMethod aMethod) {
@@ -237,7 +279,10 @@ public class Analysis {
 		List<String> parameterTypeStringList = getParameterTypeStringList(aMethod);
 		List<SootClass> parameterTypeList = new ArrayList<SootClass>();
 		for (String aParameterTypeString : parameterTypeStringList) {
-			SootClass parameterType = classMap.get(aParameterTypeString);
+			SootClass parameterType = null;
+			if (classMap.containsKey(aParameterTypeString)) {
+				parameterType = classMap.get(aParameterTypeString);
+			}
 			if (parameterType != null) {
 				parameterTypeList.add(parameterType);
 			}
@@ -251,19 +296,22 @@ public class Analysis {
 		return result;
 	}
 	
-	public MethodAnalysisResult analyzeMethodOverType(SootMethod aMethod, SootClass aType) {
+	public MethodAnalysisResult analyzeMethodOverType(SootMethod aMethod, SootClass aType, HashMap<String, MyNode> nodeMap) {
 		MethodAnalysisResult result = new MethodAnalysisResult();
-		result.self = new MyMethod(aMethod);
+		String aNodeKey = aMethod.toString();
+		if (nodeMap.containsKey(aNodeKey)) {
+			result.self = (MyMethod)nodeMap.get(aNodeKey);
+		}
 		result.abstractType = aType;
 		
 		for (Unit aUnit : getUnits(aMethod)) {
 			if (isInstanceCreationStatementOfSubType(aUnit, aType)) {
-				result.isCreater = true;
-				result.createStatement = aUnit;
+				result.self.setIsCreator(true);
+				result.self.addCreateStatement(aUnit);
 			}
 			if (isInvokeStatementOfReceiverType(aUnit, aType)) {
-				result.isCaller = true;
-				result.callStatement = aUnit;
+				result.self.setIsCaller(true);
+				result.self.addCallStatement(aUnit);
 			}
 		}
 		
@@ -272,47 +320,87 @@ public class Analysis {
 		
 		if (doesThisMethodParameterOfSubtype(aMethod, aType)) {
 			for (SootMethod callerMethod : callerSet) {
-				MyMethod aNode = new MyMethod(callerMethod);
-				result.sourceNodes.add(aNode);
-				result.targetNodes.add(aNode);
+				MyNode method = nodeMap.get(callerMethod.toString());
+				if (method != null) {
+					result.sourceNodes.add(method);
+					result.targetNodes.add(method); //can make cycle
+				}
 			}
 		}
 		
 		if (doesThisMethodReturnObjectOfSubtype(aMethod, aType)) {
 			for (SootMethod callerMethod : callerSet) {
-				MyMethod aNode = new MyMethod(callerMethod);
-				result.targetNodes.add(aNode);
+				MyNode method = nodeMap.get(callerMethod.toString());
+				if (method != null) {
+					result.targetNodes.add(method);
+				}
 			}
 		}
 		
 		for (SootMethod calleeMethod : calleeSet) {
 			if (doesThisMethodParameterOfSubtype(calleeMethod, aType)) {
-				MyMethod aNode = new MyMethod(calleeMethod);
-				result.sourceNodes.add(aNode);
-				result.targetNodes.add(aNode);
+				MyNode method = nodeMap.get(calleeMethod.toString());
+				
+				if (method != null) {
+					result.targetNodes.add(method);
+					result.sourceNodes.add(method); //can make cycle
+				}
 			}
 		}
 		
 		for (SootMethod calleeMethod : calleeSet) {
 			if (doesThisMethodReturnObjectOfSubtype(calleeMethod, aType)) {
-				MyMethod aNode = new MyMethod(calleeMethod);
-				result.sourceNodes.add(aNode);
+				MyNode method = nodeMap.get(calleeMethod.toString());
+				if (method != null) {
+					result.sourceNodes.add(method);
+				}
 			}
 		}
 		
-		List<SootField> readFieldList = getReadFieldListByThisMethod(aMethod);
-		for (SootField readField : readFieldList) {
-			if (isFieldOfSubType(readField, aType)) {
-				MyField field = new MyField(readField);
-				result.sourceNodes.add(field);
+		List<SootField> superClassFieldListOfAbstractType = new ArrayList<SootField>();
+		SootClass classOfThisMethod = aMethod.getDeclaringClass();
+		if (!classOfThisMethod.isInterface()) {
+			List<SootClass> superClassList = getSuperClassListExcludingInterface(classOfThisMethod);
+			for (SootClass aClass : superClassList) {
+				for (SootField aField : aClass.getFields()) {
+					if (isFieldOfSubType(aField, aType)) {
+						superClassFieldListOfAbstractType.add(aField);
+					}
+				}
 			}
 		}
 		
-		List<SootField> writtenFieldList = getWrittenFieldListByThisMethod(aMethod);
-		for (SootField writtenField : writtenFieldList) {
-			if (isFieldOfSubType(writtenField, aType)) {
-				MyField field = new MyField(writtenField);
-				result.targetNodes.add(field);
+		List<String> readFieldStringList = getReadFieldStringListByThisMethod(aMethod);
+		for (String readFieldString : readFieldStringList) {
+			if (nodeMap.containsKey(readFieldString)) {
+				result.sourceNodes.add(nodeMap.get(readFieldString));
+			}
+			else {
+				for (SootField aSuperClassField : superClassFieldListOfAbstractType) {
+					String fieldKey = aSuperClassField.toString();
+					if (fieldKey.contains(readFieldString.replaceFirst("<.*:", ""))) {
+						if (nodeMap.containsKey(fieldKey)) {
+							result.sourceNodes.add(nodeMap.get(fieldKey));
+						}
+					}
+				}
+			}
+		}
+		
+		List<String> writtenFieldStringList = getWrittenFieldStringListByThisMethod(aMethod);
+		for (String writtenFieldString : writtenFieldStringList) {
+			if (nodeMap.containsKey(writtenFieldString)) {
+				result.targetNodes.add(nodeMap.get(writtenFieldString));
+			}
+			else {
+				for (SootField aSuperClassField : superClassFieldListOfAbstractType) {
+					String fieldKey = aSuperClassField.toString();
+					if (fieldKey.contains(writtenFieldString.replaceFirst("<.*:", ""))) {
+						if (nodeMap.containsKey(fieldKey)) {
+							result.targetNodes.add(nodeMap.get(fieldKey));
+						}
+					}
+				}
 			}
 		}
 		
@@ -328,6 +416,7 @@ public class Analysis {
 			MyNode selfNode = result.self;
 			
 			for (MyNode sourceNode : result.sourceNodes) {
+				//add mapping information to targetMap
 				String key = sourceNode.toString();
 				if (targetMap.containsKey(key)) {
 					targetMap.get(key).add(selfNode);
@@ -337,9 +426,20 @@ public class Analysis {
 					newSet.add(selfNode);
 					targetMap.put(key, newSet);
 				}
+				//add mapping information to sourceMap
+				key = selfNode.toString();
+				if (sourceMap.containsKey(key)) {
+					sourceMap.get(key).add(sourceNode);
+				}
+				else {
+					HashSet<MyNode> newSet = new HashSet<MyNode>();
+					newSet.add(sourceNode);
+					sourceMap.put(key, newSet);
+				}
 			}
 			
 			for (MyNode targetNode : result.targetNodes) {
+				//add mapping information to sourceMap
 				String key = targetNode.toString();
 				if (sourceMap.containsKey(key)) {
 					sourceMap.get(key).add(selfNode);
@@ -348,6 +448,16 @@ public class Analysis {
 					HashSet<MyNode> newSet = new HashSet<MyNode>();
 					newSet.add(selfNode);
 					sourceMap.put(key, newSet);
+				}
+				//add mapping information to targetMap
+				key = selfNode.toString();
+				if (targetMap.containsKey(key)) {
+					targetMap.get(key).add(targetNode);
+				}
+				else {
+					HashSet<MyNode> newSet = new HashSet<MyNode>();
+					newSet.add(targetNode);
+					targetMap.put(key, newSet);
 				}
 			}
 		}
@@ -381,28 +491,55 @@ public class Analysis {
 	public List<AnalysisResult> getAnalysisResultList() {
 		List<AnalysisResult> analysisResultList = new ArrayList<AnalysisResult>();
 		List<SootClass> abstractTypeList = getAbstractTypeClassList();
-		for (SootClass anAbstractType : abstractTypeList) {
+		
+		String graphXML = "<GraphList>";
+		
+		for (SootClass aType : abstractTypeList) {
 			AnalysisResult anAnalysisResult = new AnalysisResult();
-			anAnalysisResult.abstractType = anAbstractType;
+			List<MethodAnalysisResult> methodAnalysisResultList = new ArrayList<MethodAnalysisResult>();
+			HashMap<String, MyNode> nodeMap = new HashMap<String, MyNode>();
 			for (SootClass aClass : classList) {
 				for (SootField aField : aClass.getFields()) {
-					if (isFieldOfType(aField, anAbstractType)) {
-						anAnalysisResult.storeList.add(new Store(aClass, aField));
-					}
+					nodeMap.put(aField.toString(), new MyField(aField));
 				}
 				for (SootMethod aMethod : aClass.getMethods()) {
-					for (Unit aUnit : getUnits(aMethod)) {
-						if (isInstanceCreationStatementOfSubType(aUnit, anAbstractType)) {
-							anAnalysisResult.createrList.add(new Creater(aClass, aMethod, aUnit));
-						}
-						if (isInvokeStatementOfReceiverType(aUnit, anAbstractType)) {
-							anAnalysisResult.callerList.add(new Caller(aClass, aMethod, aUnit));
-						}
-					}
+					nodeMap.put(aMethod.toString(), new MyMethod(aMethod));
+				}
+			}	
+			
+			anAnalysisResult.abstractType = aType;
+			for (SootClass aClass : classList) {
+				for (SootMethod aMethod : aClass.getMethods()) {
+					methodAnalysisResultList.add(analyzeMethodOverType(aMethod, aType, nodeMap));
 				}
 			}
+			
+			for (MethodAnalysisResult aResult : methodAnalysisResultList) {
+				MyNode node = aResult.self;
+				if (node.isCaller()) {
+					anAnalysisResult.callerList.add(node);
+				}
+				if (node.isCreator()) {
+					anAnalysisResult.creatorList.add(node);
+				}
+			}
+			
+			MyGraph referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
+			graphXML = graphXML + referenceFlowGraph.toXML();
+			
+			for (MyNode aNode : anAnalysisResult.callerList) {
+				ReferenceFlowPathCollector pathCollector = new ReferenceFlowPathCollector(aNode, referenceFlowGraph);
+				List<MyPath> pathList = pathCollector.run();
+				if (!pathList.isEmpty()) {
+					anAnalysisResult.referenceFlowPathMap.put(aNode.toString(), pathList);
+				}
+			}
+			
 			analysisResultList.add(anAnalysisResult);
 		}
+		
+		graphXML = graphXML + "</GraphList>";
+		//MyUtil.stringToFile(graphXML, "/Users/chanwoo/Documents/workspace/StatePatternExample/output/referenceFlowGraph.xml");
 		
 		return analysisResultList;
 	}

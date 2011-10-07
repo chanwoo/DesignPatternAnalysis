@@ -17,10 +17,10 @@ public class Main {
 
 		String projectName = "";
 
-		// projectName = "JHotDraw_5_3";
+		 projectName = "JHotDraw_5_3";
 		// projectName = "StatePatternExample";
-		// projectName = "StrategyPatternExample";
-		projectName = "StatePatternExample2";
+//		 projectName = "StrategyPatternExample";
+		// projectName = "StatePatternExample2";
 
 		AbstractProject project = projects.getProject(projectName);
 		if (project == null) {

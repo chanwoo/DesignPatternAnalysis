@@ -15,16 +15,10 @@ import kr.ac.snu.selab.soot.analyzer.MyNode;
 public class MethodAnalysisResult {
 	SootClass abstractType;
 	MyMethod self;
-	boolean isCreater;
-	Unit createStatement;
-	boolean isCaller;
-	Unit callStatement;
 	Set<MyNode> sourceNodes;
 	Set<MyNode> targetNodes;
 	
 	public MethodAnalysisResult() {
-		isCreater = false;
-		isCaller = false;
 		sourceNodes = new HashSet<MyNode>();
 		targetNodes = new HashSet<MyNode>();
 	}
