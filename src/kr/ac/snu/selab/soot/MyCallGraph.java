@@ -15,6 +15,7 @@ import soot.Body;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.Unit;
+import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
 public class MyCallGraph {
@@ -42,6 +43,12 @@ public class MyCallGraph {
 					if (aUnit instanceof JInvokeStmt) {
 						JInvokeStmt jInvokeStatement = (JInvokeStmt)aUnit;
 						addEdge(aMethod.toString(), jInvokeStatement.getInvokeExpr().getMethod().toString(), methodMap);
+					}
+					if (aUnit instanceof JAssignStmt) {
+						JAssignStmt jAssignStatement = (JAssignStmt)aUnit;
+						if (jAssignStatement.containsInvokeExpr()) {
+							addEdge(aMethod.toString(), jAssignStatement.getInvokeExpr().getMethod().toString(), methodMap);
+						}
 					}
 				}
 			}

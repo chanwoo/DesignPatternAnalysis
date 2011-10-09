@@ -166,6 +166,12 @@ public class CodeAnalyzer extends BodyTransformer {
 			writer.print("<RightOp>");
 			writer.print(MyUtil.removeBracket(rightOp.toString()));
 			writer.print("</RightOp>");
+			
+			if (jAssignStatement.containsInvokeExpr()) {
+				writer.print("<InvokeExpr>");
+				writer.print(MyUtil.removeBracket(jAssignStatement.getInvokeExpr().getMethod().toString()));
+				writer.print("</InvokeExpr>");
+			}
 		}
 		writer.print("</Unit>");
 	}

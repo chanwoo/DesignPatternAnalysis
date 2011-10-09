@@ -539,7 +539,7 @@ public class Analysis {
 		}
 		
 		graphXML = graphXML + "</GraphList>";
-		//MyUtil.stringToFile(graphXML, "/Users/chanwoo/Documents/workspace/StatePatternExample/output/referenceFlowGraph.xml");
+		MyUtil.stringToFile(graphXML, "/Users/chanwoo/Documents/workspace/StatePatternExample2/output/StatePatternExample2_ReferenceFlowGraph.xml");
 		
 		return analysisResultList;
 	}
