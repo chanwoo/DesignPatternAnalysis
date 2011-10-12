@@ -492,7 +492,7 @@ public class Analysis {
 		List<AnalysisResult> analysisResultList = new ArrayList<AnalysisResult>();
 		List<SootClass> abstractTypeList = getAbstractTypeClassList();
 		
-		String graphXML = "<GraphList>";
+		//String graphXML = "<GraphList>";
 		
 		for (SootClass aType : abstractTypeList) {
 			AnalysisResult anAnalysisResult = new AnalysisResult();
@@ -525,7 +525,7 @@ public class Analysis {
 			}
 			
 			MyGraph referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
-			graphXML = graphXML + referenceFlowGraph.toXML();
+			//graphXML = graphXML + referenceFlowGraph.toXML();
 			
 			for (MyNode aNode : anAnalysisResult.callerList) {
 				ReferenceFlowPathCollector pathCollector = new ReferenceFlowPathCollector(aNode, referenceFlowGraph);
@@ -538,8 +538,8 @@ public class Analysis {
 			analysisResultList.add(anAnalysisResult);
 		}
 		
-		graphXML = graphXML + "</GraphList>";
-		MyUtil.stringToFile(graphXML, "/Users/chanwoo/Documents/workspace/StatePatternExample2/output/StatePatternExample2_ReferenceFlowGraph.xml");
+		//graphXML = graphXML + "</GraphList>";
+		//MyUtil.stringToFile(graphXML, "/Users/chanwoo/Documents/workspace/StatePatternExample2/output/StatePatternExample2_ReferenceFlowGraph.xml");
 		
 		return analysisResultList;
 	}

@@ -18,6 +18,14 @@ public class AnalysisResult {
 	Map<String, List<MyPath>> referenceFlowPathMap; // String := MyNode.toString() where MyNode is caller
 //	List<Store> storeList;
 	
+	public String getAbstractTypeName() {
+		String result = "";
+		if (abstractType != null) {
+			result = abstractType.toString();
+		}
+		return result;
+	}
+	
 	public AnalysisResult() {
 		abstractType = null;
 		callerList = new ArrayList<MyNode>();

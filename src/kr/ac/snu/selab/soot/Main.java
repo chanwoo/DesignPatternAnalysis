@@ -17,8 +17,8 @@ public class Main {
 
 		String projectName = "";
 
-	//	 projectName = "JHotDraw_5_3";
-		 projectName = "StatePatternExample";
+	 projectName = "JHotDraw_5_3";
+//		 projectName = "StatePatternExample";
 //		 projectName = "StrategyPatternExample";
 		// projectName = "StatePatternExample2";
 
