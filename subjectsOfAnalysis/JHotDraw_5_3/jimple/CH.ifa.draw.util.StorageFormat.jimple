@@ -1,0 +1,9 @@
+public interface  CH.ifa.draw.util.StorageFormat extends java.lang.Object
+{
+
+    public abstract javax.swing.filechooser.FileFilter getFileFilter();
+
+    public abstract java.lang.String store(java.lang.String, CH.ifa.draw.framework.Drawing) throws java.io.IOException;
+
+    public abstract CH.ifa.draw.framework.Drawing restore(java.lang.String) throws java.io.IOException;
+}

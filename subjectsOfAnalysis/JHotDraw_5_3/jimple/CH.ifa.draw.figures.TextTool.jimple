@@ -1,0 +1,364 @@
+public class CH.ifa.draw.figures.TextTool extends CH.ifa.draw.standard.CreationTool
+{
+    private CH.ifa.draw.util.FloatingTextField fTextField;
+    private CH.ifa.draw.standard.TextHolder fTypingTarget;
+
+    public void <init>(CH.ifa.draw.framework.DrawingEditor, CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+        CH.ifa.draw.framework.Figure prototype;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        newDrawingEditor := @parameter0: CH.ifa.draw.framework.DrawingEditor;
+        prototype := @parameter1: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(newDrawingEditor, prototype);
+        return;
+    }
+
+    public void mouseDown(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.figures.TextTool this;
+        java.awt.event.MouseEvent e;
+        int x, y;
+        CH.ifa.draw.standard.TextHolder textHolder, temp$3, temp$5, temp$6, temp$10;
+        CH.ifa.draw.framework.Figure pressedFigure, temp$1, temp$9;
+        CH.ifa.draw.framework.Drawing temp$0;
+        boolean temp$2, temp$4;
+        CH.ifa.draw.framework.DrawingEditor temp$7;
+        CH.ifa.draw.framework.DrawingView temp$8;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        textHolder = null;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure findFigureInside(int,int)>(x, y);
+        pressedFigure = temp$1;
+        temp$2 = pressedFigure instanceof CH.ifa.draw.standard.TextHolder;
+        if temp$2 == 0 goto label3;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$3 = (CH.ifa.draw.standard.TextHolder) pressedFigure;
+        textHolder = temp$3;
+        temp$4 = interfaceinvoke textHolder.<CH.ifa.draw.standard.TextHolder: boolean acceptsTyping()>();
+        if temp$4 == 0 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$5 = null;
+        textHolder = temp$5;
+
+     label2:
+        nop;
+
+     label3:
+        nop;
+        if textHolder != null goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void beginEdit(CH.ifa.draw.standard.TextHolder)>(textHolder);
+        return;
+
+     label5:
+        nop;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        if temp$6 != null goto label6;
+
+        goto label7;
+
+     label6:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void endEdit()>();
+        temp$7 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.DrawingEditor editor()>();
+        interfaceinvoke temp$7.<CH.ifa.draw.framework.DrawingEditor: void toolDone()>();
+        goto label8;
+
+     label7:
+        nop;
+        specialinvoke this.<CH.ifa.draw.standard.CreationTool: void mouseDown(java.awt.event.MouseEvent,int,int)>(e, x, y);
+        temp$8 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$8.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+        temp$9 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.Figure getCreatedFigure()>();
+        temp$10 = (CH.ifa.draw.standard.TextHolder) temp$9;
+        textHolder = temp$10;
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void beginEdit(CH.ifa.draw.standard.TextHolder)>(textHolder);
+
+     label8:
+        nop;
+        return;
+    }
+
+    public void mouseDrag(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.figures.TextTool this;
+        java.awt.event.MouseEvent e;
+        int x, y;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        return;
+    }
+
+    public void mouseUp(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.figures.TextTool this;
+        java.awt.event.MouseEvent e;
+        int x, y;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        return;
+    }
+
+    public void deactivate()
+    {
+        CH.ifa.draw.figures.TextTool this;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void endEdit()>();
+        specialinvoke this.<CH.ifa.draw.standard.CreationTool: void deactivate()>();
+        return;
+    }
+
+    public void activate()
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        specialinvoke this.<CH.ifa.draw.standard.CreationTool: void activate()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        return;
+    }
+
+    public boolean isActivated()
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.standard.TextHolder temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        if temp$0 != null goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$1 = 1;
+
+     label2:
+        nop;
+        return temp$1;
+    }
+
+    protected void beginEdit(CH.ifa.draw.standard.TextHolder)
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.standard.TextHolder figure, temp$2, temp$3;
+        CH.ifa.draw.util.FloatingTextField temp$0, temp$1, temp$4, temp$8;
+        CH.ifa.draw.framework.DrawingView temp$5;
+        java.awt.Container temp$6;
+        java.awt.Font temp$7;
+        java.awt.Rectangle temp$9;
+        java.lang.String temp$10;
+        CH.ifa.draw.util.Undoable temp$11;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        figure := @parameter0: CH.ifa.draw.standard.TextHolder;
+        temp$0 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = new CH.ifa.draw.util.FloatingTextField;
+        specialinvoke temp$1.<CH.ifa.draw.util.FloatingTextField: void <init>()>();
+        this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField> = temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        if figure != temp$2 goto label2;
+
+        goto label4;
+
+     label2:
+        nop;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        if temp$3 != null goto label3;
+
+        goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void endEdit()>();
+
+     label4:
+        nop;
+        temp$4 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField>;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.DrawingView view()>();
+        temp$6 = (java.awt.Container) temp$5;
+        temp$7 = interfaceinvoke figure.<CH.ifa.draw.standard.TextHolder: java.awt.Font getFont()>();
+        virtualinvoke temp$4.<CH.ifa.draw.util.FloatingTextField: void createOverlay(java.awt.Container,java.awt.Font)>(temp$6, temp$7);
+        temp$8 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField>;
+        temp$9 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: java.awt.Rectangle fieldBounds(CH.ifa.draw.standard.TextHolder)>(figure);
+        temp$10 = interfaceinvoke figure.<CH.ifa.draw.standard.TextHolder: java.lang.String getText()>();
+        virtualinvoke temp$8.<CH.ifa.draw.util.FloatingTextField: void setBounds(java.awt.Rectangle,java.lang.String)>(temp$9, temp$10);
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void setTypingTarget(CH.ifa.draw.standard.TextHolder)>(figure);
+        temp$11 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.Undoable createUndoActivity()>();
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$11);
+        return;
+    }
+
+    protected void endEdit()
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.standard.TextHolder temp$0, temp$4, temp$15;
+        CH.ifa.draw.util.FloatingTextField temp$1, temp$5, temp$17;
+        java.lang.String temp$2, temp$6, temp$16;
+        int temp$3;
+        CH.ifa.draw.framework.Drawing temp$7;
+        CH.ifa.draw.framework.Figure temp$8, temp$9, temp$12;
+        CH.ifa.draw.util.Undoable temp$10, temp$13;
+        CH.ifa.draw.standard.SingleFigureEnumerator temp$11;
+        CH.ifa.draw.figures.TextTool$UndoActivity temp$14;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        if temp$0 != null goto label0;
+
+        goto label4;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField>;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.util.FloatingTextField: java.lang.String getText()>();
+        temp$3 = virtualinvoke temp$2.<java.lang.String: int length()>();
+        if temp$3 > 0 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        temp$5 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField>;
+        temp$6 = virtualinvoke temp$5.<CH.ifa.draw.util.FloatingTextField: java.lang.String getText()>();
+        interfaceinvoke temp$4.<CH.ifa.draw.standard.TextHolder: void setText(java.lang.String)>(temp$6);
+        goto label3;
+
+     label2:
+        nop;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$8 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.Figure getAddedFigure()>();
+        temp$9 = interfaceinvoke temp$7.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure orphan(CH.ifa.draw.framework.Figure)>(temp$8);
+
+     label3:
+        nop;
+        temp$10 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$11 = new CH.ifa.draw.standard.SingleFigureEnumerator;
+        temp$12 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.Figure getAddedFigure()>();
+        specialinvoke temp$11.<CH.ifa.draw.standard.SingleFigureEnumerator: void <init>(CH.ifa.draw.framework.Figure)>(temp$12);
+        interfaceinvoke temp$10.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$11);
+        temp$13 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$14 = (CH.ifa.draw.figures.TextTool$UndoActivity) temp$13;
+        temp$15 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        temp$16 = interfaceinvoke temp$15.<CH.ifa.draw.standard.TextHolder: java.lang.String getText()>();
+        virtualinvoke temp$14.<CH.ifa.draw.figures.TextTool$UndoActivity: void setBackupText(java.lang.String)>(temp$16);
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool: void setTypingTarget(CH.ifa.draw.standard.TextHolder)>(null);
+        temp$17 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField>;
+        virtualinvoke temp$17.<CH.ifa.draw.util.FloatingTextField: void endOverlay()>();
+
+     label4:
+        nop;
+        return;
+    }
+
+    private final java.awt.Rectangle fieldBounds(CH.ifa.draw.standard.TextHolder)
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.standard.TextHolder figure;
+        java.awt.Rectangle box, temp$0, temp$4;
+        int nChars, temp$1, temp$5, temp$6, temp$7, temp$8;
+        java.awt.Dimension d, temp$3;
+        CH.ifa.draw.util.FloatingTextField temp$2;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        figure := @parameter0: CH.ifa.draw.standard.TextHolder;
+        temp$0 = interfaceinvoke figure.<CH.ifa.draw.standard.TextHolder: java.awt.Rectangle textDisplayBox()>();
+        box = temp$0;
+        temp$1 = interfaceinvoke figure.<CH.ifa.draw.standard.TextHolder: int overlayColumns()>();
+        nChars = temp$1;
+        temp$2 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.util.FloatingTextField fTextField>;
+        temp$3 = virtualinvoke temp$2.<CH.ifa.draw.util.FloatingTextField: java.awt.Dimension getPreferredSize(int)>(nChars);
+        d = temp$3;
+        temp$4 = new java.awt.Rectangle;
+        temp$5 = box.<java.awt.Rectangle: int x>;
+        temp$6 = box.<java.awt.Rectangle: int y>;
+        temp$7 = d.<java.awt.Dimension: int width>;
+        temp$8 = d.<java.awt.Dimension: int height>;
+        specialinvoke temp$4.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$5, temp$6, temp$7, temp$8);
+        return temp$4;
+    }
+
+    protected void setTypingTarget(CH.ifa.draw.standard.TextHolder)
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.standard.TextHolder newTypingTarget;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        newTypingTarget := @parameter0: CH.ifa.draw.standard.TextHolder;
+        this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder fTypingTarget> = newTypingTarget;
+        return;
+    }
+
+    protected CH.ifa.draw.standard.TextHolder getTypingTarget()
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.standard.TextHolder temp$0;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        temp$0 = this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder fTypingTarget>;
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity()
+    {
+        CH.ifa.draw.figures.TextTool this;
+        CH.ifa.draw.figures.TextTool$UndoActivity temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+        CH.ifa.draw.standard.TextHolder temp$2;
+        java.lang.String temp$3;
+
+        this := @this: CH.ifa.draw.figures.TextTool;
+        temp$0 = new CH.ifa.draw.figures.TextTool$UndoActivity;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.framework.DrawingView view()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.TextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.standard.TextHolder: java.lang.String getText()>();
+        specialinvoke temp$0.<CH.ifa.draw.figures.TextTool$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView,java.lang.String)>(temp$1, temp$3);
+        return temp$0;
+    }
+}

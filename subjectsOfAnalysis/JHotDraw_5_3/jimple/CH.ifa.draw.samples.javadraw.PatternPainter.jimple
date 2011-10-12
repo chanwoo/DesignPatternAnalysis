@@ -1,0 +1,93 @@
+public class CH.ifa.draw.samples.javadraw.PatternPainter extends java.lang.Object implements CH.ifa.draw.framework.Painter
+{
+    private java.awt.Image fImage;
+
+    public void <init>(java.awt.Image)
+    {
+        CH.ifa.draw.samples.javadraw.PatternPainter this;
+        java.awt.Image image;
+
+        this := @this: CH.ifa.draw.samples.javadraw.PatternPainter;
+        image := @parameter0: java.awt.Image;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.samples.javadraw.PatternPainter: java.awt.Image fImage> = image;
+        return;
+    }
+
+    public void draw(java.awt.Graphics, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.samples.javadraw.PatternPainter this;
+        java.awt.Graphics g;
+        CH.ifa.draw.framework.DrawingView view;
+        java.awt.Image temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.PatternPainter;
+        g := @parameter0: java.awt.Graphics;
+        view := @parameter1: CH.ifa.draw.framework.DrawingView;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.PatternPainter: java.awt.Image fImage>;
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.PatternPainter: void drawPattern(java.awt.Graphics,java.awt.Image,CH.ifa.draw.framework.DrawingView)>(g, temp$0, view);
+        return;
+    }
+
+    private final void drawPattern(java.awt.Graphics, java.awt.Image, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.samples.javadraw.PatternPainter this;
+        java.awt.Graphics g;
+        java.awt.Image image;
+        CH.ifa.draw.framework.DrawingView view;
+        int iwidth, temp$0, iheight, temp$1, x, y, temp$3, temp$4, temp$6, temp$7, temp$8, temp$9, temp$10;
+        java.awt.Dimension d, temp$2;
+        boolean temp$5;
+
+        this := @this: CH.ifa.draw.samples.javadraw.PatternPainter;
+        g := @parameter0: java.awt.Graphics;
+        image := @parameter1: java.awt.Image;
+        view := @parameter2: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke image.<java.awt.Image: int getWidth(java.awt.image.ImageObserver)>(view);
+        iwidth = temp$0;
+        temp$1 = virtualinvoke image.<java.awt.Image: int getHeight(java.awt.image.ImageObserver)>(view);
+        iheight = temp$1;
+        temp$2 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: java.awt.Dimension getSize()>();
+        d = temp$2;
+        x = 0;
+        y = 0;
+
+     label0:
+        nop;
+        temp$3 = d.<java.awt.Dimension: int height>;
+        if y < temp$3 goto label1;
+
+        goto label5;
+
+     label1:
+        nop;
+
+     label2:
+        nop;
+        temp$4 = d.<java.awt.Dimension: int width>;
+        if x < temp$4 goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$5 = virtualinvoke g.<java.awt.Graphics: boolean drawImage(java.awt.Image,int,int,java.awt.image.ImageObserver)>(image, x, y, view);
+        temp$6 = x;
+        temp$7 = temp$6 + iwidth;
+        x = temp$7;
+        goto label2;
+
+     label4:
+        nop;
+        temp$8 = y;
+        temp$9 = temp$8 + iheight;
+        y = temp$9;
+        temp$10 = 0;
+        x = temp$10;
+        goto label0;
+
+     label5:
+        nop;
+        return;
+    }
+}

@@ -1,0 +1,384 @@
+public class CH.ifa.draw.figures.ElbowHandle extends CH.ifa.draw.standard.AbstractHandle
+{
+    private int fSegment;
+    private int fLastX;
+    private int fLastY;
+
+    public void <init>(CH.ifa.draw.figures.LineConnection, int)
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        CH.ifa.draw.figures.LineConnection owner;
+        int segment;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        owner := @parameter0: CH.ifa.draw.figures.LineConnection;
+        segment := @parameter1: int;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        this.<CH.ifa.draw.figures.ElbowHandle: int fSegment> = segment;
+        return;
+    }
+
+    public void invokeStart(int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        int x, y;
+        CH.ifa.draw.framework.DrawingView view;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        view := @parameter2: CH.ifa.draw.framework.DrawingView;
+        this.<CH.ifa.draw.figures.ElbowHandle: int fLastX> = x;
+        this.<CH.ifa.draw.figures.ElbowHandle: int fLastY> = y;
+        return;
+    }
+
+    public void invokeStep(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        int x, y, anchorX, anchorY, temp$1, temp$3, temp$4, ddx, temp$6, temp$7, ddy, temp$8, temp$9, cx, temp$11, temp$12, temp$13, temp$15, temp$17, cy, temp$18, temp$19, temp$20, temp$22, temp$24, temp$25, temp$26, temp$27;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.figures.LineConnection line, temp$0;
+        java.awt.Point p1, temp$2, p2, temp$5, np1, np2, temp$14, temp$16, temp$21, temp$23;
+        boolean temp$10;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: CH.ifa.draw.figures.LineConnection ownerConnection()>();
+        line = temp$0;
+        temp$1 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        temp$2 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: java.awt.Point pointAt(int)>(temp$1);
+        p1 = temp$2;
+        temp$3 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        temp$4 = temp$3 + 1;
+        temp$5 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: java.awt.Point pointAt(int)>(temp$4);
+        p2 = temp$5;
+        temp$6 = this.<CH.ifa.draw.figures.ElbowHandle: int fLastX>;
+        temp$7 = x - temp$6;
+        ddx = temp$7;
+        temp$8 = this.<CH.ifa.draw.figures.ElbowHandle: int fLastY>;
+        temp$9 = y - temp$8;
+        ddy = temp$9;
+        temp$10 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: boolean isVertical(java.awt.Point,java.awt.Point)>(p1, p2);
+        if temp$10 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$11 = p1.<java.awt.Point: int x>;
+        temp$12 = temp$11 + ddx;
+        temp$13 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: int constrainX(int)>(temp$12);
+        cx = temp$13;
+        temp$14 = new java.awt.Point;
+        temp$15 = p1.<java.awt.Point: int y>;
+        specialinvoke temp$14.<java.awt.Point: void <init>(int,int)>(cx, temp$15);
+        np1 = temp$14;
+        temp$16 = new java.awt.Point;
+        temp$17 = p2.<java.awt.Point: int y>;
+        specialinvoke temp$16.<java.awt.Point: void <init>(int,int)>(cx, temp$17);
+        np2 = temp$16;
+        goto label2;
+
+     label1:
+        nop;
+        temp$18 = p1.<java.awt.Point: int y>;
+        temp$19 = temp$18 + ddy;
+        temp$20 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: int constrainY(int)>(temp$19);
+        cy = temp$20;
+        temp$21 = new java.awt.Point;
+        temp$22 = p1.<java.awt.Point: int x>;
+        specialinvoke temp$21.<java.awt.Point: void <init>(int,int)>(temp$22, cy);
+        np1 = temp$21;
+        temp$23 = new java.awt.Point;
+        temp$24 = p2.<java.awt.Point: int x>;
+        specialinvoke temp$23.<java.awt.Point: void <init>(int,int)>(temp$24, cy);
+        np2 = temp$23;
+
+     label2:
+        nop;
+        temp$25 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        virtualinvoke line.<CH.ifa.draw.figures.LineConnection: void setPointAt(java.awt.Point,int)>(np1, temp$25);
+        temp$26 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        temp$27 = temp$26 + 1;
+        virtualinvoke line.<CH.ifa.draw.figures.LineConnection: void setPointAt(java.awt.Point,int)>(np2, temp$27);
+        this.<CH.ifa.draw.figures.ElbowHandle: int fLastX> = x;
+        this.<CH.ifa.draw.figures.ElbowHandle: int fLastY> = y;
+        return;
+    }
+
+    private final boolean isVertical(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        java.awt.Point p1, p2;
+        int temp$0, temp$1;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        p1 := @parameter0: java.awt.Point;
+        p2 := @parameter1: java.awt.Point;
+        temp$0 = p1.<java.awt.Point: int x>;
+        temp$1 = p2.<java.awt.Point: int x>;
+        if temp$0 == temp$1 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = 1;
+
+     label2:
+        nop;
+        return temp$2;
+    }
+
+    public java.awt.Point locate()
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        CH.ifa.draw.figures.LineConnection line, temp$0;
+        int segment, temp$1, temp$2, temp$3, temp$4, temp$6, temp$7, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17;
+        java.awt.Point p1, temp$5, p2, temp$8, temp$9;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: CH.ifa.draw.figures.LineConnection ownerConnection()>();
+        line = temp$0;
+        temp$1 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        temp$2 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: int pointCount()>();
+        temp$3 = temp$2 - 2;
+        temp$4 = staticinvoke <java.lang.Math: int min(int,int)>(temp$1, temp$3);
+        segment = temp$4;
+        temp$5 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: java.awt.Point pointAt(int)>(segment);
+        p1 = temp$5;
+        temp$6 = segment;
+        temp$7 = temp$6 + 1;
+        temp$8 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: java.awt.Point pointAt(int)>(temp$7);
+        p2 = temp$8;
+        temp$9 = new java.awt.Point;
+        temp$10 = p1.<java.awt.Point: int x>;
+        temp$11 = p2.<java.awt.Point: int x>;
+        temp$12 = temp$10 + temp$11;
+        temp$13 = temp$12 / 2;
+        temp$14 = p1.<java.awt.Point: int y>;
+        temp$15 = p2.<java.awt.Point: int y>;
+        temp$16 = temp$14 + temp$15;
+        temp$17 = temp$16 / 2;
+        specialinvoke temp$9.<java.awt.Point: void <init>(int,int)>(temp$13, temp$17);
+        return temp$9;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Color temp$1, temp$6;
+        int temp$2, temp$3, temp$4, temp$5, temp$7, temp$8, temp$9, temp$10;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = <java.awt.Color: java.awt.Color yellow>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void fillOval(int,int,int,int)>(temp$2, temp$3, temp$4, temp$5);
+        temp$6 = <java.awt.Color: java.awt.Color black>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$6);
+        temp$7 = r.<java.awt.Rectangle: int x>;
+        temp$8 = r.<java.awt.Rectangle: int y>;
+        temp$9 = r.<java.awt.Rectangle: int width>;
+        temp$10 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void drawOval(int,int,int,int)>(temp$7, temp$8, temp$9, temp$10);
+        return;
+    }
+
+    private final int constrainX(int)
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        int x, r1x, r1width, r2x, r2width, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27, temp$28, temp$29, temp$30, temp$31, temp$32, temp$33, temp$34, temp$35, temp$36;
+        CH.ifa.draw.figures.LineConnection line, temp$0;
+        CH.ifa.draw.framework.Figure startFigure, temp$2, endFigure, temp$4;
+        CH.ifa.draw.framework.Connector temp$1, temp$3;
+        java.awt.Rectangle start, temp$5, end, temp$6;
+        java.awt.Insets i1, temp$7, i2, temp$8;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        x := @parameter0: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: CH.ifa.draw.figures.LineConnection ownerConnection()>();
+        line = temp$0;
+        temp$1 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: CH.ifa.draw.framework.Connector getStartConnector()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        startFigure = temp$2;
+        temp$3 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: CH.ifa.draw.framework.Connector getEndConnector()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        endFigure = temp$4;
+        temp$5 = interfaceinvoke startFigure.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        start = temp$5;
+        temp$6 = interfaceinvoke endFigure.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        end = temp$6;
+        temp$7 = interfaceinvoke startFigure.<CH.ifa.draw.framework.Figure: java.awt.Insets connectionInsets()>();
+        i1 = temp$7;
+        temp$8 = interfaceinvoke endFigure.<CH.ifa.draw.framework.Figure: java.awt.Insets connectionInsets()>();
+        i2 = temp$8;
+        temp$9 = start.<java.awt.Rectangle: int x>;
+        temp$10 = i1.<java.awt.Insets: int left>;
+        temp$11 = temp$9 + temp$10;
+        r1x = temp$11;
+        temp$12 = start.<java.awt.Rectangle: int width>;
+        temp$13 = i1.<java.awt.Insets: int left>;
+        temp$14 = temp$12 - temp$13;
+        temp$15 = i1.<java.awt.Insets: int right>;
+        temp$16 = temp$14 - temp$15;
+        temp$17 = temp$16 - 1;
+        r1width = temp$17;
+        temp$18 = end.<java.awt.Rectangle: int x>;
+        temp$19 = i2.<java.awt.Insets: int left>;
+        temp$20 = temp$18 + temp$19;
+        r2x = temp$20;
+        temp$21 = end.<java.awt.Rectangle: int width>;
+        temp$22 = i2.<java.awt.Insets: int left>;
+        temp$23 = temp$21 - temp$22;
+        temp$24 = i2.<java.awt.Insets: int right>;
+        temp$25 = temp$23 - temp$24;
+        temp$26 = temp$25 - 1;
+        r2width = temp$26;
+        temp$27 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        if temp$27 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$28 = r1x;
+        temp$29 = temp$28 + r1width;
+        temp$30 = staticinvoke <CH.ifa.draw.util.Geom: int range(int,int,int)>(r1x, temp$29, x);
+        x = temp$30;
+
+     label1:
+        nop;
+        temp$31 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: int pointCount()>();
+        temp$32 = temp$31 - 2;
+        temp$33 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        if temp$33 == temp$32 goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$34 = r2x;
+        temp$35 = temp$34 + r2width;
+        temp$36 = staticinvoke <CH.ifa.draw.util.Geom: int range(int,int,int)>(r2x, temp$35, x);
+        x = temp$36;
+
+     label3:
+        nop;
+        return x;
+    }
+
+    private final int constrainY(int)
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        int y, r1y, r1height, r2y, r2height, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27, temp$28, temp$29, temp$30, temp$31, temp$32, temp$33, temp$34, temp$35, temp$36;
+        CH.ifa.draw.figures.LineConnection line, temp$0;
+        CH.ifa.draw.framework.Figure startFigure, temp$2, endFigure, temp$4;
+        CH.ifa.draw.framework.Connector temp$1, temp$3;
+        java.awt.Rectangle start, temp$5, end, temp$6;
+        java.awt.Insets i1, temp$7, i2, temp$8;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        y := @parameter0: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: CH.ifa.draw.figures.LineConnection ownerConnection()>();
+        line = temp$0;
+        temp$1 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: CH.ifa.draw.framework.Connector getStartConnector()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        startFigure = temp$2;
+        temp$3 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: CH.ifa.draw.framework.Connector getEndConnector()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        endFigure = temp$4;
+        temp$5 = interfaceinvoke startFigure.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        start = temp$5;
+        temp$6 = interfaceinvoke endFigure.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        end = temp$6;
+        temp$7 = interfaceinvoke startFigure.<CH.ifa.draw.framework.Figure: java.awt.Insets connectionInsets()>();
+        i1 = temp$7;
+        temp$8 = interfaceinvoke endFigure.<CH.ifa.draw.framework.Figure: java.awt.Insets connectionInsets()>();
+        i2 = temp$8;
+        temp$9 = start.<java.awt.Rectangle: int y>;
+        temp$10 = i1.<java.awt.Insets: int top>;
+        temp$11 = temp$9 + temp$10;
+        r1y = temp$11;
+        temp$12 = start.<java.awt.Rectangle: int height>;
+        temp$13 = i1.<java.awt.Insets: int top>;
+        temp$14 = temp$12 - temp$13;
+        temp$15 = i1.<java.awt.Insets: int bottom>;
+        temp$16 = temp$14 - temp$15;
+        temp$17 = temp$16 - 1;
+        r1height = temp$17;
+        temp$18 = end.<java.awt.Rectangle: int y>;
+        temp$19 = i2.<java.awt.Insets: int top>;
+        temp$20 = temp$18 + temp$19;
+        r2y = temp$20;
+        temp$21 = end.<java.awt.Rectangle: int height>;
+        temp$22 = i2.<java.awt.Insets: int top>;
+        temp$23 = temp$21 - temp$22;
+        temp$24 = i2.<java.awt.Insets: int bottom>;
+        temp$25 = temp$23 - temp$24;
+        temp$26 = temp$25 - 1;
+        r2height = temp$26;
+        temp$27 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        if temp$27 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$28 = r1y;
+        temp$29 = temp$28 + r1height;
+        temp$30 = staticinvoke <CH.ifa.draw.util.Geom: int range(int,int,int)>(r1y, temp$29, y);
+        y = temp$30;
+
+     label1:
+        nop;
+        temp$31 = virtualinvoke line.<CH.ifa.draw.figures.LineConnection: int pointCount()>();
+        temp$32 = temp$31 - 2;
+        temp$33 = this.<CH.ifa.draw.figures.ElbowHandle: int fSegment>;
+        if temp$33 == temp$32 goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$34 = r2y;
+        temp$35 = temp$34 + r2height;
+        temp$36 = staticinvoke <CH.ifa.draw.util.Geom: int range(int,int,int)>(r2y, temp$35, y);
+        y = temp$36;
+
+     label3:
+        nop;
+        return y;
+    }
+
+    private final CH.ifa.draw.figures.LineConnection ownerConnection()
+    {
+        CH.ifa.draw.figures.ElbowHandle this;
+        CH.ifa.draw.framework.Figure temp$0;
+        CH.ifa.draw.figures.LineConnection temp$1;
+
+        this := @this: CH.ifa.draw.figures.ElbowHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ElbowHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$1 = (CH.ifa.draw.figures.LineConnection) temp$0;
+        return temp$1;
+    }
+}

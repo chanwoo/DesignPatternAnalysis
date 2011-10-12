@@ -1,0 +1,7 @@
+public interface  CH.ifa.draw.contrib.PopupMenuFigureSelection extends java.lang.Object
+{
+
+    public abstract void setSelectedFigure(CH.ifa.draw.framework.Figure);
+
+    public abstract CH.ifa.draw.framework.Figure getSelectedFigure();
+}

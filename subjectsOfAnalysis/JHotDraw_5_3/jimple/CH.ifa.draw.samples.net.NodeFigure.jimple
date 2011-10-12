@@ -1,0 +1,360 @@
+public class CH.ifa.draw.samples.net.NodeFigure extends CH.ifa.draw.figures.TextFigure
+{
+    private static final int BORDER;
+    private java.util.Vector fConnectors;
+    private boolean fConnectorsVisible;
+
+    static void <clinit>()
+    {
+        int temp$0;
+
+        temp$0 = 6;
+        <CH.ifa.draw.samples.net.NodeFigure: int BORDER> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.util.Vector temp$0;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        specialinvoke this.<CH.ifa.draw.figures.TextFigure: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void initialize()>();
+        temp$0 = null;
+        this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors> = temp$0;
+        return;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.awt.Rectangle box, temp$0;
+        int d;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        temp$0 = specialinvoke this.<CH.ifa.draw.figures.TextFigure: java.awt.Rectangle displayBox()>();
+        box = temp$0;
+        d = 6;
+        virtualinvoke box.<java.awt.Rectangle: void grow(int,int)>(d, d);
+        return box;
+    }
+
+    public boolean containsPoint(int, int)
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        int x, y, d;
+        boolean temp$0, temp$2, temp$3;
+        java.awt.Rectangle r, temp$1;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = this.<CH.ifa.draw.samples.net.NodeFigure: boolean fConnectorsVisible>;
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: java.awt.Rectangle displayBox()>();
+        r = temp$1;
+        d = 4;
+        virtualinvoke r.<java.awt.Rectangle: void grow(int,int)>(d, d);
+        temp$2 = virtualinvoke r.<java.awt.Rectangle: boolean contains(int,int)>(x, y);
+        return temp$2;
+
+     label1:
+        nop;
+        temp$3 = specialinvoke this.<CH.ifa.draw.figures.TextFigure: boolean containsPoint(int,int)>(x, y);
+        return temp$3;
+    }
+
+    private final void drawBorder(java.awt.Graphics)
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Color temp$1;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$7;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: java.awt.Color getFrameColor()>();
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = temp$4 - 1;
+        temp$6 = r.<java.awt.Rectangle: int height>;
+        temp$7 = temp$6 - 1;
+        virtualinvoke g.<java.awt.Graphics: void drawRect(int,int,int,int)>(temp$2, temp$3, temp$5, temp$7);
+        return;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.awt.Graphics g;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        g := @parameter0: java.awt.Graphics;
+        specialinvoke this.<CH.ifa.draw.figures.TextFigure: void draw(java.awt.Graphics)>(g);
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void drawBorder(java.awt.Graphics)>(g);
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void drawConnectors(java.awt.Graphics)>(g);
+        return;
+    }
+
+    public java.util.Vector handles()
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        CH.ifa.draw.framework.ConnectionFigure prototype;
+        CH.ifa.draw.figures.LineConnection temp$0;
+        java.util.Vector handles, temp$1;
+        CH.ifa.draw.standard.ConnectionHandle temp$2, temp$4, temp$6, temp$8;
+        CH.ifa.draw.framework.Locator temp$3, temp$5, temp$7, temp$9, temp$11, temp$13, temp$15, temp$17;
+        CH.ifa.draw.standard.NullHandle temp$10, temp$12, temp$14, temp$16;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        temp$0 = new CH.ifa.draw.figures.LineConnection;
+        specialinvoke temp$0.<CH.ifa.draw.figures.LineConnection: void <init>()>();
+        prototype = temp$0;
+        temp$1 = new java.util.Vector;
+        specialinvoke temp$1.<java.util.Vector: void <init>()>();
+        handles = temp$1;
+        temp$2 = new CH.ifa.draw.standard.ConnectionHandle;
+        temp$3 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator east()>();
+        specialinvoke temp$2.<CH.ifa.draw.standard.ConnectionHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$3, prototype);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$2);
+        temp$4 = new CH.ifa.draw.standard.ConnectionHandle;
+        temp$5 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator west()>();
+        specialinvoke temp$4.<CH.ifa.draw.standard.ConnectionHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$5, prototype);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$4);
+        temp$6 = new CH.ifa.draw.standard.ConnectionHandle;
+        temp$7 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator south()>();
+        specialinvoke temp$6.<CH.ifa.draw.standard.ConnectionHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$7, prototype);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$6);
+        temp$8 = new CH.ifa.draw.standard.ConnectionHandle;
+        temp$9 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator north()>();
+        specialinvoke temp$8.<CH.ifa.draw.standard.ConnectionHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$9, prototype);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$8);
+        temp$10 = new CH.ifa.draw.standard.NullHandle;
+        temp$11 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southEast()>();
+        specialinvoke temp$10.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$11);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$10);
+        temp$12 = new CH.ifa.draw.standard.NullHandle;
+        temp$13 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southWest()>();
+        specialinvoke temp$12.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$13);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$12);
+        temp$14 = new CH.ifa.draw.standard.NullHandle;
+        temp$15 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northEast()>();
+        specialinvoke temp$14.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$15);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$14);
+        temp$16 = new CH.ifa.draw.standard.NullHandle;
+        temp$17 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northWest()>();
+        specialinvoke temp$16.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$17);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$16);
+        return handles;
+    }
+
+    private final void drawConnectors(java.awt.Graphics)
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.awt.Graphics g;
+        boolean temp$0, temp$3;
+        java.util.Enumeration e, temp$2;
+        java.util.Vector temp$1;
+        java.lang.Object temp$4;
+        CH.ifa.draw.framework.Connector temp$5;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = this.<CH.ifa.draw.samples.net.NodeFigure: boolean fConnectorsVisible>;
+        if temp$0 == 0 goto label4;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector connectors()>();
+        temp$2 = virtualinvoke temp$1.<java.util.Vector: java.util.Enumeration elements()>();
+        e = temp$2;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke e.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$4 = interfaceinvoke e.<java.util.Enumeration: java.lang.Object nextElement()>();
+        temp$5 = (CH.ifa.draw.framework.Connector) temp$4;
+        interfaceinvoke temp$5.<CH.ifa.draw.framework.Connector: void draw(java.awt.Graphics)>(g);
+        goto label1;
+
+     label3:
+        nop;
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void connectorVisibility(boolean)
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        boolean isVisible;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        isVisible := @parameter0: boolean;
+        this.<CH.ifa.draw.samples.net.NodeFigure: boolean fConnectorsVisible> = isVisible;
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void invalidate()>();
+        return;
+    }
+
+    public CH.ifa.draw.framework.Connector connectorAt(int, int)
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        int x, y;
+        CH.ifa.draw.framework.Connector temp$0;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: CH.ifa.draw.framework.Connector findConnector(int,int)>(x, y);
+        return temp$0;
+    }
+
+    private final java.util.Vector connectors()
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.util.Vector temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        temp$0 = this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void createConnectors()>();
+
+     label1:
+        nop;
+        temp$1 = this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors>;
+        return temp$1;
+    }
+
+    private final void createConnectors()
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.util.Vector temp$0, temp$1, temp$4, temp$7, temp$10;
+        CH.ifa.draw.standard.LocatorConnector temp$2, temp$5, temp$8, temp$11;
+        CH.ifa.draw.framework.Locator temp$3, temp$6, temp$9, temp$12;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>(int)>(4);
+        this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors> = temp$0;
+        temp$1 = this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors>;
+        temp$2 = new CH.ifa.draw.standard.LocatorConnector;
+        temp$3 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator north()>();
+        specialinvoke temp$2.<CH.ifa.draw.standard.LocatorConnector: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$3);
+        virtualinvoke temp$1.<java.util.Vector: void addElement(java.lang.Object)>(temp$2);
+        temp$4 = this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors>;
+        temp$5 = new CH.ifa.draw.standard.LocatorConnector;
+        temp$6 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator south()>();
+        specialinvoke temp$5.<CH.ifa.draw.standard.LocatorConnector: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$6);
+        virtualinvoke temp$4.<java.util.Vector: void addElement(java.lang.Object)>(temp$5);
+        temp$7 = this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors>;
+        temp$8 = new CH.ifa.draw.standard.LocatorConnector;
+        temp$9 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator west()>();
+        specialinvoke temp$8.<CH.ifa.draw.standard.LocatorConnector: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$9);
+        virtualinvoke temp$7.<java.util.Vector: void addElement(java.lang.Object)>(temp$8);
+        temp$10 = this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector fConnectors>;
+        temp$11 = new CH.ifa.draw.standard.LocatorConnector;
+        temp$12 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator east()>();
+        specialinvoke temp$11.<CH.ifa.draw.standard.LocatorConnector: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$12);
+        virtualinvoke temp$10.<java.util.Vector: void addElement(java.lang.Object)>(temp$11);
+        return;
+    }
+
+    private final CH.ifa.draw.framework.Connector findConnector(int, int)
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        int x, y, temp$6, temp$7, temp$9;
+        long min, d, temp$8;
+        CH.ifa.draw.framework.Connector closest, c;
+        java.util.Enumeration e, temp$1;
+        java.util.Vector temp$0;
+        boolean temp$2;
+        java.lang.Object temp$3;
+        java.awt.Point p2, temp$5;
+        java.awt.Rectangle temp$4;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        min = 9223372036854775807L;
+        closest = null;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: java.util.Vector connectors()>();
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: java.util.Enumeration elements()>();
+        e = temp$1;
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke e.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$2 == 0 goto label4;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke e.<java.util.Enumeration: java.lang.Object nextElement()>();
+        c = (CH.ifa.draw.framework.Connector) temp$3;
+        temp$4 = interfaceinvoke c.<CH.ifa.draw.framework.Connector: java.awt.Rectangle displayBox()>();
+        temp$5 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point center(java.awt.Rectangle)>(temp$4);
+        p2 = temp$5;
+        temp$6 = p2.<java.awt.Point: int x>;
+        temp$7 = p2.<java.awt.Point: int y>;
+        temp$8 = staticinvoke <CH.ifa.draw.util.Geom: long length2(int,int,int,int)>(x, y, temp$6, temp$7);
+        d = temp$8;
+        temp$9 = d cmp min;
+        if temp$9 >= 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        min = d;
+        closest = c;
+
+     label3:
+        nop;
+        goto label0;
+
+     label4:
+        nop;
+        return closest;
+    }
+
+    private final void initialize()
+    {
+        CH.ifa.draw.samples.net.NodeFigure this;
+        java.awt.Font fb, temp$0;
+
+        this := @this: CH.ifa.draw.samples.net.NodeFigure;
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void setText(java.lang.String)>("node");
+        temp$0 = new java.awt.Font;
+        specialinvoke temp$0.<java.awt.Font: void <init>(java.lang.String,int,int)>("Helvetica", 1, 12);
+        fb = temp$0;
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void setFont(java.awt.Font)>(fb);
+        virtualinvoke this.<CH.ifa.draw.samples.net.NodeFigure: void createConnectors()>();
+        return;
+    }
+}

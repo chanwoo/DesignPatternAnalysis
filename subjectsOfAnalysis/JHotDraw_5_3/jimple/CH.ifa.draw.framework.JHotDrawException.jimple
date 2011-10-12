@@ -1,0 +1,29 @@
+public class CH.ifa.draw.framework.JHotDrawException extends java.lang.Exception
+{
+
+    public void <init>(java.lang.String)
+    {
+        CH.ifa.draw.framework.JHotDrawException this;
+        java.lang.String msg;
+
+        this := @this: CH.ifa.draw.framework.JHotDrawException;
+        msg := @parameter0: java.lang.String;
+        specialinvoke this.<java.lang.Exception: void <init>(java.lang.String)>(msg);
+        return;
+    }
+
+    public void <init>(java.lang.Exception)
+    {
+        CH.ifa.draw.framework.JHotDrawException this;
+        java.lang.Exception nestedException;
+        java.lang.String temp$0;
+        java.lang.Throwable temp$1;
+
+        this := @this: CH.ifa.draw.framework.JHotDrawException;
+        nestedException := @parameter0: java.lang.Exception;
+        temp$0 = virtualinvoke nestedException.<java.lang.Exception: java.lang.String getLocalizedMessage()>();
+        specialinvoke this.<CH.ifa.draw.framework.JHotDrawException: void <init>(java.lang.String)>(temp$0);
+        temp$1 = virtualinvoke nestedException.<java.lang.Exception: java.lang.Throwable fillInStackTrace()>();
+        return;
+    }
+}

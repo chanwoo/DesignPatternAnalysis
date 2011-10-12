@@ -1,0 +1,78 @@
+public class CH.ifa.draw.standard.DeleteCommand extends CH.ifa.draw.standard.FigureTransferCommand
+{
+
+    public void <init>(java.lang.String, CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.standard.DeleteCommand this;
+        java.lang.String name;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+
+        this := @this: CH.ifa.draw.standard.DeleteCommand;
+        name := @parameter0: java.lang.String;
+        newDrawingEditor := @parameter1: CH.ifa.draw.framework.DrawingEditor;
+        specialinvoke this.<CH.ifa.draw.standard.FigureTransferCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(name, newDrawingEditor);
+        return;
+    }
+
+    public void execute()
+    {
+        CH.ifa.draw.standard.DeleteCommand this;
+        CH.ifa.draw.util.Undoable temp$0, temp$1, temp$4;
+        CH.ifa.draw.framework.DrawingView temp$2, temp$6;
+        CH.ifa.draw.framework.FigureEnumeration temp$3, temp$5;
+
+        this := @this: CH.ifa.draw.standard.DeleteCommand;
+        specialinvoke this.<CH.ifa.draw.standard.FigureTransferCommand: void execute()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: CH.ifa.draw.util.Undoable createUndoActivity()>();
+        virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.FigureEnumeration selectionElements()>();
+        interfaceinvoke temp$1.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$3);
+        temp$4 = virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$5 = interfaceinvoke temp$4.<CH.ifa.draw.util.Undoable: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: void deleteFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$5);
+        temp$6 = virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$6.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+        return;
+    }
+
+    protected boolean isExecutableWithView()
+    {
+        CH.ifa.draw.standard.DeleteCommand this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        int temp$1;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.standard.DeleteCommand;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.DeleteCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: int selectionCount()>();
+        if temp$1 > 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = 1;
+
+     label2:
+        nop;
+        return temp$2;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity()
+    {
+        CH.ifa.draw.standard.DeleteCommand this;
+        CH.ifa.draw.standard.DeleteCommand$UndoActivity temp$0;
+
+        this := @this: CH.ifa.draw.standard.DeleteCommand;
+        temp$0 = new CH.ifa.draw.standard.DeleteCommand$UndoActivity;
+        specialinvoke temp$0.<CH.ifa.draw.standard.DeleteCommand$UndoActivity: void <init>(CH.ifa.draw.standard.FigureTransferCommand)>(this);
+        return temp$0;
+    }
+}

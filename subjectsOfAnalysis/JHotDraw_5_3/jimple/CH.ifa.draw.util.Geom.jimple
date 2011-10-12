@@ -1,0 +1,872 @@
+public class CH.ifa.draw.util.Geom extends java.lang.Object
+{
+    public static final int NORTH;
+    public static final int SOUTH;
+    public static final int WEST;
+    public static final int EAST;
+
+    static void <clinit>()
+    {
+        int temp$0, temp$1, temp$2, temp$3;
+
+        temp$0 = 1;
+        <CH.ifa.draw.util.Geom: int NORTH> = temp$0;
+        temp$1 = 2;
+        <CH.ifa.draw.util.Geom: int SOUTH> = temp$1;
+        temp$2 = 3;
+        <CH.ifa.draw.util.Geom: int WEST> = temp$2;
+        temp$3 = 4;
+        <CH.ifa.draw.util.Geom: int EAST> = temp$3;
+        return;
+    }
+
+    private void <init>()
+    {
+        CH.ifa.draw.util.Geom this;
+
+        this := @this: CH.ifa.draw.util.Geom;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+
+    public static boolean lineContainsPoint(int, int, int, int, int, int)
+    {
+        int x1, y1, x2, y2, px, py, temp$4, temp$5, temp$7, temp$8, temp$10, temp$11, temp$33;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Point temp$1;
+        boolean temp$2, temp$3, temp$6, temp$9, temp$34;
+        double a, b, x, y, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27, temp$28, temp$29, temp$30, temp$31, temp$32;
+
+        x1 := @parameter0: int;
+        y1 := @parameter1: int;
+        x2 := @parameter2: int;
+        y2 := @parameter3: int;
+        px := @parameter4: int;
+        py := @parameter5: int;
+        temp$0 = new java.awt.Rectangle;
+        temp$1 = new java.awt.Point;
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(x1, y1);
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(java.awt.Point)>(temp$1);
+        r = temp$0;
+        virtualinvoke r.<java.awt.Rectangle: void add(int,int)>(x2, y2);
+        virtualinvoke r.<java.awt.Rectangle: void grow(int,int)>(2, 2);
+        temp$2 = virtualinvoke r.<java.awt.Rectangle: boolean contains(int,int)>(px, py);
+        if temp$2 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$3 = 0;
+        return temp$3;
+
+     label1:
+        nop;
+        if x1 == x2 goto label2;
+
+        goto label6;
+
+     label2:
+        nop;
+        temp$4 = px - x1;
+        temp$5 = staticinvoke <java.lang.Math: int abs(int)>(temp$4);
+        if temp$5 < 3 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$6 = 0;
+        goto label5;
+
+     label4:
+        nop;
+        temp$6 = 1;
+
+     label5:
+        nop;
+        return temp$6;
+
+     label6:
+        nop;
+        if y1 == y2 goto label7;
+
+        goto label11;
+
+     label7:
+        nop;
+        temp$7 = py - y1;
+        temp$8 = staticinvoke <java.lang.Math: int abs(int)>(temp$7);
+        if temp$8 < 3 goto label9;
+
+        goto label8;
+
+     label8:
+        nop;
+        temp$9 = 0;
+        goto label10;
+
+     label9:
+        nop;
+        temp$9 = 1;
+
+     label10:
+        nop;
+        return temp$9;
+
+     label11:
+        nop;
+        temp$10 = y1 - y2;
+        temp$11 = x1 - x2;
+        temp$12 = (double) temp$10;
+        temp$13 = (double) temp$11;
+        temp$14 = temp$12 / temp$13;
+        a = temp$14;
+        temp$15 = (double) x1;
+        temp$16 = a * temp$15;
+        temp$17 = (double) y1;
+        temp$18 = temp$17 - temp$16;
+        b = temp$18;
+        temp$19 = (double) py;
+        temp$20 = temp$19 - b;
+        temp$21 = temp$20 / a;
+        x = temp$21;
+        temp$22 = (double) px;
+        temp$23 = a * temp$22;
+        temp$24 = temp$23;
+        temp$25 = temp$24 + b;
+        y = temp$25;
+        temp$26 = (double) px;
+        temp$27 = x - temp$26;
+        temp$28 = staticinvoke <java.lang.Math: double abs(double)>(temp$27);
+        temp$29 = (double) py;
+        temp$30 = y - temp$29;
+        temp$31 = staticinvoke <java.lang.Math: double abs(double)>(temp$30);
+        temp$32 = staticinvoke <java.lang.Math: double min(double,double)>(temp$28, temp$31);
+        temp$33 = temp$32 cmpg 4.0;
+        if temp$33 >= 0 goto label12;
+
+        goto label13;
+
+     label12:
+        nop;
+        temp$34 = 0;
+        goto label14;
+
+     label13:
+        nop;
+        temp$34 = 1;
+
+     label14:
+        nop;
+        return temp$34;
+    }
+
+    public static int direction(int, int, int, int)
+    {
+        int x1, y1, x2, y2, direction, vx, temp$0, vy, temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8;
+
+        x1 := @parameter0: int;
+        y1 := @parameter1: int;
+        x2 := @parameter2: int;
+        y2 := @parameter3: int;
+        direction = 0;
+        temp$0 = x2 - x1;
+        vx = temp$0;
+        temp$1 = y2 - y1;
+        vy = temp$1;
+        if vy < vx goto label0;
+
+        goto label2;
+
+     label0:
+        nop;
+        temp$2 = neg vy;
+        if vx > temp$2 goto label1;
+
+        goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = 4;
+        direction = temp$3;
+        goto label11;
+
+     label2:
+        nop;
+        if vy > vx goto label3;
+
+        goto label5;
+
+     label3:
+        nop;
+        temp$4 = neg vx;
+        if vy > temp$4 goto label4;
+
+        goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$5 = 1;
+        direction = temp$5;
+        goto label10;
+
+     label5:
+        nop;
+        if vx < vy goto label6;
+
+        goto label8;
+
+     label6:
+        nop;
+        temp$6 = neg vy;
+        if vx < temp$6 goto label7;
+
+        goto label8;
+
+        goto label7;
+
+     label7:
+        nop;
+        temp$7 = 3;
+        direction = temp$7;
+        goto label9;
+
+     label8:
+        nop;
+        temp$8 = 2;
+        direction = temp$8;
+
+     label9:
+        nop;
+
+     label10:
+        nop;
+
+     label11:
+        nop;
+        return direction;
+    }
+
+    public static java.awt.Point south(java.awt.Rectangle)
+    {
+        java.awt.Rectangle r;
+        java.awt.Point temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7;
+
+        r := @parameter0: java.awt.Rectangle;
+        temp$0 = new java.awt.Point;
+        temp$1 = r.<java.awt.Rectangle: int x>;
+        temp$2 = r.<java.awt.Rectangle: int width>;
+        temp$3 = temp$2 / 2;
+        temp$4 = temp$1 + temp$3;
+        temp$5 = r.<java.awt.Rectangle: int y>;
+        temp$6 = r.<java.awt.Rectangle: int height>;
+        temp$7 = temp$5 + temp$6;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$4, temp$7);
+        return temp$0;
+    }
+
+    public static java.awt.Point center(java.awt.Rectangle)
+    {
+        java.awt.Rectangle r;
+        java.awt.Point temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8;
+
+        r := @parameter0: java.awt.Rectangle;
+        temp$0 = new java.awt.Point;
+        temp$1 = r.<java.awt.Rectangle: int x>;
+        temp$2 = r.<java.awt.Rectangle: int width>;
+        temp$3 = temp$2 / 2;
+        temp$4 = temp$1 + temp$3;
+        temp$5 = r.<java.awt.Rectangle: int y>;
+        temp$6 = r.<java.awt.Rectangle: int height>;
+        temp$7 = temp$6 / 2;
+        temp$8 = temp$5 + temp$7;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$4, temp$8);
+        return temp$0;
+    }
+
+    public static java.awt.Point west(java.awt.Rectangle)
+    {
+        java.awt.Rectangle r;
+        java.awt.Point temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5;
+
+        r := @parameter0: java.awt.Rectangle;
+        temp$0 = new java.awt.Point;
+        temp$1 = r.<java.awt.Rectangle: int x>;
+        temp$2 = r.<java.awt.Rectangle: int y>;
+        temp$3 = r.<java.awt.Rectangle: int height>;
+        temp$4 = temp$3 / 2;
+        temp$5 = temp$2 + temp$4;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$1, temp$5);
+        return temp$0;
+    }
+
+    public static java.awt.Point east(java.awt.Rectangle)
+    {
+        java.awt.Rectangle r;
+        java.awt.Point temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7;
+
+        r := @parameter0: java.awt.Rectangle;
+        temp$0 = new java.awt.Point;
+        temp$1 = r.<java.awt.Rectangle: int x>;
+        temp$2 = r.<java.awt.Rectangle: int width>;
+        temp$3 = temp$1 + temp$2;
+        temp$4 = r.<java.awt.Rectangle: int y>;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        temp$6 = temp$5 / 2;
+        temp$7 = temp$4 + temp$6;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$3, temp$7);
+        return temp$0;
+    }
+
+    public static java.awt.Point north(java.awt.Rectangle)
+    {
+        java.awt.Rectangle r;
+        java.awt.Point temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5;
+
+        r := @parameter0: java.awt.Rectangle;
+        temp$0 = new java.awt.Point;
+        temp$1 = r.<java.awt.Rectangle: int x>;
+        temp$2 = r.<java.awt.Rectangle: int width>;
+        temp$3 = temp$2 / 2;
+        temp$4 = temp$1 + temp$3;
+        temp$5 = r.<java.awt.Rectangle: int y>;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$4, temp$5);
+        return temp$0;
+    }
+
+    public static int range(int, int, int)
+    {
+        int min, max, value;
+
+        min := @parameter0: int;
+        max := @parameter1: int;
+        value := @parameter2: int;
+        if value < min goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        value = min;
+
+     label1:
+        nop;
+        if value > max goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        value = max;
+
+     label3:
+        nop;
+        return value;
+    }
+
+    public static long length2(int, int, int, int)
+    {
+        int x1, y1, x2, y2, temp$0, temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7;
+        long temp$8;
+
+        x1 := @parameter0: int;
+        y1 := @parameter1: int;
+        x2 := @parameter2: int;
+        y2 := @parameter3: int;
+        temp$0 = x2 - x1;
+        temp$1 = x2 - x1;
+        temp$2 = temp$0 * temp$1;
+        temp$3 = temp$2;
+        temp$4 = y2 - y1;
+        temp$5 = y2 - y1;
+        temp$6 = temp$4 * temp$5;
+        temp$7 = temp$3 + temp$6;
+        temp$8 = (long) temp$7;
+        return temp$8;
+    }
+
+    public static long length(int, int, int, int)
+    {
+        int x1, y1, x2, y2, temp$3;
+        long temp$0, temp$4;
+        double temp$1, temp$2;
+
+        x1 := @parameter0: int;
+        y1 := @parameter1: int;
+        x2 := @parameter2: int;
+        y2 := @parameter3: int;
+        temp$0 = staticinvoke <CH.ifa.draw.util.Geom: long length2(int,int,int,int)>(x1, y1, x2, y2);
+        temp$1 = (double) temp$0;
+        temp$2 = staticinvoke <java.lang.Math: double sqrt(double)>(temp$1);
+        temp$3 = (int) temp$2;
+        temp$4 = (long) temp$3;
+        return temp$4;
+    }
+
+    public static double pointToAngle(java.awt.Rectangle, java.awt.Point)
+    {
+        java.awt.Rectangle r;
+        java.awt.Point p;
+        int px, temp$0, temp$1, temp$2, temp$3, temp$4, temp$5, py, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$15, temp$16;
+        double temp$14, temp$17, temp$18;
+
+        r := @parameter0: java.awt.Rectangle;
+        p := @parameter1: java.awt.Point;
+        temp$0 = r.<java.awt.Rectangle: int x>;
+        temp$1 = r.<java.awt.Rectangle: int width>;
+        temp$2 = temp$1 / 2;
+        temp$3 = p.<java.awt.Point: int x>;
+        temp$4 = temp$0 + temp$2;
+        temp$5 = temp$3 - temp$4;
+        px = temp$5;
+        temp$6 = r.<java.awt.Rectangle: int y>;
+        temp$7 = r.<java.awt.Rectangle: int height>;
+        temp$8 = temp$7 / 2;
+        temp$9 = p.<java.awt.Point: int y>;
+        temp$10 = temp$6 + temp$8;
+        temp$11 = temp$9 - temp$10;
+        py = temp$11;
+        temp$12 = r.<java.awt.Rectangle: int width>;
+        temp$13 = py * temp$12;
+        temp$14 = (double) temp$13;
+        temp$15 = r.<java.awt.Rectangle: int height>;
+        temp$16 = px * temp$15;
+        temp$17 = (double) temp$16;
+        temp$18 = staticinvoke <java.lang.Math: double atan2(double,double)>(temp$14, temp$17);
+        return temp$18;
+    }
+
+    public static java.awt.Point angleToPoint(java.awt.Rectangle, double)
+    {
+        java.awt.Rectangle r;
+        double angle, si, temp$0, co, temp$1, e, temp$2, temp$4, temp$5, temp$6, temp$7, temp$8, temp$10, temp$11, temp$17, temp$19, temp$20, temp$21, temp$22, temp$23, temp$25, temp$26;
+        int x, y, temp$3, temp$9, temp$12, temp$13, temp$14, temp$15, temp$16, temp$18, temp$24, temp$27, temp$28, temp$29, temp$30, temp$31, temp$33, temp$34, temp$35, temp$36;
+        java.awt.Point temp$32;
+
+        r := @parameter0: java.awt.Rectangle;
+        angle := @parameter1: double;
+        temp$0 = staticinvoke <java.lang.Math: double sin(double)>(angle);
+        si = temp$0;
+        temp$1 = staticinvoke <java.lang.Math: double cos(double)>(angle);
+        co = temp$1;
+        e = 1.0E-4;
+        x = 0;
+        y = 0;
+        temp$2 = staticinvoke <java.lang.Math: double abs(double)>(si);
+        temp$3 = temp$2 cmpl e;
+        if temp$3 <= 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$4 = 1.0;
+        temp$5 = staticinvoke <java.lang.Math: double abs(double)>(si);
+        temp$6 = co / temp$5;
+        temp$7 = temp$4 + temp$6;
+        temp$8 = temp$7 / 2.0;
+        temp$9 = r.<java.awt.Rectangle: int width>;
+        temp$10 = (double) temp$9;
+        temp$11 = temp$8 * temp$10;
+        temp$12 = (int) temp$11;
+        x = temp$12;
+        temp$13 = r.<java.awt.Rectangle: int width>;
+        temp$14 = staticinvoke <CH.ifa.draw.util.Geom: int range(int,int,int)>(0, temp$13, x);
+        x = temp$14;
+        goto label4;
+
+     label1:
+        nop;
+        temp$15 = co cmpl 0.0;
+        if temp$15 < 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$16 = r.<java.awt.Rectangle: int width>;
+        x = temp$16;
+
+     label3:
+        nop;
+
+     label4:
+        nop;
+        temp$17 = staticinvoke <java.lang.Math: double abs(double)>(co);
+        temp$18 = temp$17 cmpl e;
+        if temp$18 <= 0 goto label6;
+
+        goto label5;
+
+     label5:
+        nop;
+        temp$19 = 1.0;
+        temp$20 = staticinvoke <java.lang.Math: double abs(double)>(co);
+        temp$21 = si / temp$20;
+        temp$22 = temp$19 + temp$21;
+        temp$23 = temp$22 / 2.0;
+        temp$24 = r.<java.awt.Rectangle: int height>;
+        temp$25 = (double) temp$24;
+        temp$26 = temp$23 * temp$25;
+        temp$27 = (int) temp$26;
+        y = temp$27;
+        temp$28 = r.<java.awt.Rectangle: int height>;
+        temp$29 = staticinvoke <CH.ifa.draw.util.Geom: int range(int,int,int)>(0, temp$28, y);
+        y = temp$29;
+        goto label9;
+
+     label6:
+        nop;
+        temp$30 = si cmpl 0.0;
+        if temp$30 < 0 goto label8;
+
+        goto label7;
+
+     label7:
+        nop;
+        temp$31 = r.<java.awt.Rectangle: int height>;
+        y = temp$31;
+
+     label8:
+        nop;
+
+     label9:
+        nop;
+        temp$32 = new java.awt.Point;
+        temp$33 = r.<java.awt.Rectangle: int x>;
+        temp$34 = temp$33 + x;
+        temp$35 = r.<java.awt.Rectangle: int y>;
+        temp$36 = temp$35 + y;
+        specialinvoke temp$32.<java.awt.Point: void <init>(int,int)>(temp$34, temp$36);
+        return temp$32;
+    }
+
+    public static java.awt.Point polarToPoint(double, double, double)
+    {
+        double angle, fx, fy, si, temp$0, co, temp$1, temp$3, temp$4, temp$5, temp$7, temp$8, temp$9;
+        java.awt.Point temp$2;
+        int temp$6, temp$10;
+
+        angle := @parameter0: double;
+        fx := @parameter1: double;
+        fy := @parameter2: double;
+        temp$0 = staticinvoke <java.lang.Math: double sin(double)>(angle);
+        si = temp$0;
+        temp$1 = staticinvoke <java.lang.Math: double cos(double)>(angle);
+        co = temp$1;
+        temp$2 = new java.awt.Point;
+        temp$3 = fx * co;
+        temp$4 = temp$3;
+        temp$5 = temp$4 + 0.5;
+        temp$6 = (int) temp$5;
+        temp$7 = fy * si;
+        temp$8 = temp$7;
+        temp$9 = temp$8 + 0.5;
+        temp$10 = (int) temp$9;
+        specialinvoke temp$2.<java.awt.Point: void <init>(int,int)>(temp$6, temp$10);
+        return temp$2;
+    }
+
+    public static java.awt.Point ovalAngleToPoint(java.awt.Rectangle, double)
+    {
+        java.awt.Rectangle r;
+        double angle, temp$3, temp$6;
+        java.awt.Point center, temp$0, p, temp$7, temp$8;
+        int temp$1, temp$2, temp$4, temp$5, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14;
+
+        r := @parameter0: java.awt.Rectangle;
+        angle := @parameter1: double;
+        temp$0 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point center(java.awt.Rectangle)>(r);
+        center = temp$0;
+        temp$1 = r.<java.awt.Rectangle: int width>;
+        temp$2 = temp$1 / 2;
+        temp$3 = (double) temp$2;
+        temp$4 = r.<java.awt.Rectangle: int height>;
+        temp$5 = temp$4 / 2;
+        temp$6 = (double) temp$5;
+        temp$7 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point polarToPoint(double,double,double)>(angle, temp$3, temp$6);
+        p = temp$7;
+        temp$8 = new java.awt.Point;
+        temp$9 = center.<java.awt.Point: int x>;
+        temp$10 = p.<java.awt.Point: int x>;
+        temp$11 = temp$9 + temp$10;
+        temp$12 = center.<java.awt.Point: int y>;
+        temp$13 = p.<java.awt.Point: int y>;
+        temp$14 = temp$12 + temp$13;
+        specialinvoke temp$8.<java.awt.Point: void <init>(int,int)>(temp$11, temp$14);
+        return temp$8;
+    }
+
+    public static java.awt.Point intersect(int, int, int, int, int, int, int, int)
+    {
+        int xa, ya, xb, yb, xc, yc, xd, yd, temp$0, temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$28, temp$29, temp$30, temp$31, px, temp$33, py, temp$38;
+        double denom, rnum, r, temp$19, snum, s, temp$27, temp$32, temp$34, temp$35, temp$36, temp$37, temp$39, temp$40, temp$41;
+        java.awt.Point temp$16, temp$17, temp$18, temp$42, temp$43;
+
+        xa := @parameter0: int;
+        ya := @parameter1: int;
+        xb := @parameter2: int;
+        yb := @parameter3: int;
+        xc := @parameter4: int;
+        yc := @parameter5: int;
+        xd := @parameter6: int;
+        yd := @parameter7: int;
+        temp$0 = xb - xa;
+        temp$1 = yd - yc;
+        temp$2 = temp$0 * temp$1;
+        temp$3 = yb - ya;
+        temp$4 = xd - xc;
+        temp$5 = temp$3 * temp$4;
+        temp$6 = temp$2 - temp$5;
+        denom = (double) temp$6;
+        temp$7 = ya - yc;
+        temp$8 = xd - xc;
+        temp$9 = temp$7 * temp$8;
+        temp$10 = xa - xc;
+        temp$11 = yd - yc;
+        temp$12 = temp$10 * temp$11;
+        temp$13 = temp$9 - temp$12;
+        rnum = (double) temp$13;
+        temp$14 = denom cmpg 0.0;
+        if temp$14 != 0 goto label10;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$15 = rnum cmpg 0.0;
+        if temp$15 != 0 goto label9;
+
+        goto label1;
+
+     label1:
+        nop;
+        if xa < xb goto label2;
+
+        goto label4;
+
+     label2:
+        nop;
+        if xb < xc goto label7;
+
+        goto label3;
+
+     label3:
+        nop;
+        if xb < xd goto label7;
+
+        goto label4;
+
+        goto label4;
+
+        goto label7;
+
+     label4:
+        nop;
+        if xa > xb goto label5;
+
+        goto label8;
+
+     label5:
+        nop;
+        if xb > xc goto label7;
+
+        goto label6;
+
+     label6:
+        nop;
+        if xb > xd goto label7;
+
+        goto label8;
+
+        goto label8;
+
+        goto label7;
+
+        goto label8;
+
+     label7:
+        nop;
+        temp$16 = new java.awt.Point;
+        specialinvoke temp$16.<java.awt.Point: void <init>(int,int)>(xb, yb);
+        return temp$16;
+
+     label8:
+        nop;
+        temp$17 = new java.awt.Point;
+        specialinvoke temp$17.<java.awt.Point: void <init>(int,int)>(xa, ya);
+        return temp$17;
+
+     label9:
+        nop;
+        temp$18 = null;
+        return temp$18;
+
+     label10:
+        nop;
+        temp$19 = rnum / denom;
+        r = temp$19;
+        temp$20 = ya - yc;
+        temp$21 = xb - xa;
+        temp$22 = temp$20 * temp$21;
+        temp$23 = xa - xc;
+        temp$24 = yb - ya;
+        temp$25 = temp$23 * temp$24;
+        temp$26 = temp$22 - temp$25;
+        snum = (double) temp$26;
+        temp$27 = snum / denom;
+        s = temp$27;
+        temp$28 = 0.0 cmpg r;
+        if temp$28 > 0 goto label15;
+
+        goto label11;
+
+     label11:
+        nop;
+        temp$29 = r cmpg 1.0;
+        if temp$29 > 0 goto label15;
+
+        goto label12;
+
+        goto label12;
+
+     label12:
+        nop;
+        temp$30 = 0.0 cmpg s;
+        if temp$30 > 0 goto label15;
+
+        goto label13;
+
+        goto label13;
+
+     label13:
+        nop;
+        temp$31 = s cmpg 1.0;
+        if temp$31 > 0 goto label15;
+
+        goto label14;
+
+        goto label14;
+
+     label14:
+        nop;
+        temp$32 = (double) xa;
+        temp$33 = xb - xa;
+        temp$34 = (double) temp$33;
+        temp$35 = temp$34 * r;
+        temp$36 = temp$32 + temp$35;
+        px = (int) temp$36;
+        temp$37 = (double) ya;
+        temp$38 = yb - ya;
+        temp$39 = (double) temp$38;
+        temp$40 = temp$39 * r;
+        temp$41 = temp$37 + temp$40;
+        py = (int) temp$41;
+        temp$42 = new java.awt.Point;
+        specialinvoke temp$42.<java.awt.Point: void <init>(int,int)>(px, py);
+        return temp$42;
+
+     label15:
+        nop;
+        temp$43 = null;
+        return temp$43;
+    }
+
+    public static double distanceFromLine(int, int, int, int, int, int)
+    {
+        int xa, ya, xb, yb, xc, yc, xdiff, temp$0, ydiff, temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$18, temp$19;
+        long l2, temp$7;
+        double temp$8, rnum, r, temp$16, temp$17, temp$20, xi, temp$21, temp$22, temp$23, yi, temp$24, temp$25, temp$26, xd, temp$27, temp$28, yd, temp$29, temp$30, temp$31, temp$32, temp$33, temp$34, temp$35;
+
+        xa := @parameter0: int;
+        ya := @parameter1: int;
+        xb := @parameter2: int;
+        yb := @parameter3: int;
+        xc := @parameter4: int;
+        yc := @parameter5: int;
+        temp$0 = xb - xa;
+        xdiff = temp$0;
+        temp$1 = yb - ya;
+        ydiff = temp$1;
+        temp$2 = xdiff * xdiff;
+        temp$3 = temp$2;
+        temp$4 = ydiff * ydiff;
+        temp$5 = temp$3 + temp$4;
+        l2 = (long) temp$5;
+        temp$6 = l2 cmp 0L;
+        if temp$6 != 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$7 = staticinvoke <CH.ifa.draw.util.Geom: long length(int,int,int,int)>(xa, ya, xc, yc);
+        temp$8 = (double) temp$7;
+        return temp$8;
+
+     label1:
+        nop;
+        temp$9 = ya - yc;
+        temp$10 = ya - yb;
+        temp$11 = temp$9 * temp$10;
+        temp$12 = xa - xc;
+        temp$13 = xb - xa;
+        temp$14 = temp$12 * temp$13;
+        temp$15 = temp$11 - temp$14;
+        rnum = (double) temp$15;
+        temp$16 = (double) l2;
+        temp$17 = rnum / temp$16;
+        r = temp$17;
+        temp$18 = r cmpg 0.0;
+        if temp$18 >= 0 goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$19 = r cmpl 1.0;
+        if temp$19 <= 0 goto label4;
+
+        goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$20 = <java.lang.Double: double MAX_VALUE>;
+        return temp$20;
+
+     label4:
+        nop;
+        temp$21 = (double) xa;
+        temp$22 = (double) xdiff;
+        temp$23 = r * temp$22;
+        xi = temp$21 + temp$23;
+        temp$24 = (double) ya;
+        temp$25 = (double) ydiff;
+        temp$26 = r * temp$25;
+        yi = temp$24 + temp$26;
+        temp$27 = (double) xc;
+        temp$28 = temp$27 - xi;
+        xd = temp$28;
+        temp$29 = (double) yc;
+        temp$30 = temp$29 - yi;
+        yd = temp$30;
+        temp$31 = xd * xd;
+        temp$32 = temp$31;
+        temp$33 = yd * yd;
+        temp$34 = temp$32 + temp$33;
+        temp$35 = staticinvoke <java.lang.Math: double sqrt(double)>(temp$34);
+        return temp$35;
+    }
+}

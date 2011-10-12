@@ -1,0 +1,85 @@
+public class CH.ifa.draw.util.CommandChoice extends javax.swing.JComboBox implements java.awt.event.ItemListener
+{
+    private java.util.Vector fCommands;
+
+    public void <init>()
+    {
+        CH.ifa.draw.util.CommandChoice this;
+        java.util.Vector temp$0;
+
+        this := @this: CH.ifa.draw.util.CommandChoice;
+        specialinvoke this.<javax.swing.JComboBox: void <init>()>();
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>(int)>(10);
+        this.<CH.ifa.draw.util.CommandChoice: java.util.Vector fCommands> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.util.CommandChoice: void addItemListener(java.awt.event.ItemListener)>(this);
+        return;
+    }
+
+    public synchronized void addItem(CH.ifa.draw.util.Command)
+    {
+        CH.ifa.draw.util.CommandChoice this;
+        CH.ifa.draw.util.Command command;
+        java.lang.String temp$0;
+        java.util.Vector temp$1;
+
+        this := @this: CH.ifa.draw.util.CommandChoice;
+        command := @parameter0: CH.ifa.draw.util.Command;
+        temp$0 = interfaceinvoke command.<CH.ifa.draw.util.Command: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.util.CommandChoice: void addItem(java.lang.Object)>(temp$0);
+        temp$1 = this.<CH.ifa.draw.util.CommandChoice: java.util.Vector fCommands>;
+        virtualinvoke temp$1.<java.util.Vector: void addElement(java.lang.Object)>(command);
+        return;
+    }
+
+    public void itemStateChanged(java.awt.event.ItemEvent)
+    {
+        CH.ifa.draw.util.CommandChoice this;
+        java.awt.event.ItemEvent e;
+        int temp$0, temp$1, temp$3, temp$5;
+        java.util.Vector temp$2, temp$4;
+        CH.ifa.draw.util.Command command;
+        java.lang.Object temp$6;
+        boolean temp$7;
+
+        this := @this: CH.ifa.draw.util.CommandChoice;
+        e := @parameter0: java.awt.event.ItemEvent;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.CommandChoice: int getSelectedIndex()>();
+        if temp$0 >= 0 goto label0;
+
+        goto label4;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.CommandChoice: int getSelectedIndex()>();
+        temp$2 = this.<CH.ifa.draw.util.CommandChoice: java.util.Vector fCommands>;
+        temp$3 = virtualinvoke temp$2.<java.util.Vector: int size()>();
+        if temp$1 < temp$3 goto label1;
+
+        goto label4;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$4 = this.<CH.ifa.draw.util.CommandChoice: java.util.Vector fCommands>;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.util.CommandChoice: int getSelectedIndex()>();
+        temp$6 = virtualinvoke temp$4.<java.util.Vector: java.lang.Object elementAt(int)>(temp$5);
+        command = (CH.ifa.draw.util.Command) temp$6;
+        temp$7 = interfaceinvoke command.<CH.ifa.draw.util.Command: boolean isExecutable()>();
+        if temp$7 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        interfaceinvoke command.<CH.ifa.draw.util.Command: void execute()>();
+
+     label3:
+        nop;
+
+     label4:
+        nop;
+        return;
+    }
+}

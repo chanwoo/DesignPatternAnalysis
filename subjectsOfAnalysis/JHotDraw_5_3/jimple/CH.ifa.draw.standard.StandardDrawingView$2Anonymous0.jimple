@@ -1,0 +1,110 @@
+public final class CH.ifa.draw.standard.StandardDrawingView$2Anonymous0 extends java.lang.Object implements java.awt.event.MouseListener
+{
+    CH.ifa.draw.standard.StandardDrawingView this$0;
+
+    public final void mouseClicked(java.awt.event.MouseEvent)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$2Anonymous0 this;
+        java.awt.event.MouseEvent e;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$2Anonymous0;
+        e := @parameter0: java.awt.event.MouseEvent;
+        return;
+    }
+
+    public final void mouseEntered(java.awt.event.MouseEvent)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$2Anonymous0 this;
+        java.awt.event.MouseEvent e;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$2Anonymous0;
+        e := @parameter0: java.awt.event.MouseEvent;
+        return;
+    }
+
+    public final void mouseExited(java.awt.event.MouseEvent)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$2Anonymous0 this;
+        java.awt.event.MouseEvent e;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$2Anonymous0;
+        e := @parameter0: java.awt.event.MouseEvent;
+        return;
+    }
+
+    public final void mousePressed(java.awt.event.MouseEvent)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$2Anonymous0 this;
+        java.awt.event.MouseEvent e;
+        CH.ifa.draw.standard.StandardDrawingView temp$0, temp$1, temp$6, temp$11, temp$15;
+        java.awt.Point p, temp$2, temp$5, temp$7, temp$10;
+        int temp$3, temp$4, temp$8, temp$9, temp$13, temp$14;
+        CH.ifa.draw.framework.Tool temp$12;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$2Anonymous0;
+        e := @parameter0: java.awt.event.MouseEvent;
+        temp$0 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        virtualinvoke temp$0.<CH.ifa.draw.standard.StandardDrawingView: void requestFocus()>();
+        temp$1 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        temp$2 = new java.awt.Point;
+        temp$3 = virtualinvoke e.<java.awt.event.MouseEvent: int getX()>();
+        temp$4 = virtualinvoke e.<java.awt.event.MouseEvent: int getY()>();
+        specialinvoke temp$2.<java.awt.Point: void <init>(int,int)>(temp$3, temp$4);
+        temp$5 = virtualinvoke temp$1.<CH.ifa.draw.standard.StandardDrawingView: java.awt.Point constrainPoint(java.awt.Point)>(temp$2);
+        p = temp$5;
+        temp$6 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        temp$7 = new java.awt.Point;
+        temp$8 = virtualinvoke e.<java.awt.event.MouseEvent: int getX()>();
+        temp$9 = virtualinvoke e.<java.awt.event.MouseEvent: int getY()>();
+        specialinvoke temp$7.<java.awt.Point: void <init>(int,int)>(temp$8, temp$9);
+        temp$10 = staticinvoke <CH.ifa.draw.standard.StandardDrawingView: java.awt.Point set$fLastClick$access$0(CH.ifa.draw.standard.StandardDrawingView,java.awt.Point)>(temp$6, temp$7);
+        temp$11 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        temp$12 = virtualinvoke temp$11.<CH.ifa.draw.standard.StandardDrawingView: CH.ifa.draw.framework.Tool tool()>();
+        temp$13 = p.<java.awt.Point: int x>;
+        temp$14 = p.<java.awt.Point: int y>;
+        interfaceinvoke temp$12.<CH.ifa.draw.framework.Tool: void mouseDown(java.awt.event.MouseEvent,int,int)>(e, temp$13, temp$14);
+        temp$15 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        virtualinvoke temp$15.<CH.ifa.draw.standard.StandardDrawingView: void checkDamage()>();
+        return;
+    }
+
+    public final void mouseReleased(java.awt.event.MouseEvent)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$2Anonymous0 this;
+        java.awt.event.MouseEvent e;
+        java.awt.Point p, temp$1, temp$4;
+        CH.ifa.draw.standard.StandardDrawingView temp$0, temp$5, temp$9;
+        int temp$2, temp$3, temp$7, temp$8;
+        CH.ifa.draw.framework.Tool temp$6;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$2Anonymous0;
+        e := @parameter0: java.awt.event.MouseEvent;
+        temp$0 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        temp$1 = new java.awt.Point;
+        temp$2 = virtualinvoke e.<java.awt.event.MouseEvent: int getX()>();
+        temp$3 = virtualinvoke e.<java.awt.event.MouseEvent: int getY()>();
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(temp$2, temp$3);
+        temp$4 = virtualinvoke temp$0.<CH.ifa.draw.standard.StandardDrawingView: java.awt.Point constrainPoint(java.awt.Point)>(temp$1);
+        p = temp$4;
+        temp$5 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        temp$6 = virtualinvoke temp$5.<CH.ifa.draw.standard.StandardDrawingView: CH.ifa.draw.framework.Tool tool()>();
+        temp$7 = p.<java.awt.Point: int x>;
+        temp$8 = p.<java.awt.Point: int y>;
+        interfaceinvoke temp$6.<CH.ifa.draw.framework.Tool: void mouseUp(java.awt.event.MouseEvent,int,int)>(e, temp$7, temp$8);
+        temp$9 = this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        virtualinvoke temp$9.<CH.ifa.draw.standard.StandardDrawingView: void checkDamage()>();
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.standard.StandardDrawingView)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$2Anonymous0 this;
+        CH.ifa.draw.standard.StandardDrawingView temp$0;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$2Anonymous0;
+        temp$0 := @parameter0: CH.ifa.draw.standard.StandardDrawingView;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.standard.StandardDrawingView$2Anonymous0: CH.ifa.draw.standard.StandardDrawingView this$0> = temp$0;
+        return;
+    }
+}

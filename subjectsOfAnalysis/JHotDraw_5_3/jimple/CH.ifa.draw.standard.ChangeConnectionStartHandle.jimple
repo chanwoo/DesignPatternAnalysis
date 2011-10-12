@@ -1,0 +1,89 @@
+public class CH.ifa.draw.standard.ChangeConnectionStartHandle extends CH.ifa.draw.standard.ChangeConnectionHandle
+{
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.ChangeConnectionStartHandle this;
+        CH.ifa.draw.framework.Figure owner;
+
+        this := @this: CH.ifa.draw.standard.ChangeConnectionStartHandle;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.ChangeConnectionHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return;
+    }
+
+    protected CH.ifa.draw.framework.Connector target()
+    {
+        CH.ifa.draw.standard.ChangeConnectionStartHandle this;
+        CH.ifa.draw.framework.ConnectionFigure temp$0;
+        CH.ifa.draw.framework.Connector temp$1;
+
+        this := @this: CH.ifa.draw.standard.ChangeConnectionStartHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ChangeConnectionStartHandle: CH.ifa.draw.framework.ConnectionFigure getConnection()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getStartConnector()>();
+        return temp$1;
+    }
+
+    protected void disconnect()
+    {
+        CH.ifa.draw.standard.ChangeConnectionStartHandle this;
+        CH.ifa.draw.framework.ConnectionFigure temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeConnectionStartHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ChangeConnectionStartHandle: CH.ifa.draw.framework.ConnectionFigure getConnection()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.ConnectionFigure: void disconnectStart()>();
+        return;
+    }
+
+    protected void connect(CH.ifa.draw.framework.Connector)
+    {
+        CH.ifa.draw.standard.ChangeConnectionStartHandle this;
+        CH.ifa.draw.framework.Connector c;
+        CH.ifa.draw.framework.ConnectionFigure temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeConnectionStartHandle;
+        c := @parameter0: CH.ifa.draw.framework.Connector;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ChangeConnectionStartHandle: CH.ifa.draw.framework.ConnectionFigure getConnection()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.ConnectionFigure: void connectStart(CH.ifa.draw.framework.Connector)>(c);
+        return;
+    }
+
+    protected void setPoint(int, int)
+    {
+        CH.ifa.draw.standard.ChangeConnectionStartHandle this;
+        int x, y;
+        CH.ifa.draw.framework.ConnectionFigure temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeConnectionStartHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ChangeConnectionStartHandle: CH.ifa.draw.framework.ConnectionFigure getConnection()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.ConnectionFigure: void startPoint(int,int)>(x, y);
+        return;
+    }
+
+    public java.awt.Point locate()
+    {
+        CH.ifa.draw.standard.ChangeConnectionStartHandle this;
+        CH.ifa.draw.framework.ConnectionFigure temp$0;
+        java.awt.Point temp$1;
+
+        this := @this: CH.ifa.draw.standard.ChangeConnectionStartHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ChangeConnectionStartHandle: CH.ifa.draw.framework.ConnectionFigure getConnection()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.ConnectionFigure: java.awt.Point startPoint()>();
+        return temp$1;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.ChangeConnectionStartHandle this;
+        CH.ifa.draw.framework.DrawingView newView;
+        CH.ifa.draw.standard.ChangeConnectionStartHandle$UndoActivity temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeConnectionStartHandle;
+        newView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = new CH.ifa.draw.standard.ChangeConnectionStartHandle$UndoActivity;
+        specialinvoke temp$0.<CH.ifa.draw.standard.ChangeConnectionStartHandle$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView)>(newView);
+        return temp$0;
+    }
+}

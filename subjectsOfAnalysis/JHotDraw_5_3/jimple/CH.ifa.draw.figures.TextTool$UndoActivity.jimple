@@ -1,0 +1,362 @@
+public static class CH.ifa.draw.figures.TextTool$UndoActivity extends CH.ifa.draw.util.UndoableAdapter
+{
+    private java.lang.String myOriginalText;
+    private java.lang.String myBackupText;
+
+    public void <init>(CH.ifa.draw.framework.DrawingView, java.lang.String)
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+        java.lang.String newOriginalText;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        newOriginalText := @parameter1: java.lang.String;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void <init>(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: void setOriginalText(java.lang.String)>(newOriginalText);
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: void setUndoable(boolean)>(1);
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: void setRedoable(boolean)>(1);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        boolean temp$0, temp$1, temp$4, temp$6, temp$12, temp$14, temp$20;
+        CH.ifa.draw.framework.DrawingView temp$2, temp$7, temp$15;
+        java.lang.String temp$3, temp$11, temp$18, temp$19;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$5, fe, temp$13;
+        CH.ifa.draw.framework.Drawing temp$8;
+        CH.ifa.draw.framework.Figure temp$9, temp$10, temp$16, temp$17;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean undo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        temp$3 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getOriginalText()>();
+        temp$4 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: boolean isValidText(java.lang.String)>(temp$3);
+        if temp$4 == 0 goto label2;
+
+        goto label6;
+
+     label2:
+        nop;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$5;
+
+     label3:
+        nop;
+        temp$6 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$6 == 0 goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$8 = interfaceinvoke temp$7.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$9 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        temp$10 = interfaceinvoke temp$8.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure orphan(CH.ifa.draw.framework.Figure)>(temp$9);
+        goto label3;
+
+     label5:
+        nop;
+        goto label13;
+
+     label6:
+        nop;
+        temp$11 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getBackupText()>();
+        temp$12 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: boolean isValidText(java.lang.String)>(temp$11);
+        if temp$12 == 0 goto label7;
+
+        goto label11;
+
+     label7:
+        nop;
+        temp$13 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$13;
+
+     label8:
+        nop;
+        temp$14 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$14 == 0 goto label10;
+
+        goto label9;
+
+     label9:
+        nop;
+        temp$15 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$16 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        temp$17 = interfaceinvoke temp$15.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Figure add(CH.ifa.draw.framework.Figure)>(temp$16);
+        goto label8;
+
+     label10:
+        nop;
+        temp$18 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getOriginalText()>();
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: void setText(java.lang.String)>(temp$18);
+        goto label12;
+
+     label11:
+        nop;
+        temp$19 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getOriginalText()>();
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: void setText(java.lang.String)>(temp$19);
+
+     label12:
+        nop;
+
+     label13:
+        nop;
+        temp$20 = 1;
+        return temp$20;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        boolean temp$0, temp$1, temp$4, temp$6, temp$12, temp$14, temp$21;
+        CH.ifa.draw.framework.DrawingView temp$2, temp$7, temp$15;
+        java.lang.String temp$3, temp$11, temp$19, temp$20;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$5, fe, temp$13;
+        CH.ifa.draw.framework.Drawing temp$8, temp$16;
+        CH.ifa.draw.framework.Figure temp$9, temp$10, temp$17, temp$18;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean redo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        temp$3 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getBackupText()>();
+        temp$4 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: boolean isValidText(java.lang.String)>(temp$3);
+        if temp$4 == 0 goto label2;
+
+        goto label6;
+
+     label2:
+        nop;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$5;
+
+     label3:
+        nop;
+        temp$6 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$6 == 0 goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$8 = interfaceinvoke temp$7.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$9 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        temp$10 = interfaceinvoke temp$8.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure orphan(CH.ifa.draw.framework.Figure)>(temp$9);
+        goto label3;
+
+     label5:
+        nop;
+        goto label13;
+
+     label6:
+        nop;
+        temp$11 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getOriginalText()>();
+        temp$12 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: boolean isValidText(java.lang.String)>(temp$11);
+        if temp$12 == 0 goto label7;
+
+        goto label11;
+
+     label7:
+        nop;
+        temp$13 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$13;
+
+     label8:
+        nop;
+        temp$14 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$14 == 0 goto label10;
+
+        goto label9;
+
+     label9:
+        nop;
+        temp$15 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$16 = interfaceinvoke temp$15.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$17 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        temp$18 = interfaceinvoke temp$16.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure add(CH.ifa.draw.framework.Figure)>(temp$17);
+        temp$19 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getBackupText()>();
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: void setText(java.lang.String)>(temp$19);
+        goto label8;
+
+     label10:
+        nop;
+        goto label12;
+
+     label11:
+        nop;
+        temp$20 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String getBackupText()>();
+        virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: void setText(java.lang.String)>(temp$20);
+
+     label12:
+        nop;
+
+     label13:
+        nop;
+        temp$21 = 1;
+        return temp$21;
+    }
+
+    protected boolean isValidText(java.lang.String)
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        java.lang.String toBeChecked;
+        int temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        toBeChecked := @parameter0: java.lang.String;
+        if toBeChecked != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = virtualinvoke toBeChecked.<java.lang.String: int length()>();
+        if temp$0 > 0 goto label2;
+
+        goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$1 = 0;
+        goto label3;
+
+     label2:
+        nop;
+        temp$1 = 1;
+
+     label3:
+        nop;
+        return temp$1;
+    }
+
+    protected void setText(java.lang.String)
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        java.lang.String newText;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$0;
+        boolean temp$1, temp$3, temp$6;
+        CH.ifa.draw.framework.Figure currentFigure, temp$2, temp$5;
+        CH.ifa.draw.standard.DecoratorFigure temp$4;
+        CH.ifa.draw.standard.TextHolder temp$7;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        newText := @parameter0: java.lang.String;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.TextTool$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$0;
+
+     label0:
+        nop;
+        temp$1 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label6;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$2 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        currentFigure = temp$2;
+        temp$3 = currentFigure instanceof CH.ifa.draw.standard.DecoratorFigure;
+        if temp$3 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$4 = (CH.ifa.draw.standard.DecoratorFigure) currentFigure;
+        temp$5 = virtualinvoke temp$4.<CH.ifa.draw.standard.DecoratorFigure: CH.ifa.draw.framework.Figure getDecoratedFigure()>();
+        currentFigure = temp$5;
+
+     label3:
+        nop;
+        temp$6 = currentFigure instanceof CH.ifa.draw.standard.TextHolder;
+        if temp$6 == 0 goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$7 = (CH.ifa.draw.standard.TextHolder) currentFigure;
+        interfaceinvoke temp$7.<CH.ifa.draw.standard.TextHolder: void setText(java.lang.String)>(newText);
+
+     label5:
+        nop;
+        goto label0;
+
+     label6:
+        nop;
+        return;
+    }
+
+    public void setBackupText(java.lang.String)
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        java.lang.String newBackupText;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        newBackupText := @parameter0: java.lang.String;
+        this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String myBackupText> = newBackupText;
+        return;
+    }
+
+    public java.lang.String getBackupText()
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String myBackupText>;
+        return temp$0;
+    }
+
+    public void setOriginalText(java.lang.String)
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        java.lang.String newOriginalText;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        newOriginalText := @parameter0: java.lang.String;
+        this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String myOriginalText> = newOriginalText;
+        return;
+    }
+
+    public java.lang.String getOriginalText()
+    {
+        CH.ifa.draw.figures.TextTool$UndoActivity this;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.figures.TextTool$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.figures.TextTool$UndoActivity: java.lang.String myOriginalText>;
+        return temp$0;
+    }
+}

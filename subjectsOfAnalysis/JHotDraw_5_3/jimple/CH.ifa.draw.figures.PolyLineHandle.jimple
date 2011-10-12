@@ -1,0 +1,138 @@
+public class CH.ifa.draw.figures.PolyLineHandle extends CH.ifa.draw.standard.LocatorHandle
+{
+    private int fIndex;
+
+    public void <init>(CH.ifa.draw.figures.PolyLineFigure, CH.ifa.draw.framework.Locator, int)
+    {
+        CH.ifa.draw.figures.PolyLineHandle this;
+        CH.ifa.draw.figures.PolyLineFigure owner;
+        CH.ifa.draw.framework.Locator l;
+        int index;
+
+        this := @this: CH.ifa.draw.figures.PolyLineHandle;
+        owner := @parameter0: CH.ifa.draw.figures.PolyLineFigure;
+        l := @parameter1: CH.ifa.draw.framework.Locator;
+        index := @parameter2: int;
+        specialinvoke this.<CH.ifa.draw.standard.LocatorHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(owner, l);
+        this.<CH.ifa.draw.figures.PolyLineHandle: int fIndex> = index;
+        return;
+    }
+
+    public void invokeStart(int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.PolyLineHandle this;
+        int x, y, temp$0;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.util.Undoable temp$1, temp$2, temp$5;
+        CH.ifa.draw.standard.SingleFigureEnumerator temp$3;
+        CH.ifa.draw.framework.Figure temp$4;
+        CH.ifa.draw.figures.PolyLineHandle$UndoActivity temp$6;
+        java.awt.Point temp$7;
+
+        this := @this: CH.ifa.draw.figures.PolyLineHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        view := @parameter2: CH.ifa.draw.framework.DrawingView;
+        temp$0 = this.<CH.ifa.draw.figures.PolyLineHandle: int fIndex>;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: CH.ifa.draw.util.Undoable createUndoActivity(CH.ifa.draw.framework.DrawingView,int)>(view, temp$0);
+        virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$1);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$3 = new CH.ifa.draw.standard.SingleFigureEnumerator;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: CH.ifa.draw.framework.Figure owner()>();
+        specialinvoke temp$3.<CH.ifa.draw.standard.SingleFigureEnumerator: void <init>(CH.ifa.draw.framework.Figure)>(temp$4);
+        interfaceinvoke temp$2.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$3);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$6 = (CH.ifa.draw.figures.PolyLineHandle$UndoActivity) temp$5;
+        temp$7 = new java.awt.Point;
+        specialinvoke temp$7.<java.awt.Point: void <init>(int,int)>(x, y);
+        virtualinvoke temp$6.<CH.ifa.draw.figures.PolyLineHandle$UndoActivity: void setOldPoint(java.awt.Point)>(temp$7);
+        return;
+    }
+
+    public void invokeStep(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.PolyLineHandle this;
+        int x, y, anchorX, anchorY, fIndex, temp$2;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.util.Undoable temp$0;
+        CH.ifa.draw.figures.PolyLineHandle$UndoActivity temp$1;
+        CH.ifa.draw.figures.PolyLineFigure temp$3;
+        java.awt.Point temp$4;
+
+        this := @this: CH.ifa.draw.figures.PolyLineHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$1 = (CH.ifa.draw.figures.PolyLineHandle$UndoActivity) temp$0;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.figures.PolyLineHandle$UndoActivity: int getPointIndex()>();
+        fIndex = temp$2;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: CH.ifa.draw.figures.PolyLineFigure myOwner()>();
+        temp$4 = new java.awt.Point;
+        specialinvoke temp$4.<java.awt.Point: void <init>(int,int)>(x, y);
+        virtualinvoke temp$3.<CH.ifa.draw.figures.PolyLineFigure: void setPointAt(java.awt.Point,int)>(temp$4, fIndex);
+        return;
+    }
+
+    public void invokeEnd(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.PolyLineHandle this;
+        int x, y, anchorX, anchorY;
+        CH.ifa.draw.framework.DrawingView view;
+
+        this := @this: CH.ifa.draw.figures.PolyLineHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        if x == anchorX goto label0;
+
+        goto label2;
+
+     label0:
+        nop;
+        if y == anchorY goto label1;
+
+        goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: void setUndoActivity(CH.ifa.draw.util.Undoable)>(null);
+
+     label2:
+        nop;
+        return;
+    }
+
+    private final CH.ifa.draw.figures.PolyLineFigure myOwner()
+    {
+        CH.ifa.draw.figures.PolyLineHandle this;
+        CH.ifa.draw.framework.Figure temp$0;
+        CH.ifa.draw.figures.PolyLineFigure temp$1;
+
+        this := @this: CH.ifa.draw.figures.PolyLineHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$1 = (CH.ifa.draw.figures.PolyLineFigure) temp$0;
+        return temp$1;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity(CH.ifa.draw.framework.DrawingView, int)
+    {
+        CH.ifa.draw.figures.PolyLineHandle this;
+        CH.ifa.draw.framework.DrawingView newView;
+        int newPointIndex;
+        CH.ifa.draw.figures.PolyLineHandle$UndoActivity temp$0;
+
+        this := @this: CH.ifa.draw.figures.PolyLineHandle;
+        newView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        newPointIndex := @parameter1: int;
+        temp$0 = new CH.ifa.draw.figures.PolyLineHandle$UndoActivity;
+        specialinvoke temp$0.<CH.ifa.draw.figures.PolyLineHandle$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView,int)>(newView, newPointIndex);
+        return temp$0;
+    }
+}

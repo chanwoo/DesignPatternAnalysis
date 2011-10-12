@@ -1,0 +1,40 @@
+public class CH.ifa.draw.framework.DrawingChangeEvent extends java.util.EventObject
+{
+    private java.awt.Rectangle fRectangle;
+
+    public void <init>(CH.ifa.draw.framework.Drawing, java.awt.Rectangle)
+    {
+        CH.ifa.draw.framework.DrawingChangeEvent this;
+        CH.ifa.draw.framework.Drawing source;
+        java.awt.Rectangle r;
+
+        this := @this: CH.ifa.draw.framework.DrawingChangeEvent;
+        source := @parameter0: CH.ifa.draw.framework.Drawing;
+        r := @parameter1: java.awt.Rectangle;
+        specialinvoke this.<java.util.EventObject: void <init>(java.lang.Object)>(source);
+        this.<CH.ifa.draw.framework.DrawingChangeEvent: java.awt.Rectangle fRectangle> = r;
+        return;
+    }
+
+    public CH.ifa.draw.framework.Drawing getDrawing()
+    {
+        CH.ifa.draw.framework.DrawingChangeEvent this;
+        java.lang.Object temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+
+        this := @this: CH.ifa.draw.framework.DrawingChangeEvent;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.framework.DrawingChangeEvent: java.lang.Object getSource()>();
+        temp$1 = (CH.ifa.draw.framework.Drawing) temp$0;
+        return temp$1;
+    }
+
+    public java.awt.Rectangle getInvalidatedRectangle()
+    {
+        CH.ifa.draw.framework.DrawingChangeEvent this;
+        java.awt.Rectangle temp$0;
+
+        this := @this: CH.ifa.draw.framework.DrawingChangeEvent;
+        temp$0 = this.<CH.ifa.draw.framework.DrawingChangeEvent: java.awt.Rectangle fRectangle>;
+        return temp$0;
+    }
+}

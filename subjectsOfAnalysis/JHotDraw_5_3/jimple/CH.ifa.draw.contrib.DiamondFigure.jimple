@@ -1,0 +1,158 @@
+public class CH.ifa.draw.contrib.DiamondFigure extends CH.ifa.draw.figures.RectangleFigure
+{
+
+    public void <init>()
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        java.awt.Point temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        temp$0 = new java.awt.Point;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(0, 0);
+        temp$1 = new java.awt.Point;
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(0, 0);
+        specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: void <init>(java.awt.Point,java.awt.Point)>(temp$0, temp$1);
+        return;
+    }
+
+    public void <init>(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        java.awt.Point origin, corner;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: void <init>(java.awt.Point,java.awt.Point)>(origin, corner);
+        return;
+    }
+
+    protected java.awt.Polygon getPolygon()
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Polygon p, temp$1;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DiamondFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = new java.awt.Polygon;
+        specialinvoke temp$1.<java.awt.Polygon: void <init>()>();
+        p = temp$1;
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int height>;
+        temp$5 = temp$4 / 2;
+        temp$6 = temp$3 + temp$5;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$2, temp$6);
+        temp$7 = r.<java.awt.Rectangle: int x>;
+        temp$8 = r.<java.awt.Rectangle: int width>;
+        temp$9 = temp$8 / 2;
+        temp$10 = temp$7 + temp$9;
+        temp$11 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$10, temp$11);
+        temp$12 = r.<java.awt.Rectangle: int x>;
+        temp$13 = r.<java.awt.Rectangle: int width>;
+        temp$14 = temp$12 + temp$13;
+        temp$15 = r.<java.awt.Rectangle: int y>;
+        temp$16 = r.<java.awt.Rectangle: int height>;
+        temp$17 = temp$16 / 2;
+        temp$18 = temp$15 + temp$17;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$14, temp$18);
+        temp$19 = r.<java.awt.Rectangle: int x>;
+        temp$20 = r.<java.awt.Rectangle: int width>;
+        temp$21 = temp$20 / 2;
+        temp$22 = temp$19 + temp$21;
+        temp$23 = r.<java.awt.Rectangle: int y>;
+        temp$24 = r.<java.awt.Rectangle: int height>;
+        temp$25 = temp$23 + temp$24;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$22, temp$25);
+        return p;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        java.awt.Graphics g;
+        java.awt.Polygon p, temp$0;
+        java.awt.Color temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DiamondFigure: java.awt.Polygon getPolygon()>();
+        p = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.DiamondFigure: java.awt.Color getFillColor()>();
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        virtualinvoke g.<java.awt.Graphics: void fillPolygon(java.awt.Polygon)>(p);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.DiamondFigure: java.awt.Color getFrameColor()>();
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$2);
+        virtualinvoke g.<java.awt.Graphics: void drawPolygon(java.awt.Polygon)>(p);
+        return;
+    }
+
+    public java.awt.Insets connectionInsets()
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Insets temp$1;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DiamondFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = new java.awt.Insets;
+        temp$2 = r.<java.awt.Rectangle: int height>;
+        temp$3 = temp$2 / 2;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = temp$4 / 2;
+        temp$6 = r.<java.awt.Rectangle: int height>;
+        temp$7 = temp$6 / 2;
+        temp$8 = r.<java.awt.Rectangle: int width>;
+        temp$9 = temp$8 / 2;
+        specialinvoke temp$1.<java.awt.Insets: void <init>(int,int,int,int)>(temp$3, temp$5, temp$7, temp$9);
+        return temp$1;
+    }
+
+    public boolean containsPoint(int, int)
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        int x, y;
+        java.awt.Polygon temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DiamondFigure: java.awt.Polygon getPolygon()>();
+        temp$1 = virtualinvoke temp$0.<java.awt.Polygon: boolean contains(int,int)>(x, y);
+        return temp$1;
+    }
+
+    public java.awt.Point chop(java.awt.Point)
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        java.awt.Point p, temp$1;
+        java.awt.Polygon temp$0;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        p := @parameter0: java.awt.Point;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DiamondFigure: java.awt.Polygon getPolygon()>();
+        temp$1 = staticinvoke <CH.ifa.draw.contrib.PolygonFigure: java.awt.Point chop(java.awt.Polygon,java.awt.Point)>(temp$0, p);
+        return temp$1;
+    }
+
+    public CH.ifa.draw.framework.Connector connectorAt(int, int)
+    {
+        CH.ifa.draw.contrib.DiamondFigure this;
+        int x, y;
+        CH.ifa.draw.contrib.ChopDiamondConnector temp$0;
+
+        this := @this: CH.ifa.draw.contrib.DiamondFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = new CH.ifa.draw.contrib.ChopDiamondConnector;
+        specialinvoke temp$0.<CH.ifa.draw.contrib.ChopDiamondConnector: void <init>(CH.ifa.draw.framework.Figure)>(this);
+        return temp$0;
+    }
+}

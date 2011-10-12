@@ -1,0 +1,83 @@
+class CH.ifa.draw.util.GraphNode extends java.lang.Object
+{
+    double x;
+    double y;
+    double dx;
+    double dy;
+    final CH.ifa.draw.framework.Figure node;
+
+    void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.util.GraphNode this;
+        CH.ifa.draw.framework.Figure node;
+        double temp$0, temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.util.GraphNode;
+        node := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = 0.0;
+        this.<CH.ifa.draw.util.GraphNode: double x> = temp$0;
+        temp$1 = 0.0;
+        this.<CH.ifa.draw.util.GraphNode: double y> = temp$1;
+        temp$2 = 0.0;
+        this.<CH.ifa.draw.util.GraphNode: double dx> = temp$2;
+        temp$3 = 0.0;
+        this.<CH.ifa.draw.util.GraphNode: double dy> = temp$3;
+        this.<CH.ifa.draw.util.GraphNode: CH.ifa.draw.framework.Figure node> = node;
+        virtualinvoke this.<CH.ifa.draw.util.GraphNode: void update()>();
+        return;
+    }
+
+    void update()
+    {
+        CH.ifa.draw.util.GraphNode this;
+        java.awt.Point p, temp$1;
+        CH.ifa.draw.framework.Figure temp$0;
+        int temp$2, temp$8, temp$9, temp$15, temp$16, temp$18;
+        double temp$3, temp$10, temp$17, temp$19;
+        long temp$4, temp$5, temp$6, temp$7, temp$11, temp$12, temp$13, temp$14;
+
+        this := @this: CH.ifa.draw.util.GraphNode;
+        temp$0 = this.<CH.ifa.draw.util.GraphNode: CH.ifa.draw.framework.Figure node>;
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Figure: java.awt.Point center()>();
+        p = temp$1;
+        temp$2 = p.<java.awt.Point: int x>;
+        temp$3 = this.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$4 = staticinvoke <java.lang.Math: long round(double)>(temp$3);
+        temp$5 = (long) temp$2;
+        temp$6 = temp$5 - temp$4;
+        temp$7 = staticinvoke <java.lang.Math: long abs(long)>(temp$6);
+        temp$8 = temp$7 cmp 1L;
+        if temp$8 <= 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$9 = p.<java.awt.Point: int y>;
+        temp$10 = this.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$11 = staticinvoke <java.lang.Math: long round(double)>(temp$10);
+        temp$12 = (long) temp$9;
+        temp$13 = temp$12 - temp$11;
+        temp$14 = staticinvoke <java.lang.Math: long abs(long)>(temp$13);
+        temp$15 = temp$14 cmp 1L;
+        if temp$15 <= 0 goto label2;
+
+        goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$16 = p.<java.awt.Point: int x>;
+        temp$17 = (double) temp$16;
+        this.<CH.ifa.draw.util.GraphNode: double x> = temp$17;
+        temp$18 = p.<java.awt.Point: int y>;
+        temp$19 = (double) temp$18;
+        this.<CH.ifa.draw.util.GraphNode: double y> = temp$19;
+
+     label2:
+        nop;
+        return;
+    }
+}

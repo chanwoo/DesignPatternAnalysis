@@ -1,0 +1,69 @@
+public abstract class CH.ifa.draw.standard.AbstractLocator extends java.lang.Object implements CH.ifa.draw.framework.Locator, CH.ifa.draw.util.Storable, java.lang.Cloneable
+{
+    private static final long serialVersionUID;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = -7742023180844048409L;
+        <CH.ifa.draw.standard.AbstractLocator: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    protected void <init>()
+    {
+        CH.ifa.draw.standard.AbstractLocator this;
+
+        this := @this: CH.ifa.draw.standard.AbstractLocator;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+
+    public java.lang.Object clone()
+    {
+        CH.ifa.draw.standard.AbstractLocator this;
+        java.lang.Object temp$0;
+        java.lang.CloneNotSupportedException e;
+        java.lang.InternalError temp$1;
+
+        this := @this: CH.ifa.draw.standard.AbstractLocator;
+
+     label0:
+        nop;
+        temp$0 = specialinvoke this.<java.lang.Object: java.lang.Object clone()>();
+
+     label1:
+        nop;
+        return temp$0;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        temp$1 = new java.lang.InternalError;
+        specialinvoke temp$1.<java.lang.InternalError: void <init>()>();
+        throw temp$1;
+
+        catch java.lang.CloneNotSupportedException from label0 to label1 with label2;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.standard.AbstractLocator this;
+        CH.ifa.draw.util.StorableOutput dw;
+
+        this := @this: CH.ifa.draw.standard.AbstractLocator;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.standard.AbstractLocator this;
+        CH.ifa.draw.util.StorableInput dr;
+
+        this := @this: CH.ifa.draw.standard.AbstractLocator;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        return;
+    }
+}

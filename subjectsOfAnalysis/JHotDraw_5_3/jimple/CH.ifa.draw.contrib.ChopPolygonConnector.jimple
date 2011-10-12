@@ -1,0 +1,48 @@
+public class CH.ifa.draw.contrib.ChopPolygonConnector extends CH.ifa.draw.standard.ChopBoxConnector
+{
+    private static final long serialVersionUID;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = -156024908227796826L;
+        <CH.ifa.draw.contrib.ChopPolygonConnector: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.contrib.ChopPolygonConnector this;
+
+        this := @this: CH.ifa.draw.contrib.ChopPolygonConnector;
+        specialinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: void <init>()>();
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.contrib.ChopPolygonConnector this;
+        CH.ifa.draw.framework.Figure owner;
+
+        this := @this: CH.ifa.draw.contrib.ChopPolygonConnector;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return;
+    }
+
+    protected java.awt.Point chop(CH.ifa.draw.framework.Figure, java.awt.Point)
+    {
+        CH.ifa.draw.contrib.ChopPolygonConnector this;
+        CH.ifa.draw.framework.Figure target;
+        java.awt.Point 'from', temp$1;
+        CH.ifa.draw.contrib.PolygonFigure temp$0;
+
+        this := @this: CH.ifa.draw.contrib.ChopPolygonConnector;
+        target := @parameter0: CH.ifa.draw.framework.Figure;
+        'from' := @parameter1: java.awt.Point;
+        temp$0 = (CH.ifa.draw.contrib.PolygonFigure) target;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.contrib.PolygonFigure: java.awt.Point chop(java.awt.Point)>('from');
+        return temp$1;
+    }
+}

@@ -1,0 +1,29 @@
+public final class CH.ifa.draw.applet.DrawApplet$2Anonymous1 extends java.lang.Object implements java.awt.event.ActionListener
+{
+    CH.ifa.draw.applet.DrawApplet this$0;
+
+    public final void actionPerformed(java.awt.event.ActionEvent)
+    {
+        CH.ifa.draw.applet.DrawApplet$2Anonymous1 this;
+        java.awt.event.ActionEvent event;
+        CH.ifa.draw.applet.DrawApplet temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet$2Anonymous1;
+        event := @parameter0: java.awt.event.ActionEvent;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet$2Anonymous1: CH.ifa.draw.applet.DrawApplet this$0>;
+        virtualinvoke temp$0.<CH.ifa.draw.applet.DrawApplet: void showHelp()>();
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.applet.DrawApplet)
+    {
+        CH.ifa.draw.applet.DrawApplet$2Anonymous1 this;
+        CH.ifa.draw.applet.DrawApplet temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet$2Anonymous1;
+        temp$0 := @parameter0: CH.ifa.draw.applet.DrawApplet;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.applet.DrawApplet$2Anonymous1: CH.ifa.draw.applet.DrawApplet this$0> = temp$0;
+        return;
+    }
+}

@@ -1,0 +1,11 @@
+public interface  CH.ifa.draw.contrib.Layouter extends java.lang.Object implements java.io.Serializable, CH.ifa.draw.util.Storable
+{
+
+    public abstract java.awt.Rectangle calculateLayout(java.awt.Point, java.awt.Point);
+
+    public abstract java.awt.Rectangle layout(java.awt.Point, java.awt.Point);
+
+    public abstract void setInsets(java.awt.Insets);
+
+    public abstract java.awt.Insets getInsets();
+}

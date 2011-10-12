@@ -1,0 +1,218 @@
+public abstract class CH.ifa.draw.standard.AbstractHandle extends java.lang.Object implements CH.ifa.draw.framework.Handle
+{
+    public static final int HANDLESIZE;
+    private CH.ifa.draw.framework.Figure fOwner;
+    private CH.ifa.draw.util.Undoable myUndoableActivity;
+
+    static void <clinit>()
+    {
+        int temp$0;
+
+        temp$0 = 8;
+        <CH.ifa.draw.standard.AbstractHandle: int HANDLESIZE> = temp$0;
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        CH.ifa.draw.framework.Figure owner;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.standard.AbstractHandle: CH.ifa.draw.framework.Figure fOwner> = owner;
+        return;
+    }
+
+    public abstract java.awt.Point locate();
+
+    public void invokeStart(int, int, CH.ifa.draw.framework.Drawing)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        int x, y;
+        CH.ifa.draw.framework.Drawing drawing;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        drawing := @parameter2: CH.ifa.draw.framework.Drawing;
+        return;
+    }
+
+    public void invokeStart(int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        int x, y;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.framework.Drawing temp$0;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        view := @parameter2: CH.ifa.draw.framework.DrawingView;
+        temp$0 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        virtualinvoke this.<CH.ifa.draw.standard.AbstractHandle: void invokeStart(int,int,CH.ifa.draw.framework.Drawing)>(x, y, temp$0);
+        return;
+    }
+
+    public void invokeStep(int, int, CH.ifa.draw.framework.Drawing)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        int dx, dy;
+        CH.ifa.draw.framework.Drawing drawing;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        dx := @parameter0: int;
+        dy := @parameter1: int;
+        drawing := @parameter2: CH.ifa.draw.framework.Drawing;
+        return;
+    }
+
+    public void invokeStep(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        int x, y, anchorX, anchorY, temp$0, temp$1;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.framework.Drawing temp$2;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = x - anchorX;
+        temp$1 = y - anchorY;
+        temp$2 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        virtualinvoke this.<CH.ifa.draw.standard.AbstractHandle: void invokeStep(int,int,CH.ifa.draw.framework.Drawing)>(temp$0, temp$1, temp$2);
+        return;
+    }
+
+    public void invokeEnd(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        int x, y, anchorX, anchorY, temp$0, temp$1;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.framework.Drawing temp$2;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = x - anchorX;
+        temp$1 = y - anchorY;
+        temp$2 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        virtualinvoke this.<CH.ifa.draw.standard.AbstractHandle: void invokeEnd(int,int,CH.ifa.draw.framework.Drawing)>(temp$0, temp$1, temp$2);
+        return;
+    }
+
+    public void invokeEnd(int, int, CH.ifa.draw.framework.Drawing)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        int dx, dy;
+        CH.ifa.draw.framework.Drawing drawing;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        dx := @parameter0: int;
+        dy := @parameter1: int;
+        drawing := @parameter2: CH.ifa.draw.framework.Drawing;
+        return;
+    }
+
+    public CH.ifa.draw.framework.Figure owner()
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        temp$0 = this.<CH.ifa.draw.standard.AbstractHandle: CH.ifa.draw.framework.Figure fOwner>;
+        return temp$0;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        java.awt.Point p, temp$0;
+        java.awt.Rectangle temp$1;
+        int temp$2, temp$3, temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.AbstractHandle: java.awt.Point locate()>();
+        p = temp$0;
+        temp$1 = new java.awt.Rectangle;
+        temp$2 = p.<java.awt.Point: int x>;
+        temp$3 = temp$2 - 4;
+        temp$4 = p.<java.awt.Point: int y>;
+        temp$5 = temp$4 - 4;
+        specialinvoke temp$1.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$3, temp$5, 8, 8);
+        return temp$1;
+    }
+
+    public boolean containsPoint(int, int)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        int x, y;
+        java.awt.Rectangle temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.AbstractHandle: java.awt.Rectangle displayBox()>();
+        temp$1 = virtualinvoke temp$0.<java.awt.Rectangle: boolean contains(int,int)>(x, y);
+        return temp$1;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Color temp$1, temp$6;
+        int temp$2, temp$3, temp$4, temp$5, temp$7, temp$8, temp$9, temp$10;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.AbstractHandle: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = <java.awt.Color: java.awt.Color white>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void fillRect(int,int,int,int)>(temp$2, temp$3, temp$4, temp$5);
+        temp$6 = <java.awt.Color: java.awt.Color black>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$6);
+        temp$7 = r.<java.awt.Rectangle: int x>;
+        temp$8 = r.<java.awt.Rectangle: int y>;
+        temp$9 = r.<java.awt.Rectangle: int width>;
+        temp$10 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void drawRect(int,int,int,int)>(temp$7, temp$8, temp$9, temp$10);
+        return;
+    }
+
+    public CH.ifa.draw.util.Undoable getUndoActivity()
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        CH.ifa.draw.util.Undoable temp$0;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        temp$0 = this.<CH.ifa.draw.standard.AbstractHandle: CH.ifa.draw.util.Undoable myUndoableActivity>;
+        return temp$0;
+    }
+
+    public void setUndoActivity(CH.ifa.draw.util.Undoable)
+    {
+        CH.ifa.draw.standard.AbstractHandle this;
+        CH.ifa.draw.util.Undoable newUndoableActivity;
+
+        this := @this: CH.ifa.draw.standard.AbstractHandle;
+        newUndoableActivity := @parameter0: CH.ifa.draw.util.Undoable;
+        this.<CH.ifa.draw.standard.AbstractHandle: CH.ifa.draw.util.Undoable myUndoableActivity> = newUndoableActivity;
+        return;
+    }
+}

@@ -1,0 +1,75 @@
+public static class CH.ifa.draw.standard.SelectAllCommand$UndoActivity extends CH.ifa.draw.util.UndoableAdapter
+{
+
+    public void <init>(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.SelectAllCommand$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+
+        this := @this: CH.ifa.draw.standard.SelectAllCommand$UndoActivity;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void <init>(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: void setUndoable(boolean)>(1);
+        virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: void setRedoable(boolean)>(1);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.standard.SelectAllCommand$UndoActivity this;
+        boolean temp$0, temp$1, temp$5;
+        CH.ifa.draw.framework.DrawingView temp$2, temp$3;
+        CH.ifa.draw.framework.FigureEnumeration temp$4;
+
+        this := @this: CH.ifa.draw.standard.SelectAllCommand$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean undo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$4 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        interfaceinvoke temp$3.<CH.ifa.draw.framework.DrawingView: void addToSelectionAll(CH.ifa.draw.framework.FigureEnumeration)>(temp$4);
+        temp$5 = 1;
+        return temp$5;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.standard.SelectAllCommand$UndoActivity this;
+        boolean temp$0, temp$5, temp$6;
+        CH.ifa.draw.framework.DrawingView temp$1, temp$2;
+        CH.ifa.draw.framework.Drawing temp$3;
+        CH.ifa.draw.framework.FigureEnumeration temp$4;
+
+        this := @this: CH.ifa.draw.standard.SelectAllCommand$UndoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: boolean isRedoable()>();
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.FigureEnumeration figures()>();
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.DrawingView: void addToSelectionAll(CH.ifa.draw.framework.FigureEnumeration)>(temp$4);
+        temp$5 = 1;
+        return temp$5;
+
+     label1:
+        nop;
+        temp$6 = 0;
+        return temp$6;
+    }
+}

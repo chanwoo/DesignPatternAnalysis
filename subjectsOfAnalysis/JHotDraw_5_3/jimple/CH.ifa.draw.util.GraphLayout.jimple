@@ -1,0 +1,617 @@
+public class CH.ifa.draw.util.GraphLayout extends CH.ifa.draw.standard.FigureChangeAdapter
+{
+    public double LENGTH_FACTOR;
+    public double REPULSION_STRENGTH;
+    public double REPULSION_LIMIT;
+    int REPULSION_TYPE;
+    public double SPRING_STRENGTH;
+    public double TORQUE_STRENGTH;
+    public double FRICTION_FACTOR;
+    private java.util.Hashtable nodes;
+    private java.util.Hashtable edges;
+
+    public void <init>()
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        double temp$0, temp$1, temp$2, temp$4, temp$5, temp$6;
+        int temp$3;
+        java.util.Hashtable temp$7, temp$8;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        specialinvoke this.<CH.ifa.draw.standard.FigureChangeAdapter: void <init>()>();
+        temp$0 = 1.0;
+        this.<CH.ifa.draw.util.GraphLayout: double LENGTH_FACTOR> = temp$0;
+        temp$1 = 0.5;
+        this.<CH.ifa.draw.util.GraphLayout: double REPULSION_STRENGTH> = temp$1;
+        temp$2 = 200.0;
+        this.<CH.ifa.draw.util.GraphLayout: double REPULSION_LIMIT> = temp$2;
+        temp$3 = 0;
+        this.<CH.ifa.draw.util.GraphLayout: int REPULSION_TYPE> = temp$3;
+        temp$4 = 0.1;
+        this.<CH.ifa.draw.util.GraphLayout: double SPRING_STRENGTH> = temp$4;
+        temp$5 = 0.25;
+        this.<CH.ifa.draw.util.GraphLayout: double TORQUE_STRENGTH> = temp$5;
+        temp$6 = 0.75;
+        this.<CH.ifa.draw.util.GraphLayout: double FRICTION_FACTOR> = temp$6;
+        temp$7 = new java.util.Hashtable;
+        specialinvoke temp$7.<java.util.Hashtable: void <init>()>();
+        this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes> = temp$7;
+        temp$8 = new java.util.Hashtable;
+        specialinvoke temp$8.<java.util.Hashtable: void <init>()>();
+        this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable edges> = temp$8;
+        return;
+    }
+
+    private final CH.ifa.draw.util.GraphNode getGraphNode(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        CH.ifa.draw.framework.Figure node;
+        java.util.Hashtable temp$0;
+        java.lang.Object temp$1;
+        CH.ifa.draw.util.GraphNode temp$2;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        node := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        temp$1 = virtualinvoke temp$0.<java.util.Hashtable: java.lang.Object get(java.lang.Object)>(node);
+        temp$2 = (CH.ifa.draw.util.GraphNode) temp$1;
+        return temp$2;
+    }
+
+    private final double len(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        CH.ifa.draw.framework.Figure edge;
+        java.util.Hashtable temp$0;
+        java.lang.Object temp$1;
+        java.lang.Double temp$2;
+        double temp$3, temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        edge := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable edges>;
+        temp$1 = virtualinvoke temp$0.<java.util.Hashtable: java.lang.Object get(java.lang.Object)>(edge);
+        temp$2 = (java.lang.Double) temp$1;
+        temp$3 = virtualinvoke temp$2.<java.lang.Double: double doubleValue()>();
+        temp$4 = this.<CH.ifa.draw.util.GraphLayout: double LENGTH_FACTOR>;
+        temp$5 = temp$3 * temp$4;
+        return temp$5;
+    }
+
+    public void addNode(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        CH.ifa.draw.framework.Figure node;
+        java.util.Hashtable temp$0;
+        CH.ifa.draw.util.GraphNode temp$1;
+        java.lang.Object temp$2;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        node := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        temp$1 = new CH.ifa.draw.util.GraphNode;
+        specialinvoke temp$1.<CH.ifa.draw.util.GraphNode: void <init>(CH.ifa.draw.framework.Figure)>(node);
+        temp$2 = virtualinvoke temp$0.<java.util.Hashtable: java.lang.Object put(java.lang.Object,java.lang.Object)>(node, temp$1);
+        interfaceinvoke node.<CH.ifa.draw.framework.Figure: void addFigureChangeListener(CH.ifa.draw.framework.FigureChangeListener)>(this);
+        return;
+    }
+
+    public void addEdge(CH.ifa.draw.framework.ConnectionFigure, int)
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        CH.ifa.draw.framework.ConnectionFigure edge;
+        int addlen, len, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15;
+        java.awt.Dimension d1, temp$2, d2, temp$5;
+        CH.ifa.draw.framework.Connector temp$0, temp$3;
+        CH.ifa.draw.framework.Figure temp$1, temp$4;
+        java.util.Hashtable temp$16;
+        java.lang.Double temp$17;
+        double temp$18;
+        java.lang.Object temp$19;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        edge := @parameter0: CH.ifa.draw.framework.ConnectionFigure;
+        addlen := @parameter1: int;
+        temp$0 = interfaceinvoke edge.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getStartConnector()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Figure: java.awt.Dimension size()>();
+        d1 = temp$2;
+        temp$3 = interfaceinvoke edge.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getEndConnector()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        temp$5 = interfaceinvoke temp$4.<CH.ifa.draw.framework.Figure: java.awt.Dimension size()>();
+        d2 = temp$5;
+        temp$6 = d1.<java.awt.Dimension: int width>;
+        temp$7 = d1.<java.awt.Dimension: int height>;
+        temp$8 = staticinvoke <java.lang.Math: int max(int,int)>(temp$6, temp$7);
+        temp$9 = temp$8 / 2;
+        temp$10 = temp$9;
+        temp$11 = d2.<java.awt.Dimension: int width>;
+        temp$12 = d2.<java.awt.Dimension: int height>;
+        temp$13 = staticinvoke <java.lang.Math: int max(int,int)>(temp$11, temp$12);
+        temp$14 = temp$13 / 2;
+        temp$15 = temp$10 + temp$14;
+        len = temp$15 + addlen;
+        temp$16 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable edges>;
+        temp$17 = new java.lang.Double;
+        temp$18 = (double) len;
+        specialinvoke temp$17.<java.lang.Double: void <init>(double)>(temp$18);
+        temp$19 = virtualinvoke temp$16.<java.util.Hashtable: java.lang.Object put(java.lang.Object,java.lang.Object)>(edge, temp$17);
+        return;
+    }
+
+    public synchronized void relax()
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        java.util.Hashtable temp$0, temp$1, temp$56, temp$60, temp$115;
+        java.util.Enumeration edgeEnum, temp$2, nodeEnum1, temp$57, nodeEnum2, temp$61, nodeEnum, temp$116;
+        boolean temp$3, temp$58, temp$62, temp$117, temp$122;
+        CH.ifa.draw.framework.ConnectionFigure e;
+        java.lang.Object temp$4, temp$59, temp$63, temp$118, temp$121;
+        double targetlen, temp$5, vx, temp$12, temp$13, temp$14, vy, temp$15, temp$16, temp$17, len, temp$18, temp$19, temp$20, temp$21, temp$22, f, temp$24, temp$25, temp$26, temp$27, dx, temp$28, dy, temp$29, phi, temp$30, dir, temp$31, temp$32, temp$33, temp$34, temp$35, temp$36, temp$37, temp$38, temp$39, temp$40, temp$41, temp$42, temp$43, temp$44, temp$45, temp$46, temp$47, temp$48, temp$49, temp$50, temp$51, temp$52, temp$53, temp$54, temp$55, dx, dy, vx, temp$64, temp$65, temp$66, vy, temp$67, temp$68, temp$69, lensqr, temp$70, temp$71, temp$72, len, temp$73, temp$75, temp$76, temp$77, temp$78, temp$79, temp$80, temp$81, temp$82, temp$83, temp$84, temp$85, temp$87, temp$88, temp$89, temp$90, temp$91, temp$92, f, temp$93, temp$94, temp$95, temp$96, temp$97, temp$98, temp$99, temp$100, temp$102, temp$103, temp$104, temp$105, temp$106, temp$107, temp$108, temp$109, temp$110, temp$111, temp$112, temp$113, temp$114, temp$123, temp$124, temp$125, temp$126, temp$127, temp$128, temp$129, temp$130, temp$131, temp$132, temp$134, temp$139, temp$144, temp$146, temp$147, temp$149, temp$150, temp$151, temp$152, temp$153, temp$154, temp$155;
+        CH.ifa.draw.util.GraphNode 'from', temp$8, 'to', temp$11, n1, n2, n, temp$119;
+        CH.ifa.draw.framework.Connector temp$6, temp$9;
+        CH.ifa.draw.framework.Figure temp$7, temp$10, node;
+        int temp$23, temp$74, temp$86, temp$101, temp$136, temp$137, temp$138, temp$141, temp$142, temp$143, temp$145, temp$148;
+        java.lang.Boolean temp$120;
+        java.awt.Point c, temp$133;
+        long temp$135, temp$140;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        temp$0 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        temp$1 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable edges>;
+        temp$2 = virtualinvoke temp$1.<java.util.Hashtable: java.util.Enumeration keys()>();
+        edgeEnum = temp$2;
+
+     label2:
+        nop;
+        temp$3 = interfaceinvoke edgeEnum.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label6;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$4 = interfaceinvoke edgeEnum.<java.util.Enumeration: java.lang.Object nextElement()>();
+        e = (CH.ifa.draw.framework.ConnectionFigure) temp$4;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.util.GraphLayout: double len(CH.ifa.draw.framework.Figure)>(e);
+        targetlen = temp$5;
+        temp$6 = interfaceinvoke e.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getStartConnector()>();
+        temp$7 = interfaceinvoke temp$6.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        temp$8 = virtualinvoke this.<CH.ifa.draw.util.GraphLayout: CH.ifa.draw.util.GraphNode getGraphNode(CH.ifa.draw.framework.Figure)>(temp$7);
+        'from' = temp$8;
+        temp$9 = interfaceinvoke e.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getEndConnector()>();
+        temp$10 = interfaceinvoke temp$9.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        temp$11 = virtualinvoke this.<CH.ifa.draw.util.GraphLayout: CH.ifa.draw.util.GraphNode getGraphNode(CH.ifa.draw.framework.Figure)>(temp$10);
+        'to' = temp$11;
+        temp$12 = 'to'.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$13 = 'from'.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$14 = temp$12 - temp$13;
+        vx = temp$14;
+        temp$15 = 'to'.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$16 = 'from'.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$17 = temp$15 - temp$16;
+        vy = temp$17;
+        temp$18 = vx * vx;
+        temp$19 = temp$18;
+        temp$20 = vy * vy;
+        temp$21 = temp$19 + temp$20;
+        temp$22 = staticinvoke <java.lang.Math: double sqrt(double)>(temp$21);
+        len = temp$22;
+        temp$23 = len cmpl 0.0;
+        if temp$23 <= 0 goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$24 = targetlen - len;
+        temp$25 = this.<CH.ifa.draw.util.GraphLayout: double SPRING_STRENGTH>;
+        temp$26 = temp$25 * temp$24;
+        temp$27 = temp$26 / len;
+        f = temp$27;
+        temp$28 = f * vx;
+        dx = temp$28;
+        temp$29 = f * vy;
+        dy = temp$29;
+        temp$30 = staticinvoke <java.lang.Math: double atan2(double,double)>(vx, vy);
+        phi = temp$30;
+        temp$31 = 4.0 * phi;
+        temp$32 = staticinvoke <java.lang.Math: double sin(double)>(temp$31);
+        dir = neg temp$32;
+        temp$33 = dx;
+        temp$34 = this.<CH.ifa.draw.util.GraphLayout: double TORQUE_STRENGTH>;
+        temp$35 = temp$34 * vy;
+        temp$36 = temp$35 * dir;
+        temp$37 = temp$36 / len;
+        temp$38 = temp$33 + temp$37;
+        dx = temp$38;
+        temp$39 = dy;
+        temp$40 = this.<CH.ifa.draw.util.GraphLayout: double TORQUE_STRENGTH>;
+        temp$41 = neg temp$40;
+        temp$42 = temp$41 * vx;
+        temp$43 = temp$42 * dir;
+        temp$44 = temp$43 / len;
+        temp$45 = temp$39 + temp$44;
+        dy = temp$45;
+        temp$46 = 'to'.<CH.ifa.draw.util.GraphNode: double dx>;
+        temp$47 = temp$46 + dx;
+        'to'.<CH.ifa.draw.util.GraphNode: double dx> = temp$47;
+        temp$48 = 'to'.<CH.ifa.draw.util.GraphNode: double dy>;
+        temp$49 = temp$48 + dy;
+        'to'.<CH.ifa.draw.util.GraphNode: double dy> = temp$49;
+        temp$50 = 'from'.<CH.ifa.draw.util.GraphNode: double dx>;
+        temp$51 = neg dx;
+        temp$52 = temp$50 + temp$51;
+        'from'.<CH.ifa.draw.util.GraphNode: double dx> = temp$52;
+        temp$53 = 'from'.<CH.ifa.draw.util.GraphNode: double dy>;
+        temp$54 = neg dy;
+        temp$55 = temp$53 + temp$54;
+        'from'.<CH.ifa.draw.util.GraphNode: double dy> = temp$55;
+
+     label5:
+        nop;
+        goto label2;
+
+     label6:
+        nop;
+        temp$56 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        temp$57 = virtualinvoke temp$56.<java.util.Hashtable: java.util.Enumeration elements()>();
+        nodeEnum1 = temp$57;
+
+     label7:
+        nop;
+        temp$58 = interfaceinvoke nodeEnum1.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$58 == 0 goto label24;
+
+        goto label8;
+
+     label8:
+        nop;
+        temp$59 = interfaceinvoke nodeEnum1.<java.util.Enumeration: java.lang.Object nextElement()>();
+        n1 = (CH.ifa.draw.util.GraphNode) temp$59;
+        dx = 0.0;
+        dy = 0.0;
+        temp$60 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        temp$61 = virtualinvoke temp$60.<java.util.Hashtable: java.util.Enumeration elements()>();
+        nodeEnum2 = temp$61;
+
+     label9:
+        nop;
+        temp$62 = interfaceinvoke nodeEnum2.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$62 == 0 goto label23;
+
+        goto label10;
+
+     label10:
+        nop;
+        temp$63 = interfaceinvoke nodeEnum2.<java.util.Enumeration: java.lang.Object nextElement()>();
+        n2 = (CH.ifa.draw.util.GraphNode) temp$63;
+        if n1 == n2 goto label11;
+
+        goto label12;
+
+     label11:
+        nop;
+        goto label9;
+
+     label12:
+        nop;
+        temp$64 = n1.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$65 = n2.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$66 = temp$64 - temp$65;
+        vx = temp$66;
+        temp$67 = n1.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$68 = n2.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$69 = temp$67 - temp$68;
+        vy = temp$69;
+        temp$70 = vx * vx;
+        temp$71 = temp$70;
+        temp$72 = vy * vy;
+        lensqr = temp$71 + temp$72;
+        temp$73 = staticinvoke <java.lang.Math: double sqrt(double)>(lensqr);
+        len = temp$73;
+        temp$74 = len cmpg 0.0;
+        if temp$74 != 0 goto label14;
+
+        goto label13;
+
+     label13:
+        nop;
+        temp$75 = dx;
+        temp$76 = staticinvoke <java.lang.Math: double random()>();
+        temp$77 = this.<CH.ifa.draw.util.GraphLayout: double REPULSION_STRENGTH>;
+        temp$78 = temp$77 * temp$76;
+        temp$79 = temp$75 + temp$78;
+        dx = temp$79;
+        temp$80 = dy;
+        temp$81 = staticinvoke <java.lang.Math: double random()>();
+        temp$82 = this.<CH.ifa.draw.util.GraphLayout: double REPULSION_STRENGTH>;
+        temp$83 = temp$82 * temp$81;
+        temp$84 = temp$80 + temp$83;
+        dy = temp$84;
+        goto label22;
+
+     label14:
+        nop;
+        temp$85 = this.<CH.ifa.draw.util.GraphLayout: double REPULSION_LIMIT>;
+        temp$86 = len cmpg temp$85;
+        if temp$86 >= 0 goto label21;
+
+        goto label15;
+
+     label15:
+        nop;
+        temp$87 = this.<CH.ifa.draw.util.GraphLayout: double REPULSION_LIMIT>;
+        temp$88 = vx / temp$87;
+        vx = temp$88;
+        temp$89 = this.<CH.ifa.draw.util.GraphLayout: double REPULSION_LIMIT>;
+        temp$90 = vy / temp$89;
+        vy = temp$90;
+        temp$91 = this.<CH.ifa.draw.util.GraphLayout: double REPULSION_LIMIT>;
+        temp$92 = len / temp$91;
+        len = temp$92;
+        f = 0.0;
+        goto label19;
+
+     label16:
+        nop;
+        temp$93 = 1.0 - len;
+        temp$94 = 0.5 * temp$93;
+        temp$95 = temp$94 / len;
+        f = temp$95;
+        goto label20;
+
+     label17:
+        nop;
+        temp$96 = 1.0 - len;
+        f = temp$96;
+        goto label20;
+
+     label18:
+        nop;
+        temp$97 = 1.0 - len;
+        temp$98 = 2.0 * temp$97;
+        temp$99 = 1.0 - len;
+        temp$100 = temp$98 * temp$99;
+        f = temp$100;
+        goto label20;
+
+        goto label20;
+
+     label19:
+        nop;
+        temp$101 = this.<CH.ifa.draw.util.GraphLayout: int REPULSION_TYPE>;
+        nop;
+        tableswitch(temp$101)
+        {
+            case 0: goto label16;
+            case 1: goto label17;
+            case 2: goto label18;
+            default: goto label20;
+        };
+
+     label20:
+        nop;
+        temp$102 = f;
+        temp$103 = this.<CH.ifa.draw.util.GraphLayout: double REPULSION_STRENGTH>;
+        temp$104 = temp$102 * temp$103;
+        f = temp$104;
+        temp$105 = dx;
+        temp$106 = f * vx;
+        temp$107 = temp$105 + temp$106;
+        dx = temp$107;
+        temp$108 = dy;
+        temp$109 = f * vy;
+        temp$110 = temp$108 + temp$109;
+        dy = temp$110;
+
+     label21:
+        nop;
+
+     label22:
+        nop;
+        goto label9;
+
+     label23:
+        nop;
+        temp$111 = n1.<CH.ifa.draw.util.GraphNode: double dx>;
+        temp$112 = temp$111 + dx;
+        n1.<CH.ifa.draw.util.GraphNode: double dx> = temp$112;
+        temp$113 = n1.<CH.ifa.draw.util.GraphNode: double dy>;
+        temp$114 = temp$113 + dy;
+        n1.<CH.ifa.draw.util.GraphNode: double dy> = temp$114;
+        goto label7;
+
+     label24:
+        nop;
+        temp$115 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        temp$116 = virtualinvoke temp$115.<java.util.Hashtable: java.util.Enumeration keys()>();
+        nodeEnum = temp$116;
+
+     label25:
+        nop;
+        temp$117 = interfaceinvoke nodeEnum.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$117 == 0 goto label33;
+
+        goto label26;
+
+     label26:
+        nop;
+        temp$118 = interfaceinvoke nodeEnum.<java.util.Enumeration: java.lang.Object nextElement()>();
+        node = (CH.ifa.draw.framework.Figure) temp$118;
+        temp$119 = virtualinvoke this.<CH.ifa.draw.util.GraphLayout: CH.ifa.draw.util.GraphNode getGraphNode(CH.ifa.draw.framework.Figure)>(node);
+        n = temp$119;
+        temp$120 = <java.lang.Boolean: java.lang.Boolean TRUE>;
+        temp$121 = interfaceinvoke node.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>("Location");
+        temp$122 = virtualinvoke temp$120.<java.lang.Boolean: boolean equals(java.lang.Object)>(temp$121);
+        if temp$122 == 0 goto label27;
+
+        goto label32;
+
+     label27:
+        nop;
+        temp$123 = n.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$124 = n.<CH.ifa.draw.util.GraphNode: double dx>;
+        temp$125 = staticinvoke <java.lang.Math: double min(double,double)>(5.0, temp$124);
+        temp$126 = staticinvoke <java.lang.Math: double max(double,double)>(-5.0, temp$125);
+        temp$127 = temp$123 + temp$126;
+        n.<CH.ifa.draw.util.GraphNode: double x> = temp$127;
+        temp$128 = n.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$129 = n.<CH.ifa.draw.util.GraphNode: double dy>;
+        temp$130 = staticinvoke <java.lang.Math: double min(double,double)>(5.0, temp$129);
+        temp$131 = staticinvoke <java.lang.Math: double max(double,double)>(-5.0, temp$130);
+        temp$132 = temp$128 + temp$131;
+        n.<CH.ifa.draw.util.GraphNode: double y> = temp$132;
+        temp$133 = interfaceinvoke node.<CH.ifa.draw.framework.Figure: java.awt.Point center()>();
+        c = temp$133;
+        temp$134 = n.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$135 = staticinvoke <java.lang.Math: long round(double)>(temp$134);
+        temp$136 = (int) temp$135;
+        temp$137 = c.<java.awt.Point: int x>;
+        temp$138 = temp$136 - temp$137;
+        temp$139 = n.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$140 = staticinvoke <java.lang.Math: long round(double)>(temp$139);
+        temp$141 = (int) temp$140;
+        temp$142 = c.<java.awt.Point: int y>;
+        temp$143 = temp$141 - temp$142;
+        interfaceinvoke node.<CH.ifa.draw.framework.Figure: void moveBy(int,int)>(temp$138, temp$143);
+        temp$144 = n.<CH.ifa.draw.util.GraphNode: double x>;
+        temp$145 = temp$144 cmpg 0.0;
+        if temp$145 >= 0 goto label29;
+
+        goto label28;
+
+     label28:
+        nop;
+        temp$146 = 0.0;
+        n.<CH.ifa.draw.util.GraphNode: double x> = temp$146;
+
+     label29:
+        nop;
+        temp$147 = n.<CH.ifa.draw.util.GraphNode: double y>;
+        temp$148 = temp$147 cmpg 0.0;
+        if temp$148 >= 0 goto label31;
+
+        goto label30;
+
+     label30:
+        nop;
+        temp$149 = 0.0;
+        n.<CH.ifa.draw.util.GraphNode: double y> = temp$149;
+
+     label31:
+        nop;
+
+     label32:
+        nop;
+        temp$150 = n.<CH.ifa.draw.util.GraphNode: double dx>;
+        temp$151 = this.<CH.ifa.draw.util.GraphLayout: double FRICTION_FACTOR>;
+        temp$152 = temp$150 * temp$151;
+        n.<CH.ifa.draw.util.GraphNode: double dx> = temp$152;
+        temp$153 = n.<CH.ifa.draw.util.GraphNode: double dy>;
+        temp$154 = this.<CH.ifa.draw.util.GraphLayout: double FRICTION_FACTOR>;
+        temp$155 = temp$153 * temp$154;
+        n.<CH.ifa.draw.util.GraphNode: double dy> = temp$155;
+        goto label25;
+
+     label33:
+        nop;
+        return;
+    }
+
+    public synchronized void figureChanged(CH.ifa.draw.framework.FigureChangeEvent)
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        CH.ifa.draw.framework.FigureChangeEvent e;
+        java.util.Hashtable temp$0, temp$2;
+        CH.ifa.draw.framework.Figure node, temp$1;
+        boolean temp$3;
+        CH.ifa.draw.util.GraphNode temp$4;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        e := @parameter0: CH.ifa.draw.framework.FigureChangeEvent;
+        temp$0 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        if temp$0 != null goto label0;
+
+        goto label3;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke e.<CH.ifa.draw.framework.FigureChangeEvent: CH.ifa.draw.framework.Figure getFigure()>();
+        node = temp$1;
+        temp$2 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        temp$3 = virtualinvoke temp$2.<java.util.Hashtable: boolean containsKey(java.lang.Object)>(node);
+        if temp$3 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.util.GraphLayout: CH.ifa.draw.util.GraphNode getGraphNode(CH.ifa.draw.framework.Figure)>(node);
+        virtualinvoke temp$4.<CH.ifa.draw.util.GraphNode: void update()>();
+
+     label2:
+        nop;
+
+     label3:
+        nop;
+        return;
+    }
+
+    public void remove()
+    {
+        CH.ifa.draw.util.GraphLayout this;
+        java.util.Hashtable temp$0, temp$1, temp$5, temp$6;
+        java.util.Enumeration nodeEnum, temp$2;
+        boolean temp$3;
+        CH.ifa.draw.framework.Figure node;
+        java.lang.Object temp$4;
+
+        this := @this: CH.ifa.draw.util.GraphLayout;
+        temp$0 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        if temp$0 != null goto label0;
+
+        goto label4;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes>;
+        temp$2 = virtualinvoke temp$1.<java.util.Hashtable: java.util.Enumeration keys()>();
+        nodeEnum = temp$2;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke nodeEnum.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$4 = interfaceinvoke nodeEnum.<java.util.Enumeration: java.lang.Object nextElement()>();
+        node = (CH.ifa.draw.framework.Figure) temp$4;
+        interfaceinvoke node.<CH.ifa.draw.framework.Figure: void removeFigureChangeListener(CH.ifa.draw.framework.FigureChangeListener)>(this);
+        goto label1;
+
+     label3:
+        nop;
+        temp$5 = null;
+        this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable nodes> = temp$5;
+        temp$6 = null;
+        this.<CH.ifa.draw.util.GraphLayout: java.util.Hashtable edges> = temp$6;
+
+     label4:
+        nop;
+        return;
+    }
+}

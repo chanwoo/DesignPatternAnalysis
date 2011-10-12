@@ -1,0 +1,227 @@
+public class CH.ifa.draw.util.UndoableAdapter extends java.lang.Object implements CH.ifa.draw.util.Undoable
+{
+    private java.util.Vector myAffectedFigures;
+    private int myAffectedFiguresCount;
+    private boolean myIsUndoable;
+    private boolean myIsRedoable;
+    private CH.ifa.draw.framework.DrawingView myDrawingView;
+
+    public void <init>(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: void setDrawingView(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        boolean temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean isUndoable()>();
+        return temp$0;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        boolean temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean isRedoable()>();
+        return temp$0;
+    }
+
+    public boolean isUndoable()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        boolean temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = this.<CH.ifa.draw.util.UndoableAdapter: boolean myIsUndoable>;
+        return temp$0;
+    }
+
+    public void setUndoable(boolean)
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        boolean newIsUndoable;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        newIsUndoable := @parameter0: boolean;
+        this.<CH.ifa.draw.util.UndoableAdapter: boolean myIsUndoable> = newIsUndoable;
+        return;
+    }
+
+    public boolean isRedoable()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        boolean temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = this.<CH.ifa.draw.util.UndoableAdapter: boolean myIsRedoable>;
+        return temp$0;
+    }
+
+    public void setRedoable(boolean)
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        boolean newIsRedoable;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        newIsRedoable := @parameter0: boolean;
+        this.<CH.ifa.draw.util.UndoableAdapter: boolean myIsRedoable> = newIsRedoable;
+        return;
+    }
+
+    public void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.framework.FigureEnumeration newAffectedFigures;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        newAffectedFigures := @parameter0: CH.ifa.draw.framework.FigureEnumeration;
+        virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: void rememberFigures(CH.ifa.draw.framework.FigureEnumeration)>(newAffectedFigures);
+        return;
+    }
+
+    public CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.standard.FigureEnumerator temp$0;
+        java.util.Vector temp$1, temp$3;
+        java.lang.Object temp$2;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = new CH.ifa.draw.standard.FigureEnumerator;
+        temp$1 = this.<CH.ifa.draw.util.UndoableAdapter: java.util.Vector myAffectedFigures>;
+        temp$2 = virtualinvoke temp$1.<java.util.Vector: java.lang.Object clone()>();
+        temp$3 = (java.util.Vector) temp$2;
+        specialinvoke temp$0.<CH.ifa.draw.standard.FigureEnumerator: void <init>(java.util.Vector)>(temp$3);
+        return temp$0;
+    }
+
+    public int getAffectedFiguresCount()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = this.<CH.ifa.draw.util.UndoableAdapter: int myAffectedFiguresCount>;
+        return temp$0;
+    }
+
+    protected void rememberFigures(CH.ifa.draw.framework.FigureEnumeration)
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.framework.FigureEnumeration toBeRemembered;
+        java.util.Vector temp$0, temp$3;
+        int temp$1, temp$5, temp$6;
+        boolean temp$2;
+        java.lang.Object temp$4;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        toBeRemembered := @parameter0: CH.ifa.draw.framework.FigureEnumeration;
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>()>();
+        this.<CH.ifa.draw.util.UndoableAdapter: java.util.Vector myAffectedFigures> = temp$0;
+        temp$1 = 0;
+        this.<CH.ifa.draw.util.UndoableAdapter: int myAffectedFiguresCount> = temp$1;
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke toBeRemembered.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = this.<CH.ifa.draw.util.UndoableAdapter: java.util.Vector myAffectedFigures>;
+        temp$4 = interfaceinvoke toBeRemembered.<CH.ifa.draw.framework.FigureEnumeration: java.lang.Object nextElement()>();
+        virtualinvoke temp$3.<java.util.Vector: void addElement(java.lang.Object)>(temp$4);
+        temp$5 = this.<CH.ifa.draw.util.UndoableAdapter: int myAffectedFiguresCount>;
+        temp$6 = temp$5 + 1;
+        this.<CH.ifa.draw.util.UndoableAdapter: int myAffectedFiguresCount> = temp$6;
+        goto label0;
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void release()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$0, temp$4;
+        boolean temp$1;
+        CH.ifa.draw.framework.Figure temp$2;
+        int temp$3;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$0;
+
+     label0:
+        nop;
+        temp$1 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$2 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.Figure: void release()>();
+        goto label0;
+
+     label2:
+        nop;
+        temp$3 = 0;
+        this.<CH.ifa.draw.util.UndoableAdapter: int myAffectedFiguresCount> = temp$3;
+        temp$4 = staticinvoke <CH.ifa.draw.standard.FigureEnumerator: CH.ifa.draw.framework.FigureEnumeration getEmptyEnumeration()>();
+        virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$4);
+        return;
+    }
+
+    protected void duplicateAffectedFigures()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.framework.FigureEnumeration temp$0, temp$2;
+        int temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: int getAffectedFiguresCount()>();
+        temp$2 = staticinvoke <CH.ifa.draw.standard.StandardFigureSelection: CH.ifa.draw.framework.FigureEnumeration duplicateFigures(CH.ifa.draw.framework.FigureEnumeration,int)>(temp$0, temp$1);
+        virtualinvoke this.<CH.ifa.draw.util.UndoableAdapter: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$2);
+        return;
+    }
+
+    public CH.ifa.draw.framework.DrawingView getDrawingView()
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        temp$0 = this.<CH.ifa.draw.util.UndoableAdapter: CH.ifa.draw.framework.DrawingView myDrawingView>;
+        return temp$0;
+    }
+
+    protected void setDrawingView(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.util.UndoableAdapter this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+
+        this := @this: CH.ifa.draw.util.UndoableAdapter;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        this.<CH.ifa.draw.util.UndoableAdapter: CH.ifa.draw.framework.DrawingView myDrawingView> = newDrawingView;
+        return;
+    }
+}

@@ -1,0 +1,19 @@
+public interface  CH.ifa.draw.util.Command extends java.lang.Object
+{
+
+    public abstract void execute();
+
+    public abstract boolean isExecutable();
+
+    public abstract java.lang.String name();
+
+    public abstract CH.ifa.draw.framework.DrawingEditor getDrawingEditor();
+
+    public abstract CH.ifa.draw.util.Undoable getUndoActivity();
+
+    public abstract void setUndoActivity(CH.ifa.draw.util.Undoable);
+
+    public abstract void addCommandListener(CH.ifa.draw.util.CommandListener);
+
+    public abstract void removeCommandListener(CH.ifa.draw.util.CommandListener);
+}

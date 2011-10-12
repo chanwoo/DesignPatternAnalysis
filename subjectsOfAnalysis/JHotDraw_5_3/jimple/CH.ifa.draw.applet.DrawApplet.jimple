@@ -1,0 +1,1328 @@
+public class CH.ifa.draw.applet.DrawApplet extends javax.swing.JApplet implements CH.ifa.draw.framework.DrawingEditor, CH.ifa.draw.util.PaletteListener, CH.ifa.draw.util.VersionRequester
+{
+    private CH.ifa.draw.framework.Drawing fDrawing;
+    private CH.ifa.draw.framework.Tool fTool;
+    private CH.ifa.draw.framework.DrawingView fView;
+    private CH.ifa.draw.standard.ToolButton fDefaultToolButton;
+    private CH.ifa.draw.standard.ToolButton fSelectedToolButton;
+    private boolean fSimpleUpdate;
+    private javax.swing.JButton fUpdateButton;
+    private javax.swing.JComboBox fFrameColor;
+    private javax.swing.JComboBox fFillColor;
+    private javax.swing.JComboBox fTextColor;
+    private javax.swing.JComboBox fArrowChoice;
+    private javax.swing.JComboBox fFontChoice;
+    private java.lang.Thread fSleeper;
+    private CH.ifa.draw.util.Iconkit fIconkit;
+    private CH.ifa.draw.util.UndoManager myUndoManager;
+    static java.lang.String fgUntitled;
+    private static final java.lang.String fgDrawPath;
+    public static final java.lang.String IMAGES;
+    public static java.lang.Class class$CH$ifa$draw$applet$DrawApplet;
+
+    static void <clinit>()
+    {
+        java.lang.String temp$0, temp$1, temp$2;
+
+        temp$0 = "untitled";
+        <CH.ifa.draw.applet.DrawApplet: java.lang.String fgUntitled> = temp$0;
+        temp$1 = "/CH/ifa/draw/";
+        <CH.ifa.draw.applet.DrawApplet: java.lang.String fgDrawPath> = temp$1;
+        temp$2 = "/CH/ifa/draw/images/";
+        <CH.ifa.draw.applet.DrawApplet: java.lang.String IMAGES> = temp$2;
+        return;
+    }
+
+    public void init()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.util.VersionControlStrategy temp$0;
+        CH.ifa.draw.util.UndoManager temp$1;
+        CH.ifa.draw.util.Iconkit temp$2;
+        java.awt.Container temp$3, temp$7, temp$10, temp$12, temp$17;
+        java.awt.BorderLayout temp$4;
+        CH.ifa.draw.framework.DrawingView temp$5, temp$13;
+        javax.swing.JPanel attributes, temp$6, toolPanel, temp$9, buttonPalette, temp$16;
+        java.awt.Component temp$8, temp$11, temp$14, temp$15, temp$18;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.util.VersionControlStrategy getVersionControlStrategy()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.util.VersionControlStrategy: void assertCompatibleVersion()>();
+        temp$1 = new CH.ifa.draw.util.UndoManager;
+        specialinvoke temp$1.<CH.ifa.draw.util.UndoManager: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void setUndoManager(CH.ifa.draw.util.UndoManager)>(temp$1);
+        temp$2 = new CH.ifa.draw.util.Iconkit;
+        specialinvoke temp$2.<CH.ifa.draw.util.Iconkit: void <init>(java.awt.Component)>(this);
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.util.Iconkit fIconkit> = temp$2;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.awt.Container getContentPane()>();
+        temp$4 = new java.awt.BorderLayout;
+        specialinvoke temp$4.<java.awt.BorderLayout: void <init>()>();
+        virtualinvoke temp$3.<java.awt.Container: void setLayout(java.awt.LayoutManager)>(temp$4);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView createDrawingView()>();
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView fView> = temp$5;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JPanel createAttributesPanel()>();
+        attributes = temp$6;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void createAttributeChoices(javax.swing.JPanel)>(attributes);
+        temp$7 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.awt.Container getContentPane()>();
+        temp$8 = virtualinvoke temp$7.<java.awt.Container: java.awt.Component add(java.lang.String,java.awt.Component)>("North", attributes);
+        temp$9 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JPanel createToolPalette()>();
+        toolPanel = temp$9;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void createTools(javax.swing.JPanel)>(toolPanel);
+        temp$10 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.awt.Container getContentPane()>();
+        temp$11 = virtualinvoke temp$10.<java.awt.Container: java.awt.Component add(java.lang.String,java.awt.Component)>("West", toolPanel);
+        temp$12 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.awt.Container getContentPane()>();
+        temp$13 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$14 = (java.awt.Component) temp$13;
+        temp$15 = virtualinvoke temp$12.<java.awt.Container: java.awt.Component add(java.lang.String,java.awt.Component)>("Center", temp$14);
+        temp$16 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JPanel createButtonPanel()>();
+        buttonPalette = temp$16;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void createButtons(javax.swing.JPanel)>(buttonPalette);
+        temp$17 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.awt.Container getContentPane()>();
+        temp$18 = virtualinvoke temp$17.<java.awt.Container: java.awt.Component add(java.lang.String,java.awt.Component)>("South", buttonPalette);
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void initDrawing()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void setupAttributes()>();
+        return;
+    }
+
+    public void addViewChangeListener(CH.ifa.draw.framework.ViewChangeListener)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.ViewChangeListener vsl;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        vsl := @parameter0: CH.ifa.draw.framework.ViewChangeListener;
+        return;
+    }
+
+    public void removeViewChangeListener(CH.ifa.draw.framework.ViewChangeListener)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.ViewChangeListener vsl;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        vsl := @parameter0: CH.ifa.draw.framework.ViewChangeListener;
+        return;
+    }
+
+    protected javax.swing.JPanel createAttributesPanel()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        javax.swing.JPanel panel, temp$0;
+        CH.ifa.draw.util.PaletteLayout temp$1;
+        java.awt.Point temp$2;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new javax.swing.JPanel;
+        specialinvoke temp$0.<javax.swing.JPanel: void <init>()>();
+        panel = temp$0;
+        temp$1 = new CH.ifa.draw.util.PaletteLayout;
+        temp$2 = new java.awt.Point;
+        specialinvoke temp$2.<java.awt.Point: void <init>(int,int)>(2, 2);
+        specialinvoke temp$1.<CH.ifa.draw.util.PaletteLayout: void <init>(int,java.awt.Point,boolean)>(2, temp$2, 0);
+        virtualinvoke panel.<javax.swing.JPanel: void setLayout(java.awt.LayoutManager)>(temp$1);
+        return panel;
+    }
+
+    protected void createAttributeChoices(javax.swing.JPanel)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        javax.swing.JPanel panel;
+        javax.swing.JLabel temp$0, temp$5, temp$10, temp$15, temp$28;
+        java.awt.Component temp$1, temp$4, temp$6, temp$9, temp$11, temp$14, temp$16, temp$27, temp$29, temp$32;
+        javax.swing.JComboBox temp$2, temp$3, temp$7, temp$8, temp$12, temp$13, temp$26, temp$30, temp$31;
+        CH.ifa.draw.util.CommandChoice choice, temp$17;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$18, temp$20, temp$22, temp$24;
+        java.lang.Integer temp$19, temp$21, temp$23, temp$25;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        panel := @parameter0: javax.swing.JPanel;
+        temp$0 = new javax.swing.JLabel;
+        specialinvoke temp$0.<javax.swing.JLabel: void <init>(java.lang.String)>("Fill");
+        temp$1 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$0);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox createColorChoice(java.lang.String)>("FillColor");
+        this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFillColor> = temp$2;
+        temp$3 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFillColor>;
+        temp$4 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$3);
+        temp$5 = new javax.swing.JLabel;
+        specialinvoke temp$5.<javax.swing.JLabel: void <init>(java.lang.String)>("Text");
+        temp$6 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$5);
+        temp$7 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox createColorChoice(java.lang.String)>("TextColor");
+        this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fTextColor> = temp$7;
+        temp$8 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fTextColor>;
+        temp$9 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$8);
+        temp$10 = new javax.swing.JLabel;
+        specialinvoke temp$10.<javax.swing.JLabel: void <init>(java.lang.String)>("Pen");
+        temp$11 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$10);
+        temp$12 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox createColorChoice(java.lang.String)>("FrameColor");
+        this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFrameColor> = temp$12;
+        temp$13 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFrameColor>;
+        temp$14 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$13);
+        temp$15 = new javax.swing.JLabel;
+        specialinvoke temp$15.<javax.swing.JLabel: void <init>(java.lang.String)>("Arrow");
+        temp$16 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$15);
+        temp$17 = new CH.ifa.draw.util.CommandChoice;
+        specialinvoke temp$17.<CH.ifa.draw.util.CommandChoice: void <init>()>();
+        choice = temp$17;
+        this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fArrowChoice> = choice;
+        temp$18 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$19 = new java.lang.Integer;
+        specialinvoke temp$19.<java.lang.Integer: void <init>(int)>(0);
+        specialinvoke temp$18.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("none", "ArrowMode", temp$19, this);
+        virtualinvoke choice.<CH.ifa.draw.util.CommandChoice: void addItem(CH.ifa.draw.util.Command)>(temp$18);
+        temp$20 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$21 = new java.lang.Integer;
+        specialinvoke temp$21.<java.lang.Integer: void <init>(int)>(1);
+        specialinvoke temp$20.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("at Start", "ArrowMode", temp$21, this);
+        virtualinvoke choice.<CH.ifa.draw.util.CommandChoice: void addItem(CH.ifa.draw.util.Command)>(temp$20);
+        temp$22 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$23 = new java.lang.Integer;
+        specialinvoke temp$23.<java.lang.Integer: void <init>(int)>(2);
+        specialinvoke temp$22.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("at End", "ArrowMode", temp$23, this);
+        virtualinvoke choice.<CH.ifa.draw.util.CommandChoice: void addItem(CH.ifa.draw.util.Command)>(temp$22);
+        temp$24 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$25 = new java.lang.Integer;
+        specialinvoke temp$25.<java.lang.Integer: void <init>(int)>(3);
+        specialinvoke temp$24.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("at Both", "ArrowMode", temp$25, this);
+        virtualinvoke choice.<CH.ifa.draw.util.CommandChoice: void addItem(CH.ifa.draw.util.Command)>(temp$24);
+        temp$26 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fArrowChoice>;
+        temp$27 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$26);
+        temp$28 = new javax.swing.JLabel;
+        specialinvoke temp$28.<javax.swing.JLabel: void <init>(java.lang.String)>("Font");
+        temp$29 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$28);
+        temp$30 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox createFontChoice()>();
+        this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFontChoice> = temp$30;
+        temp$31 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFontChoice>;
+        temp$32 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$31);
+        return;
+    }
+
+    protected javax.swing.JComboBox createColorChoice(java.lang.String)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String attribute, temp$3;
+        CH.ifa.draw.util.CommandChoice choice, temp$0;
+        int i, temp$1, temp$5, temp$6;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$2;
+        java.awt.Color temp$4;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        attribute := @parameter0: java.lang.String;
+        temp$0 = new CH.ifa.draw.util.CommandChoice;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandChoice: void <init>()>();
+        choice = temp$0;
+        i = 0;
+
+     label0:
+        nop;
+        temp$1 = staticinvoke <CH.ifa.draw.util.ColorMap: int size()>();
+        if i < temp$1 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$3 = staticinvoke <CH.ifa.draw.util.ColorMap: java.lang.String name(int)>(i);
+        temp$4 = staticinvoke <CH.ifa.draw.util.ColorMap: java.awt.Color color(int)>(i);
+        specialinvoke temp$2.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>(temp$3, attribute, temp$4, this);
+        virtualinvoke choice.<CH.ifa.draw.util.CommandChoice: void addItem(CH.ifa.draw.util.Command)>(temp$2);
+        nop;
+        temp$5 = i;
+        temp$6 = temp$5 + 1;
+        i = temp$6;
+        goto label0;
+
+     label2:
+        nop;
+        return choice;
+    }
+
+    protected javax.swing.JComboBox createFontChoice()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.util.CommandChoice choice, temp$0;
+        java.lang.String[] fonts, temp$2, temp$5, temp$8;
+        java.awt.Toolkit temp$1;
+        int i, temp$3, temp$6, temp$9, temp$11, temp$12;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$4;
+        java.lang.String temp$7, temp$10;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new CH.ifa.draw.util.CommandChoice;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandChoice: void <init>()>();
+        choice = temp$0;
+        temp$1 = staticinvoke <java.awt.Toolkit: java.awt.Toolkit getDefaultToolkit()>();
+        temp$2 = virtualinvoke temp$1.<java.awt.Toolkit: java.lang.String[] getFontList()>();
+        fonts = temp$2;
+        i = 0;
+
+     label0:
+        nop;
+        temp$3 = lengthof fonts;
+        if i < temp$3 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$4 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$5 = fonts;
+        temp$6 = i;
+        temp$7 = temp$5[temp$6];
+        temp$8 = fonts;
+        temp$9 = i;
+        temp$10 = temp$8[temp$9];
+        specialinvoke temp$4.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>(temp$7, "FontName", temp$10, this);
+        virtualinvoke choice.<CH.ifa.draw.util.CommandChoice: void addItem(CH.ifa.draw.util.Command)>(temp$4);
+        nop;
+        temp$11 = i;
+        temp$12 = temp$11 + 1;
+        i = temp$12;
+        goto label0;
+
+     label2:
+        nop;
+        return choice;
+    }
+
+    protected javax.swing.JPanel createButtonPanel()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        javax.swing.JPanel panel, temp$0;
+        CH.ifa.draw.util.PaletteLayout temp$1;
+        java.awt.Point temp$2;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new javax.swing.JPanel;
+        specialinvoke temp$0.<javax.swing.JPanel: void <init>()>();
+        panel = temp$0;
+        temp$1 = new CH.ifa.draw.util.PaletteLayout;
+        temp$2 = new java.awt.Point;
+        specialinvoke temp$2.<java.awt.Point: void <init>(int,int)>(2, 2);
+        specialinvoke temp$1.<CH.ifa.draw.util.PaletteLayout: void <init>(int,java.awt.Point,boolean)>(2, temp$2, 0);
+        virtualinvoke panel.<javax.swing.JPanel: void setLayout(java.awt.LayoutManager)>(temp$1);
+        return panel;
+    }
+
+    protected void createButtons(javax.swing.JPanel)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        javax.swing.JPanel panel;
+        CH.ifa.draw.util.Filler temp$0, temp$15;
+        java.awt.Component temp$1, temp$10, temp$13, temp$16, temp$19, temp$22, temp$25, temp$28, temp$31;
+        javax.swing.JComboBox drawingChoice, temp$2;
+        java.lang.String temp$3, param, temp$4, temp$5, temp$8, temp$12;
+        java.util.StringTokenizer st, temp$6;
+        boolean temp$7;
+        int temp$9;
+        javax.swing.JLabel temp$11;
+        CH.ifa.draw.applet.DrawApplet$1Anonymous0 temp$14;
+        javax.swing.JButton button, temp$29, temp$32, temp$33;
+        CH.ifa.draw.util.CommandButton temp$17, temp$20, temp$23, temp$26;
+        CH.ifa.draw.standard.DeleteCommand temp$18;
+        CH.ifa.draw.standard.DuplicateCommand temp$21;
+        CH.ifa.draw.figures.GroupCommand temp$24;
+        CH.ifa.draw.figures.UngroupCommand temp$27;
+        CH.ifa.draw.applet.DrawApplet$2Anonymous1 temp$30;
+        CH.ifa.draw.applet.DrawApplet$3Anonymous2 temp$34;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        panel := @parameter0: javax.swing.JPanel;
+        temp$0 = new CH.ifa.draw.util.Filler;
+        specialinvoke temp$0.<CH.ifa.draw.util.Filler: void <init>(int,int)>(24, 20);
+        temp$1 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$0);
+        temp$2 = new javax.swing.JComboBox;
+        specialinvoke temp$2.<javax.swing.JComboBox: void <init>()>();
+        drawingChoice = temp$2;
+        temp$3 = <CH.ifa.draw.applet.DrawApplet: java.lang.String fgUntitled>;
+        virtualinvoke drawingChoice.<javax.swing.JComboBox: void addItem(java.lang.Object)>(temp$3);
+        temp$4 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.lang.String getParameter(java.lang.String)>("DRAWINGS");
+        param = temp$4;
+        if param == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$5 = "";
+        param = temp$5;
+
+     label1:
+        nop;
+        temp$6 = new java.util.StringTokenizer;
+        specialinvoke temp$6.<java.util.StringTokenizer: void <init>(java.lang.String)>(param);
+        st = temp$6;
+
+     label2:
+        nop;
+        temp$7 = virtualinvoke st.<java.util.StringTokenizer: boolean hasMoreTokens()>();
+        if temp$7 == 0 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$8 = virtualinvoke st.<java.util.StringTokenizer: java.lang.String nextToken()>();
+        virtualinvoke drawingChoice.<javax.swing.JComboBox: void addItem(java.lang.Object)>(temp$8);
+        goto label2;
+
+     label4:
+        nop;
+        temp$9 = virtualinvoke drawingChoice.<javax.swing.JComboBox: int getItemCount()>();
+        if temp$9 > 1 goto label5;
+
+        goto label6;
+
+     label5:
+        nop;
+        temp$10 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(drawingChoice);
+        goto label7;
+
+     label6:
+        nop;
+        temp$11 = new javax.swing.JLabel;
+        temp$12 = <CH.ifa.draw.applet.DrawApplet: java.lang.String fgUntitled>;
+        specialinvoke temp$11.<javax.swing.JLabel: void <init>(java.lang.String)>(temp$12);
+        temp$13 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$11);
+
+     label7:
+        nop;
+        temp$14 = new CH.ifa.draw.applet.DrawApplet$1Anonymous0;
+        specialinvoke temp$14.<CH.ifa.draw.applet.DrawApplet$1Anonymous0: void <init>(CH.ifa.draw.applet.DrawApplet)>(this);
+        virtualinvoke drawingChoice.<javax.swing.JComboBox: void addItemListener(java.awt.event.ItemListener)>(temp$14);
+        temp$15 = new CH.ifa.draw.util.Filler;
+        specialinvoke temp$15.<CH.ifa.draw.util.Filler: void <init>(int,int)>(6, 20);
+        temp$16 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$15);
+        temp$17 = new CH.ifa.draw.util.CommandButton;
+        temp$18 = new CH.ifa.draw.standard.DeleteCommand;
+        specialinvoke temp$18.<CH.ifa.draw.standard.DeleteCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Delete", this);
+        specialinvoke temp$17.<CH.ifa.draw.util.CommandButton: void <init>(CH.ifa.draw.util.Command)>(temp$18);
+        button = temp$17;
+        temp$19 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(button);
+        temp$20 = new CH.ifa.draw.util.CommandButton;
+        temp$21 = new CH.ifa.draw.standard.DuplicateCommand;
+        specialinvoke temp$21.<CH.ifa.draw.standard.DuplicateCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Duplicate", this);
+        specialinvoke temp$20.<CH.ifa.draw.util.CommandButton: void <init>(CH.ifa.draw.util.Command)>(temp$21);
+        button = temp$20;
+        temp$22 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(button);
+        temp$23 = new CH.ifa.draw.util.CommandButton;
+        temp$24 = new CH.ifa.draw.figures.GroupCommand;
+        specialinvoke temp$24.<CH.ifa.draw.figures.GroupCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Group", this);
+        specialinvoke temp$23.<CH.ifa.draw.util.CommandButton: void <init>(CH.ifa.draw.util.Command)>(temp$24);
+        button = temp$23;
+        temp$25 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(button);
+        temp$26 = new CH.ifa.draw.util.CommandButton;
+        temp$27 = new CH.ifa.draw.figures.UngroupCommand;
+        specialinvoke temp$27.<CH.ifa.draw.figures.UngroupCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Ungroup", this);
+        specialinvoke temp$26.<CH.ifa.draw.util.CommandButton: void <init>(CH.ifa.draw.util.Command)>(temp$27);
+        button = temp$26;
+        temp$28 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(button);
+        temp$29 = new javax.swing.JButton;
+        specialinvoke temp$29.<javax.swing.JButton: void <init>(java.lang.String)>("Help");
+        button = temp$29;
+        temp$30 = new CH.ifa.draw.applet.DrawApplet$2Anonymous1;
+        specialinvoke temp$30.<CH.ifa.draw.applet.DrawApplet$2Anonymous1: void <init>(CH.ifa.draw.applet.DrawApplet)>(this);
+        virtualinvoke button.<javax.swing.JButton: void addActionListener(java.awt.event.ActionListener)>(temp$30);
+        temp$31 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(button);
+        temp$32 = new javax.swing.JButton;
+        specialinvoke temp$32.<javax.swing.JButton: void <init>(java.lang.String)>("Simple Update");
+        this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JButton fUpdateButton> = temp$32;
+        temp$33 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JButton fUpdateButton>;
+        temp$34 = new CH.ifa.draw.applet.DrawApplet$3Anonymous2;
+        specialinvoke temp$34.<CH.ifa.draw.applet.DrawApplet$3Anonymous2: void <init>(CH.ifa.draw.applet.DrawApplet)>(this);
+        virtualinvoke temp$33.<javax.swing.JButton: void addActionListener(java.awt.event.ActionListener)>(temp$34);
+        return;
+    }
+
+    protected javax.swing.JPanel createToolPalette()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        javax.swing.JPanel palette, temp$0;
+        CH.ifa.draw.util.PaletteLayout temp$1;
+        java.awt.Point temp$2;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new javax.swing.JPanel;
+        specialinvoke temp$0.<javax.swing.JPanel: void <init>()>();
+        palette = temp$0;
+        temp$1 = new CH.ifa.draw.util.PaletteLayout;
+        temp$2 = new java.awt.Point;
+        specialinvoke temp$2.<java.awt.Point: void <init>(int,int)>(2, 2);
+        specialinvoke temp$1.<CH.ifa.draw.util.PaletteLayout: void <init>(int,java.awt.Point)>(2, temp$2);
+        virtualinvoke palette.<javax.swing.JPanel: void setLayout(java.awt.LayoutManager)>(temp$1);
+        return palette;
+    }
+
+    protected void createTools(javax.swing.JPanel)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        javax.swing.JPanel palette;
+        CH.ifa.draw.framework.Tool tool, temp$0;
+        CH.ifa.draw.standard.ToolButton temp$1, temp$2;
+        java.awt.Component temp$3;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        palette := @parameter0: javax.swing.JPanel;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Tool createSelectionTool()>();
+        tool = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/SEL", "Selection Tool", tool);
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fDefaultToolButton> = temp$1;
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        temp$3 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$2);
+        return;
+    }
+
+    protected CH.ifa.draw.framework.Tool createSelectionTool()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.standard.SelectionTool temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new CH.ifa.draw.standard.SelectionTool;
+        specialinvoke temp$0.<CH.ifa.draw.standard.SelectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String, java.lang.String, CH.ifa.draw.framework.Tool)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String iconName, toolName;
+        CH.ifa.draw.framework.Tool tool;
+        CH.ifa.draw.standard.ToolButton temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        iconName := @parameter0: java.lang.String;
+        toolName := @parameter1: java.lang.String;
+        tool := @parameter2: CH.ifa.draw.framework.Tool;
+        temp$0 = new CH.ifa.draw.standard.ToolButton;
+        specialinvoke temp$0.<CH.ifa.draw.standard.ToolButton: void <init>(CH.ifa.draw.util.PaletteListener,java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>(this, iconName, toolName, tool);
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.framework.Drawing createDrawing()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.standard.StandardDrawing temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new CH.ifa.draw.standard.StandardDrawing;
+        specialinvoke temp$0.<CH.ifa.draw.standard.StandardDrawing: void <init>()>();
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.framework.DrawingView createDrawingView()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.standard.StandardDrawingView temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new CH.ifa.draw.standard.StandardDrawingView;
+        specialinvoke temp$0.<CH.ifa.draw.standard.StandardDrawingView: void <init>(CH.ifa.draw.framework.DrawingEditor,int,int)>(this, 410, 370);
+        return temp$0;
+    }
+
+    public void paletteUserSelected(CH.ifa.draw.util.PaletteButton)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.util.PaletteButton button;
+        CH.ifa.draw.standard.ToolButton toolButton;
+        CH.ifa.draw.framework.Tool temp$0;
+        java.lang.String temp$1;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        button := @parameter0: CH.ifa.draw.util.PaletteButton;
+        toolButton = (CH.ifa.draw.standard.ToolButton) button;
+        temp$0 = virtualinvoke toolButton.<CH.ifa.draw.standard.ToolButton: CH.ifa.draw.framework.Tool tool()>();
+        temp$1 = virtualinvoke toolButton.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void setTool(CH.ifa.draw.framework.Tool,java.lang.String)>(temp$0, temp$1);
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void setSelected(CH.ifa.draw.standard.ToolButton)>(toolButton);
+        return;
+    }
+
+    public void paletteUserOver(CH.ifa.draw.util.PaletteButton, boolean)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.util.PaletteButton button;
+        boolean inside;
+        CH.ifa.draw.standard.ToolButton temp$0, temp$2;
+        java.lang.String temp$1, temp$3;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        button := @parameter0: CH.ifa.draw.util.PaletteButton;
+        inside := @parameter1: boolean;
+        if inside == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$0 = (CH.ifa.draw.standard.ToolButton) button;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>(temp$1);
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        temp$3 = virtualinvoke temp$2.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>(temp$3);
+
+     label2:
+        nop;
+        return;
+    }
+
+    public CH.ifa.draw.framework.Drawing drawing()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.Drawing temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing>;
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.Tool tool()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.Tool temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Tool fTool>;
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.DrawingView view()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView fView>;
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.DrawingView[] views()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.DrawingView[] temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = newarray (CH.ifa.draw.framework.DrawingView)[1];
+        temp$1 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$0[0] = temp$1;
+        return temp$0;
+    }
+
+    public void toolDone()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.standard.ToolButton temp$0, temp$2, temp$4;
+        CH.ifa.draw.framework.Tool temp$1;
+        java.lang.String temp$3;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.standard.ToolButton: CH.ifa.draw.framework.Tool tool()>();
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        temp$3 = virtualinvoke temp$2.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void setTool(CH.ifa.draw.framework.Tool,java.lang.String)>(temp$1, temp$3);
+        temp$4 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void setSelected(CH.ifa.draw.standard.ToolButton)>(temp$4);
+        return;
+    }
+
+    public void figureSelectionChanged(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.DrawingView view;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void setupAttributes()>();
+        return;
+    }
+
+    public void viewSelectionChanged(CH.ifa.draw.framework.DrawingView, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.DrawingView oldView, newView;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        oldView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        newView := @parameter1: CH.ifa.draw.framework.DrawingView;
+        return;
+    }
+
+    private final void initDrawing()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.Drawing temp$0, temp$2;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing createDrawing()>();
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing> = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing>;
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(temp$2);
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void toolDone()>();
+        return;
+    }
+
+    private final void setTool(CH.ifa.draw.framework.Tool, java.lang.String)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.Tool t, temp$0, temp$1, temp$2, temp$3;
+        java.lang.String name;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        t := @parameter0: CH.ifa.draw.framework.Tool;
+        name := @parameter1: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Tool fTool>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Tool fTool>;
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.Tool: void deactivate()>();
+
+     label1:
+        nop;
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Tool fTool> = t;
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Tool fTool>;
+        if temp$2 != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>(name);
+        temp$3 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Tool fTool>;
+        interfaceinvoke temp$3.<CH.ifa.draw.framework.Tool: void activate()>();
+
+     label3:
+        nop;
+        return;
+    }
+
+    private final void setSelected(CH.ifa.draw.standard.ToolButton)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.standard.ToolButton button, temp$0, temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        button := @parameter0: CH.ifa.draw.standard.ToolButton;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        virtualinvoke temp$1.<CH.ifa.draw.standard.ToolButton: void reset()>();
+
+     label1:
+        nop;
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fSelectedToolButton> = button;
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        if temp$2 != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$3 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        virtualinvoke temp$3.<CH.ifa.draw.standard.ToolButton: void select()>();
+
+     label3:
+        nop;
+        return;
+    }
+
+    protected void loadDrawing(java.lang.String)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String param, temp$0, filename, temp$2;
+        CH.ifa.draw.framework.Drawing temp$1;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        param := @parameter0: java.lang.String;
+        temp$0 = <CH.ifa.draw.applet.DrawApplet: java.lang.String fgUntitled>;
+        if param == temp$0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing>;
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: void release()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void initDrawing()>();
+        return;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.lang.String getParameter(java.lang.String)>(param);
+        filename = temp$2;
+        if filename != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void readDrawing(java.lang.String)>(filename);
+
+     label3:
+        nop;
+        return;
+    }
+
+    private final void readDrawing(java.lang.String)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String filename, type, temp$0;
+        boolean temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        filename := @parameter0: java.lang.String;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void toolDone()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.lang.String guessType(java.lang.String)>(filename);
+        type = temp$0;
+        temp$1 = virtualinvoke type.<java.lang.String: boolean equals(java.lang.Object)>("storable");
+        if temp$1 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void readFromStorableInput(java.lang.String)>(filename);
+        goto label5;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke type.<java.lang.String: boolean equals(java.lang.Object)>("serialized");
+        if temp$2 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void readFromObjectInput(java.lang.String)>(filename);
+        goto label4;
+
+     label3:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>("Unknown file type");
+
+     label4:
+        nop;
+
+     label5:
+        nop;
+        return;
+    }
+
+    private final void readFromStorableInput(java.lang.String)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String filename, temp$10;
+        java.net.URL url, temp$0, temp$1;
+        java.io.InputStream stream, temp$2;
+        CH.ifa.draw.util.StorableInput input, temp$3;
+        CH.ifa.draw.framework.Drawing temp$4, temp$6, temp$8;
+        CH.ifa.draw.util.Storable temp$5;
+        CH.ifa.draw.framework.DrawingView temp$7;
+        java.io.IOException e;
+        java.lang.StringBuffer temp$9;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        filename := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = new java.net.URL;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.net.URL getCodeBase()>();
+        specialinvoke temp$0.<java.net.URL: void <init>(java.net.URL,java.lang.String)>(temp$1, filename);
+        url = temp$0;
+        temp$2 = virtualinvoke url.<java.net.URL: java.io.InputStream openStream()>();
+        stream = temp$2;
+        temp$3 = new CH.ifa.draw.util.StorableInput;
+        specialinvoke temp$3.<CH.ifa.draw.util.StorableInput: void <init>(java.io.InputStream)>(stream);
+        input = temp$3;
+        temp$4 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing>;
+        interfaceinvoke temp$4.<CH.ifa.draw.framework.Drawing: void release()>();
+        temp$5 = virtualinvoke input.<CH.ifa.draw.util.StorableInput: CH.ifa.draw.util.Storable readStorable()>();
+        temp$6 = (CH.ifa.draw.framework.Drawing) temp$5;
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing> = temp$6;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$8 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing>;
+        interfaceinvoke temp$7.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(temp$8);
+        goto label2;
+
+     label1:
+        nop;
+        e := @caughtexception;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void initDrawing()>();
+        temp$9 = new java.lang.StringBuffer;
+        specialinvoke temp$9.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Error:");
+        virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(e);
+        temp$10 = virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>(temp$10);
+        nop;
+        goto label2;
+
+     label2:
+        nop;
+        return;
+
+        catch java.io.IOException from label0 to label1 with label1;
+    }
+
+    private final void readFromObjectInput(java.lang.String)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String filename, temp$10, temp$12;
+        java.net.URL url, temp$0, temp$1;
+        java.io.InputStream stream, temp$2;
+        java.io.ObjectInput input;
+        java.io.ObjectInputStream temp$3;
+        CH.ifa.draw.framework.Drawing temp$4, temp$6, temp$8;
+        java.lang.Object temp$5;
+        CH.ifa.draw.framework.DrawingView temp$7;
+        java.io.IOException e;
+        java.lang.StringBuffer temp$9, temp$11;
+        java.lang.ClassNotFoundException e;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        filename := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = new java.net.URL;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.net.URL getCodeBase()>();
+        specialinvoke temp$0.<java.net.URL: void <init>(java.net.URL,java.lang.String)>(temp$1, filename);
+        url = temp$0;
+        temp$2 = virtualinvoke url.<java.net.URL: java.io.InputStream openStream()>();
+        stream = temp$2;
+        temp$3 = new java.io.ObjectInputStream;
+        specialinvoke temp$3.<java.io.ObjectInputStream: void <init>(java.io.InputStream)>(stream);
+        input = temp$3;
+        temp$4 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing>;
+        interfaceinvoke temp$4.<CH.ifa.draw.framework.Drawing: void release()>();
+        temp$5 = interfaceinvoke input.<java.io.ObjectInput: java.lang.Object readObject()>();
+        temp$6 = (CH.ifa.draw.framework.Drawing) temp$5;
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing> = temp$6;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$8 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.Drawing fDrawing>;
+        interfaceinvoke temp$7.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(temp$8);
+        goto label3;
+
+     label1:
+        nop;
+        e := @caughtexception;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void initDrawing()>();
+        temp$9 = new java.lang.StringBuffer;
+        specialinvoke temp$9.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Error: ");
+        virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(e);
+        temp$10 = virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>(temp$10);
+        nop;
+        goto label3;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void initDrawing()>();
+        temp$11 = new java.lang.StringBuffer;
+        specialinvoke temp$11.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Class not found: ");
+        virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(e);
+        temp$12 = virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>(temp$12);
+        nop;
+        goto label3;
+
+     label3:
+        nop;
+        return;
+
+        catch java.io.IOException from label0 to label1 with label1;
+        catch java.lang.ClassNotFoundException from label0 to label1 with label2;
+    }
+
+    private final java.lang.String guessType(java.lang.String)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String file, temp$1, temp$3, temp$4;
+        boolean temp$0, temp$2;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        file := @parameter0: java.lang.String;
+        temp$0 = virtualinvoke file.<java.lang.String: boolean endsWith(java.lang.String)>(".draw");
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = "storable";
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke file.<java.lang.String: boolean endsWith(java.lang.String)>(".ser");
+        if temp$2 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$3 = "serialized";
+        return temp$3;
+
+     label3:
+        nop;
+        temp$4 = "unknown";
+        return temp$4;
+    }
+
+    private final void setupAttributes()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.awt.Color frameColor, fillColor, textColor, temp$10, temp$12, temp$14;
+        java.lang.Object temp$0, temp$1, temp$2, temp$3, temp$4, temp$9, temp$11, temp$13, temp$15, temp$17;
+        java.lang.Integer arrowMode, temp$16;
+        java.lang.String fontName, temp$18;
+        CH.ifa.draw.framework.FigureEnumeration k, temp$6;
+        CH.ifa.draw.framework.DrawingView temp$5;
+        boolean temp$7;
+        CH.ifa.draw.framework.Figure f, temp$8;
+        javax.swing.JComboBox temp$19, temp$21, temp$23, temp$25;
+        int temp$20, temp$22, temp$24;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = staticinvoke <CH.ifa.draw.figures.AttributeFigure: java.lang.Object getDefaultAttribute(java.lang.String)>("FrameColor");
+        frameColor = (java.awt.Color) temp$0;
+        temp$1 = staticinvoke <CH.ifa.draw.figures.AttributeFigure: java.lang.Object getDefaultAttribute(java.lang.String)>("FillColor");
+        fillColor = (java.awt.Color) temp$1;
+        temp$2 = staticinvoke <CH.ifa.draw.figures.AttributeFigure: java.lang.Object getDefaultAttribute(java.lang.String)>("TextColor");
+        textColor = (java.awt.Color) temp$2;
+        temp$3 = staticinvoke <CH.ifa.draw.figures.AttributeFigure: java.lang.Object getDefaultAttribute(java.lang.String)>("ArrowMode");
+        arrowMode = (java.lang.Integer) temp$3;
+        temp$4 = staticinvoke <CH.ifa.draw.figures.AttributeFigure: java.lang.Object getDefaultAttribute(java.lang.String)>("FontName");
+        fontName = (java.lang.String) temp$4;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$6 = interfaceinvoke temp$5.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.FigureEnumeration selectionElements()>();
+        k = temp$6;
+
+     label0:
+        nop;
+        temp$7 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$7 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$8 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        f = temp$8;
+        temp$9 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>("FrameColor");
+        temp$10 = (java.awt.Color) temp$9;
+        frameColor = temp$10;
+        temp$11 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>("FillColor");
+        temp$12 = (java.awt.Color) temp$11;
+        fillColor = temp$12;
+        temp$13 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>("TextColor");
+        temp$14 = (java.awt.Color) temp$13;
+        textColor = temp$14;
+        temp$15 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>("ArrowMode");
+        temp$16 = (java.lang.Integer) temp$15;
+        arrowMode = temp$16;
+        temp$17 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>("FontName");
+        temp$18 = (java.lang.String) temp$17;
+        fontName = temp$18;
+        goto label0;
+
+     label2:
+        nop;
+        temp$19 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFrameColor>;
+        temp$20 = staticinvoke <CH.ifa.draw.util.ColorMap: int colorIndex(java.awt.Color)>(frameColor);
+        virtualinvoke temp$19.<javax.swing.JComboBox: void setSelectedIndex(int)>(temp$20);
+        temp$21 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFillColor>;
+        temp$22 = staticinvoke <CH.ifa.draw.util.ColorMap: int colorIndex(java.awt.Color)>(fillColor);
+        virtualinvoke temp$21.<javax.swing.JComboBox: void setSelectedIndex(int)>(temp$22);
+        if arrowMode != null goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$23 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fArrowChoice>;
+        temp$24 = virtualinvoke arrowMode.<java.lang.Integer: int intValue()>();
+        virtualinvoke temp$23.<javax.swing.JComboBox: void setSelectedIndex(int)>(temp$24);
+
+     label4:
+        nop;
+        if fontName != null goto label5;
+
+        goto label6;
+
+     label5:
+        nop;
+        temp$25 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JComboBox fFontChoice>;
+        virtualinvoke temp$25.<javax.swing.JComboBox: void setSelectedItem(java.lang.Object)>(fontName);
+
+     label6:
+        nop;
+        return;
+    }
+
+    protected void setSimpleDisplayUpdate()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.standard.SimpleUpdateStrategy temp$1;
+        javax.swing.JButton temp$2;
+        boolean temp$3;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = new CH.ifa.draw.standard.SimpleUpdateStrategy;
+        specialinvoke temp$1.<CH.ifa.draw.standard.SimpleUpdateStrategy: void <init>()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: void setDisplayUpdate(CH.ifa.draw.framework.Painter)>(temp$1);
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JButton fUpdateButton>;
+        virtualinvoke temp$2.<javax.swing.JButton: void setText(java.lang.String)>("Simple Update");
+        temp$3 = 1;
+        this.<CH.ifa.draw.applet.DrawApplet: boolean fSimpleUpdate> = temp$3;
+        return;
+    }
+
+    protected void setBufferedDisplayUpdate()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.standard.BufferedUpdateStrategy temp$1;
+        javax.swing.JButton temp$2;
+        boolean temp$3;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = new CH.ifa.draw.standard.BufferedUpdateStrategy;
+        specialinvoke temp$1.<CH.ifa.draw.standard.BufferedUpdateStrategy: void <init>()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: void setDisplayUpdate(CH.ifa.draw.framework.Painter)>(temp$1);
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: javax.swing.JButton fUpdateButton>;
+        virtualinvoke temp$2.<javax.swing.JButton: void setText(java.lang.String)>("Buffered Update");
+        temp$3 = 0;
+        this.<CH.ifa.draw.applet.DrawApplet: boolean fSimpleUpdate> = temp$3;
+        return;
+    }
+
+    protected void showHelp()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String appletPath, temp$1, temp$2, temp$6;
+        java.lang.Class temp$0;
+        java.net.URL url, temp$3, temp$4;
+        java.lang.StringBuffer temp$5;
+        java.applet.AppletContext temp$7;
+        java.io.IOException e;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+
+     label0:
+        nop;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.lang.Class getClass()>();
+        temp$1 = virtualinvoke temp$0.<java.lang.Class: java.lang.String getName()>();
+        temp$2 = virtualinvoke temp$1.<java.lang.String: java.lang.String replace(char,char)>(46, 47);
+        appletPath = temp$2;
+        temp$3 = new java.net.URL;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.net.URL getCodeBase()>();
+        temp$5 = new java.lang.StringBuffer;
+        specialinvoke temp$5.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$5.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(appletPath);
+        virtualinvoke temp$5.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Help.html");
+        temp$6 = virtualinvoke temp$5.<java.lang.StringBuffer: java.lang.String toString()>();
+        specialinvoke temp$3.<java.net.URL: void <init>(java.net.URL,java.lang.String)>(temp$4, temp$6);
+        url = temp$3;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: java.applet.AppletContext getAppletContext()>();
+        interfaceinvoke temp$7.<java.applet.AppletContext: void showDocument(java.net.URL,java.lang.String)>(url, "Help");
+        goto label2;
+
+     label1:
+        nop;
+        e := @caughtexception;
+        virtualinvoke this.<CH.ifa.draw.applet.DrawApplet: void showStatus(java.lang.String)>("Help file not found");
+        nop;
+        goto label2;
+
+     label2:
+        nop;
+        return;
+
+        catch java.io.IOException from label0 to label1 with label1;
+    }
+
+    protected void setUndoManager(CH.ifa.draw.util.UndoManager)
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.util.UndoManager newUndoManager;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        newUndoManager := @parameter0: CH.ifa.draw.util.UndoManager;
+        this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.util.UndoManager myUndoManager> = newUndoManager;
+        return;
+    }
+
+    public CH.ifa.draw.util.UndoManager getUndoManager()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.util.UndoManager temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: CH.ifa.draw.util.UndoManager myUndoManager>;
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.util.VersionControlStrategy getVersionControlStrategy()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        CH.ifa.draw.util.StandardVersionControlStrategy temp$0;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = new CH.ifa.draw.util.StandardVersionControlStrategy;
+        specialinvoke temp$0.<CH.ifa.draw.util.StandardVersionControlStrategy: void <init>(CH.ifa.draw.util.VersionRequester)>(this);
+        return temp$0;
+    }
+
+    public java.lang.String[] getRequiredVersions()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.String[] requiredVersions, temp$0;
+        int temp$1;
+        java.lang.Class temp$2, temp$3, temp$4;
+        java.lang.Package temp$5;
+        java.lang.String temp$6;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        requiredVersions = newarray (java.lang.String)[1];
+        temp$0 = requiredVersions;
+        temp$1 = 0;
+        temp$3 = <CH.ifa.draw.applet.DrawApplet: java.lang.Class class$CH$ifa$draw$applet$DrawApplet>;
+        if temp$3 != null goto label0;
+
+        temp$4 = staticinvoke <CH.ifa.draw.applet.DrawApplet: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.applet.DrawApplet");
+        <CH.ifa.draw.applet.DrawApplet: java.lang.Class class$CH$ifa$draw$applet$DrawApplet> = temp$4;
+        temp$2 = temp$4;
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = <CH.ifa.draw.applet.DrawApplet: java.lang.Class class$CH$ifa$draw$applet$DrawApplet>;
+
+     label1:
+        nop;
+        temp$5 = virtualinvoke temp$2.<java.lang.Class: java.lang.Package getPackage()>();
+        temp$6 = staticinvoke <CH.ifa.draw.util.VersionManagement: java.lang.String getPackageVersion(java.lang.Package)>(temp$5);
+        temp$0[temp$1] = temp$6;
+        return requiredVersions;
+    }
+
+    private final void startSleeper()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.Thread temp$0, temp$2;
+        CH.ifa.draw.applet.SleeperThread temp$1;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: java.lang.Thread fSleeper>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = new CH.ifa.draw.applet.SleeperThread;
+        specialinvoke temp$1.<CH.ifa.draw.applet.SleeperThread: void <init>(javax.swing.JApplet)>(this);
+        this.<CH.ifa.draw.applet.DrawApplet: java.lang.Thread fSleeper> = temp$1;
+
+     label1:
+        nop;
+        temp$2 = this.<CH.ifa.draw.applet.DrawApplet: java.lang.Thread fSleeper>;
+        virtualinvoke temp$2.<java.lang.Thread: void start()>();
+        return;
+    }
+
+    private final void stopSleeper()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+        java.lang.Thread temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = this.<CH.ifa.draw.applet.DrawApplet: java.lang.Thread fSleeper>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.applet.DrawApplet: java.lang.Thread fSleeper>;
+        virtualinvoke temp$1.<java.lang.Thread: void stop()>();
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.applet.DrawApplet this;
+
+        this := @this: CH.ifa.draw.applet.DrawApplet;
+        specialinvoke this.<javax.swing.JApplet: void <init>()>();
+        return;
+    }
+
+    public static boolean get$fSimpleUpdate$access$0(CH.ifa.draw.applet.DrawApplet)
+    {
+        CH.ifa.draw.applet.DrawApplet that;
+        boolean temp$0;
+
+        that := @parameter0: CH.ifa.draw.applet.DrawApplet;
+        temp$0 = that.<CH.ifa.draw.applet.DrawApplet: boolean fSimpleUpdate>;
+        return temp$0;
+    }
+
+    public static java.lang.Class class$(java.lang.String)
+    {
+        java.lang.String name, temp$2;
+        java.lang.Class temp$0;
+        java.lang.ClassNotFoundException e;
+        java.lang.NoClassDefFoundError temp$1;
+
+        name := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = staticinvoke <java.lang.Class: java.lang.Class forName(java.lang.String)>(name);
+
+     label1:
+        nop;
+        return temp$0;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        temp$1 = new java.lang.NoClassDefFoundError;
+        temp$2 = virtualinvoke e.<java.lang.ClassNotFoundException: java.lang.String getMessage()>();
+        specialinvoke temp$1.<java.lang.NoClassDefFoundError: void <init>(java.lang.String)>(temp$2);
+        throw temp$1;
+
+        catch java.lang.ClassNotFoundException from label0 to label1 with label2;
+    }
+}

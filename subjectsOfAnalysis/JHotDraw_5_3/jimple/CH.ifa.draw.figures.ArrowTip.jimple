@@ -1,0 +1,224 @@
+public class CH.ifa.draw.figures.ArrowTip extends CH.ifa.draw.figures.AbstractLineDecoration
+{
+    private double fAngle;
+    private double fOuterRadius;
+    private double fInnerRadius;
+    private static final long serialVersionUID;
+    private int arrowTipSerializedDataVersion;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = -3459171428373823638L;
+        <CH.ifa.draw.figures.ArrowTip: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        specialinvoke this.<CH.ifa.draw.figures.ArrowTip: void <init>(double,double,double)>(0.4, 8.0, 8.0);
+        return;
+    }
+
+    public void <init>(double, double, double)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        double angle, outerRadius, innerRadius;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        angle := @parameter0: double;
+        outerRadius := @parameter1: double;
+        innerRadius := @parameter2: double;
+        specialinvoke this.<CH.ifa.draw.figures.AbstractLineDecoration: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.ArrowTip: int arrowTipSerializedDataVersion> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void setAngle(double)>(angle);
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void setOuterRadius(double)>(outerRadius);
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void setInnerRadius(double)>(innerRadius);
+        return;
+    }
+
+    public java.awt.Polygon outline(int, int, int, int)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        int x1, y1, x2, y2, temp$0, temp$2;
+        double dir, temp$1, temp$3, temp$4, temp$5;
+        java.awt.Polygon temp$6;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        x1 := @parameter0: int;
+        y1 := @parameter1: int;
+        x2 := @parameter2: int;
+        y2 := @parameter3: int;
+        temp$0 = x2 - x1;
+        temp$1 = (double) temp$0;
+        temp$2 = y2 - y1;
+        temp$3 = (double) temp$2;
+        temp$4 = staticinvoke <java.lang.Math: double atan2(double,double)>(temp$1, temp$3);
+        temp$5 = 1.5707963267948966 - temp$4;
+        dir = temp$5;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: java.awt.Polygon outline(int,int,double)>(x1, y1, dir);
+        return temp$6;
+    }
+
+    private final java.awt.Polygon outline(int, int, double)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        int x, y;
+        double direction, temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8;
+        java.awt.Polygon shape, temp$0;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        direction := @parameter2: double;
+        temp$0 = new java.awt.Polygon;
+        specialinvoke temp$0.<java.awt.Polygon: void <init>()>();
+        shape = temp$0;
+        virtualinvoke shape.<java.awt.Polygon: void addPoint(int,int)>(x, y);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getOuterRadius()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getAngle()>();
+        temp$3 = direction - temp$2;
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void addPointRelative(java.awt.Polygon,int,int,double,double)>(shape, x, y, temp$1, temp$3);
+        temp$4 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getInnerRadius()>();
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void addPointRelative(java.awt.Polygon,int,int,double,double)>(shape, x, y, temp$4, direction);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getOuterRadius()>();
+        temp$6 = direction;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getAngle()>();
+        temp$8 = temp$6 + temp$7;
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void addPointRelative(java.awt.Polygon,int,int,double,double)>(shape, x, y, temp$5, temp$8);
+        virtualinvoke shape.<java.awt.Polygon: void addPoint(int,int)>(x, y);
+        return shape;
+    }
+
+    private final void addPointRelative(java.awt.Polygon, int, int, double, double)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        java.awt.Polygon shape;
+        int x, y, temp$0, temp$3, temp$4, temp$5, temp$8, temp$9;
+        double radius, angle, temp$1, temp$2, temp$6, temp$7;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        shape := @parameter0: java.awt.Polygon;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        radius := @parameter3: double;
+        angle := @parameter4: double;
+        temp$0 = x;
+        temp$1 = staticinvoke <java.lang.Math: double cos(double)>(angle);
+        temp$2 = radius * temp$1;
+        temp$3 = (int) temp$2;
+        temp$4 = temp$0 + temp$3;
+        temp$5 = y;
+        temp$6 = staticinvoke <java.lang.Math: double sin(double)>(angle);
+        temp$7 = radius * temp$6;
+        temp$8 = (int) temp$7;
+        temp$9 = temp$5 + temp$8;
+        virtualinvoke shape.<java.awt.Polygon: void addPoint(int,int)>(temp$4, temp$9);
+        return;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        CH.ifa.draw.util.StorableOutput dw;
+        double temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getAngle()>();
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeDouble(double)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getOuterRadius()>();
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeDouble(double)>(temp$1);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: double getInnerRadius()>();
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeDouble(double)>(temp$2);
+        specialinvoke this.<CH.ifa.draw.figures.AbstractLineDecoration: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        CH.ifa.draw.util.StorableInput dr;
+        double temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: double readDouble()>();
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void setAngle(double)>(temp$0);
+        temp$1 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: double readDouble()>();
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void setOuterRadius(double)>(temp$1);
+        temp$2 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: double readDouble()>();
+        virtualinvoke this.<CH.ifa.draw.figures.ArrowTip: void setInnerRadius(double)>(temp$2);
+        specialinvoke this.<CH.ifa.draw.figures.AbstractLineDecoration: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        return;
+    }
+
+    protected void setAngle(double)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        double newAngle;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        newAngle := @parameter0: double;
+        this.<CH.ifa.draw.figures.ArrowTip: double fAngle> = newAngle;
+        return;
+    }
+
+    protected double getAngle()
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        double temp$0;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        temp$0 = this.<CH.ifa.draw.figures.ArrowTip: double fAngle>;
+        return temp$0;
+    }
+
+    protected void setInnerRadius(double)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        double newInnerRadius;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        newInnerRadius := @parameter0: double;
+        this.<CH.ifa.draw.figures.ArrowTip: double fInnerRadius> = newInnerRadius;
+        return;
+    }
+
+    protected double getInnerRadius()
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        double temp$0;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        temp$0 = this.<CH.ifa.draw.figures.ArrowTip: double fInnerRadius>;
+        return temp$0;
+    }
+
+    protected void setOuterRadius(double)
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        double newOuterRadius;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        newOuterRadius := @parameter0: double;
+        this.<CH.ifa.draw.figures.ArrowTip: double fOuterRadius> = newOuterRadius;
+        return;
+    }
+
+    protected double getOuterRadius()
+    {
+        CH.ifa.draw.figures.ArrowTip this;
+        double temp$0;
+
+        this := @this: CH.ifa.draw.figures.ArrowTip;
+        temp$0 = this.<CH.ifa.draw.figures.ArrowTip: double fOuterRadius>;
+        return temp$0;
+    }
+}

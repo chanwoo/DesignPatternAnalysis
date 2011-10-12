@@ -1,0 +1,923 @@
+public class CH.ifa.draw.samples.pert.PertFigure extends CH.ifa.draw.standard.CompositeFigure
+{
+    private static final int BORDER;
+    private java.awt.Rectangle fDisplayBox;
+    private java.util.Vector fPreTasks;
+    private java.util.Vector fPostTasks;
+    private static final long serialVersionUID;
+    private int pertFigureSerializedDataVersion;
+
+    static void <clinit>()
+    {
+        int temp$0;
+        long temp$1;
+
+        temp$0 = 3;
+        <CH.ifa.draw.samples.pert.PertFigure: int BORDER> = temp$0;
+        temp$1 = -7877776240236946511L;
+        <CH.ifa.draw.samples.pert.PertFigure: long serialVersionUID> = temp$1;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.samples.pert.PertFigure: int pertFigureSerializedDataVersion> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void initialize()>();
+        return;
+    }
+
+    public int start()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this, f;
+        int start, temp$4, temp$5;
+        java.util.Enumeration i, temp$1;
+        java.util.Vector temp$0;
+        boolean temp$2;
+        java.lang.Object temp$3;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        start = 0;
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: java.util.Enumeration elements()>();
+        i = temp$1;
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke i.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke i.<java.util.Enumeration: java.lang.Object nextElement()>();
+        f = (CH.ifa.draw.samples.pert.PertFigure) temp$3;
+        temp$4 = virtualinvoke f.<CH.ifa.draw.samples.pert.PertFigure: int end()>();
+        temp$5 = staticinvoke <java.lang.Math: int max(int,int)>(start, temp$4);
+        start = temp$5;
+        goto label0;
+
+     label2:
+        nop;
+        return start;
+    }
+
+    public int end()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: int asInt(int)>(2);
+        return temp$0;
+    }
+
+    public int duration()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: int asInt(int)>(1);
+        return temp$0;
+    }
+
+    public void setEnd(int)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int value;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        value := @parameter0: int;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void setInt(int,int)>(2, value);
+        return;
+    }
+
+    public void addPreTask(CH.ifa.draw.samples.pert.PertFigure)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this, figure;
+        java.util.Vector temp$0, temp$2;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        figure := @parameter0: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: boolean contains(java.lang.Object)>(figure);
+        if temp$1 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks>;
+        virtualinvoke temp$2.<java.util.Vector: void addElement(java.lang.Object)>(figure);
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void addPostTask(CH.ifa.draw.samples.pert.PertFigure)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this, figure;
+        java.util.Vector temp$0, temp$2;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        figure := @parameter0: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPostTasks>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: boolean contains(java.lang.Object)>(figure);
+        if temp$1 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPostTasks>;
+        virtualinvoke temp$2.<java.util.Vector: void addElement(java.lang.Object)>(figure);
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void removePreTask(CH.ifa.draw.samples.pert.PertFigure)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this, figure;
+        java.util.Vector temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        figure := @parameter0: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: boolean removeElement(java.lang.Object)>(figure);
+        return;
+    }
+
+    public void removePostTask(CH.ifa.draw.samples.pert.PertFigure)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this, figure;
+        java.util.Vector temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        figure := @parameter0: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPostTasks>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: boolean removeElement(java.lang.Object)>(figure);
+        return;
+    }
+
+    private final int asInt(int)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int figureIndex, temp$1;
+        CH.ifa.draw.figures.NumberTextFigure t;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        figureIndex := @parameter0: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure figureAt(int)>(figureIndex);
+        t = (CH.ifa.draw.figures.NumberTextFigure) temp$0;
+        temp$1 = virtualinvoke t.<CH.ifa.draw.figures.NumberTextFigure: int getValue()>();
+        return temp$1;
+    }
+
+    private final java.lang.String taskName()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.figures.TextFigure t;
+        CH.ifa.draw.framework.Figure temp$0;
+        java.lang.String temp$1;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure figureAt(int)>(0);
+        t = (CH.ifa.draw.figures.TextFigure) temp$0;
+        temp$1 = virtualinvoke t.<CH.ifa.draw.figures.TextFigure: java.lang.String getText()>();
+        return temp$1;
+    }
+
+    private final void setInt(int, int)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int figureIndex, value;
+        CH.ifa.draw.figures.NumberTextFigure t;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        figureIndex := @parameter0: int;
+        value := @parameter1: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure figureAt(int)>(figureIndex);
+        t = (CH.ifa.draw.figures.NumberTextFigure) temp$0;
+        virtualinvoke t.<CH.ifa.draw.figures.NumberTextFigure: void setValue(int)>(value);
+        return;
+    }
+
+    protected void basicMoveBy(int, int)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int x, y;
+        java.awt.Rectangle temp$0;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        virtualinvoke temp$0.<java.awt.Rectangle: void translate(int,int)>(x, y);
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void basicMoveBy(int,int)>(x, y);
+        return;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.awt.Rectangle temp$0, temp$1, temp$3, temp$5, temp$7;
+        int temp$2, temp$4, temp$6, temp$8;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = new java.awt.Rectangle;
+        temp$1 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$2 = temp$1.<java.awt.Rectangle: int x>;
+        temp$3 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$4 = temp$3.<java.awt.Rectangle: int y>;
+        temp$5 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$6 = temp$5.<java.awt.Rectangle: int width>;
+        temp$7 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$8 = temp$7.<java.awt.Rectangle: int height>;
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$2, temp$4, temp$6, temp$8);
+        return temp$0;
+    }
+
+    public void basicDisplayBox(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.awt.Point origin, corner;
+        java.awt.Rectangle temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        temp$0 = new java.awt.Rectangle;
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(java.awt.Point)>(origin);
+        this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox> = temp$0;
+        temp$1 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        virtualinvoke temp$1.<java.awt.Rectangle: void add(java.awt.Point)>(corner);
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void layout()>();
+        return;
+    }
+
+    private final void drawBorder(java.awt.Graphics)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0, rf, temp$2;
+        CH.ifa.draw.framework.Figure f, temp$1;
+        java.awt.Color temp$3, temp$16, temp$29, temp$42;
+        int temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27, temp$28, temp$30, temp$31, temp$32, temp$33, temp$34, temp$35, temp$36, temp$37, temp$38, temp$39, temp$40, temp$41, temp$43, temp$44, temp$45, temp$46, temp$47, temp$48, temp$49, temp$50, temp$51, temp$52, temp$53, temp$54, temp$55, temp$56, temp$57, temp$58, temp$59, temp$60, temp$61, temp$62;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        g := @parameter0: java.awt.Graphics;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void draw(java.awt.Graphics)>(g);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure figureAt(int)>(0);
+        f = temp$1;
+        temp$2 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        rf = temp$2;
+        temp$3 = <java.awt.Color: java.awt.Color gray>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$3);
+        temp$4 = r.<java.awt.Rectangle: int x>;
+        temp$5 = r.<java.awt.Rectangle: int y>;
+        temp$6 = rf.<java.awt.Rectangle: int height>;
+        temp$7 = temp$5 + temp$6;
+        temp$8 = temp$7 + 2;
+        temp$9 = r.<java.awt.Rectangle: int x>;
+        temp$10 = r.<java.awt.Rectangle: int width>;
+        temp$11 = temp$9 + temp$10;
+        temp$12 = r.<java.awt.Rectangle: int y>;
+        temp$13 = rf.<java.awt.Rectangle: int height>;
+        temp$14 = temp$12 + temp$13;
+        temp$15 = temp$14 + 2;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$4, temp$8, temp$11, temp$15);
+        temp$16 = <java.awt.Color: java.awt.Color white>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$16);
+        temp$17 = r.<java.awt.Rectangle: int x>;
+        temp$18 = r.<java.awt.Rectangle: int y>;
+        temp$19 = rf.<java.awt.Rectangle: int height>;
+        temp$20 = temp$18 + temp$19;
+        temp$21 = temp$20 + 3;
+        temp$22 = r.<java.awt.Rectangle: int x>;
+        temp$23 = r.<java.awt.Rectangle: int width>;
+        temp$24 = temp$22 + temp$23;
+        temp$25 = r.<java.awt.Rectangle: int y>;
+        temp$26 = rf.<java.awt.Rectangle: int height>;
+        temp$27 = temp$25 + temp$26;
+        temp$28 = temp$27 + 3;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$17, temp$21, temp$24, temp$28);
+        temp$29 = <java.awt.Color: java.awt.Color white>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$29);
+        temp$30 = r.<java.awt.Rectangle: int x>;
+        temp$31 = r.<java.awt.Rectangle: int y>;
+        temp$32 = r.<java.awt.Rectangle: int x>;
+        temp$33 = r.<java.awt.Rectangle: int y>;
+        temp$34 = r.<java.awt.Rectangle: int height>;
+        temp$35 = temp$33 + temp$34;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$30, temp$31, temp$32, temp$35);
+        temp$36 = r.<java.awt.Rectangle: int x>;
+        temp$37 = r.<java.awt.Rectangle: int y>;
+        temp$38 = r.<java.awt.Rectangle: int x>;
+        temp$39 = r.<java.awt.Rectangle: int width>;
+        temp$40 = temp$38 + temp$39;
+        temp$41 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$36, temp$37, temp$40, temp$41);
+        temp$42 = <java.awt.Color: java.awt.Color gray>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$42);
+        temp$43 = r.<java.awt.Rectangle: int x>;
+        temp$44 = r.<java.awt.Rectangle: int width>;
+        temp$45 = temp$43 + temp$44;
+        temp$46 = r.<java.awt.Rectangle: int y>;
+        temp$47 = r.<java.awt.Rectangle: int x>;
+        temp$48 = r.<java.awt.Rectangle: int width>;
+        temp$49 = temp$47 + temp$48;
+        temp$50 = r.<java.awt.Rectangle: int y>;
+        temp$51 = r.<java.awt.Rectangle: int height>;
+        temp$52 = temp$50 + temp$51;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$45, temp$46, temp$49, temp$52);
+        temp$53 = r.<java.awt.Rectangle: int x>;
+        temp$54 = r.<java.awt.Rectangle: int y>;
+        temp$55 = r.<java.awt.Rectangle: int height>;
+        temp$56 = temp$54 + temp$55;
+        temp$57 = r.<java.awt.Rectangle: int x>;
+        temp$58 = r.<java.awt.Rectangle: int width>;
+        temp$59 = temp$57 + temp$58;
+        temp$60 = r.<java.awt.Rectangle: int y>;
+        temp$61 = r.<java.awt.Rectangle: int height>;
+        temp$62 = temp$60 + temp$61;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$53, temp$56, temp$59, temp$62);
+        return;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.awt.Graphics g;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        g := @parameter0: java.awt.Graphics;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void drawBorder(java.awt.Graphics)>(g);
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void draw(java.awt.Graphics)>(g);
+        return;
+    }
+
+    public java.util.Vector handles()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.util.Vector handles, temp$0;
+        CH.ifa.draw.standard.NullHandle temp$1, temp$3, temp$5, temp$7;
+        CH.ifa.draw.framework.Locator temp$2, temp$4, temp$6, temp$8, temp$10;
+        CH.ifa.draw.standard.ConnectionHandle temp$9;
+        CH.ifa.draw.samples.pert.PertDependency temp$11;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>()>();
+        handles = temp$0;
+        temp$1 = new CH.ifa.draw.standard.NullHandle;
+        temp$2 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northWest()>();
+        specialinvoke temp$1.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$2);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$1);
+        temp$3 = new CH.ifa.draw.standard.NullHandle;
+        temp$4 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northEast()>();
+        specialinvoke temp$3.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$4);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$3);
+        temp$5 = new CH.ifa.draw.standard.NullHandle;
+        temp$6 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southWest()>();
+        specialinvoke temp$5.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$6);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$5);
+        temp$7 = new CH.ifa.draw.standard.NullHandle;
+        temp$8 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southEast()>();
+        specialinvoke temp$7.<CH.ifa.draw.standard.NullHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$8);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$7);
+        temp$9 = new CH.ifa.draw.standard.ConnectionHandle;
+        temp$10 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator east()>();
+        temp$11 = new CH.ifa.draw.samples.pert.PertDependency;
+        specialinvoke temp$11.<CH.ifa.draw.samples.pert.PertDependency: void <init>()>();
+        specialinvoke temp$9.<CH.ifa.draw.standard.ConnectionHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$10, temp$11);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$9);
+        return handles;
+    }
+
+    private final void initialize()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.util.Vector temp$0, temp$1;
+        java.awt.Rectangle temp$2;
+        java.awt.Font f, temp$3, fb, temp$4;
+        CH.ifa.draw.figures.TextFigure name, temp$5;
+        CH.ifa.draw.framework.Figure temp$6, temp$8, temp$10;
+        CH.ifa.draw.figures.NumberTextFigure duration, temp$7, end, temp$9;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>()>();
+        this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPostTasks> = temp$0;
+        temp$1 = new java.util.Vector;
+        specialinvoke temp$1.<java.util.Vector: void <init>()>();
+        this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks> = temp$1;
+        temp$2 = new java.awt.Rectangle;
+        specialinvoke temp$2.<java.awt.Rectangle: void <init>(int,int,int,int)>(0, 0, 0, 0);
+        this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox> = temp$2;
+        temp$3 = new java.awt.Font;
+        specialinvoke temp$3.<java.awt.Font: void <init>(java.lang.String,int,int)>("Helvetica", 0, 12);
+        f = temp$3;
+        temp$4 = new java.awt.Font;
+        specialinvoke temp$4.<java.awt.Font: void <init>(java.lang.String,int,int)>("Helvetica", 1, 12);
+        fb = temp$4;
+        temp$5 = new CH.ifa.draw.figures.TextFigure;
+        specialinvoke temp$5.<CH.ifa.draw.figures.TextFigure: void <init>()>();
+        name = temp$5;
+        virtualinvoke name.<CH.ifa.draw.figures.TextFigure: void setFont(java.awt.Font)>(fb);
+        virtualinvoke name.<CH.ifa.draw.figures.TextFigure: void setText(java.lang.String)>("Task");
+        temp$6 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure add(CH.ifa.draw.framework.Figure)>(name);
+        temp$7 = new CH.ifa.draw.figures.NumberTextFigure;
+        specialinvoke temp$7.<CH.ifa.draw.figures.NumberTextFigure: void <init>()>();
+        duration = temp$7;
+        virtualinvoke duration.<CH.ifa.draw.figures.NumberTextFigure: void setValue(int)>(0);
+        virtualinvoke duration.<CH.ifa.draw.figures.NumberTextFigure: void setFont(java.awt.Font)>(fb);
+        temp$8 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure add(CH.ifa.draw.framework.Figure)>(duration);
+        temp$9 = new CH.ifa.draw.figures.NumberTextFigure;
+        specialinvoke temp$9.<CH.ifa.draw.figures.NumberTextFigure: void <init>()>();
+        end = temp$9;
+        virtualinvoke end.<CH.ifa.draw.figures.NumberTextFigure: void setValue(int)>(0);
+        virtualinvoke end.<CH.ifa.draw.figures.NumberTextFigure: void setFont(java.awt.Font)>(f);
+        virtualinvoke end.<CH.ifa.draw.figures.NumberTextFigure: void setReadOnly(boolean)>(1);
+        temp$10 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure add(CH.ifa.draw.framework.Figure)>(end);
+        return;
+    }
+
+    private final void layout()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.awt.Point partOrigin, temp$0, corner, temp$10;
+        java.awt.Rectangle temp$1, temp$3, temp$26, temp$29;
+        int temp$2, temp$4, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$27, temp$28, temp$30, temp$31;
+        java.awt.Dimension extent, temp$5, partExtent, temp$9;
+        CH.ifa.draw.framework.FigureEnumeration k, temp$6;
+        boolean temp$7;
+        CH.ifa.draw.framework.Figure f, temp$8;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = new java.awt.Point;
+        temp$1 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$2 = temp$1.<java.awt.Rectangle: int x>;
+        temp$3 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$4 = temp$3.<java.awt.Rectangle: int y>;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$2, temp$4);
+        partOrigin = temp$0;
+        virtualinvoke partOrigin.<java.awt.Point: void translate(int,int)>(3, 3);
+        temp$5 = new java.awt.Dimension;
+        specialinvoke temp$5.<java.awt.Dimension: void <init>(int,int)>(0, 0);
+        extent = temp$5;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.FigureEnumeration figures()>();
+        k = temp$6;
+
+     label0:
+        nop;
+        temp$7 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$7 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$8 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        f = temp$8;
+        temp$9 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.awt.Dimension size()>();
+        partExtent = temp$9;
+        temp$10 = new java.awt.Point;
+        temp$11 = partOrigin.<java.awt.Point: int x>;
+        temp$12 = partExtent.<java.awt.Dimension: int width>;
+        temp$13 = temp$11 + temp$12;
+        temp$14 = partOrigin.<java.awt.Point: int y>;
+        temp$15 = partExtent.<java.awt.Dimension: int height>;
+        temp$16 = temp$14 + temp$15;
+        specialinvoke temp$10.<java.awt.Point: void <init>(int,int)>(temp$13, temp$16);
+        corner = temp$10;
+        interfaceinvoke f.<CH.ifa.draw.framework.Figure: void basicDisplayBox(java.awt.Point,java.awt.Point)>(partOrigin, corner);
+        temp$17 = extent.<java.awt.Dimension: int width>;
+        temp$18 = partExtent.<java.awt.Dimension: int width>;
+        temp$19 = staticinvoke <java.lang.Math: int max(int,int)>(temp$17, temp$18);
+        extent.<java.awt.Dimension: int width> = temp$19;
+        temp$20 = extent.<java.awt.Dimension: int height>;
+        temp$21 = partExtent.<java.awt.Dimension: int height>;
+        temp$22 = temp$20 + temp$21;
+        extent.<java.awt.Dimension: int height> = temp$22;
+        temp$23 = partOrigin.<java.awt.Point: int y>;
+        temp$24 = partExtent.<java.awt.Dimension: int height>;
+        temp$25 = temp$23 + temp$24;
+        partOrigin.<java.awt.Point: int y> = temp$25;
+        goto label0;
+
+     label2:
+        nop;
+        temp$26 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$27 = extent.<java.awt.Dimension: int width>;
+        temp$28 = temp$27 + 6;
+        temp$26.<java.awt.Rectangle: int width> = temp$28;
+        temp$29 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$30 = extent.<java.awt.Dimension: int height>;
+        temp$31 = temp$30 + 6;
+        temp$29.<java.awt.Rectangle: int height> = temp$31;
+        return;
+    }
+
+    private final boolean needsLayout()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.awt.Dimension extent, temp$0, temp$5;
+        CH.ifa.draw.framework.FigureEnumeration k, temp$1;
+        boolean temp$2, temp$11;
+        CH.ifa.draw.framework.Figure f, temp$3;
+        int temp$4, temp$6, temp$7, newExtent, temp$8, temp$10;
+        java.awt.Rectangle temp$9;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = new java.awt.Dimension;
+        specialinvoke temp$0.<java.awt.Dimension: void <init>(int,int)>(0, 0);
+        extent = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.FigureEnumeration figures()>();
+        k = temp$1;
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        f = temp$3;
+        temp$4 = extent.<java.awt.Dimension: int width>;
+        temp$5 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.awt.Dimension size()>();
+        temp$6 = temp$5.<java.awt.Dimension: int width>;
+        temp$7 = staticinvoke <java.lang.Math: int max(int,int)>(temp$4, temp$6);
+        extent.<java.awt.Dimension: int width> = temp$7;
+        goto label0;
+
+     label2:
+        nop;
+        temp$8 = extent.<java.awt.Dimension: int width>;
+        newExtent = temp$8 + 6;
+        temp$9 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$10 = temp$9.<java.awt.Rectangle: int width>;
+        if newExtent != temp$10 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$11 = 0;
+        goto label5;
+
+     label4:
+        nop;
+        temp$11 = 1;
+
+     label5:
+        nop;
+        return temp$11;
+    }
+
+    public void update(CH.ifa.draw.framework.FigureChangeEvent)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.framework.FigureChangeEvent e;
+        CH.ifa.draw.framework.Figure temp$0, temp$1;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        e := @parameter0: CH.ifa.draw.framework.FigureChangeEvent;
+        temp$0 = virtualinvoke e.<CH.ifa.draw.framework.FigureChangeEvent: CH.ifa.draw.framework.Figure getFigure()>();
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: CH.ifa.draw.framework.Figure figureAt(int)>(1);
+        if temp$0 == temp$1 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void updateDurations()>();
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: boolean needsLayout()>();
+        if temp$2 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void layout()>();
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void changed()>();
+
+     label3:
+        nop;
+        return;
+    }
+
+    public void figureChanged(CH.ifa.draw.framework.FigureChangeEvent)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.framework.FigureChangeEvent e;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        e := @parameter0: CH.ifa.draw.framework.FigureChangeEvent;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void update(CH.ifa.draw.framework.FigureChangeEvent)>(e);
+        return;
+    }
+
+    public void figureRemoved(CH.ifa.draw.framework.FigureChangeEvent)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.framework.FigureChangeEvent e;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        e := @parameter0: CH.ifa.draw.framework.FigureChangeEvent;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void update(CH.ifa.draw.framework.FigureChangeEvent)>(e);
+        return;
+    }
+
+    public void notifyPostTasks()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this, temp$4;
+        java.util.Enumeration i, temp$1;
+        java.util.Vector temp$0;
+        boolean temp$2;
+        java.lang.Object temp$3;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPostTasks>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: java.util.Enumeration elements()>();
+        i = temp$1;
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke i.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke i.<java.util.Enumeration: java.lang.Object nextElement()>();
+        temp$4 = (CH.ifa.draw.samples.pert.PertFigure) temp$3;
+        virtualinvoke temp$4.<CH.ifa.draw.samples.pert.PertFigure: void updateDurations()>();
+        goto label0;
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void updateDurations()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        int newEnd, temp$0, temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: int start()>();
+        temp$1 = temp$0;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: int duration()>();
+        newEnd = temp$1 + temp$2;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: int end()>();
+        if newEnd != temp$3 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void setEnd(int)>(newEnd);
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void notifyPostTasks()>();
+
+     label1:
+        nop;
+        return;
+    }
+
+    public boolean hasCycle(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this, temp$5;
+        CH.ifa.draw.framework.Figure start;
+        boolean temp$0, temp$3, temp$6, temp$7, temp$8;
+        java.util.Enumeration i, temp$2;
+        java.util.Vector temp$1;
+        java.lang.Object temp$4;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        start := @parameter0: CH.ifa.draw.framework.Figure;
+        if start == this goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = 1;
+        return temp$0;
+
+     label1:
+        nop;
+        temp$1 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks>;
+        temp$2 = virtualinvoke temp$1.<java.util.Vector: java.util.Enumeration elements()>();
+        i = temp$2;
+
+     label2:
+        nop;
+        temp$3 = interfaceinvoke i.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label6;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$4 = interfaceinvoke i.<java.util.Enumeration: java.lang.Object nextElement()>();
+        temp$5 = (CH.ifa.draw.samples.pert.PertFigure) temp$4;
+        temp$6 = virtualinvoke temp$5.<CH.ifa.draw.samples.pert.PertFigure: boolean hasCycle(CH.ifa.draw.framework.Figure)>(start);
+        if temp$6 == 0 goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$7 = 1;
+        return temp$7;
+
+     label5:
+        nop;
+        goto label2;
+
+     label6:
+        nop;
+        temp$8 = 0;
+        return temp$8;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.util.StorableOutput dw;
+        java.awt.Rectangle temp$0, temp$2, temp$4, temp$6;
+        int temp$1, temp$3, temp$5, temp$7;
+        java.util.Vector temp$8, temp$9;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$1 = temp$0.<java.awt.Rectangle: int x>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$1);
+        temp$2 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$3 = temp$2.<java.awt.Rectangle: int y>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$3);
+        temp$4 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$5 = temp$4.<java.awt.Rectangle: int width>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$5);
+        temp$6 = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$7 = temp$6.<java.awt.Rectangle: int height>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$7);
+        temp$8 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks>;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void writeTasks(CH.ifa.draw.util.StorableOutput,java.util.Vector)>(dw, temp$8);
+        temp$9 = this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPostTasks>;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void writeTasks(CH.ifa.draw.util.StorableOutput,java.util.Vector)>(dw, temp$9);
+        return;
+    }
+
+    public void writeTasks(CH.ifa.draw.util.StorableOutput, java.util.Vector)
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.util.StorableOutput dw;
+        java.util.Vector v;
+        int temp$0;
+        java.util.Enumeration i, temp$1;
+        boolean temp$2;
+        java.lang.Object temp$3;
+        CH.ifa.draw.util.Storable temp$4;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        v := @parameter1: java.util.Vector;
+        temp$0 = virtualinvoke v.<java.util.Vector: int size()>();
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$0);
+        temp$1 = virtualinvoke v.<java.util.Vector: java.util.Enumeration elements()>();
+        i = temp$1;
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke i.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke i.<java.util.Enumeration: java.lang.Object nextElement()>();
+        temp$4 = (CH.ifa.draw.util.Storable) temp$3;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeStorable(CH.ifa.draw.util.Storable)>(temp$4);
+        goto label0;
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.util.StorableInput dr;
+        java.awt.Rectangle temp$0;
+        int temp$1, temp$2, temp$3, temp$4;
+        java.util.Vector temp$5, temp$6;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = new java.awt.Rectangle;
+        temp$1 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$2 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$3 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$4 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$1, temp$2, temp$3, temp$4);
+        this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: void layout()>();
+        temp$5 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector readTasks(CH.ifa.draw.util.StorableInput)>(dr);
+        this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPreTasks> = temp$5;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector readTasks(CH.ifa.draw.util.StorableInput)>(dr);
+        this.<CH.ifa.draw.samples.pert.PertFigure: java.util.Vector fPostTasks> = temp$6;
+        return;
+    }
+
+    public java.awt.Insets connectionInsets()
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        java.awt.Rectangle r;
+        int cx, temp$0, temp$1, cy, temp$2, temp$3;
+        java.awt.Insets temp$4;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        r = this.<CH.ifa.draw.samples.pert.PertFigure: java.awt.Rectangle fDisplayBox>;
+        temp$0 = r.<java.awt.Rectangle: int width>;
+        temp$1 = temp$0 / 2;
+        cx = temp$1;
+        temp$2 = r.<java.awt.Rectangle: int height>;
+        temp$3 = temp$2 / 2;
+        cy = temp$3;
+        temp$4 = new java.awt.Insets;
+        specialinvoke temp$4.<java.awt.Insets: void <init>(int,int,int,int)>(cy, cx, cy, cx);
+        return temp$4;
+    }
+
+    public java.util.Vector readTasks(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.samples.pert.PertFigure this;
+        CH.ifa.draw.util.StorableInput dr;
+        int size, temp$0, i, temp$4, temp$5;
+        java.util.Vector v, temp$1;
+        CH.ifa.draw.util.Storable temp$2;
+        CH.ifa.draw.framework.Figure temp$3;
+
+        this := @this: CH.ifa.draw.samples.pert.PertFigure;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        size = temp$0;
+        temp$1 = new java.util.Vector;
+        specialinvoke temp$1.<java.util.Vector: void <init>(int)>(size);
+        v = temp$1;
+        i = 0;
+
+     label0:
+        nop;
+        if i < size goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: CH.ifa.draw.util.Storable readStorable()>();
+        temp$3 = (CH.ifa.draw.framework.Figure) temp$2;
+        virtualinvoke v.<java.util.Vector: void addElement(java.lang.Object)>(temp$3);
+        nop;
+        temp$4 = i;
+        temp$5 = temp$4 + 1;
+        i = temp$5;
+        goto label0;
+
+     label2:
+        nop;
+        return v;
+    }
+}

@@ -1,0 +1,113 @@
+public class CH.ifa.draw.standard.AlignCommand extends CH.ifa.draw.standard.AbstractCommand
+{
+    private CH.ifa.draw.standard.AlignCommand$Alignment myAlignment;
+
+    public void <init>(CH.ifa.draw.standard.AlignCommand$Alignment, CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.standard.AlignCommand this;
+        CH.ifa.draw.standard.AlignCommand$Alignment newAlignment;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand;
+        newAlignment := @parameter0: CH.ifa.draw.standard.AlignCommand$Alignment;
+        newDrawingEditor := @parameter1: CH.ifa.draw.framework.DrawingEditor;
+        temp$0 = virtualinvoke newAlignment.<CH.ifa.draw.standard.AlignCommand$Alignment: java.lang.String getDescription()>();
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(temp$0, newDrawingEditor);
+        virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: void setAlignment(CH.ifa.draw.standard.AlignCommand$Alignment)>(newAlignment);
+        return;
+    }
+
+    protected boolean isExecutableWithView()
+    {
+        CH.ifa.draw.standard.AlignCommand this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        int temp$1;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: int selectionCount()>();
+        if temp$1 > 1 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = 1;
+
+     label2:
+        nop;
+        return temp$2;
+    }
+
+    public void execute()
+    {
+        CH.ifa.draw.standard.AlignCommand this;
+        CH.ifa.draw.util.Undoable temp$0, temp$1, temp$5;
+        CH.ifa.draw.standard.FigureEnumerator temp$2;
+        CH.ifa.draw.framework.DrawingView temp$3, temp$8;
+        java.util.Vector temp$4;
+        CH.ifa.draw.standard.AlignCommand$UndoActivity temp$6;
+        CH.ifa.draw.standard.AlignCommand$Alignment temp$7;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void execute()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.util.Undoable createUndoActivity()>();
+        virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$2 = new CH.ifa.draw.standard.FigureEnumerator;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.DrawingView: java.util.Vector selection()>();
+        specialinvoke temp$2.<CH.ifa.draw.standard.FigureEnumerator: void <init>(java.util.Vector)>(temp$4);
+        interfaceinvoke temp$1.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$2);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$6 = (CH.ifa.draw.standard.AlignCommand$UndoActivity) temp$5;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.standard.AlignCommand$Alignment getAlignment()>();
+        virtualinvoke temp$6.<CH.ifa.draw.standard.AlignCommand$UndoActivity: void alignAffectedFigures(CH.ifa.draw.standard.AlignCommand$Alignment)>(temp$7);
+        temp$8 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$8.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+        return;
+    }
+
+    protected void setAlignment(CH.ifa.draw.standard.AlignCommand$Alignment)
+    {
+        CH.ifa.draw.standard.AlignCommand this;
+        CH.ifa.draw.standard.AlignCommand$Alignment newAlignment;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand;
+        newAlignment := @parameter0: CH.ifa.draw.standard.AlignCommand$Alignment;
+        this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.standard.AlignCommand$Alignment myAlignment> = newAlignment;
+        return;
+    }
+
+    public CH.ifa.draw.standard.AlignCommand$Alignment getAlignment()
+    {
+        CH.ifa.draw.standard.AlignCommand this;
+        CH.ifa.draw.standard.AlignCommand$Alignment temp$0;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand;
+        temp$0 = this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.standard.AlignCommand$Alignment myAlignment>;
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity()
+    {
+        CH.ifa.draw.standard.AlignCommand this;
+        CH.ifa.draw.standard.AlignCommand$UndoActivity temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+        CH.ifa.draw.standard.AlignCommand$Alignment temp$2;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand;
+        temp$0 = new CH.ifa.draw.standard.AlignCommand$UndoActivity;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.AlignCommand: CH.ifa.draw.standard.AlignCommand$Alignment getAlignment()>();
+        specialinvoke temp$0.<CH.ifa.draw.standard.AlignCommand$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView,CH.ifa.draw.standard.AlignCommand$Alignment)>(temp$1, temp$2);
+        return temp$0;
+    }
+}

@@ -1,0 +1,158 @@
+public class CH.ifa.draw.figures.GroupFigure extends CH.ifa.draw.standard.CompositeFigure
+{
+    private static final long serialVersionUID;
+    private int groupFigureSerializedDataVersion;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = 8311226373023297933L;
+        <CH.ifa.draw.figures.GroupFigure: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public boolean canConnect()
+    {
+        CH.ifa.draw.figures.GroupFigure this;
+        boolean temp$0;
+
+        this := @this: CH.ifa.draw.figures.GroupFigure;
+        temp$0 = 0;
+        return temp$0;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.figures.GroupFigure this;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$0;
+        java.awt.Rectangle r, temp$2, temp$5;
+        CH.ifa.draw.framework.Figure temp$1, temp$4;
+        boolean temp$3;
+
+        this := @this: CH.ifa.draw.figures.GroupFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.GroupFigure: CH.ifa.draw.framework.FigureEnumeration figures()>();
+        fe = temp$0;
+        temp$1 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        r = temp$2;
+
+     label0:
+        nop;
+        temp$3 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$4 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        temp$5 = interfaceinvoke temp$4.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        virtualinvoke r.<java.awt.Rectangle: void add(java.awt.Rectangle)>(temp$5);
+        goto label0;
+
+     label2:
+        nop;
+        return r;
+    }
+
+    public void basicDisplayBox(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.figures.GroupFigure this;
+        java.awt.Point origin, corner;
+
+        this := @this: CH.ifa.draw.figures.GroupFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        return;
+    }
+
+    public CH.ifa.draw.framework.FigureEnumeration decompose()
+    {
+        CH.ifa.draw.figures.GroupFigure this;
+        CH.ifa.draw.standard.FigureEnumerator temp$0;
+        java.util.Vector temp$1;
+
+        this := @this: CH.ifa.draw.figures.GroupFigure;
+        temp$0 = new CH.ifa.draw.standard.FigureEnumerator;
+        temp$1 = this.<CH.ifa.draw.figures.GroupFigure: java.util.Vector fFigures>;
+        specialinvoke temp$0.<CH.ifa.draw.standard.FigureEnumerator: void <init>(java.util.Vector)>(temp$1);
+        return temp$0;
+    }
+
+    public java.util.Vector handles()
+    {
+        CH.ifa.draw.figures.GroupFigure this;
+        java.util.Vector handles, temp$0;
+        CH.ifa.draw.figures.GroupHandle temp$1, temp$3, temp$5, temp$7;
+        CH.ifa.draw.framework.Locator temp$2, temp$4, temp$6, temp$8;
+
+        this := @this: CH.ifa.draw.figures.GroupFigure;
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>()>();
+        handles = temp$0;
+        temp$1 = new CH.ifa.draw.figures.GroupHandle;
+        temp$2 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northWest()>();
+        specialinvoke temp$1.<CH.ifa.draw.figures.GroupHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$2);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$1);
+        temp$3 = new CH.ifa.draw.figures.GroupHandle;
+        temp$4 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northEast()>();
+        specialinvoke temp$3.<CH.ifa.draw.figures.GroupHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$4);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$3);
+        temp$5 = new CH.ifa.draw.figures.GroupHandle;
+        temp$6 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southWest()>();
+        specialinvoke temp$5.<CH.ifa.draw.figures.GroupHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$6);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$5);
+        temp$7 = new CH.ifa.draw.figures.GroupHandle;
+        temp$8 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southEast()>();
+        specialinvoke temp$7.<CH.ifa.draw.figures.GroupHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(this, temp$8);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$7);
+        return handles;
+    }
+
+    public void setAttribute(java.lang.String, java.lang.Object)
+    {
+        CH.ifa.draw.figures.GroupFigure this;
+        java.lang.String name;
+        java.lang.Object value;
+        CH.ifa.draw.framework.FigureEnumeration k, temp$0;
+        boolean temp$1;
+        CH.ifa.draw.framework.Figure temp$2;
+
+        this := @this: CH.ifa.draw.figures.GroupFigure;
+        name := @parameter0: java.lang.String;
+        value := @parameter1: java.lang.Object;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void setAttribute(java.lang.String,java.lang.Object)>(name, value);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.GroupFigure: CH.ifa.draw.framework.FigureEnumeration figures()>();
+        k = temp$0;
+
+     label0:
+        nop;
+        temp$1 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$2 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.Figure: void setAttribute(java.lang.String,java.lang.Object)>(name, value);
+        goto label0;
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.figures.GroupFigure this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.figures.GroupFigure;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.GroupFigure: int groupFigureSerializedDataVersion> = temp$0;
+        return;
+    }
+}

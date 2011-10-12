@@ -1,0 +1,450 @@
+public class CH.ifa.draw.samples.javadraw.JavaDrawApp extends CH.ifa.draw.contrib.MDI_DrawApplication
+{
+    private CH.ifa.draw.samples.javadraw.Animator fAnimator;
+    private static java.lang.String fgSampleImagesPath;
+    private static java.lang.String fgSampleImagesResourcePath;
+
+    static void <clinit>()
+    {
+        java.lang.String temp$0, temp$2, temp$3;
+        java.lang.StringBuffer temp$1;
+
+        temp$0 = "CH/ifa/draw/samples/javadraw/sampleimages/";
+        <CH.ifa.draw.samples.javadraw.JavaDrawApp: java.lang.String fgSampleImagesPath> = temp$0;
+        temp$1 = new java.lang.StringBuffer;
+        specialinvoke temp$1.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("/");
+        temp$2 = <CH.ifa.draw.samples.javadraw.JavaDrawApp: java.lang.String fgSampleImagesPath>;
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$2);
+        temp$3 = virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.String toString()>();
+        <CH.ifa.draw.samples.javadraw.JavaDrawApp: java.lang.String fgSampleImagesResourcePath> = temp$3;
+        return;
+    }
+
+    void <init>()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        specialinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void <init>(java.lang.String)>("JHotDraw");
+        return;
+    }
+
+    protected CH.ifa.draw.application.DrawApplication createApplication()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this, temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = new CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        specialinvoke temp$0.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void <init>()>();
+        return temp$0;
+    }
+
+    public void destroy()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        specialinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void destroy()>();
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void endAnimation()>();
+        return;
+    }
+
+    protected void createTools(javax.swing.JToolBar)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        javax.swing.JToolBar palette;
+        CH.ifa.draw.framework.Tool tool;
+        CH.ifa.draw.util.UndoableTool temp$0, temp$5, temp$13, temp$18, temp$23, temp$28, temp$32, temp$37, temp$42, temp$47, temp$52, temp$57, temp$61;
+        CH.ifa.draw.figures.TextTool temp$1;
+        CH.ifa.draw.figures.TextFigure temp$2, temp$7;
+        CH.ifa.draw.standard.ToolButton temp$3, temp$8, temp$11, temp$16, temp$21, temp$26, temp$30, temp$35, temp$40, temp$45, temp$50, temp$55, temp$59, temp$63;
+        java.awt.Component temp$4, temp$9, temp$12, temp$17, temp$22, temp$27, temp$31, temp$36, temp$41, temp$46, temp$51, temp$56, temp$60, temp$64;
+        CH.ifa.draw.figures.ConnectedTextTool temp$6;
+        CH.ifa.draw.samples.javadraw.URLTool temp$10;
+        CH.ifa.draw.standard.CreationTool temp$14, temp$19, temp$24, temp$33, temp$38, temp$43;
+        CH.ifa.draw.figures.RectangleFigure temp$15;
+        CH.ifa.draw.figures.RoundRectangleFigure temp$20;
+        CH.ifa.draw.figures.EllipseFigure temp$25;
+        CH.ifa.draw.contrib.PolygonTool temp$29;
+        CH.ifa.draw.contrib.TriangleFigure temp$34;
+        CH.ifa.draw.contrib.DiamondFigure temp$39;
+        CH.ifa.draw.figures.LineFigure temp$44;
+        CH.ifa.draw.standard.ConnectionTool temp$48, temp$53;
+        CH.ifa.draw.figures.LineConnection temp$49;
+        CH.ifa.draw.figures.ElbowConnection temp$54;
+        CH.ifa.draw.figures.ScribbleTool temp$58;
+        CH.ifa.draw.figures.BorderTool temp$62;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        palette := @parameter0: javax.swing.JToolBar;
+        specialinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void createTools(javax.swing.JToolBar)>(palette);
+        temp$0 = new CH.ifa.draw.util.UndoableTool;
+        temp$1 = new CH.ifa.draw.figures.TextTool;
+        temp$2 = new CH.ifa.draw.figures.TextFigure;
+        specialinvoke temp$2.<CH.ifa.draw.figures.TextFigure: void <init>()>();
+        specialinvoke temp$1.<CH.ifa.draw.figures.TextTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$2);
+        specialinvoke temp$0.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$1);
+        tool = temp$0;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/TEXT", "Text Tool", tool);
+        temp$4 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$3);
+        temp$5 = new CH.ifa.draw.util.UndoableTool;
+        temp$6 = new CH.ifa.draw.figures.ConnectedTextTool;
+        temp$7 = new CH.ifa.draw.figures.TextFigure;
+        specialinvoke temp$7.<CH.ifa.draw.figures.TextFigure: void <init>()>();
+        specialinvoke temp$6.<CH.ifa.draw.figures.ConnectedTextTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$7);
+        specialinvoke temp$5.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$6);
+        tool = temp$5;
+        temp$8 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/ATEXT", "Connected Text Tool", tool);
+        temp$9 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$8);
+        temp$10 = new CH.ifa.draw.samples.javadraw.URLTool;
+        specialinvoke temp$10.<CH.ifa.draw.samples.javadraw.URLTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        tool = temp$10;
+        temp$11 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/URL", "URL Tool", tool);
+        temp$12 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$11);
+        temp$13 = new CH.ifa.draw.util.UndoableTool;
+        temp$14 = new CH.ifa.draw.standard.CreationTool;
+        temp$15 = new CH.ifa.draw.figures.RectangleFigure;
+        specialinvoke temp$15.<CH.ifa.draw.figures.RectangleFigure: void <init>()>();
+        specialinvoke temp$14.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$15);
+        specialinvoke temp$13.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$14);
+        tool = temp$13;
+        temp$16 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/RECT", "Rectangle Tool", tool);
+        temp$17 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$16);
+        temp$18 = new CH.ifa.draw.util.UndoableTool;
+        temp$19 = new CH.ifa.draw.standard.CreationTool;
+        temp$20 = new CH.ifa.draw.figures.RoundRectangleFigure;
+        specialinvoke temp$20.<CH.ifa.draw.figures.RoundRectangleFigure: void <init>()>();
+        specialinvoke temp$19.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$20);
+        specialinvoke temp$18.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$19);
+        tool = temp$18;
+        temp$21 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/RRECT", "Round Rectangle Tool", tool);
+        temp$22 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$21);
+        temp$23 = new CH.ifa.draw.util.UndoableTool;
+        temp$24 = new CH.ifa.draw.standard.CreationTool;
+        temp$25 = new CH.ifa.draw.figures.EllipseFigure;
+        specialinvoke temp$25.<CH.ifa.draw.figures.EllipseFigure: void <init>()>();
+        specialinvoke temp$24.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$25);
+        specialinvoke temp$23.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$24);
+        tool = temp$23;
+        temp$26 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/ELLIPSE", "Ellipse Tool", tool);
+        temp$27 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$26);
+        temp$28 = new CH.ifa.draw.util.UndoableTool;
+        temp$29 = new CH.ifa.draw.contrib.PolygonTool;
+        specialinvoke temp$29.<CH.ifa.draw.contrib.PolygonTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        specialinvoke temp$28.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$29);
+        tool = temp$28;
+        temp$30 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/POLYGON", "Polygon Tool", tool);
+        temp$31 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$30);
+        temp$32 = new CH.ifa.draw.util.UndoableTool;
+        temp$33 = new CH.ifa.draw.standard.CreationTool;
+        temp$34 = new CH.ifa.draw.contrib.TriangleFigure;
+        specialinvoke temp$34.<CH.ifa.draw.contrib.TriangleFigure: void <init>()>();
+        specialinvoke temp$33.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$34);
+        specialinvoke temp$32.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$33);
+        tool = temp$32;
+        temp$35 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/TRIANGLE", "Triangle Tool", tool);
+        temp$36 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$35);
+        temp$37 = new CH.ifa.draw.util.UndoableTool;
+        temp$38 = new CH.ifa.draw.standard.CreationTool;
+        temp$39 = new CH.ifa.draw.contrib.DiamondFigure;
+        specialinvoke temp$39.<CH.ifa.draw.contrib.DiamondFigure: void <init>()>();
+        specialinvoke temp$38.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$39);
+        specialinvoke temp$37.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$38);
+        tool = temp$37;
+        temp$40 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/DIAMOND", "Diamond Tool", tool);
+        temp$41 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$40);
+        temp$42 = new CH.ifa.draw.util.UndoableTool;
+        temp$43 = new CH.ifa.draw.standard.CreationTool;
+        temp$44 = new CH.ifa.draw.figures.LineFigure;
+        specialinvoke temp$44.<CH.ifa.draw.figures.LineFigure: void <init>()>();
+        specialinvoke temp$43.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$44);
+        specialinvoke temp$42.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$43);
+        tool = temp$42;
+        temp$45 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/LINE", "Line Tool", tool);
+        temp$46 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$45);
+        temp$47 = new CH.ifa.draw.util.UndoableTool;
+        temp$48 = new CH.ifa.draw.standard.ConnectionTool;
+        temp$49 = new CH.ifa.draw.figures.LineConnection;
+        specialinvoke temp$49.<CH.ifa.draw.figures.LineConnection: void <init>()>();
+        specialinvoke temp$48.<CH.ifa.draw.standard.ConnectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$49);
+        specialinvoke temp$47.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$48);
+        tool = temp$47;
+        temp$50 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/CONN", "Connection Tool", tool);
+        temp$51 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$50);
+        temp$52 = new CH.ifa.draw.util.UndoableTool;
+        temp$53 = new CH.ifa.draw.standard.ConnectionTool;
+        temp$54 = new CH.ifa.draw.figures.ElbowConnection;
+        specialinvoke temp$54.<CH.ifa.draw.figures.ElbowConnection: void <init>()>();
+        specialinvoke temp$53.<CH.ifa.draw.standard.ConnectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$54);
+        specialinvoke temp$52.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$53);
+        tool = temp$52;
+        temp$55 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/OCONN", "Elbow Connection Tool", tool);
+        temp$56 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$55);
+        temp$57 = new CH.ifa.draw.util.UndoableTool;
+        temp$58 = new CH.ifa.draw.figures.ScribbleTool;
+        specialinvoke temp$58.<CH.ifa.draw.figures.ScribbleTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        specialinvoke temp$57.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$58);
+        tool = temp$57;
+        temp$59 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/SCRIBBL", "Scribble Tool", tool);
+        temp$60 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$59);
+        temp$61 = new CH.ifa.draw.util.UndoableTool;
+        temp$62 = new CH.ifa.draw.figures.BorderTool;
+        specialinvoke temp$62.<CH.ifa.draw.figures.BorderTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        specialinvoke temp$61.<CH.ifa.draw.util.UndoableTool: void <init>(CH.ifa.draw.framework.Tool)>(temp$62);
+        tool = temp$61;
+        temp$63 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/BORDDEC", "Border Tool", tool);
+        temp$64 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$63);
+        return;
+    }
+
+    protected CH.ifa.draw.framework.Tool createSelectionTool()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        CH.ifa.draw.samples.javadraw.MySelectionTool temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = new CH.ifa.draw.samples.javadraw.MySelectionTool;
+        specialinvoke temp$0.<CH.ifa.draw.samples.javadraw.MySelectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        return temp$0;
+    }
+
+    protected void createMenus(javax.swing.JMenuBar)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        javax.swing.JMenuBar mb;
+        javax.swing.JMenu temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        mb := @parameter0: javax.swing.JMenuBar;
+        specialinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void createMenus(javax.swing.JMenuBar)>(mb);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: javax.swing.JMenu createAnimationMenu()>();
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: javax.swing.JMenu createImagesMenu()>();
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$1);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: javax.swing.JMenu createWindowMenu()>();
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$2);
+        return;
+    }
+
+    protected javax.swing.JMenu createAnimationMenu()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.util.Command cmd;
+        CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous0 temp$1;
+        CH.ifa.draw.samples.javadraw.JavaDrawApp$1Anonymous1 temp$2;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Animation");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous0;
+        specialinvoke temp$1.<CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous0: void <init>(CH.ifa.draw.samples.javadraw.JavaDrawApp,java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(this, "Start Animation", this);
+        cmd = temp$1;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        temp$2 = new CH.ifa.draw.samples.javadraw.JavaDrawApp$1Anonymous1;
+        specialinvoke temp$2.<CH.ifa.draw.samples.javadraw.JavaDrawApp$1Anonymous1: void <init>(CH.ifa.draw.samples.javadraw.JavaDrawApp,java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(this, "Stop Animation", this);
+        cmd = temp$2;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createWindowMenu()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.util.Command cmd;
+        CH.ifa.draw.samples.javadraw.JavaDrawApp$3Anonymous2 temp$1;
+        CH.ifa.draw.samples.javadraw.JavaDrawApp$4Anonymous3 temp$2;
+        CH.ifa.draw.contrib.WindowMenu temp$3;
+        javax.swing.JComponent temp$4;
+        CH.ifa.draw.contrib.MDIDesktopPane temp$5;
+        javax.swing.JMenuItem temp$6;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Window");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.samples.javadraw.JavaDrawApp$3Anonymous2;
+        specialinvoke temp$1.<CH.ifa.draw.samples.javadraw.JavaDrawApp$3Anonymous2: void <init>(CH.ifa.draw.samples.javadraw.JavaDrawApp,java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(this, "New View", this);
+        cmd = temp$1;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        temp$2 = new CH.ifa.draw.samples.javadraw.JavaDrawApp$4Anonymous3;
+        specialinvoke temp$2.<CH.ifa.draw.samples.javadraw.JavaDrawApp$4Anonymous3: void <init>(CH.ifa.draw.samples.javadraw.JavaDrawApp,java.lang.String,CH.ifa.draw.framework.DrawingEditor,boolean)>(this, "New Window", this, 0);
+        cmd = temp$2;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$3 = new CH.ifa.draw.contrib.WindowMenu;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: javax.swing.JComponent getDesktop()>();
+        temp$5 = (CH.ifa.draw.contrib.MDIDesktopPane) temp$4;
+        specialinvoke temp$3.<CH.ifa.draw.contrib.WindowMenu: void <init>(java.lang.String,CH.ifa.draw.contrib.MDIDesktopPane,CH.ifa.draw.framework.DrawingEditor)>("Window List", temp$5, this);
+        temp$6 = virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$3);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createImagesMenu()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        java.io.File imagesDirectory, temp$1;
+        java.lang.String temp$2, name, path, temp$8, temp$9;
+        java.lang.String[] list, temp$3, temp$5;
+        int i, temp$4, temp$6, temp$12, temp$13;
+        java.lang.StringBuffer temp$7;
+        CH.ifa.draw.util.UndoableCommand temp$10;
+        CH.ifa.draw.figures.InsertImageCommand temp$11;
+        java.lang.Exception e;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Images");
+        menu = temp$0;
+        temp$1 = new java.io.File;
+        temp$2 = <CH.ifa.draw.samples.javadraw.JavaDrawApp: java.lang.String fgSampleImagesPath>;
+        specialinvoke temp$1.<java.io.File: void <init>(java.lang.String)>(temp$2);
+        imagesDirectory = temp$1;
+
+     label0:
+        nop;
+        temp$3 = virtualinvoke imagesDirectory.<java.io.File: java.lang.String[] list()>();
+        list = temp$3;
+        i = 0;
+
+     label1:
+        nop;
+        temp$4 = lengthof list;
+        if i < temp$4 goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$5 = list;
+        temp$6 = i;
+        name = temp$5[temp$6];
+        temp$7 = new java.lang.StringBuffer;
+        specialinvoke temp$7.<java.lang.StringBuffer: void <init>()>();
+        temp$8 = <CH.ifa.draw.samples.javadraw.JavaDrawApp: java.lang.String fgSampleImagesResourcePath>;
+        virtualinvoke temp$7.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$8);
+        virtualinvoke temp$7.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(name);
+        temp$9 = virtualinvoke temp$7.<java.lang.StringBuffer: java.lang.String toString()>();
+        path = temp$9;
+        temp$10 = new CH.ifa.draw.util.UndoableCommand;
+        temp$11 = new CH.ifa.draw.figures.InsertImageCommand;
+        specialinvoke temp$11.<CH.ifa.draw.figures.InsertImageCommand: void <init>(java.lang.String,java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(name, path, this);
+        specialinvoke temp$10.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$11);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$10);
+        nop;
+        temp$12 = i;
+        temp$13 = temp$12 + 1;
+        i = temp$13;
+        goto label1;
+
+     label3:
+        nop;
+        goto label5;
+
+     label4:
+        nop;
+        e := @caughtexception;
+        nop;
+        goto label5;
+
+     label5:
+        nop;
+        return menu;
+
+        catch java.lang.Exception from label0 to label4 with label4;
+    }
+
+    protected CH.ifa.draw.framework.Drawing createDrawing()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        CH.ifa.draw.samples.javadraw.BouncingDrawing temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = new CH.ifa.draw.samples.javadraw.BouncingDrawing;
+        specialinvoke temp$0.<CH.ifa.draw.samples.javadraw.BouncingDrawing: void <init>()>();
+        return temp$0;
+    }
+
+    public void startAnimation()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$5, temp$8;
+        CH.ifa.draw.framework.Drawing temp$1, temp$6;
+        boolean temp$2;
+        CH.ifa.draw.samples.javadraw.Animator temp$3, temp$4, temp$9;
+        CH.ifa.draw.util.Animatable temp$7;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$2 = temp$1 instanceof CH.ifa.draw.util.Animatable;
+        if temp$2 == 0 goto label2;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$3 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        if temp$3 == null goto label1;
+
+        goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$4 = new CH.ifa.draw.samples.javadraw.Animator;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.framework.DrawingView view()>();
+        temp$6 = interfaceinvoke temp$5.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$7 = (CH.ifa.draw.util.Animatable) temp$6;
+        temp$8 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.framework.DrawingView view()>();
+        specialinvoke temp$4.<CH.ifa.draw.samples.javadraw.Animator: void <init>(CH.ifa.draw.util.Animatable,CH.ifa.draw.framework.DrawingView)>(temp$7, temp$8);
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.samples.javadraw.Animator fAnimator> = temp$4;
+        temp$9 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        virtualinvoke temp$9.<CH.ifa.draw.samples.javadraw.Animator: void start()>();
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void endAnimation()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp this;
+        CH.ifa.draw.samples.javadraw.Animator temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        virtualinvoke temp$1.<CH.ifa.draw.samples.javadraw.Animator: void end()>();
+        temp$2 = null;
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.samples.javadraw.Animator fAnimator> = temp$2;
+
+     label1:
+        nop;
+        return;
+    }
+
+    public static void main(java.lang.String[])
+    {
+        java.lang.String[] args;
+        CH.ifa.draw.samples.javadraw.JavaDrawApp window, temp$0;
+
+        args := @parameter0: java.lang.String[];
+        temp$0 = new CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        specialinvoke temp$0.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void <init>()>();
+        window = temp$0;
+        virtualinvoke window.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void open()>();
+        return;
+    }
+}

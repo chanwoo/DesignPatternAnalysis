@@ -1,0 +1,54 @@
+public final class CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1 extends CH.ifa.draw.standard.AlignCommand$Alignment
+{
+
+    public final void moveBy(CH.ifa.draw.framework.Figure, java.awt.Rectangle)
+    {
+        CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1 this;
+        CH.ifa.draw.framework.Figure f;
+        java.awt.Rectangle anchor, rr, temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1;
+        f := @parameter0: CH.ifa.draw.framework.Figure;
+        anchor := @parameter1: java.awt.Rectangle;
+        temp$0 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        rr = temp$0;
+        temp$1 = anchor.<java.awt.Rectangle: int x>;
+        temp$2 = anchor.<java.awt.Rectangle: int width>;
+        temp$3 = temp$2 / 2;
+        temp$4 = rr.<java.awt.Rectangle: int x>;
+        temp$5 = rr.<java.awt.Rectangle: int width>;
+        temp$6 = temp$5 / 2;
+        temp$7 = temp$1 + temp$3;
+        temp$8 = temp$4 + temp$6;
+        temp$9 = temp$7 - temp$8;
+        interfaceinvoke f.<CH.ifa.draw.framework.Figure: void moveBy(int,int)>(temp$9, 0);
+        return;
+    }
+
+    private void <init>(java.lang.String)
+    {
+        CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1 this;
+        java.lang.String newDescription;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1;
+        newDescription := @parameter0: java.lang.String;
+        specialinvoke this.<CH.ifa.draw.standard.AlignCommand$Alignment: void <init>(java.lang.String,CH.ifa.draw.standard.AlignCommand$Alignment$7)>(newDescription, null);
+        return;
+    }
+
+    public void <init>(java.lang.String, CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1$8)
+    {
+        CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1 this;
+        java.lang.String newDescription;
+        CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1$8 p1;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1;
+        newDescription := @parameter0: java.lang.String;
+        p1 := @parameter1: CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1$8;
+        specialinvoke this.<CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous1: void <init>(java.lang.String)>(newDescription);
+        return;
+
+        return;
+    }
+}

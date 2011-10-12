@@ -1,0 +1,177 @@
+public class CH.ifa.draw.util.FloatingTextField extends java.lang.Object
+{
+    private javax.swing.JTextField fEditWidget;
+    private java.awt.Container fContainer;
+
+    public void <init>()
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        javax.swing.JTextField temp$0;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = new javax.swing.JTextField;
+        specialinvoke temp$0.<javax.swing.JTextField: void <init>(int)>(20);
+        this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget> = temp$0;
+        return;
+    }
+
+    public void createOverlay(java.awt.Container)
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        java.awt.Container container;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        container := @parameter0: java.awt.Container;
+        virtualinvoke this.<CH.ifa.draw.util.FloatingTextField: void createOverlay(java.awt.Container,java.awt.Font)>(container, null);
+        return;
+    }
+
+    public void createOverlay(java.awt.Container, java.awt.Font)
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        java.awt.Container container;
+        java.awt.Font font;
+        javax.swing.JTextField temp$0, temp$2;
+        java.awt.Component temp$1;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        container := @parameter0: java.awt.Container;
+        font := @parameter1: java.awt.Font;
+        temp$0 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        temp$1 = virtualinvoke container.<java.awt.Container: java.awt.Component add(java.awt.Component,int)>(temp$0, 0);
+        if font != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$2.<javax.swing.JTextField: void setFont(java.awt.Font)>(font);
+
+     label1:
+        nop;
+        this.<CH.ifa.draw.util.FloatingTextField: java.awt.Container fContainer> = container;
+        return;
+    }
+
+    public void addActionListener(java.awt.event.ActionListener)
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        java.awt.event.ActionListener listener;
+        javax.swing.JTextField temp$0;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        listener := @parameter0: java.awt.event.ActionListener;
+        temp$0 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$0.<javax.swing.JTextField: void addActionListener(java.awt.event.ActionListener)>(listener);
+        return;
+    }
+
+    public void removeActionListener(java.awt.event.ActionListener)
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        java.awt.event.ActionListener listener;
+        javax.swing.JTextField temp$0;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        listener := @parameter0: java.awt.event.ActionListener;
+        temp$0 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$0.<javax.swing.JTextField: void removeActionListener(java.awt.event.ActionListener)>(listener);
+        return;
+    }
+
+    public void setBounds(java.awt.Rectangle, java.lang.String)
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        java.awt.Rectangle r;
+        java.lang.String text;
+        javax.swing.JTextField temp$0, temp$1, temp$6, temp$7, temp$8;
+        int temp$2, temp$3, temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        r := @parameter0: java.awt.Rectangle;
+        text := @parameter1: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$0.<javax.swing.JTextField: void setText(java.lang.String)>(text);
+        temp$1 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke temp$1.<javax.swing.JTextField: void setBounds(int,int,int,int)>(temp$2, temp$3, temp$4, temp$5);
+        temp$6 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$6.<javax.swing.JTextField: void setVisible(boolean)>(1);
+        temp$7 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$7.<javax.swing.JTextField: void selectAll()>();
+        temp$8 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$8.<javax.swing.JTextField: void requestFocus()>();
+        return;
+    }
+
+    public java.lang.String getText()
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        javax.swing.JTextField temp$0;
+        java.lang.String temp$1;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        temp$0 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        temp$1 = virtualinvoke temp$0.<javax.swing.JTextField: java.lang.String getText()>();
+        return temp$1;
+    }
+
+    public java.awt.Dimension getPreferredSize(int)
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        int cols;
+        javax.swing.JTextField temp$0, temp$1;
+        java.awt.Dimension temp$2;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        cols := @parameter0: int;
+        temp$0 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$0.<javax.swing.JTextField: void setColumns(int)>(cols);
+        temp$1 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        temp$2 = virtualinvoke temp$1.<javax.swing.JTextField: java.awt.Dimension getPreferredSize()>();
+        return temp$2;
+    }
+
+    public void endOverlay()
+    {
+        CH.ifa.draw.util.FloatingTextField this;
+        java.awt.Container temp$0, temp$3, temp$7;
+        javax.swing.JTextField temp$1, temp$2, temp$4, temp$5;
+        java.awt.Rectangle bounds, temp$6;
+        int temp$8, temp$9, temp$10, temp$11;
+
+        this := @this: CH.ifa.draw.util.FloatingTextField;
+        temp$0 = this.<CH.ifa.draw.util.FloatingTextField: java.awt.Container fContainer>;
+        virtualinvoke temp$0.<java.awt.Container: void requestFocus()>();
+        temp$1 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        if temp$1 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$2.<javax.swing.JTextField: void setVisible(boolean)>(0);
+        temp$3 = this.<CH.ifa.draw.util.FloatingTextField: java.awt.Container fContainer>;
+        temp$4 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        virtualinvoke temp$3.<java.awt.Container: void remove(java.awt.Component)>(temp$4);
+        temp$5 = this.<CH.ifa.draw.util.FloatingTextField: javax.swing.JTextField fEditWidget>;
+        temp$6 = virtualinvoke temp$5.<javax.swing.JTextField: java.awt.Rectangle getBounds()>();
+        bounds = temp$6;
+        temp$7 = this.<CH.ifa.draw.util.FloatingTextField: java.awt.Container fContainer>;
+        temp$8 = bounds.<java.awt.Rectangle: int x>;
+        temp$9 = bounds.<java.awt.Rectangle: int y>;
+        temp$10 = bounds.<java.awt.Rectangle: int width>;
+        temp$11 = bounds.<java.awt.Rectangle: int height>;
+        virtualinvoke temp$7.<java.awt.Container: void repaint(int,int,int,int)>(temp$8, temp$9, temp$10, temp$11);
+
+     label1:
+        nop;
+        return;
+    }
+}

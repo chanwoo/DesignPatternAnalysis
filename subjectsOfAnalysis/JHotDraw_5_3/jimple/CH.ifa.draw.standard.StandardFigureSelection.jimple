@@ -1,0 +1,174 @@
+public class CH.ifa.draw.standard.StandardFigureSelection extends java.lang.Object implements CH.ifa.draw.framework.FigureSelection, java.io.Serializable
+{
+    private byte[] fData;
+    public static final java.lang.String TYPE;
+
+    static void <clinit>()
+    {
+        java.lang.String temp$0;
+
+        temp$0 = "CH.ifa.draw.Figures";
+        <CH.ifa.draw.standard.StandardFigureSelection: java.lang.String TYPE> = temp$0;
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.FigureEnumeration, int)
+    {
+        CH.ifa.draw.standard.StandardFigureSelection this;
+        CH.ifa.draw.framework.FigureEnumeration figures;
+        int figureCount;
+        java.io.ByteArrayOutputStream output, temp$0;
+        CH.ifa.draw.util.StorableOutput writer, temp$1;
+        boolean temp$2;
+        CH.ifa.draw.framework.Figure temp$3;
+        byte[] temp$4;
+
+        this := @this: CH.ifa.draw.standard.StandardFigureSelection;
+        figures := @parameter0: CH.ifa.draw.framework.FigureEnumeration;
+        figureCount := @parameter1: int;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = new java.io.ByteArrayOutputStream;
+        specialinvoke temp$0.<java.io.ByteArrayOutputStream: void <init>(int)>(200);
+        output = temp$0;
+        temp$1 = new CH.ifa.draw.util.StorableOutput;
+        specialinvoke temp$1.<CH.ifa.draw.util.StorableOutput: void <init>(java.io.OutputStream)>(output);
+        writer = temp$1;
+        virtualinvoke writer.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(figureCount);
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke figures.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke figures.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        virtualinvoke writer.<CH.ifa.draw.util.StorableOutput: void writeStorable(CH.ifa.draw.util.Storable)>(temp$3);
+        goto label0;
+
+     label2:
+        nop;
+        virtualinvoke writer.<CH.ifa.draw.util.StorableOutput: void close()>();
+        temp$4 = virtualinvoke output.<java.io.ByteArrayOutputStream: byte[] toByteArray()>();
+        this.<CH.ifa.draw.standard.StandardFigureSelection: byte[] fData> = temp$4;
+        return;
+    }
+
+    public java.lang.String getType()
+    {
+        CH.ifa.draw.standard.StandardFigureSelection this;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.standard.StandardFigureSelection;
+        temp$0 = <CH.ifa.draw.standard.StandardFigureSelection: java.lang.String TYPE>;
+        return temp$0;
+    }
+
+    public java.lang.Object getData(java.lang.String)
+    {
+        CH.ifa.draw.standard.StandardFigureSelection this;
+        java.lang.String type, temp$10;
+        boolean temp$0;
+        java.io.InputStream input;
+        java.io.ByteArrayInputStream temp$1;
+        byte[] temp$2;
+        java.util.Vector result, temp$3;
+        CH.ifa.draw.util.StorableInput reader, temp$4;
+        int numRead, count, temp$5, temp$7, temp$8;
+        CH.ifa.draw.framework.Figure newFigure;
+        CH.ifa.draw.util.Storable temp$6;
+        java.io.IOException e;
+        java.io.PrintStream temp$9;
+        CH.ifa.draw.standard.FigureEnumerator temp$11;
+        java.lang.Object temp$12;
+
+        this := @this: CH.ifa.draw.standard.StandardFigureSelection;
+        type := @parameter0: java.lang.String;
+        temp$0 = virtualinvoke type.<java.lang.String: boolean equals(java.lang.Object)>("CH.ifa.draw.Figures");
+        if temp$0 == 0 goto label7;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = new java.io.ByteArrayInputStream;
+        temp$2 = this.<CH.ifa.draw.standard.StandardFigureSelection: byte[] fData>;
+        specialinvoke temp$1.<java.io.ByteArrayInputStream: void <init>(byte[])>(temp$2);
+        input = temp$1;
+        temp$3 = new java.util.Vector;
+        specialinvoke temp$3.<java.util.Vector: void <init>(int)>(10);
+        result = temp$3;
+        temp$4 = new CH.ifa.draw.util.StorableInput;
+        specialinvoke temp$4.<CH.ifa.draw.util.StorableInput: void <init>(java.io.InputStream)>(input);
+        reader = temp$4;
+        numRead = 0;
+
+     label1:
+        nop;
+        temp$5 = virtualinvoke reader.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        count = temp$5;
+
+     label2:
+        nop;
+        if numRead < count goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$6 = virtualinvoke reader.<CH.ifa.draw.util.StorableInput: CH.ifa.draw.util.Storable readStorable()>();
+        newFigure = (CH.ifa.draw.framework.Figure) temp$6;
+        virtualinvoke result.<java.util.Vector: void addElement(java.lang.Object)>(newFigure);
+        temp$7 = numRead;
+        temp$8 = temp$7 + 1;
+        numRead = temp$8;
+        goto label2;
+
+     label4:
+        nop;
+        goto label6;
+
+     label5:
+        nop;
+        e := @caughtexception;
+        temp$9 = <java.lang.System: java.io.PrintStream err>;
+        temp$10 = virtualinvoke e.<java.io.IOException: java.lang.String toString()>();
+        virtualinvoke temp$9.<java.io.PrintStream: void println(java.lang.String)>(temp$10);
+        nop;
+        goto label6;
+
+     label6:
+        nop;
+        temp$11 = new CH.ifa.draw.standard.FigureEnumerator;
+        specialinvoke temp$11.<CH.ifa.draw.standard.FigureEnumerator: void <init>(java.util.Vector)>(result);
+        return temp$11;
+
+     label7:
+        nop;
+        temp$12 = null;
+        return temp$12;
+
+        catch java.io.IOException from label1 to label5 with label5;
+    }
+
+    public static CH.ifa.draw.framework.FigureEnumeration duplicateFigures(CH.ifa.draw.framework.FigureEnumeration, int)
+    {
+        CH.ifa.draw.framework.FigureEnumeration toBeCloned, temp$3;
+        int figureCount;
+        CH.ifa.draw.standard.StandardFigureSelection duplicater, temp$0;
+        java.lang.String temp$1;
+        java.lang.Object temp$2;
+
+        toBeCloned := @parameter0: CH.ifa.draw.framework.FigureEnumeration;
+        figureCount := @parameter1: int;
+        temp$0 = new CH.ifa.draw.standard.StandardFigureSelection;
+        specialinvoke temp$0.<CH.ifa.draw.standard.StandardFigureSelection: void <init>(CH.ifa.draw.framework.FigureEnumeration,int)>(toBeCloned, figureCount);
+        duplicater = temp$0;
+        temp$1 = virtualinvoke duplicater.<CH.ifa.draw.standard.StandardFigureSelection: java.lang.String getType()>();
+        temp$2 = virtualinvoke duplicater.<CH.ifa.draw.standard.StandardFigureSelection: java.lang.Object getData(java.lang.String)>(temp$1);
+        temp$3 = (CH.ifa.draw.framework.FigureEnumeration) temp$2;
+        return temp$3;
+    }
+}

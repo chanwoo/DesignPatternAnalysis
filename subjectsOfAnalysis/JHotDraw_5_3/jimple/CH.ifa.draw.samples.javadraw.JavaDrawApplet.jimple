@@ -1,0 +1,279 @@
+public class CH.ifa.draw.samples.javadraw.JavaDrawApplet extends CH.ifa.draw.applet.DrawApplet
+{
+    private javax.swing.JButton fAnimationButton;
+    private CH.ifa.draw.samples.javadraw.Animator fAnimator;
+
+    public void destroy()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        specialinvoke this.<CH.ifa.draw.applet.DrawApplet: void destroy()>();
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: void endAnimation()>();
+        return;
+    }
+
+    protected void createTools(javax.swing.JPanel)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+        javax.swing.JPanel palette;
+        CH.ifa.draw.framework.Tool tool;
+        CH.ifa.draw.figures.TextTool temp$0;
+        CH.ifa.draw.figures.TextFigure temp$1, temp$5;
+        CH.ifa.draw.standard.ToolButton temp$2, temp$6, temp$9, temp$13, temp$17, temp$21, temp$24, temp$28, temp$32, temp$36, temp$40, temp$44, temp$47, temp$50, temp$53;
+        java.awt.Component temp$3, temp$7, temp$10, temp$14, temp$18, temp$22, temp$25, temp$29, temp$33, temp$37, temp$41, temp$45, temp$48, temp$51, temp$54;
+        CH.ifa.draw.figures.ConnectedTextTool temp$4;
+        CH.ifa.draw.samples.javadraw.URLTool temp$8;
+        CH.ifa.draw.standard.CreationTool temp$11, temp$15, temp$19, temp$26, temp$30, temp$34;
+        CH.ifa.draw.figures.RectangleFigure temp$12;
+        CH.ifa.draw.figures.RoundRectangleFigure temp$16;
+        CH.ifa.draw.figures.EllipseFigure temp$20;
+        CH.ifa.draw.contrib.PolygonTool temp$23, temp$49;
+        CH.ifa.draw.contrib.TriangleFigure temp$27;
+        CH.ifa.draw.contrib.DiamondFigure temp$31;
+        CH.ifa.draw.figures.LineFigure temp$35;
+        CH.ifa.draw.standard.ConnectionTool temp$38, temp$42;
+        CH.ifa.draw.figures.LineConnection temp$39;
+        CH.ifa.draw.figures.ElbowConnection temp$43;
+        CH.ifa.draw.figures.ScribbleTool temp$46;
+        CH.ifa.draw.figures.BorderTool temp$52;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        palette := @parameter0: javax.swing.JPanel;
+        specialinvoke this.<CH.ifa.draw.applet.DrawApplet: void createTools(javax.swing.JPanel)>(palette);
+        temp$0 = new CH.ifa.draw.figures.TextTool;
+        temp$1 = new CH.ifa.draw.figures.TextFigure;
+        specialinvoke temp$1.<CH.ifa.draw.figures.TextFigure: void <init>()>();
+        specialinvoke temp$0.<CH.ifa.draw.figures.TextTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$1);
+        tool = temp$0;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/TEXT", "Text Tool", tool);
+        temp$3 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$2);
+        temp$4 = new CH.ifa.draw.figures.ConnectedTextTool;
+        temp$5 = new CH.ifa.draw.figures.TextFigure;
+        specialinvoke temp$5.<CH.ifa.draw.figures.TextFigure: void <init>()>();
+        specialinvoke temp$4.<CH.ifa.draw.figures.ConnectedTextTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$5);
+        tool = temp$4;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/ATEXT", "Connected Text Tool", tool);
+        temp$7 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$6);
+        temp$8 = new CH.ifa.draw.samples.javadraw.URLTool;
+        specialinvoke temp$8.<CH.ifa.draw.samples.javadraw.URLTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        tool = temp$8;
+        temp$9 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/URL", "URL Tool", tool);
+        temp$10 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$9);
+        temp$11 = new CH.ifa.draw.standard.CreationTool;
+        temp$12 = new CH.ifa.draw.figures.RectangleFigure;
+        specialinvoke temp$12.<CH.ifa.draw.figures.RectangleFigure: void <init>()>();
+        specialinvoke temp$11.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$12);
+        tool = temp$11;
+        temp$13 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/RECT", "Rectangle Tool", tool);
+        temp$14 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$13);
+        temp$15 = new CH.ifa.draw.standard.CreationTool;
+        temp$16 = new CH.ifa.draw.figures.RoundRectangleFigure;
+        specialinvoke temp$16.<CH.ifa.draw.figures.RoundRectangleFigure: void <init>()>();
+        specialinvoke temp$15.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$16);
+        tool = temp$15;
+        temp$17 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/RRECT", "Round Rectangle Tool", tool);
+        temp$18 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$17);
+        temp$19 = new CH.ifa.draw.standard.CreationTool;
+        temp$20 = new CH.ifa.draw.figures.EllipseFigure;
+        specialinvoke temp$20.<CH.ifa.draw.figures.EllipseFigure: void <init>()>();
+        specialinvoke temp$19.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$20);
+        tool = temp$19;
+        temp$21 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/ELLIPSE", "Ellipse Tool", tool);
+        temp$22 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$21);
+        temp$23 = new CH.ifa.draw.contrib.PolygonTool;
+        specialinvoke temp$23.<CH.ifa.draw.contrib.PolygonTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        tool = temp$23;
+        temp$24 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/POLYGON", "Polygon Tool", tool);
+        temp$25 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$24);
+        temp$26 = new CH.ifa.draw.standard.CreationTool;
+        temp$27 = new CH.ifa.draw.contrib.TriangleFigure;
+        specialinvoke temp$27.<CH.ifa.draw.contrib.TriangleFigure: void <init>()>();
+        specialinvoke temp$26.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$27);
+        tool = temp$26;
+        temp$28 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/TRIANGLE", "Triangle Tool", tool);
+        temp$29 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$28);
+        temp$30 = new CH.ifa.draw.standard.CreationTool;
+        temp$31 = new CH.ifa.draw.contrib.DiamondFigure;
+        specialinvoke temp$31.<CH.ifa.draw.contrib.DiamondFigure: void <init>()>();
+        specialinvoke temp$30.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$31);
+        tool = temp$30;
+        temp$32 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/DIAMOND", "Diamond Tool", tool);
+        temp$33 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$32);
+        temp$34 = new CH.ifa.draw.standard.CreationTool;
+        temp$35 = new CH.ifa.draw.figures.LineFigure;
+        specialinvoke temp$35.<CH.ifa.draw.figures.LineFigure: void <init>()>();
+        specialinvoke temp$34.<CH.ifa.draw.standard.CreationTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(this, temp$35);
+        tool = temp$34;
+        temp$36 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/LINE", "Line Tool", tool);
+        temp$37 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$36);
+        temp$38 = new CH.ifa.draw.standard.ConnectionTool;
+        temp$39 = new CH.ifa.draw.figures.LineConnection;
+        specialinvoke temp$39.<CH.ifa.draw.figures.LineConnection: void <init>()>();
+        specialinvoke temp$38.<CH.ifa.draw.standard.ConnectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$39);
+        tool = temp$38;
+        temp$40 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/CONN", "Connection Tool", tool);
+        temp$41 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$40);
+        temp$42 = new CH.ifa.draw.standard.ConnectionTool;
+        temp$43 = new CH.ifa.draw.figures.ElbowConnection;
+        specialinvoke temp$43.<CH.ifa.draw.figures.ElbowConnection: void <init>()>();
+        specialinvoke temp$42.<CH.ifa.draw.standard.ConnectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.ConnectionFigure)>(this, temp$43);
+        tool = temp$42;
+        temp$44 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/OCONN", "Elbow Connection Tool", tool);
+        temp$45 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$44);
+        temp$46 = new CH.ifa.draw.figures.ScribbleTool;
+        specialinvoke temp$46.<CH.ifa.draw.figures.ScribbleTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        tool = temp$46;
+        temp$47 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/SCRIBBL", "Scribble Tool", tool);
+        temp$48 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$47);
+        temp$49 = new CH.ifa.draw.contrib.PolygonTool;
+        specialinvoke temp$49.<CH.ifa.draw.contrib.PolygonTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        tool = temp$49;
+        temp$50 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/POLYGON", "Polygon Tool", tool);
+        temp$51 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$50);
+        temp$52 = new CH.ifa.draw.figures.BorderTool;
+        specialinvoke temp$52.<CH.ifa.draw.figures.BorderTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        tool = temp$52;
+        temp$53 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/BORDDEC", "Border Tool", tool);
+        temp$54 = virtualinvoke palette.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$53);
+        return;
+    }
+
+    protected void createButtons(javax.swing.JPanel)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+        javax.swing.JPanel panel;
+        javax.swing.JButton temp$0, temp$1, temp$3;
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet$1Anonymous0 temp$2;
+        java.awt.Component temp$4;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        panel := @parameter0: javax.swing.JPanel;
+        specialinvoke this.<CH.ifa.draw.applet.DrawApplet: void createButtons(javax.swing.JPanel)>(panel);
+        temp$0 = new javax.swing.JButton;
+        specialinvoke temp$0.<javax.swing.JButton: void <init>(java.lang.String)>("Start Animation");
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: javax.swing.JButton fAnimationButton> = temp$0;
+        temp$1 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: javax.swing.JButton fAnimationButton>;
+        temp$2 = new CH.ifa.draw.samples.javadraw.JavaDrawApplet$1Anonymous0;
+        specialinvoke temp$2.<CH.ifa.draw.samples.javadraw.JavaDrawApplet$1Anonymous0: void <init>(CH.ifa.draw.samples.javadraw.JavaDrawApplet)>(this);
+        virtualinvoke temp$1.<javax.swing.JButton: void addActionListener(java.awt.event.ActionListener)>(temp$2);
+        temp$3 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: javax.swing.JButton fAnimationButton>;
+        temp$4 = virtualinvoke panel.<javax.swing.JPanel: java.awt.Component add(java.awt.Component)>(temp$3);
+        return;
+    }
+
+    protected CH.ifa.draw.framework.Drawing createDrawing()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+        CH.ifa.draw.samples.javadraw.BouncingDrawing temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        temp$0 = new CH.ifa.draw.samples.javadraw.BouncingDrawing;
+        specialinvoke temp$0.<CH.ifa.draw.samples.javadraw.BouncingDrawing: void <init>()>();
+        return temp$0;
+    }
+
+    public void startAnimation()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+        CH.ifa.draw.framework.Drawing temp$0, temp$4;
+        boolean temp$1;
+        CH.ifa.draw.samples.javadraw.Animator temp$2, temp$3, temp$7;
+        CH.ifa.draw.util.Animatable temp$5;
+        CH.ifa.draw.framework.DrawingView temp$6;
+        javax.swing.JButton temp$8;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$1 = temp$0 instanceof CH.ifa.draw.util.Animatable;
+        if temp$1 == 0 goto label2;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        if temp$2 == null goto label1;
+
+        goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = new CH.ifa.draw.samples.javadraw.Animator;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$5 = (CH.ifa.draw.util.Animatable) temp$4;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.framework.DrawingView view()>();
+        specialinvoke temp$3.<CH.ifa.draw.samples.javadraw.Animator: void <init>(CH.ifa.draw.util.Animatable,CH.ifa.draw.framework.DrawingView)>(temp$5, temp$6);
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.samples.javadraw.Animator fAnimator> = temp$3;
+        temp$7 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        virtualinvoke temp$7.<CH.ifa.draw.samples.javadraw.Animator: void start()>();
+        temp$8 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: javax.swing.JButton fAnimationButton>;
+        virtualinvoke temp$8.<javax.swing.JButton: void setText(java.lang.String)>("End Animation");
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void endAnimation()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+        CH.ifa.draw.samples.javadraw.Animator temp$0, temp$1, temp$2;
+        javax.swing.JButton temp$3;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        virtualinvoke temp$1.<CH.ifa.draw.samples.javadraw.Animator: void end()>();
+        temp$2 = null;
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.samples.javadraw.Animator fAnimator> = temp$2;
+        temp$3 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: javax.swing.JButton fAnimationButton>;
+        virtualinvoke temp$3.<javax.swing.JButton: void setText(java.lang.String)>("Start Animation");
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void toggleAnimation()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+        CH.ifa.draw.samples.javadraw.Animator temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: CH.ifa.draw.samples.javadraw.Animator fAnimator>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: void endAnimation()>();
+        goto label2;
+
+     label1:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawApplet: void startAnimation()>();
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApplet this;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApplet;
+        specialinvoke this.<CH.ifa.draw.applet.DrawApplet: void <init>()>();
+        return;
+    }
+}

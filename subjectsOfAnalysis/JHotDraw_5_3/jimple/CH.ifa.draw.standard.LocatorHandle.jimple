@@ -1,0 +1,42 @@
+public class CH.ifa.draw.standard.LocatorHandle extends CH.ifa.draw.standard.AbstractHandle
+{
+    private CH.ifa.draw.framework.Locator fLocator;
+
+    public void <init>(CH.ifa.draw.framework.Figure, CH.ifa.draw.framework.Locator)
+    {
+        CH.ifa.draw.standard.LocatorHandle this;
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.framework.Locator l;
+
+        this := @this: CH.ifa.draw.standard.LocatorHandle;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        l := @parameter1: CH.ifa.draw.framework.Locator;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        this.<CH.ifa.draw.standard.LocatorHandle: CH.ifa.draw.framework.Locator fLocator> = l;
+        return;
+    }
+
+    public CH.ifa.draw.framework.Locator getLocator()
+    {
+        CH.ifa.draw.standard.LocatorHandle this;
+        CH.ifa.draw.framework.Locator temp$0;
+
+        this := @this: CH.ifa.draw.standard.LocatorHandle;
+        temp$0 = this.<CH.ifa.draw.standard.LocatorHandle: CH.ifa.draw.framework.Locator fLocator>;
+        return temp$0;
+    }
+
+    public java.awt.Point locate()
+    {
+        CH.ifa.draw.standard.LocatorHandle this;
+        CH.ifa.draw.framework.Locator temp$0;
+        CH.ifa.draw.framework.Figure temp$1;
+        java.awt.Point temp$2;
+
+        this := @this: CH.ifa.draw.standard.LocatorHandle;
+        temp$0 = this.<CH.ifa.draw.standard.LocatorHandle: CH.ifa.draw.framework.Locator fLocator>;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.LocatorHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$2 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Locator: java.awt.Point locate(CH.ifa.draw.framework.Figure)>(temp$1);
+        return temp$2;
+    }
+}

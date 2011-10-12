@@ -1,0 +1,68 @@
+public final class CH.ifa.draw.standard.SingleFigureEnumerator extends java.lang.Object implements CH.ifa.draw.framework.FigureEnumeration
+{
+    private CH.ifa.draw.framework.Figure mySingleFigure;
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.SingleFigureEnumerator this;
+        CH.ifa.draw.framework.Figure newSingleFigure;
+
+        this := @this: CH.ifa.draw.standard.SingleFigureEnumerator;
+        newSingleFigure := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.standard.SingleFigureEnumerator: CH.ifa.draw.framework.Figure mySingleFigure> = newSingleFigure;
+        return;
+    }
+
+    public final boolean hasMoreElements()
+    {
+        CH.ifa.draw.standard.SingleFigureEnumerator this;
+        CH.ifa.draw.framework.Figure temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.standard.SingleFigureEnumerator;
+        temp$0 = this.<CH.ifa.draw.standard.SingleFigureEnumerator: CH.ifa.draw.framework.Figure mySingleFigure>;
+        if temp$0 != null goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$1 = 1;
+
+     label2:
+        nop;
+        return temp$1;
+    }
+
+    public final java.lang.Object nextElement()
+    {
+        CH.ifa.draw.standard.SingleFigureEnumerator this;
+        java.lang.Object returnFigure;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.standard.SingleFigureEnumerator;
+        returnFigure = this.<CH.ifa.draw.standard.SingleFigureEnumerator: CH.ifa.draw.framework.Figure mySingleFigure>;
+        temp$0 = null;
+        this.<CH.ifa.draw.standard.SingleFigureEnumerator: CH.ifa.draw.framework.Figure mySingleFigure> = temp$0;
+        return returnFigure;
+    }
+
+    public final CH.ifa.draw.framework.Figure nextFigure()
+    {
+        CH.ifa.draw.standard.SingleFigureEnumerator this;
+        CH.ifa.draw.framework.Figure returnFigure, temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.standard.SingleFigureEnumerator;
+        temp$0 = this.<CH.ifa.draw.standard.SingleFigureEnumerator: CH.ifa.draw.framework.Figure mySingleFigure>;
+        returnFigure = temp$0;
+        temp$1 = null;
+        this.<CH.ifa.draw.standard.SingleFigureEnumerator: CH.ifa.draw.framework.Figure mySingleFigure> = temp$1;
+        return returnFigure;
+    }
+}

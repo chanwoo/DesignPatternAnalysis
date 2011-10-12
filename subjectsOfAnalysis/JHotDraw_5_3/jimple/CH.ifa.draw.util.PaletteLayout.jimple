@@ -1,0 +1,313 @@
+public class CH.ifa.draw.util.PaletteLayout extends java.lang.Object implements java.awt.LayoutManager
+{
+    private int fGap;
+    private java.awt.Point fBorder;
+    private boolean fVerticalLayout;
+
+    public void <init>(int)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        int gap;
+        java.awt.Point temp$0;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        gap := @parameter0: int;
+        temp$0 = new java.awt.Point;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(0, 0);
+        specialinvoke this.<CH.ifa.draw.util.PaletteLayout: void <init>(int,java.awt.Point,boolean)>(gap, temp$0, 1);
+        return;
+    }
+
+    public void <init>(int, java.awt.Point)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        int gap;
+        java.awt.Point border;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        gap := @parameter0: int;
+        border := @parameter1: java.awt.Point;
+        specialinvoke this.<CH.ifa.draw.util.PaletteLayout: void <init>(int,java.awt.Point,boolean)>(gap, border, 1);
+        return;
+    }
+
+    public void <init>(int, java.awt.Point, boolean)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        int gap;
+        java.awt.Point border;
+        boolean vertical;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        gap := @parameter0: int;
+        border := @parameter1: java.awt.Point;
+        vertical := @parameter2: boolean;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.util.PaletteLayout: int fGap> = gap;
+        this.<CH.ifa.draw.util.PaletteLayout: java.awt.Point fBorder> = border;
+        this.<CH.ifa.draw.util.PaletteLayout: boolean fVerticalLayout> = vertical;
+        return;
+    }
+
+    public void addLayoutComponent(java.lang.String, java.awt.Component)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        java.lang.String name;
+        java.awt.Component comp;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        name := @parameter0: java.lang.String;
+        comp := @parameter1: java.awt.Component;
+        return;
+    }
+
+    public void removeLayoutComponent(java.awt.Component)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        java.awt.Component comp;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        comp := @parameter0: java.awt.Component;
+        return;
+    }
+
+    public java.awt.Dimension preferredLayoutSize(java.awt.Container)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        java.awt.Container target;
+        java.awt.Dimension temp$0;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        target := @parameter0: java.awt.Container;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.PaletteLayout: java.awt.Dimension minimumLayoutSize(java.awt.Container)>(target);
+        return temp$0;
+    }
+
+    public java.awt.Dimension minimumLayoutSize(java.awt.Container)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        java.awt.Container target;
+        java.awt.Dimension dim, temp$0, d, temp$4;
+        int nmembers, temp$1, i, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$27, temp$28, temp$29, temp$30, temp$31, temp$32, temp$34, temp$35, temp$36, temp$37, temp$38, temp$39, temp$40, temp$41, temp$42, temp$44, temp$45, temp$46;
+        java.awt.Component m, temp$2;
+        boolean temp$3, temp$5;
+        java.awt.Insets insets, temp$26;
+        java.awt.Point temp$33, temp$43;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        target := @parameter0: java.awt.Container;
+        temp$0 = new java.awt.Dimension;
+        specialinvoke temp$0.<java.awt.Dimension: void <init>(int,int)>(0, 0);
+        dim = temp$0;
+        temp$1 = virtualinvoke target.<java.awt.Container: int getComponentCount()>();
+        nmembers = temp$1;
+        i = 0;
+
+     label0:
+        nop;
+        if i < nmembers goto label1;
+
+        goto label11;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke target.<java.awt.Container: java.awt.Component getComponent(int)>(i);
+        m = temp$2;
+        temp$3 = virtualinvoke m.<java.awt.Component: boolean isVisible()>();
+        if temp$3 == 0 goto label10;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$4 = virtualinvoke m.<java.awt.Component: java.awt.Dimension getMinimumSize()>();
+        d = temp$4;
+        temp$5 = this.<CH.ifa.draw.util.PaletteLayout: boolean fVerticalLayout>;
+        if temp$5 == 0 goto label6;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$6 = dim.<java.awt.Dimension: int width>;
+        temp$7 = d.<java.awt.Dimension: int width>;
+        temp$8 = staticinvoke <java.lang.Math: int max(int,int)>(temp$6, temp$7);
+        dim.<java.awt.Dimension: int width> = temp$8;
+        if i > 0 goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$9 = dim.<java.awt.Dimension: int height>;
+        temp$10 = this.<CH.ifa.draw.util.PaletteLayout: int fGap>;
+        temp$11 = temp$9 + temp$10;
+        dim.<java.awt.Dimension: int height> = temp$11;
+
+     label5:
+        nop;
+        temp$12 = dim.<java.awt.Dimension: int height>;
+        temp$13 = d.<java.awt.Dimension: int height>;
+        temp$14 = temp$12 + temp$13;
+        dim.<java.awt.Dimension: int height> = temp$14;
+        goto label9;
+
+     label6:
+        nop;
+        temp$15 = dim.<java.awt.Dimension: int height>;
+        temp$16 = d.<java.awt.Dimension: int height>;
+        temp$17 = staticinvoke <java.lang.Math: int max(int,int)>(temp$15, temp$16);
+        dim.<java.awt.Dimension: int height> = temp$17;
+        if i > 0 goto label7;
+
+        goto label8;
+
+     label7:
+        nop;
+        temp$18 = dim.<java.awt.Dimension: int width>;
+        temp$19 = this.<CH.ifa.draw.util.PaletteLayout: int fGap>;
+        temp$20 = temp$18 + temp$19;
+        dim.<java.awt.Dimension: int width> = temp$20;
+
+     label8:
+        nop;
+        temp$21 = dim.<java.awt.Dimension: int width>;
+        temp$22 = d.<java.awt.Dimension: int width>;
+        temp$23 = temp$21 + temp$22;
+        dim.<java.awt.Dimension: int width> = temp$23;
+
+     label9:
+        nop;
+
+     label10:
+        nop;
+        nop;
+        temp$24 = i;
+        temp$25 = temp$24 + 1;
+        i = temp$25;
+        goto label0;
+
+     label11:
+        nop;
+        temp$26 = virtualinvoke target.<java.awt.Container: java.awt.Insets getInsets()>();
+        insets = temp$26;
+        temp$27 = dim.<java.awt.Dimension: int width>;
+        temp$28 = insets.<java.awt.Insets: int left>;
+        temp$29 = insets.<java.awt.Insets: int right>;
+        temp$30 = temp$28 + temp$29;
+        temp$31 = temp$27 + temp$30;
+        dim.<java.awt.Dimension: int width> = temp$31;
+        temp$32 = dim.<java.awt.Dimension: int width>;
+        temp$33 = this.<CH.ifa.draw.util.PaletteLayout: java.awt.Point fBorder>;
+        temp$34 = temp$33.<java.awt.Point: int x>;
+        temp$35 = 2 * temp$34;
+        temp$36 = temp$32 + temp$35;
+        dim.<java.awt.Dimension: int width> = temp$36;
+        temp$37 = dim.<java.awt.Dimension: int height>;
+        temp$38 = insets.<java.awt.Insets: int top>;
+        temp$39 = insets.<java.awt.Insets: int bottom>;
+        temp$40 = temp$38 + temp$39;
+        temp$41 = temp$37 + temp$40;
+        dim.<java.awt.Dimension: int height> = temp$41;
+        temp$42 = dim.<java.awt.Dimension: int height>;
+        temp$43 = this.<CH.ifa.draw.util.PaletteLayout: java.awt.Point fBorder>;
+        temp$44 = temp$43.<java.awt.Point: int y>;
+        temp$45 = 2 * temp$44;
+        temp$46 = temp$42 + temp$45;
+        dim.<java.awt.Dimension: int height> = temp$46;
+        return dim;
+    }
+
+    public void layoutContainer(java.awt.Container)
+    {
+        CH.ifa.draw.util.PaletteLayout this;
+        java.awt.Container target;
+        java.awt.Insets insets, temp$0;
+        int nmembers, temp$1, x, temp$2, temp$4, y, temp$5, temp$7, i, temp$11, temp$12, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27;
+        java.awt.Point temp$3, temp$6;
+        java.awt.Component m, temp$8;
+        boolean temp$9, temp$13;
+        java.awt.Dimension d, temp$10;
+
+        this := @this: CH.ifa.draw.util.PaletteLayout;
+        target := @parameter0: java.awt.Container;
+        temp$0 = virtualinvoke target.<java.awt.Container: java.awt.Insets getInsets()>();
+        insets = temp$0;
+        temp$1 = virtualinvoke target.<java.awt.Container: int getComponentCount()>();
+        nmembers = temp$1;
+        temp$2 = insets.<java.awt.Insets: int left>;
+        temp$3 = this.<CH.ifa.draw.util.PaletteLayout: java.awt.Point fBorder>;
+        temp$4 = temp$3.<java.awt.Point: int x>;
+        x = temp$2 + temp$4;
+        temp$5 = insets.<java.awt.Insets: int top>;
+        temp$6 = this.<CH.ifa.draw.util.PaletteLayout: java.awt.Point fBorder>;
+        temp$7 = temp$6.<java.awt.Point: int y>;
+        y = temp$5 + temp$7;
+        i = 0;
+
+     label0:
+        nop;
+        if i < nmembers goto label1;
+
+        goto label7;
+
+     label1:
+        nop;
+        temp$8 = virtualinvoke target.<java.awt.Container: java.awt.Component getComponent(int)>(i);
+        m = temp$8;
+        temp$9 = virtualinvoke m.<java.awt.Component: boolean isVisible()>();
+        if temp$9 == 0 goto label6;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$10 = virtualinvoke m.<java.awt.Component: java.awt.Dimension getMinimumSize()>();
+        d = temp$10;
+        temp$11 = d.<java.awt.Dimension: int width>;
+        temp$12 = d.<java.awt.Dimension: int height>;
+        virtualinvoke m.<java.awt.Component: void setBounds(int,int,int,int)>(x, y, temp$11, temp$12);
+        temp$13 = this.<CH.ifa.draw.util.PaletteLayout: boolean fVerticalLayout>;
+        if temp$13 == 0 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$14 = y;
+        temp$15 = d.<java.awt.Dimension: int height>;
+        temp$16 = temp$14 + temp$15;
+        y = temp$16;
+        temp$17 = y;
+        temp$18 = this.<CH.ifa.draw.util.PaletteLayout: int fGap>;
+        temp$19 = temp$17 + temp$18;
+        y = temp$19;
+        goto label5;
+
+     label4:
+        nop;
+        temp$20 = x;
+        temp$21 = d.<java.awt.Dimension: int width>;
+        temp$22 = temp$20 + temp$21;
+        x = temp$22;
+        temp$23 = x;
+        temp$24 = this.<CH.ifa.draw.util.PaletteLayout: int fGap>;
+        temp$25 = temp$23 + temp$24;
+        x = temp$25;
+
+     label5:
+        nop;
+
+     label6:
+        nop;
+        nop;
+        temp$26 = i;
+        temp$27 = temp$26 + 1;
+        i = temp$27;
+        goto label0;
+
+     label7:
+        nop;
+        return;
+    }
+}

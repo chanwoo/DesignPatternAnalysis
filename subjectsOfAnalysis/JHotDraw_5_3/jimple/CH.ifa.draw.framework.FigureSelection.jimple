@@ -1,0 +1,7 @@
+public interface  CH.ifa.draw.framework.FigureSelection extends java.lang.Object
+{
+
+    public abstract java.lang.String getType();
+
+    public abstract java.lang.Object getData(java.lang.String);
+}

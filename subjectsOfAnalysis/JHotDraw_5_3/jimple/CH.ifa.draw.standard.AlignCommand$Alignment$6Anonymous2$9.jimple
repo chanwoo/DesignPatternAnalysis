@@ -1,0 +1,16 @@
+public class CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2$9 extends java.lang.Object
+{
+    CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2 this$0;
+
+    void <init>(CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2)
+    {
+        CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2$9 this;
+        CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2 temp$0;
+
+        this := @this: CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2$9;
+        temp$0 := @parameter0: CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2$9: CH.ifa.draw.standard.AlignCommand$Alignment$6Anonymous2 this$0> = temp$0;
+        return;
+    }
+}

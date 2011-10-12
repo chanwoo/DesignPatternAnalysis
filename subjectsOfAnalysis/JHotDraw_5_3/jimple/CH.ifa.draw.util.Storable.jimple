@@ -1,0 +1,7 @@
+public interface  CH.ifa.draw.util.Storable extends java.lang.Object
+{
+
+    public abstract void write(CH.ifa.draw.util.StorableOutput);
+
+    public abstract void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException;
+}

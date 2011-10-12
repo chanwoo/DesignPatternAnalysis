@@ -1,0 +1,81 @@
+public interface  CH.ifa.draw.framework.Figure extends java.lang.Object implements CH.ifa.draw.util.Storable, java.lang.Cloneable, java.io.Serializable
+{
+    public static final java.lang.String POPUP_MENU;
+
+    static void <clinit>()
+    {
+        java.lang.String temp$0;
+
+        temp$0 = "POPUP_MENU";
+        <CH.ifa.draw.framework.Figure: java.lang.String POPUP_MENU> = temp$0;
+        return;
+    }
+
+    public abstract void moveBy(int, int);
+
+    public abstract void basicDisplayBox(java.awt.Point, java.awt.Point);
+
+    public abstract void displayBox(java.awt.Point, java.awt.Point);
+
+    public abstract java.awt.Rectangle displayBox();
+
+    public abstract void draw(java.awt.Graphics);
+
+    public abstract java.util.Vector handles();
+
+    public abstract java.awt.Dimension size();
+
+    public abstract java.awt.Point center();
+
+    public abstract boolean isEmpty();
+
+    public abstract CH.ifa.draw.framework.FigureEnumeration figures();
+
+    public abstract CH.ifa.draw.framework.Figure findFigureInside(int, int);
+
+    public abstract boolean containsPoint(int, int);
+
+    public abstract java.lang.Object clone();
+
+    public abstract void displayBox(java.awt.Rectangle);
+
+    public abstract boolean includes(CH.ifa.draw.framework.Figure);
+
+    public abstract CH.ifa.draw.framework.FigureEnumeration decompose();
+
+    public abstract void addToContainer(CH.ifa.draw.framework.FigureChangeListener);
+
+    public abstract void removeFromContainer(CH.ifa.draw.framework.FigureChangeListener);
+
+    public abstract CH.ifa.draw.framework.FigureChangeListener listener();
+
+    public abstract void addFigureChangeListener(CH.ifa.draw.framework.FigureChangeListener);
+
+    public abstract void removeFigureChangeListener(CH.ifa.draw.framework.FigureChangeListener);
+
+    public abstract void release();
+
+    public abstract void invalidate();
+
+    public abstract void willChange();
+
+    public abstract void changed();
+
+    public abstract boolean canConnect();
+
+    public abstract CH.ifa.draw.framework.Connector connectorAt(int, int);
+
+    public abstract void connectorVisibility(boolean);
+
+    public abstract java.awt.Insets connectionInsets();
+
+    public abstract CH.ifa.draw.framework.Locator connectedTextLocator(CH.ifa.draw.framework.Figure);
+
+    public abstract java.lang.Object getAttribute(java.lang.String);
+
+    public abstract void setAttribute(java.lang.String, java.lang.Object);
+
+    public abstract int getZValue();
+
+    public abstract void setZValue(int);
+}

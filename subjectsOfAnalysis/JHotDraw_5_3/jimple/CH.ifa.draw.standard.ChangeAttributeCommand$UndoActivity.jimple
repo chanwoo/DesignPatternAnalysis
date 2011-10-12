@@ -1,0 +1,272 @@
+public static class CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity extends CH.ifa.draw.util.UndoableAdapter
+{
+    private java.util.Hashtable myOriginalValues;
+    private java.lang.String myUndoAttribute;
+    private java.lang.Object myUndoValue;
+
+    public void <init>(CH.ifa.draw.framework.DrawingView, java.lang.String, java.lang.Object)
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+        java.lang.String newUndoAttribute;
+        java.lang.Object newUndoValue;
+        java.util.Hashtable temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        newUndoAttribute := @parameter1: java.lang.String;
+        newUndoValue := @parameter2: java.lang.Object;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void <init>(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        temp$0 = new java.util.Hashtable;
+        specialinvoke temp$0.<java.util.Hashtable: void <init>()>();
+        this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.util.Hashtable myOriginalValues> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: void setAttributeName(java.lang.String)>(newUndoAttribute);
+        virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: void setBackupValue(java.lang.Object)>(newUndoValue);
+        virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: void setUndoable(boolean)>(1);
+        virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: void setRedoable(boolean)>(1);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        boolean temp$0, temp$1, temp$3, temp$8;
+        CH.ifa.draw.framework.FigureEnumeration k, temp$2;
+        CH.ifa.draw.framework.Figure f, temp$4;
+        java.lang.Object temp$5, temp$7;
+        java.lang.String temp$6;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean undo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        k = temp$2;
+
+     label2:
+        nop;
+        temp$3 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label6;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$4 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        f = temp$4;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.Object getOriginalValue(CH.ifa.draw.framework.Figure)>(f);
+        if temp$5 != null goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.String getAttributeName()>();
+        temp$7 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.Object getOriginalValue(CH.ifa.draw.framework.Figure)>(f);
+        interfaceinvoke f.<CH.ifa.draw.framework.Figure: void setAttribute(java.lang.String,java.lang.Object)>(temp$6, temp$7);
+
+     label5:
+        nop;
+        goto label2;
+
+     label6:
+        nop;
+        temp$8 = 1;
+        return temp$8;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        boolean temp$0, temp$1, temp$3, temp$8;
+        CH.ifa.draw.framework.FigureEnumeration k, temp$2;
+        CH.ifa.draw.framework.Figure f, temp$4;
+        java.lang.Object temp$5, temp$7;
+        java.lang.String temp$6;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: boolean isRedoable()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        k = temp$2;
+
+     label2:
+        nop;
+        temp$3 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label6;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$4 = interfaceinvoke k.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        f = temp$4;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.Object getBackupValue()>();
+        if temp$5 != null goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.String getAttributeName()>();
+        temp$7 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.Object getBackupValue()>();
+        interfaceinvoke f.<CH.ifa.draw.framework.Figure: void setAttribute(java.lang.String,java.lang.Object)>(temp$6, temp$7);
+
+     label5:
+        nop;
+        goto label2;
+
+     label6:
+        nop;
+        temp$8 = 1;
+        return temp$8;
+    }
+
+    protected void addOriginalValue(CH.ifa.draw.framework.Figure, java.lang.Object)
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        CH.ifa.draw.framework.Figure affectedFigure;
+        java.lang.Object newOriginalValue, temp$1;
+        java.util.Hashtable temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        affectedFigure := @parameter0: CH.ifa.draw.framework.Figure;
+        newOriginalValue := @parameter1: java.lang.Object;
+        temp$0 = this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.util.Hashtable myOriginalValues>;
+        temp$1 = virtualinvoke temp$0.<java.util.Hashtable: java.lang.Object put(java.lang.Object,java.lang.Object)>(affectedFigure, newOriginalValue);
+        return;
+    }
+
+    protected java.lang.Object getOriginalValue(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        CH.ifa.draw.framework.Figure lookupAffectedFigure;
+        java.util.Hashtable temp$0;
+        java.lang.Object temp$1;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        lookupAffectedFigure := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.util.Hashtable myOriginalValues>;
+        temp$1 = virtualinvoke temp$0.<java.util.Hashtable: java.lang.Object get(java.lang.Object)>(lookupAffectedFigure);
+        return temp$1;
+    }
+
+    protected void setAttributeName(java.lang.String)
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        java.lang.String newUndoAttribute;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        newUndoAttribute := @parameter0: java.lang.String;
+        this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.String myUndoAttribute> = newUndoAttribute;
+        return;
+    }
+
+    public java.lang.String getAttributeName()
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.String myUndoAttribute>;
+        return temp$0;
+    }
+
+    protected void setBackupValue(java.lang.Object)
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        java.lang.Object newUndoValue;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        newUndoValue := @parameter0: java.lang.Object;
+        this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.Object myUndoValue> = newUndoValue;
+        return;
+    }
+
+    public java.lang.Object getBackupValue()
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        java.lang.Object temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.Object myUndoValue>;
+        return temp$0;
+    }
+
+    public void release()
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        java.util.Hashtable temp$0;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void release()>();
+        temp$0 = null;
+        this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.util.Hashtable myOriginalValues> = temp$0;
+        return;
+    }
+
+    public void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)
+    {
+        CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity this;
+        CH.ifa.draw.framework.FigureEnumeration fe, copyFe, temp$0;
+        boolean temp$1;
+        CH.ifa.draw.framework.Figure f, temp$2;
+        java.lang.Object attributeValue, temp$4;
+        java.lang.String temp$3;
+
+        this := @this: CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity;
+        fe := @parameter0: CH.ifa.draw.framework.FigureEnumeration;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(fe);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        copyFe = temp$0;
+
+     label0:
+        nop;
+        temp$1 = interfaceinvoke copyFe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label4;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$2 = interfaceinvoke copyFe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        f = temp$2;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: java.lang.String getAttributeName()>();
+        temp$4 = interfaceinvoke f.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>(temp$3);
+        attributeValue = temp$4;
+        if attributeValue != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.standard.ChangeAttributeCommand$UndoActivity: void addOriginalValue(CH.ifa.draw.framework.Figure,java.lang.Object)>(f, attributeValue);
+
+     label3:
+        nop;
+        goto label0;
+
+     label4:
+        nop;
+        return;
+    }
+}

@@ -1,0 +1,76 @@
+public class CH.ifa.draw.samples.javadraw.MySelectionTool extends CH.ifa.draw.standard.SelectionTool
+{
+
+    public void <init>(CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.samples.javadraw.MySelectionTool this;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+
+        this := @this: CH.ifa.draw.samples.javadraw.MySelectionTool;
+        newDrawingEditor := @parameter0: CH.ifa.draw.framework.DrawingEditor;
+        specialinvoke this.<CH.ifa.draw.standard.SelectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(newDrawingEditor);
+        return;
+    }
+
+    public void mouseDown(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.samples.javadraw.MySelectionTool this;
+        java.awt.event.MouseEvent e;
+        int x, y, temp$0, temp$2, temp$3;
+        CH.ifa.draw.framework.Figure figure, temp$4;
+        CH.ifa.draw.framework.Drawing temp$1;
+
+        this := @this: CH.ifa.draw.samples.javadraw.MySelectionTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        temp$0 = virtualinvoke e.<java.awt.event.MouseEvent: int getClickCount()>();
+        if temp$0 == 2 goto label0;
+
+        goto label3;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.MySelectionTool: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$2 = virtualinvoke e.<java.awt.event.MouseEvent: int getX()>();
+        temp$3 = virtualinvoke e.<java.awt.event.MouseEvent: int getY()>();
+        temp$4 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure findFigure(int,int)>(temp$2, temp$3);
+        figure = temp$4;
+        if figure != null goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.MySelectionTool: void inspectFigure(CH.ifa.draw.framework.Figure)>(figure);
+        return;
+
+     label2:
+        nop;
+
+     label3:
+        nop;
+        specialinvoke this.<CH.ifa.draw.standard.SelectionTool: void mouseDown(java.awt.event.MouseEvent,int,int)>(e, x, y);
+        return;
+    }
+
+    protected void inspectFigure(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.samples.javadraw.MySelectionTool this;
+        CH.ifa.draw.framework.Figure f;
+        java.io.PrintStream temp$0;
+        java.lang.StringBuffer temp$1;
+        java.lang.String temp$2;
+
+        this := @this: CH.ifa.draw.samples.javadraw.MySelectionTool;
+        f := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        temp$1 = new java.lang.StringBuffer;
+        specialinvoke temp$1.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("inspect figure");
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(f);
+        temp$2 = virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke temp$0.<java.io.PrintStream: void println(java.lang.String)>(temp$2);
+        return;
+    }
+}

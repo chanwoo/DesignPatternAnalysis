@@ -1,0 +1,50 @@
+class CH.ifa.draw.applet.SleeperThread extends java.lang.Thread
+{
+    javax.swing.JApplet fApplet;
+
+    void <init>(javax.swing.JApplet)
+    {
+        CH.ifa.draw.applet.SleeperThread this;
+        javax.swing.JApplet applet;
+
+        this := @this: CH.ifa.draw.applet.SleeperThread;
+        applet := @parameter0: javax.swing.JApplet;
+        specialinvoke this.<java.lang.Thread: void <init>()>();
+        this.<CH.ifa.draw.applet.SleeperThread: javax.swing.JApplet fApplet> = applet;
+        return;
+    }
+
+    public void run()
+    {
+        CH.ifa.draw.applet.SleeperThread this;
+        javax.swing.JApplet temp$0;
+        java.lang.InterruptedException e;
+
+        this := @this: CH.ifa.draw.applet.SleeperThread;
+
+     label0:
+        nop;
+
+     label1:
+        nop;
+        goto label2;
+
+     label2:
+        nop;
+        temp$0 = this.<CH.ifa.draw.applet.SleeperThread: javax.swing.JApplet fApplet>;
+        virtualinvoke temp$0.<javax.swing.JApplet: void showStatus(java.lang.String)>("loading icons...");
+        staticinvoke <CH.ifa.draw.applet.SleeperThread: void sleep(long)>(50L);
+        nop;
+        goto label1;
+
+     label3:
+        nop;
+        e := @caughtexception;
+        nop;
+        return;
+
+        return;
+
+        catch java.lang.InterruptedException from label0 to label3 with label3;
+    }
+}

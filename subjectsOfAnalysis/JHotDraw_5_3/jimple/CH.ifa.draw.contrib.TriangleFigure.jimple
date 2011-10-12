@@ -1,0 +1,551 @@
+public class CH.ifa.draw.contrib.TriangleFigure extends CH.ifa.draw.figures.RectangleFigure
+{
+    static double[] rotations;
+    private int fRotation;
+
+    static void <clinit>()
+    {
+        double[] temp$0;
+
+        temp$0 = newarray (double)[8];
+        temp$0[0] = -1.5707963267948966;
+        temp$0[1] = -0.7853981633974483;
+        temp$0[2] = 0.0;
+        temp$0[3] = 0.7853981633974483;
+        temp$0[4] = 1.5707963267948966;
+        temp$0[5] = 2.356194490192345;
+        temp$0[6] = 3.141592653589793;
+        temp$0[7] = -2.356194490192345;
+        <CH.ifa.draw.contrib.TriangleFigure: double[] rotations> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.awt.Point temp$0, temp$1;
+        int temp$2;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        temp$0 = new java.awt.Point;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(0, 0);
+        temp$1 = new java.awt.Point;
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(0, 0);
+        specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: void <init>(java.awt.Point,java.awt.Point)>(temp$0, temp$1);
+        temp$2 = 0;
+        this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation> = temp$2;
+        return;
+    }
+
+    public void <init>(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.awt.Point origin, corner;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: void <init>(java.awt.Point,java.awt.Point)>(origin, corner);
+        temp$0 = 0;
+        this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation> = temp$0;
+        return;
+    }
+
+    public java.util.Vector handles()
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.util.Vector h, temp$0;
+        CH.ifa.draw.contrib.TriangleRotationHandle temp$1;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        temp$0 = specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: java.util.Vector handles()>();
+        h = temp$0;
+        temp$1 = new CH.ifa.draw.contrib.TriangleRotationHandle;
+        specialinvoke temp$1.<CH.ifa.draw.contrib.TriangleRotationHandle: void <init>(CH.ifa.draw.contrib.TriangleFigure)>(this);
+        virtualinvoke h.<java.util.Vector: void addElement(java.lang.Object)>(temp$1);
+        return h;
+    }
+
+    public void rotate(double)
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        double angle, dist, d, temp$4, temp$5, temp$6;
+        int best, i, temp$1, temp$3, temp$7, temp$8;
+        double[] temp$0, temp$2;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        angle := @parameter0: double;
+        virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: void willChange()>();
+        dist = 1.7976931348623157E308;
+        best = 0;
+        i = 0;
+
+     label0:
+        nop;
+        temp$0 = <CH.ifa.draw.contrib.TriangleFigure: double[] rotations>;
+        temp$1 = lengthof temp$0;
+        if i < temp$1 goto label1;
+
+        goto label4;
+
+     label1:
+        nop;
+        temp$2 = <CH.ifa.draw.contrib.TriangleFigure: double[] rotations>;
+        temp$3 = i;
+        temp$4 = temp$2[temp$3];
+        temp$5 = angle - temp$4;
+        temp$6 = staticinvoke <java.lang.Math: double abs(double)>(temp$5);
+        d = temp$6;
+        temp$7 = d cmpg dist;
+        if temp$7 >= 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        dist = d;
+        best = i;
+
+     label3:
+        nop;
+        nop;
+        temp$8 = i + 1;
+        i = temp$8;
+        goto label0;
+
+     label4:
+        nop;
+        this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation> = best;
+        virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: void changed()>();
+        return;
+    }
+
+    public java.awt.Polygon getPolygon()
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Polygon p, temp$1;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27, temp$28, temp$29, temp$30, temp$31, temp$32, temp$33, temp$34, temp$35, temp$36, temp$37, temp$38, temp$39, temp$40, temp$41, temp$42, temp$43, temp$44, temp$45, temp$46, temp$47, temp$48, temp$49, temp$50, temp$51, temp$52, temp$53, temp$54, temp$55, temp$56, temp$57, temp$58, temp$59, temp$60, temp$61, temp$62, temp$63, temp$64, temp$65, temp$66, temp$67, temp$68, temp$69, temp$70, temp$71, temp$72, temp$73, temp$74, temp$75, temp$76, temp$77, temp$78, temp$79, temp$80, temp$81, temp$82, temp$83, temp$84, temp$85, temp$86, temp$87, temp$88, temp$89, temp$90, temp$91, temp$92, temp$93, temp$94, temp$95, temp$96, temp$97, temp$98, temp$99, temp$100, temp$101, temp$102, temp$103, temp$104, temp$105, temp$106;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = new java.awt.Polygon;
+        specialinvoke temp$1.<java.awt.Polygon: void <init>()>();
+        p = temp$1;
+        goto label8;
+
+     label0:
+        nop;
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int width>;
+        temp$4 = temp$3 / 2;
+        temp$5 = temp$2 + temp$4;
+        temp$6 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$5, temp$6);
+        temp$7 = r.<java.awt.Rectangle: int x>;
+        temp$8 = r.<java.awt.Rectangle: int width>;
+        temp$9 = temp$7 + temp$8;
+        temp$10 = r.<java.awt.Rectangle: int y>;
+        temp$11 = r.<java.awt.Rectangle: int height>;
+        temp$12 = temp$10 + temp$11;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$9, temp$12);
+        temp$13 = r.<java.awt.Rectangle: int x>;
+        temp$14 = r.<java.awt.Rectangle: int y>;
+        temp$15 = r.<java.awt.Rectangle: int height>;
+        temp$16 = temp$14 + temp$15;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$13, temp$16);
+        goto label9;
+
+     label1:
+        nop;
+        temp$17 = r.<java.awt.Rectangle: int x>;
+        temp$18 = r.<java.awt.Rectangle: int width>;
+        temp$19 = temp$17 + temp$18;
+        temp$20 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$19, temp$20);
+        temp$21 = r.<java.awt.Rectangle: int x>;
+        temp$22 = r.<java.awt.Rectangle: int width>;
+        temp$23 = temp$21 + temp$22;
+        temp$24 = r.<java.awt.Rectangle: int y>;
+        temp$25 = r.<java.awt.Rectangle: int height>;
+        temp$26 = temp$24 + temp$25;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$23, temp$26);
+        temp$27 = r.<java.awt.Rectangle: int x>;
+        temp$28 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$27, temp$28);
+        goto label9;
+
+     label2:
+        nop;
+        temp$29 = r.<java.awt.Rectangle: int x>;
+        temp$30 = r.<java.awt.Rectangle: int width>;
+        temp$31 = temp$29 + temp$30;
+        temp$32 = r.<java.awt.Rectangle: int y>;
+        temp$33 = r.<java.awt.Rectangle: int height>;
+        temp$34 = temp$33 / 2;
+        temp$35 = temp$32 + temp$34;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$31, temp$35);
+        temp$36 = r.<java.awt.Rectangle: int x>;
+        temp$37 = r.<java.awt.Rectangle: int y>;
+        temp$38 = r.<java.awt.Rectangle: int height>;
+        temp$39 = temp$37 + temp$38;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$36, temp$39);
+        temp$40 = r.<java.awt.Rectangle: int x>;
+        temp$41 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$40, temp$41);
+        goto label9;
+
+     label3:
+        nop;
+        temp$42 = r.<java.awt.Rectangle: int x>;
+        temp$43 = r.<java.awt.Rectangle: int width>;
+        temp$44 = temp$42 + temp$43;
+        temp$45 = r.<java.awt.Rectangle: int y>;
+        temp$46 = r.<java.awt.Rectangle: int height>;
+        temp$47 = temp$45 + temp$46;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$44, temp$47);
+        temp$48 = r.<java.awt.Rectangle: int x>;
+        temp$49 = r.<java.awt.Rectangle: int y>;
+        temp$50 = r.<java.awt.Rectangle: int height>;
+        temp$51 = temp$49 + temp$50;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$48, temp$51);
+        temp$52 = r.<java.awt.Rectangle: int x>;
+        temp$53 = r.<java.awt.Rectangle: int width>;
+        temp$54 = temp$52 + temp$53;
+        temp$55 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$54, temp$55);
+        goto label9;
+
+     label4:
+        nop;
+        temp$56 = r.<java.awt.Rectangle: int x>;
+        temp$57 = r.<java.awt.Rectangle: int width>;
+        temp$58 = temp$57 / 2;
+        temp$59 = temp$56 + temp$58;
+        temp$60 = r.<java.awt.Rectangle: int y>;
+        temp$61 = r.<java.awt.Rectangle: int height>;
+        temp$62 = temp$60 + temp$61;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$59, temp$62);
+        temp$63 = r.<java.awt.Rectangle: int x>;
+        temp$64 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$63, temp$64);
+        temp$65 = r.<java.awt.Rectangle: int x>;
+        temp$66 = r.<java.awt.Rectangle: int width>;
+        temp$67 = temp$65 + temp$66;
+        temp$68 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$67, temp$68);
+        goto label9;
+
+     label5:
+        nop;
+        temp$69 = r.<java.awt.Rectangle: int x>;
+        temp$70 = r.<java.awt.Rectangle: int y>;
+        temp$71 = r.<java.awt.Rectangle: int height>;
+        temp$72 = temp$70 + temp$71;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$69, temp$72);
+        temp$73 = r.<java.awt.Rectangle: int x>;
+        temp$74 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$73, temp$74);
+        temp$75 = r.<java.awt.Rectangle: int x>;
+        temp$76 = r.<java.awt.Rectangle: int width>;
+        temp$77 = temp$75 + temp$76;
+        temp$78 = r.<java.awt.Rectangle: int y>;
+        temp$79 = r.<java.awt.Rectangle: int height>;
+        temp$80 = temp$78 + temp$79;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$77, temp$80);
+        goto label9;
+
+     label6:
+        nop;
+        temp$81 = r.<java.awt.Rectangle: int x>;
+        temp$82 = r.<java.awt.Rectangle: int y>;
+        temp$83 = r.<java.awt.Rectangle: int height>;
+        temp$84 = temp$83 / 2;
+        temp$85 = temp$82 + temp$84;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$81, temp$85);
+        temp$86 = r.<java.awt.Rectangle: int x>;
+        temp$87 = r.<java.awt.Rectangle: int width>;
+        temp$88 = temp$86 + temp$87;
+        temp$89 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$88, temp$89);
+        temp$90 = r.<java.awt.Rectangle: int x>;
+        temp$91 = r.<java.awt.Rectangle: int width>;
+        temp$92 = temp$90 + temp$91;
+        temp$93 = r.<java.awt.Rectangle: int y>;
+        temp$94 = r.<java.awt.Rectangle: int height>;
+        temp$95 = temp$93 + temp$94;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$92, temp$95);
+        goto label9;
+
+     label7:
+        nop;
+        temp$96 = r.<java.awt.Rectangle: int x>;
+        temp$97 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$96, temp$97);
+        temp$98 = r.<java.awt.Rectangle: int x>;
+        temp$99 = r.<java.awt.Rectangle: int width>;
+        temp$100 = temp$98 + temp$99;
+        temp$101 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$100, temp$101);
+        temp$102 = r.<java.awt.Rectangle: int x>;
+        temp$103 = r.<java.awt.Rectangle: int y>;
+        temp$104 = r.<java.awt.Rectangle: int height>;
+        temp$105 = temp$103 + temp$104;
+        virtualinvoke p.<java.awt.Polygon: void addPoint(int,int)>(temp$102, temp$105);
+        goto label9;
+
+        goto label9;
+
+     label8:
+        nop;
+        temp$106 = this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation>;
+        nop;
+        tableswitch(temp$106)
+        {
+            case 0: goto label0;
+            case 1: goto label1;
+            case 2: goto label2;
+            case 3: goto label3;
+            case 4: goto label4;
+            case 5: goto label5;
+            case 6: goto label6;
+            case 7: goto label7;
+            default: goto label9;
+        };
+
+     label9:
+        nop;
+        return p;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.awt.Graphics g;
+        java.awt.Polygon p, temp$0;
+        java.awt.Color temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Polygon getPolygon()>();
+        p = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Color getFillColor()>();
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        virtualinvoke g.<java.awt.Graphics: void fillPolygon(java.awt.Polygon)>(p);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Color getFrameColor()>();
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$2);
+        virtualinvoke g.<java.awt.Graphics: void drawPolygon(java.awt.Polygon)>(p);
+        return;
+    }
+
+    public java.awt.Insets connectionInsets()
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Insets temp$1, temp$7, temp$10, temp$16, temp$19, temp$25, temp$28, temp$34, temp$37;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$8, temp$9, temp$11, temp$12, temp$13, temp$14, temp$15, temp$17, temp$18, temp$20, temp$21, temp$22, temp$23, temp$24, temp$26, temp$27, temp$29, temp$30, temp$31, temp$32, temp$33, temp$35, temp$36, temp$38;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        goto label9;
+
+     label0:
+        nop;
+        temp$1 = new java.awt.Insets;
+        temp$2 = r.<java.awt.Rectangle: int height>;
+        temp$3 = r.<java.awt.Rectangle: int width>;
+        temp$4 = temp$3 / 2;
+        temp$5 = r.<java.awt.Rectangle: int width>;
+        temp$6 = temp$5 / 2;
+        specialinvoke temp$1.<java.awt.Insets: void <init>(int,int,int,int)>(temp$2, temp$4, 0, temp$6);
+        return temp$1;
+
+     label1:
+        nop;
+        temp$7 = new java.awt.Insets;
+        temp$8 = r.<java.awt.Rectangle: int width>;
+        temp$9 = r.<java.awt.Rectangle: int height>;
+        specialinvoke temp$7.<java.awt.Insets: void <init>(int,int,int,int)>(0, temp$8, temp$9, 0);
+        return temp$7;
+
+     label2:
+        nop;
+        temp$10 = new java.awt.Insets;
+        temp$11 = r.<java.awt.Rectangle: int height>;
+        temp$12 = temp$11 / 2;
+        temp$13 = r.<java.awt.Rectangle: int height>;
+        temp$14 = temp$13 / 2;
+        temp$15 = r.<java.awt.Rectangle: int width>;
+        specialinvoke temp$10.<java.awt.Insets: void <init>(int,int,int,int)>(temp$12, 0, temp$14, temp$15);
+        return temp$10;
+
+     label3:
+        nop;
+        temp$16 = new java.awt.Insets;
+        temp$17 = r.<java.awt.Rectangle: int height>;
+        temp$18 = r.<java.awt.Rectangle: int width>;
+        specialinvoke temp$16.<java.awt.Insets: void <init>(int,int,int,int)>(temp$17, temp$18, 0, 0);
+        return temp$16;
+
+     label4:
+        nop;
+        temp$19 = new java.awt.Insets;
+        temp$20 = r.<java.awt.Rectangle: int width>;
+        temp$21 = temp$20 / 2;
+        temp$22 = r.<java.awt.Rectangle: int height>;
+        temp$23 = r.<java.awt.Rectangle: int width>;
+        temp$24 = temp$23 / 2;
+        specialinvoke temp$19.<java.awt.Insets: void <init>(int,int,int,int)>(0, temp$21, temp$22, temp$24);
+        return temp$19;
+
+     label5:
+        nop;
+        temp$25 = new java.awt.Insets;
+        temp$26 = r.<java.awt.Rectangle: int height>;
+        temp$27 = r.<java.awt.Rectangle: int width>;
+        specialinvoke temp$25.<java.awt.Insets: void <init>(int,int,int,int)>(temp$26, 0, 0, temp$27);
+        return temp$25;
+
+     label6:
+        nop;
+        temp$28 = new java.awt.Insets;
+        temp$29 = r.<java.awt.Rectangle: int height>;
+        temp$30 = temp$29 / 2;
+        temp$31 = r.<java.awt.Rectangle: int width>;
+        temp$32 = r.<java.awt.Rectangle: int height>;
+        temp$33 = temp$32 / 2;
+        specialinvoke temp$28.<java.awt.Insets: void <init>(int,int,int,int)>(temp$30, temp$31, temp$33, 0);
+        return temp$28;
+
+     label7:
+        nop;
+        temp$34 = new java.awt.Insets;
+        temp$35 = r.<java.awt.Rectangle: int height>;
+        temp$36 = r.<java.awt.Rectangle: int width>;
+        specialinvoke temp$34.<java.awt.Insets: void <init>(int,int,int,int)>(0, 0, temp$35, temp$36);
+        return temp$34;
+
+     label8:
+        nop;
+        temp$37 = null;
+        return temp$37;
+
+     label9:
+        nop;
+        temp$38 = this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation>;
+        nop;
+        tableswitch(temp$38)
+        {
+            case 0: goto label0;
+            case 1: goto label1;
+            case 2: goto label2;
+            case 3: goto label3;
+            case 4: goto label4;
+            case 5: goto label5;
+            case 6: goto label6;
+            case 7: goto label7;
+            default: goto label8;
+        };
+
+        nop;
+    }
+
+    public boolean containsPoint(int, int)
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        int x, y;
+        java.awt.Polygon temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Polygon getPolygon()>();
+        temp$1 = virtualinvoke temp$0.<java.awt.Polygon: boolean contains(int,int)>(x, y);
+        return temp$1;
+    }
+
+    public java.awt.Point center()
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.awt.Polygon temp$0;
+        java.awt.Point temp$1;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Polygon getPolygon()>();
+        temp$1 = staticinvoke <CH.ifa.draw.contrib.PolygonFigure: java.awt.Point center(java.awt.Polygon)>(temp$0);
+        return temp$1;
+    }
+
+    public java.awt.Point chop(java.awt.Point)
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        java.awt.Point p, temp$1;
+        java.awt.Polygon temp$0;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        p := @parameter0: java.awt.Point;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleFigure: java.awt.Polygon getPolygon()>();
+        temp$1 = staticinvoke <CH.ifa.draw.contrib.PolygonFigure: java.awt.Point chop(java.awt.Polygon,java.awt.Point)>(temp$0, p);
+        return temp$1;
+    }
+
+    public java.lang.Object clone()
+    {
+        CH.ifa.draw.contrib.TriangleFigure this, figure;
+        java.lang.Object temp$0;
+        int temp$1;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        temp$0 = specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: java.lang.Object clone()>();
+        figure = (CH.ifa.draw.contrib.TriangleFigure) temp$0;
+        temp$1 = this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation>;
+        figure.<CH.ifa.draw.contrib.TriangleFigure: int fRotation> = temp$1;
+        return figure;
+    }
+
+    public double getRotationAngle()
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        double[] temp$0;
+        int temp$1;
+        double temp$2;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        temp$0 = <CH.ifa.draw.contrib.TriangleFigure: double[] rotations>;
+        temp$1 = this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation>;
+        temp$2 = temp$0[temp$1];
+        return temp$2;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        CH.ifa.draw.util.StorableOutput dw;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$0);
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.contrib.TriangleFigure this;
+        CH.ifa.draw.util.StorableInput dr;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.contrib.TriangleFigure;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.figures.RectangleFigure: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        this.<CH.ifa.draw.contrib.TriangleFigure: int fRotation> = temp$0;
+        return;
+    }
+}

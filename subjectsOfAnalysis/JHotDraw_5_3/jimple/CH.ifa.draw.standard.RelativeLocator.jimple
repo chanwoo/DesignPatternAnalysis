@@ -1,0 +1,289 @@
+public class CH.ifa.draw.standard.RelativeLocator extends CH.ifa.draw.standard.AbstractLocator
+{
+    private static final long serialVersionUID;
+    private int relativeLocatorSerializedDataVersion;
+    double fRelativeX;
+    double fRelativeY;
+    public static java.lang.Class class$CH$ifa$draw$standard$RelativeLocator;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = 2619148876087898602L;
+        <CH.ifa.draw.standard.RelativeLocator: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.standard.RelativeLocator this;
+        int temp$0;
+        double temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.standard.RelativeLocator: int relativeLocatorSerializedDataVersion> = temp$0;
+        temp$1 = 0.0;
+        this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeX> = temp$1;
+        temp$2 = 0.0;
+        this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeY> = temp$2;
+        return;
+    }
+
+    public boolean equals(java.lang.Object)
+    {
+        CH.ifa.draw.standard.RelativeLocator this, rl;
+        java.lang.Object o;
+        java.lang.Class temp$0, temp$1, temp$2;
+        boolean temp$3, temp$10, temp$11;
+        double temp$4, temp$5, temp$7, temp$8;
+        int temp$6, temp$9;
+
+        this := @this: CH.ifa.draw.standard.RelativeLocator;
+        o := @parameter0: java.lang.Object;
+        temp$1 = <CH.ifa.draw.standard.RelativeLocator: java.lang.Class class$CH$ifa$draw$standard$RelativeLocator>;
+        if temp$1 != null goto label0;
+
+        temp$2 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.standard.RelativeLocator");
+        <CH.ifa.draw.standard.RelativeLocator: java.lang.Class class$CH$ifa$draw$standard$RelativeLocator> = temp$2;
+        temp$0 = temp$2;
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = <CH.ifa.draw.standard.RelativeLocator: java.lang.Class class$CH$ifa$draw$standard$RelativeLocator>;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke temp$0.<java.lang.Class: boolean isInstance(java.lang.Object)>(o);
+        if temp$3 == 0 goto label6;
+
+        goto label2;
+
+     label2:
+        nop;
+        rl = (CH.ifa.draw.standard.RelativeLocator) o;
+        temp$4 = rl.<CH.ifa.draw.standard.RelativeLocator: double fRelativeX>;
+        temp$5 = this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeX>;
+        temp$6 = temp$4 cmpg temp$5;
+        if temp$6 != 0 goto label5;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$7 = rl.<CH.ifa.draw.standard.RelativeLocator: double fRelativeY>;
+        temp$8 = this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeY>;
+        temp$9 = temp$7 cmpg temp$8;
+        if temp$9 != 0 goto label5;
+
+        goto label4;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$10 = 1;
+        return temp$10;
+
+     label5:
+        nop;
+
+     label6:
+        nop;
+        temp$11 = 0;
+        return temp$11;
+    }
+
+    public void <init>(double, double)
+    {
+        CH.ifa.draw.standard.RelativeLocator this;
+        double relativeX, relativeY;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.standard.RelativeLocator;
+        relativeX := @parameter0: double;
+        relativeY := @parameter1: double;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.standard.RelativeLocator: int relativeLocatorSerializedDataVersion> = temp$0;
+        this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeX> = relativeX;
+        this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeY> = relativeY;
+        return;
+    }
+
+    public java.awt.Point locate(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.RelativeLocator this;
+        CH.ifa.draw.framework.Figure owner;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Point temp$1;
+        int temp$2, temp$3, temp$7, temp$8, temp$9, temp$10, temp$14, temp$15;
+        double temp$4, temp$5, temp$6, temp$11, temp$12, temp$13;
+
+        this := @this: CH.ifa.draw.standard.RelativeLocator;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = interfaceinvoke owner.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = new java.awt.Point;
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int width>;
+        temp$4 = (double) temp$3;
+        temp$5 = this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeX>;
+        temp$6 = temp$4 * temp$5;
+        temp$7 = (int) temp$6;
+        temp$8 = temp$2 + temp$7;
+        temp$9 = r.<java.awt.Rectangle: int y>;
+        temp$10 = r.<java.awt.Rectangle: int height>;
+        temp$11 = (double) temp$10;
+        temp$12 = this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeY>;
+        temp$13 = temp$11 * temp$12;
+        temp$14 = (int) temp$13;
+        temp$15 = temp$9 + temp$14;
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(temp$8, temp$15);
+        return temp$1;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.standard.RelativeLocator this;
+        CH.ifa.draw.util.StorableOutput dw;
+        double temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.standard.RelativeLocator;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeX>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeDouble(double)>(temp$0);
+        temp$1 = this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeY>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeDouble(double)>(temp$1);
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.standard.RelativeLocator this;
+        CH.ifa.draw.util.StorableInput dr;
+        double temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.standard.RelativeLocator;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: double readDouble()>();
+        this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeX> = temp$0;
+        temp$1 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: double readDouble()>();
+        this.<CH.ifa.draw.standard.RelativeLocator: double fRelativeY> = temp$1;
+        return;
+    }
+
+    public static CH.ifa.draw.framework.Locator east()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(1.0, 0.5);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator north()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(0.5, 0.0);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator west()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(0.0, 0.5);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator northEast()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(1.0, 0.0);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator northWest()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(0.0, 0.0);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator south()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(0.5, 1.0);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator southEast()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(1.0, 1.0);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator southWest()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(0.0, 1.0);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Locator center()
+    {
+        CH.ifa.draw.standard.RelativeLocator temp$0;
+
+        temp$0 = new CH.ifa.draw.standard.RelativeLocator;
+        specialinvoke temp$0.<CH.ifa.draw.standard.RelativeLocator: void <init>(double,double)>(0.5, 0.5);
+        return temp$0;
+    }
+
+    public static java.lang.Class class$(java.lang.String)
+    {
+        java.lang.String name, temp$2;
+        java.lang.Class temp$0;
+        java.lang.ClassNotFoundException e;
+        java.lang.NoClassDefFoundError temp$1;
+
+        name := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = staticinvoke <java.lang.Class: java.lang.Class forName(java.lang.String)>(name);
+
+     label1:
+        nop;
+        return temp$0;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        temp$1 = new java.lang.NoClassDefFoundError;
+        temp$2 = virtualinvoke e.<java.lang.ClassNotFoundException: java.lang.String getMessage()>();
+        specialinvoke temp$1.<java.lang.NoClassDefFoundError: void <init>(java.lang.String)>(temp$2);
+        throw temp$1;
+
+        catch java.lang.ClassNotFoundException from label0 to label1 with label2;
+    }
+}

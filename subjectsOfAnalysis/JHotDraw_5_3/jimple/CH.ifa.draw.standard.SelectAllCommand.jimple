@@ -1,0 +1,94 @@
+public class CH.ifa.draw.standard.SelectAllCommand extends CH.ifa.draw.standard.AbstractCommand
+{
+
+    public void <init>(java.lang.String, CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.standard.SelectAllCommand this;
+        java.lang.String name;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+
+        this := @this: CH.ifa.draw.standard.SelectAllCommand;
+        name := @parameter0: java.lang.String;
+        newDrawingEditor := @parameter1: CH.ifa.draw.framework.DrawingEditor;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(name, newDrawingEditor);
+        return;
+    }
+
+    public void execute()
+    {
+        CH.ifa.draw.standard.SelectAllCommand this;
+        CH.ifa.draw.util.Undoable temp$0, temp$1;
+        CH.ifa.draw.framework.DrawingView temp$2, temp$4, temp$5, temp$8;
+        CH.ifa.draw.framework.FigureEnumeration temp$3, temp$7;
+        CH.ifa.draw.framework.Drawing temp$6;
+
+        this := @this: CH.ifa.draw.standard.SelectAllCommand;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void execute()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.util.Undoable createUndoActivity()>();
+        virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.FigureEnumeration selectionElements()>();
+        interfaceinvoke temp$1.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$3);
+        temp$4 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$5 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$6 = interfaceinvoke temp$5.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$7 = interfaceinvoke temp$6.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.FigureEnumeration figures()>();
+        interfaceinvoke temp$4.<CH.ifa.draw.framework.DrawingView: void addToSelectionAll(CH.ifa.draw.framework.FigureEnumeration)>(temp$7);
+        temp$8 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$8.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+        return;
+    }
+
+    public boolean isExecutableWithView()
+    {
+        CH.ifa.draw.standard.SelectAllCommand this;
+        CH.ifa.draw.framework.FigureEnumeration e, temp$2;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+        boolean temp$3, temp$5, temp$6;
+        CH.ifa.draw.framework.Figure temp$4;
+
+        this := @this: CH.ifa.draw.standard.SelectAllCommand;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.FigureEnumeration figures()>();
+        e = temp$2;
+        temp$3 = interfaceinvoke e.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label2;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$4 = interfaceinvoke e.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        if temp$4 != null goto label1;
+
+        goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$5 = 1;
+        return temp$5;
+
+     label2:
+        nop;
+        temp$6 = 0;
+        return temp$6;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity()
+    {
+        CH.ifa.draw.standard.SelectAllCommand this;
+        CH.ifa.draw.standard.SelectAllCommand$UndoActivity temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.standard.SelectAllCommand;
+        temp$0 = new CH.ifa.draw.standard.SelectAllCommand$UndoActivity;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.SelectAllCommand: CH.ifa.draw.framework.DrawingView view()>();
+        specialinvoke temp$0.<CH.ifa.draw.standard.SelectAllCommand$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView)>(temp$1);
+        return temp$0;
+    }
+}

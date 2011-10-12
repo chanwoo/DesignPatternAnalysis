@@ -1,0 +1,223 @@
+public class CH.ifa.draw.figures.BorderDecorator extends CH.ifa.draw.standard.DecoratorFigure
+{
+    private static final long serialVersionUID;
+    private int borderDecoratorSerializedDataVersion;
+    private java.awt.Point myBorderOffset;
+    private java.awt.Color myBorderColor;
+    private java.awt.Color myShadowColor;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = 1205601808259084917L;
+        <CH.ifa.draw.figures.BorderDecorator: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        specialinvoke this.<CH.ifa.draw.standard.DecoratorFigure: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.BorderDecorator: int borderDecoratorSerializedDataVersion> = temp$0;
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        CH.ifa.draw.framework.Figure figure;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        figure := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.DecoratorFigure: void <init>(CH.ifa.draw.framework.Figure)>(figure);
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.BorderDecorator: int borderDecoratorSerializedDataVersion> = temp$0;
+        return;
+    }
+
+    protected void initialize()
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        java.awt.Point temp$0;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        temp$0 = new java.awt.Point;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(3, 3);
+        virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: void setBorderOffset(java.awt.Point)>(temp$0);
+        return;
+    }
+
+    public void setBorderOffset(java.awt.Point)
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        java.awt.Point newBorderOffset;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        newBorderOffset := @parameter0: java.awt.Point;
+        this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point myBorderOffset> = newBorderOffset;
+        return;
+    }
+
+    public java.awt.Point getBorderOffset()
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        java.awt.Point temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        temp$0 = this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point myBorderOffset>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = new java.awt.Point;
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(0, 0);
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point myBorderOffset>;
+        return temp$2;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Color temp$1, temp$14;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$15, temp$16, temp$17, temp$18, temp$19, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27, temp$28, temp$29, temp$30, temp$31, temp$32, temp$33, temp$34;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        specialinvoke this.<CH.ifa.draw.standard.DecoratorFigure: void draw(java.awt.Graphics)>(g);
+        temp$1 = <java.awt.Color: java.awt.Color white>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int x>;
+        temp$5 = r.<java.awt.Rectangle: int y>;
+        temp$6 = r.<java.awt.Rectangle: int height>;
+        temp$7 = temp$5 + temp$6;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$2, temp$3, temp$4, temp$7);
+        temp$8 = r.<java.awt.Rectangle: int x>;
+        temp$9 = r.<java.awt.Rectangle: int y>;
+        temp$10 = r.<java.awt.Rectangle: int x>;
+        temp$11 = r.<java.awt.Rectangle: int width>;
+        temp$12 = temp$10 + temp$11;
+        temp$13 = r.<java.awt.Rectangle: int y>;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$8, temp$9, temp$12, temp$13);
+        temp$14 = <java.awt.Color: java.awt.Color gray>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$14);
+        temp$15 = r.<java.awt.Rectangle: int x>;
+        temp$16 = r.<java.awt.Rectangle: int width>;
+        temp$17 = temp$15 + temp$16;
+        temp$18 = r.<java.awt.Rectangle: int y>;
+        temp$19 = r.<java.awt.Rectangle: int x>;
+        temp$20 = r.<java.awt.Rectangle: int width>;
+        temp$21 = temp$19 + temp$20;
+        temp$22 = r.<java.awt.Rectangle: int y>;
+        temp$23 = r.<java.awt.Rectangle: int height>;
+        temp$24 = temp$22 + temp$23;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$17, temp$18, temp$21, temp$24);
+        temp$25 = r.<java.awt.Rectangle: int x>;
+        temp$26 = r.<java.awt.Rectangle: int y>;
+        temp$27 = r.<java.awt.Rectangle: int height>;
+        temp$28 = temp$26 + temp$27;
+        temp$29 = r.<java.awt.Rectangle: int x>;
+        temp$30 = r.<java.awt.Rectangle: int width>;
+        temp$31 = temp$29 + temp$30;
+        temp$32 = r.<java.awt.Rectangle: int y>;
+        temp$33 = r.<java.awt.Rectangle: int height>;
+        temp$34 = temp$32 + temp$33;
+        virtualinvoke g.<java.awt.Graphics: void drawLine(int,int,int,int)>(temp$25, temp$28, temp$31, temp$34);
+        return;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        java.awt.Rectangle r, temp$1;
+        CH.ifa.draw.framework.Figure temp$0;
+        java.awt.Point temp$2, temp$4;
+        int temp$3, temp$5;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: CH.ifa.draw.framework.Figure getDecoratedFigure()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        r = temp$1;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$3 = temp$2.<java.awt.Point: int x>;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$5 = temp$4.<java.awt.Point: int y>;
+        virtualinvoke r.<java.awt.Rectangle: void grow(int,int)>(temp$3, temp$5);
+        return r;
+    }
+
+    public void figureInvalidated(CH.ifa.draw.framework.FigureChangeEvent)
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        CH.ifa.draw.framework.FigureChangeEvent e, temp$5;
+        java.awt.Rectangle rect, temp$0;
+        java.awt.Point temp$1, temp$3;
+        int temp$2, temp$4;
+        CH.ifa.draw.framework.Figure temp$6;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        e := @parameter0: CH.ifa.draw.framework.FigureChangeEvent;
+        temp$0 = virtualinvoke e.<CH.ifa.draw.framework.FigureChangeEvent: java.awt.Rectangle getInvalidatedRectangle()>();
+        rect = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$2 = temp$1.<java.awt.Point: int x>;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$4 = temp$3.<java.awt.Point: int y>;
+        virtualinvoke rect.<java.awt.Rectangle: void grow(int,int)>(temp$2, temp$4);
+        temp$5 = new CH.ifa.draw.framework.FigureChangeEvent;
+        temp$6 = virtualinvoke e.<CH.ifa.draw.framework.FigureChangeEvent: CH.ifa.draw.framework.Figure getFigure()>();
+        specialinvoke temp$5.<CH.ifa.draw.framework.FigureChangeEvent: void <init>(CH.ifa.draw.framework.Figure,java.awt.Rectangle)>(temp$6, rect);
+        specialinvoke this.<CH.ifa.draw.standard.DecoratorFigure: void figureInvalidated(CH.ifa.draw.framework.FigureChangeEvent)>(temp$5);
+        return;
+    }
+
+    public java.awt.Insets connectionInsets()
+    {
+        CH.ifa.draw.figures.BorderDecorator this;
+        java.awt.Insets i, temp$0;
+        int temp$1, temp$3, temp$4, temp$5, temp$7, temp$8, temp$9, temp$11, temp$12, temp$13, temp$15, temp$16;
+        java.awt.Point temp$2, temp$6, temp$10, temp$14;
+
+        this := @this: CH.ifa.draw.figures.BorderDecorator;
+        temp$0 = specialinvoke this.<CH.ifa.draw.standard.DecoratorFigure: java.awt.Insets connectionInsets()>();
+        i = temp$0;
+        temp$1 = i.<java.awt.Insets: int top>;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$3 = temp$2.<java.awt.Point: int y>;
+        temp$4 = temp$1 - temp$3;
+        i.<java.awt.Insets: int top> = temp$4;
+        temp$5 = i.<java.awt.Insets: int bottom>;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$7 = temp$6.<java.awt.Point: int y>;
+        temp$8 = temp$5 - temp$7;
+        i.<java.awt.Insets: int bottom> = temp$8;
+        temp$9 = i.<java.awt.Insets: int left>;
+        temp$10 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$11 = temp$10.<java.awt.Point: int x>;
+        temp$12 = temp$9 - temp$11;
+        i.<java.awt.Insets: int left> = temp$12;
+        temp$13 = i.<java.awt.Insets: int right>;
+        temp$14 = virtualinvoke this.<CH.ifa.draw.figures.BorderDecorator: java.awt.Point getBorderOffset()>();
+        temp$15 = temp$14.<java.awt.Point: int x>;
+        temp$16 = temp$13 - temp$15;
+        i.<java.awt.Insets: int right> = temp$16;
+        return i;
+    }
+}

@@ -1,0 +1,276 @@
+public class CH.ifa.draw.contrib.ChopDiamondConnector extends CH.ifa.draw.standard.ChopBoxConnector
+{
+    private static final long serialVersionUID;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = -1461450322512395462L;
+        <CH.ifa.draw.contrib.ChopDiamondConnector: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.contrib.ChopDiamondConnector this;
+
+        this := @this: CH.ifa.draw.contrib.ChopDiamondConnector;
+        specialinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: void <init>()>();
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.contrib.ChopDiamondConnector this;
+        CH.ifa.draw.framework.Figure owner;
+
+        this := @this: CH.ifa.draw.contrib.ChopDiamondConnector;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return;
+    }
+
+    protected java.awt.Point chop(CH.ifa.draw.framework.Figure, java.awt.Point)
+    {
+        CH.ifa.draw.contrib.ChopDiamondConnector this;
+        CH.ifa.draw.framework.Figure target;
+        java.awt.Point 'from', c1, temp$1, p2, temp$10, p4, temp$18, p1, temp$33, p3, temp$41, rp, temp$57, temp$68, temp$79, temp$90, temp$91;
+        java.awt.Rectangle r, temp$0;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$19, temp$20, temp$21, temp$22, temp$23, temp$25, temp$26, temp$27, temp$28, temp$29, temp$30, temp$31, temp$34, temp$35, temp$36, temp$37, temp$38, temp$39, temp$40, temp$42, temp$43, temp$44, temp$45, temp$46, temp$47, temp$48, temp$49, temp$50, temp$51, temp$52, temp$53, temp$54, temp$55, temp$56, temp$58, temp$59, temp$60, temp$61, temp$62, temp$63, temp$64, temp$65, temp$66, temp$67, temp$69, temp$70, temp$71, temp$72, temp$73, temp$74, temp$75, temp$76, temp$77, temp$78, temp$80, temp$81, temp$82, temp$83, temp$84, temp$85, temp$86, temp$87, temp$88, temp$89;
+        boolean temp$24;
+        double ang, temp$32;
+
+        this := @this: CH.ifa.draw.contrib.ChopDiamondConnector;
+        target := @parameter0: CH.ifa.draw.framework.Figure;
+        'from' := @parameter1: java.awt.Point;
+        temp$0 = interfaceinvoke target.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = new java.awt.Point;
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int width>;
+        temp$4 = temp$3 / 2;
+        temp$5 = temp$2 + temp$4;
+        temp$6 = r.<java.awt.Rectangle: int y>;
+        temp$7 = r.<java.awt.Rectangle: int height>;
+        temp$8 = temp$7 / 2;
+        temp$9 = temp$6 + temp$8;
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(temp$5, temp$9);
+        c1 = temp$1;
+        temp$10 = new java.awt.Point;
+        temp$11 = r.<java.awt.Rectangle: int x>;
+        temp$12 = r.<java.awt.Rectangle: int width>;
+        temp$13 = temp$12 / 2;
+        temp$14 = temp$11 + temp$13;
+        temp$15 = r.<java.awt.Rectangle: int y>;
+        temp$16 = r.<java.awt.Rectangle: int height>;
+        temp$17 = temp$15 + temp$16;
+        specialinvoke temp$10.<java.awt.Point: void <init>(int,int)>(temp$14, temp$17);
+        p2 = temp$10;
+        temp$18 = new java.awt.Point;
+        temp$19 = r.<java.awt.Rectangle: int x>;
+        temp$20 = r.<java.awt.Rectangle: int width>;
+        temp$21 = temp$20 / 2;
+        temp$22 = temp$19 + temp$21;
+        temp$23 = r.<java.awt.Rectangle: int y>;
+        specialinvoke temp$18.<java.awt.Point: void <init>(int,int)>(temp$22, temp$23);
+        p4 = temp$18;
+        temp$24 = virtualinvoke r.<java.awt.Rectangle: boolean contains(java.awt.Point)>('from');
+        if temp$24 == 0 goto label4;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$25 = 'from'.<java.awt.Point: int y>;
+        temp$26 = r.<java.awt.Rectangle: int y>;
+        if temp$25 > temp$26 goto label1;
+
+        goto label3;
+
+     label1:
+        nop;
+        temp$27 = r.<java.awt.Rectangle: int y>;
+        temp$28 = r.<java.awt.Rectangle: int height>;
+        temp$29 = temp$28 / 2;
+        temp$30 = 'from'.<java.awt.Point: int y>;
+        temp$31 = temp$27 + temp$29;
+        if temp$30 < temp$31 goto label2;
+
+        goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        return p2;
+
+     label3:
+        nop;
+        return p4;
+
+     label4:
+        nop;
+        temp$32 = staticinvoke <CH.ifa.draw.util.Geom: double pointToAngle(java.awt.Rectangle,java.awt.Point)>(r, 'from');
+        ang = temp$32;
+        temp$33 = new java.awt.Point;
+        temp$34 = r.<java.awt.Rectangle: int x>;
+        temp$35 = r.<java.awt.Rectangle: int width>;
+        temp$36 = temp$34 + temp$35;
+        temp$37 = r.<java.awt.Rectangle: int y>;
+        temp$38 = r.<java.awt.Rectangle: int height>;
+        temp$39 = temp$38 / 2;
+        temp$40 = temp$37 + temp$39;
+        specialinvoke temp$33.<java.awt.Point: void <init>(int,int)>(temp$36, temp$40);
+        p1 = temp$33;
+        temp$41 = new java.awt.Point;
+        temp$42 = r.<java.awt.Rectangle: int x>;
+        temp$43 = r.<java.awt.Rectangle: int y>;
+        temp$44 = r.<java.awt.Rectangle: int height>;
+        temp$45 = temp$44 / 2;
+        temp$46 = temp$43 + temp$45;
+        specialinvoke temp$41.<java.awt.Point: void <init>(int,int)>(temp$42, temp$46);
+        p3 = temp$41;
+        rp = null;
+        temp$47 = ang cmpl 0.0;
+        if temp$47 <= 0 goto label7;
+
+        goto label5;
+
+     label5:
+        nop;
+        temp$48 = ang cmpg 1.57;
+        if temp$48 >= 0 goto label7;
+
+        goto label6;
+
+        goto label6;
+
+     label6:
+        nop;
+        temp$49 = p1.<java.awt.Point: int x>;
+        temp$50 = p1.<java.awt.Point: int y>;
+        temp$51 = p2.<java.awt.Point: int x>;
+        temp$52 = p2.<java.awt.Point: int y>;
+        temp$53 = c1.<java.awt.Point: int x>;
+        temp$54 = c1.<java.awt.Point: int y>;
+        temp$55 = 'from'.<java.awt.Point: int x>;
+        temp$56 = 'from'.<java.awt.Point: int y>;
+        temp$57 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point intersect(int,int,int,int,int,int,int,int)>(temp$49, temp$50, temp$51, temp$52, temp$53, temp$54, temp$55, temp$56);
+        rp = temp$57;
+        goto label19;
+
+     label7:
+        nop;
+        temp$58 = ang cmpl 1.575;
+        if temp$58 <= 0 goto label10;
+
+        goto label8;
+
+     label8:
+        nop;
+        temp$59 = ang cmpg 3.14;
+        if temp$59 >= 0 goto label10;
+
+        goto label9;
+
+        goto label9;
+
+     label9:
+        nop;
+        temp$60 = p2.<java.awt.Point: int x>;
+        temp$61 = p2.<java.awt.Point: int y>;
+        temp$62 = p3.<java.awt.Point: int x>;
+        temp$63 = p3.<java.awt.Point: int y>;
+        temp$64 = c1.<java.awt.Point: int x>;
+        temp$65 = c1.<java.awt.Point: int y>;
+        temp$66 = 'from'.<java.awt.Point: int x>;
+        temp$67 = 'from'.<java.awt.Point: int y>;
+        temp$68 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point intersect(int,int,int,int,int,int,int,int)>(temp$60, temp$61, temp$62, temp$63, temp$64, temp$65, temp$66, temp$67);
+        rp = temp$68;
+        goto label18;
+
+     label10:
+        nop;
+        temp$69 = ang cmpl -3.14;
+        if temp$69 <= 0 goto label13;
+
+        goto label11;
+
+     label11:
+        nop;
+        temp$70 = ang cmpg -1.575;
+        if temp$70 >= 0 goto label13;
+
+        goto label12;
+
+        goto label12;
+
+     label12:
+        nop;
+        temp$71 = p3.<java.awt.Point: int x>;
+        temp$72 = p3.<java.awt.Point: int y>;
+        temp$73 = p4.<java.awt.Point: int x>;
+        temp$74 = p4.<java.awt.Point: int y>;
+        temp$75 = c1.<java.awt.Point: int x>;
+        temp$76 = c1.<java.awt.Point: int y>;
+        temp$77 = 'from'.<java.awt.Point: int x>;
+        temp$78 = 'from'.<java.awt.Point: int y>;
+        temp$79 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point intersect(int,int,int,int,int,int,int,int)>(temp$71, temp$72, temp$73, temp$74, temp$75, temp$76, temp$77, temp$78);
+        rp = temp$79;
+        goto label17;
+
+     label13:
+        nop;
+        temp$80 = ang cmpl -1.57;
+        if temp$80 <= 0 goto label16;
+
+        goto label14;
+
+     label14:
+        nop;
+        temp$81 = ang cmpg 0.0;
+        if temp$81 >= 0 goto label16;
+
+        goto label15;
+
+        goto label15;
+
+     label15:
+        nop;
+        temp$82 = p4.<java.awt.Point: int x>;
+        temp$83 = p4.<java.awt.Point: int y>;
+        temp$84 = p1.<java.awt.Point: int x>;
+        temp$85 = p1.<java.awt.Point: int y>;
+        temp$86 = c1.<java.awt.Point: int x>;
+        temp$87 = c1.<java.awt.Point: int y>;
+        temp$88 = 'from'.<java.awt.Point: int x>;
+        temp$89 = 'from'.<java.awt.Point: int y>;
+        temp$90 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point intersect(int,int,int,int,int,int,int,int)>(temp$82, temp$83, temp$84, temp$85, temp$86, temp$87, temp$88, temp$89);
+        rp = temp$90;
+
+     label16:
+        nop;
+
+     label17:
+        nop;
+
+     label18:
+        nop;
+
+     label19:
+        nop;
+        if rp == null goto label20;
+
+        goto label21;
+
+     label20:
+        nop;
+        temp$91 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point angleToPoint(java.awt.Rectangle,double)>(r, ang);
+        rp = temp$91;
+
+     label21:
+        nop;
+        return rp;
+    }
+}

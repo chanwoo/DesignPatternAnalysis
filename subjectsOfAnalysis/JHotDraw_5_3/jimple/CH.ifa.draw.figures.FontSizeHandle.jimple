@@ -1,0 +1,168 @@
+public class CH.ifa.draw.figures.FontSizeHandle extends CH.ifa.draw.standard.LocatorHandle
+{
+
+    public void <init>(CH.ifa.draw.framework.Figure, CH.ifa.draw.framework.Locator)
+    {
+        CH.ifa.draw.figures.FontSizeHandle this;
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.framework.Locator l;
+
+        this := @this: CH.ifa.draw.figures.FontSizeHandle;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        l := @parameter1: CH.ifa.draw.framework.Locator;
+        specialinvoke this.<CH.ifa.draw.standard.LocatorHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(owner, l);
+        return;
+    }
+
+    public void invokeStart(int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.FontSizeHandle this;
+        int x, y;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.util.Undoable temp$0, temp$1;
+        CH.ifa.draw.standard.SingleFigureEnumerator temp$2;
+        CH.ifa.draw.framework.Figure temp$3;
+
+        this := @this: CH.ifa.draw.figures.FontSizeHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        view := @parameter2: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.util.Undoable createUndoActivity(CH.ifa.draw.framework.DrawingView)>(view);
+        virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$2 = new CH.ifa.draw.standard.SingleFigureEnumerator;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.framework.Figure owner()>();
+        specialinvoke temp$2.<CH.ifa.draw.standard.SingleFigureEnumerator: void <init>(CH.ifa.draw.framework.Figure)>(temp$3);
+        interfaceinvoke temp$1.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$2);
+        return;
+    }
+
+    public void invokeStep(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.FontSizeHandle this;
+        int x, y, anchorX, anchorY, newSize, temp$3, temp$4, temp$5, temp$6, temp$11;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.figures.TextFigure textOwner;
+        CH.ifa.draw.framework.Figure temp$0;
+        CH.ifa.draw.figures.FontSizeHandle$UndoActivity activity;
+        CH.ifa.draw.util.Undoable temp$1;
+        java.awt.Font temp$2, temp$7, temp$8, temp$10;
+        java.lang.String temp$9;
+
+        this := @this: CH.ifa.draw.figures.FontSizeHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.framework.Figure owner()>();
+        textOwner = (CH.ifa.draw.figures.TextFigure) temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        activity = (CH.ifa.draw.figures.FontSizeHandle$UndoActivity) temp$1;
+        temp$2 = virtualinvoke activity.<CH.ifa.draw.figures.FontSizeHandle$UndoActivity: java.awt.Font getFont()>();
+        temp$3 = virtualinvoke temp$2.<java.awt.Font: int getSize()>();
+        temp$4 = temp$3;
+        temp$5 = temp$4 + y;
+        temp$6 = temp$5 - anchorY;
+        newSize = temp$6;
+        temp$7 = new java.awt.Font;
+        temp$8 = virtualinvoke activity.<CH.ifa.draw.figures.FontSizeHandle$UndoActivity: java.awt.Font getFont()>();
+        temp$9 = virtualinvoke temp$8.<java.awt.Font: java.lang.String getName()>();
+        temp$10 = virtualinvoke activity.<CH.ifa.draw.figures.FontSizeHandle$UndoActivity: java.awt.Font getFont()>();
+        temp$11 = virtualinvoke temp$10.<java.awt.Font: int getStyle()>();
+        specialinvoke temp$7.<java.awt.Font: void <init>(java.lang.String,int,int)>(temp$9, temp$11, newSize);
+        virtualinvoke textOwner.<CH.ifa.draw.figures.TextFigure: void setFont(java.awt.Font)>(temp$7);
+        return;
+    }
+
+    public void invokeEnd(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.FontSizeHandle this;
+        int x, y, anchorX, anchorY, temp$3, temp$4;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.figures.TextFigure textOwner;
+        CH.ifa.draw.framework.Figure temp$0;
+        CH.ifa.draw.figures.FontSizeHandle$UndoActivity activity;
+        CH.ifa.draw.util.Undoable temp$1;
+        java.awt.Font temp$2, temp$5;
+
+        this := @this: CH.ifa.draw.figures.FontSizeHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.framework.Figure owner()>();
+        textOwner = (CH.ifa.draw.figures.TextFigure) temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        activity = (CH.ifa.draw.figures.FontSizeHandle$UndoActivity) temp$1;
+        temp$2 = virtualinvoke textOwner.<CH.ifa.draw.figures.TextFigure: java.awt.Font getFont()>();
+        temp$3 = virtualinvoke temp$2.<java.awt.Font: int getSize()>();
+        temp$4 = virtualinvoke activity.<CH.ifa.draw.figures.FontSizeHandle$UndoActivity: int getOldFontSize()>();
+        if temp$3 == temp$4 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: void setUndoActivity(CH.ifa.draw.util.Undoable)>(null);
+        goto label2;
+
+     label1:
+        nop;
+        temp$5 = virtualinvoke textOwner.<CH.ifa.draw.figures.TextFigure: java.awt.Font getFont()>();
+        virtualinvoke activity.<CH.ifa.draw.figures.FontSizeHandle$UndoActivity: void setFont(java.awt.Font)>(temp$5);
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.FontSizeHandle this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Color temp$1, temp$6;
+        int temp$2, temp$3, temp$4, temp$5, temp$7, temp$8, temp$9, temp$10;
+
+        this := @this: CH.ifa.draw.figures.FontSizeHandle;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = <java.awt.Color: java.awt.Color yellow>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void fillOval(int,int,int,int)>(temp$2, temp$3, temp$4, temp$5);
+        temp$6 = <java.awt.Color: java.awt.Color black>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$6);
+        temp$7 = r.<java.awt.Rectangle: int x>;
+        temp$8 = r.<java.awt.Rectangle: int y>;
+        temp$9 = r.<java.awt.Rectangle: int width>;
+        temp$10 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void drawOval(int,int,int,int)>(temp$7, temp$8, temp$9, temp$10);
+        return;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.FontSizeHandle this;
+        CH.ifa.draw.framework.DrawingView newView;
+        CH.ifa.draw.figures.TextFigure textOwner;
+        CH.ifa.draw.framework.Figure temp$0;
+        CH.ifa.draw.figures.FontSizeHandle$UndoActivity temp$1;
+        java.awt.Font temp$2;
+
+        this := @this: CH.ifa.draw.figures.FontSizeHandle;
+        newView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.FontSizeHandle: CH.ifa.draw.framework.Figure owner()>();
+        textOwner = (CH.ifa.draw.figures.TextFigure) temp$0;
+        temp$1 = new CH.ifa.draw.figures.FontSizeHandle$UndoActivity;
+        temp$2 = virtualinvoke textOwner.<CH.ifa.draw.figures.TextFigure: java.awt.Font getFont()>();
+        specialinvoke temp$1.<CH.ifa.draw.figures.FontSizeHandle$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView,java.awt.Font)>(newView, temp$2);
+        return temp$1;
+    }
+}

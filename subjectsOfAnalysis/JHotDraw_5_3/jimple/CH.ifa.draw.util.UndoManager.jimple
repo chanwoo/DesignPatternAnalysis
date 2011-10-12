@@ -1,0 +1,360 @@
+public class CH.ifa.draw.util.UndoManager extends java.lang.Object
+{
+    public static final int DEFAULT_BUFFER_SIZE;
+    private java.util.Vector redoStack;
+    private java.util.Vector undoStack;
+    private int maxStackCapacity;
+
+    static void <clinit>()
+    {
+        int temp$0;
+
+        temp$0 = 20;
+        <CH.ifa.draw.util.UndoManager: int DEFAULT_BUFFER_SIZE> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.util.UndoManager this;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        specialinvoke this.<CH.ifa.draw.util.UndoManager: void <init>(int)>(20);
+        return;
+    }
+
+    public void <init>(int)
+    {
+        CH.ifa.draw.util.UndoManager this;
+        int newUndoStackSize, temp$1, temp$3;
+        java.util.Vector temp$0, temp$2;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        newUndoStackSize := @parameter0: int;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        this.<CH.ifa.draw.util.UndoManager: int maxStackCapacity> = newUndoStackSize;
+        temp$0 = new java.util.Vector;
+        temp$1 = this.<CH.ifa.draw.util.UndoManager: int maxStackCapacity>;
+        specialinvoke temp$0.<java.util.Vector: void <init>(int)>(temp$1);
+        this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack> = temp$0;
+        temp$2 = new java.util.Vector;
+        temp$3 = this.<CH.ifa.draw.util.UndoManager: int maxStackCapacity>;
+        specialinvoke temp$2.<java.util.Vector: void <init>(int)>(temp$3);
+        this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack> = temp$2;
+        return;
+    }
+
+    public void pushUndo(CH.ifa.draw.util.Undoable)
+    {
+        CH.ifa.draw.util.UndoManager this;
+        CH.ifa.draw.util.Undoable undoActivity;
+        boolean temp$0;
+        int temp$1, temp$2, temp$6;
+        java.util.Vector temp$3, temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        undoActivity := @parameter0: CH.ifa.draw.util.Undoable;
+        temp$0 = interfaceinvoke undoActivity.<CH.ifa.draw.util.Undoable: boolean isUndoable()>();
+        if temp$0 == 0 goto label3;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getUndoSize()>();
+        temp$2 = this.<CH.ifa.draw.util.UndoManager: int maxStackCapacity>;
+        if temp$1 >= temp$2 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack>;
+        virtualinvoke temp$3.<java.util.Vector: void removeElementAt(int)>(0);
+
+     label2:
+        nop;
+        temp$4 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack>;
+        virtualinvoke temp$4.<java.util.Vector: void addElement(java.lang.Object)>(undoActivity);
+        goto label4;
+
+     label3:
+        nop;
+        temp$5 = new java.util.Vector;
+        temp$6 = this.<CH.ifa.draw.util.UndoManager: int maxStackCapacity>;
+        specialinvoke temp$5.<java.util.Vector: void <init>(int)>(temp$6);
+        this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack> = temp$5;
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void pushRedo(CH.ifa.draw.util.Undoable)
+    {
+        CH.ifa.draw.util.UndoManager this;
+        CH.ifa.draw.util.Undoable redoActivity, temp$5;
+        boolean temp$0;
+        int temp$1, temp$2, temp$4, temp$8;
+        java.util.Vector temp$3, temp$6, temp$7;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        redoActivity := @parameter0: CH.ifa.draw.util.Undoable;
+        temp$0 = interfaceinvoke redoActivity.<CH.ifa.draw.util.Undoable: boolean isRedoable()>();
+        if temp$0 == 0 goto label6;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getRedoSize()>();
+        temp$2 = this.<CH.ifa.draw.util.UndoManager: int maxStackCapacity>;
+        if temp$1 >= temp$2 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack>;
+        virtualinvoke temp$3.<java.util.Vector: void removeElementAt(int)>(0);
+
+     label2:
+        nop;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getRedoSize()>();
+        if temp$4 == 0 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: CH.ifa.draw.util.Undoable peekRedo()>();
+        if temp$5 != redoActivity goto label4;
+
+        goto label5;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$6 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack>;
+        virtualinvoke temp$6.<java.util.Vector: void addElement(java.lang.Object)>(redoActivity);
+
+     label5:
+        nop;
+        goto label7;
+
+     label6:
+        nop;
+        temp$7 = new java.util.Vector;
+        temp$8 = this.<CH.ifa.draw.util.UndoManager: int maxStackCapacity>;
+        specialinvoke temp$7.<java.util.Vector: void <init>(int)>(temp$8);
+        this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack> = temp$7;
+
+     label7:
+        nop;
+        return;
+    }
+
+    public boolean isUndoable()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        int temp$0;
+        java.util.Vector temp$1;
+        java.lang.Object temp$2;
+        CH.ifa.draw.util.Undoable temp$3;
+        boolean temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getUndoSize()>();
+        if temp$0 > 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack>;
+        temp$2 = virtualinvoke temp$1.<java.util.Vector: java.lang.Object lastElement()>();
+        temp$3 = (CH.ifa.draw.util.Undoable) temp$2;
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.util.Undoable: boolean isUndoable()>();
+        return temp$4;
+
+     label1:
+        nop;
+        temp$5 = 0;
+        return temp$5;
+    }
+
+    public boolean isRedoable()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        int temp$0;
+        java.util.Vector temp$1;
+        java.lang.Object temp$2;
+        CH.ifa.draw.util.Undoable temp$3;
+        boolean temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getRedoSize()>();
+        if temp$0 > 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack>;
+        temp$2 = virtualinvoke temp$1.<java.util.Vector: java.lang.Object lastElement()>();
+        temp$3 = (CH.ifa.draw.util.Undoable) temp$2;
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.util.Undoable: boolean isRedoable()>();
+        return temp$4;
+
+     label1:
+        nop;
+        temp$5 = 0;
+        return temp$5;
+    }
+
+    protected CH.ifa.draw.util.Undoable peekUndo()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        int temp$0;
+        java.util.Vector temp$1;
+        java.lang.Object temp$2;
+        CH.ifa.draw.util.Undoable temp$3, temp$4;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getUndoSize()>();
+        if temp$0 > 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack>;
+        temp$2 = virtualinvoke temp$1.<java.util.Vector: java.lang.Object lastElement()>();
+        temp$3 = (CH.ifa.draw.util.Undoable) temp$2;
+        return temp$3;
+
+     label1:
+        nop;
+        temp$4 = null;
+        return temp$4;
+    }
+
+    protected CH.ifa.draw.util.Undoable peekRedo()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        int temp$0;
+        java.util.Vector temp$1;
+        java.lang.Object temp$2;
+        CH.ifa.draw.util.Undoable temp$3, temp$4;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getRedoSize()>();
+        if temp$0 > 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack>;
+        temp$2 = virtualinvoke temp$1.<java.util.Vector: java.lang.Object lastElement()>();
+        temp$3 = (CH.ifa.draw.util.Undoable) temp$2;
+        return temp$3;
+
+     label1:
+        nop;
+        temp$4 = null;
+        return temp$4;
+    }
+
+    public int getUndoSize()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        java.util.Vector temp$0;
+        int temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: int size()>();
+        return temp$1;
+    }
+
+    public int getRedoSize()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        java.util.Vector temp$0;
+        int temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: int size()>();
+        return temp$1;
+    }
+
+    public CH.ifa.draw.util.Undoable popUndo()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        CH.ifa.draw.util.Undoable lastUndoable, temp$0;
+        java.util.Vector temp$1;
+        int temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: CH.ifa.draw.util.Undoable peekUndo()>();
+        lastUndoable = temp$0;
+        temp$1 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack>;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getUndoSize()>();
+        temp$3 = temp$2 - 1;
+        virtualinvoke temp$1.<java.util.Vector: void removeElementAt(int)>(temp$3);
+        return lastUndoable;
+    }
+
+    public CH.ifa.draw.util.Undoable popRedo()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        CH.ifa.draw.util.Undoable lastUndoable, temp$0;
+        java.util.Vector temp$1;
+        int temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: CH.ifa.draw.util.Undoable peekRedo()>();
+        lastUndoable = temp$0;
+        temp$1 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack>;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.util.UndoManager: int getRedoSize()>();
+        temp$3 = temp$2 - 1;
+        virtualinvoke temp$1.<java.util.Vector: void removeElementAt(int)>(temp$3);
+        return lastUndoable;
+    }
+
+    public void clearUndos()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        java.util.Vector temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector undoStack>;
+        virtualinvoke this.<CH.ifa.draw.util.UndoManager: void clearStack(java.util.Vector)>(temp$0);
+        return;
+    }
+
+    public void clearRedos()
+    {
+        CH.ifa.draw.util.UndoManager this;
+        java.util.Vector temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        temp$0 = this.<CH.ifa.draw.util.UndoManager: java.util.Vector redoStack>;
+        virtualinvoke this.<CH.ifa.draw.util.UndoManager: void clearStack(java.util.Vector)>(temp$0);
+        return;
+    }
+
+    protected void clearStack(java.util.Vector)
+    {
+        CH.ifa.draw.util.UndoManager this;
+        java.util.Vector clearStack;
+
+        this := @this: CH.ifa.draw.util.UndoManager;
+        clearStack := @parameter0: java.util.Vector;
+        virtualinvoke clearStack.<java.util.Vector: void removeAllElements()>();
+        return;
+    }
+}

@@ -1,0 +1,139 @@
+public class CH.ifa.draw.standard.BoxHandleKit extends java.lang.Object
+{
+
+    public static void addCornerHandles(CH.ifa.draw.framework.Figure, java.util.Vector)
+    {
+        CH.ifa.draw.framework.Figure f;
+        java.util.Vector handles;
+        CH.ifa.draw.framework.Handle temp$0, temp$1, temp$2, temp$3;
+
+        f := @parameter0: CH.ifa.draw.framework.Figure;
+        handles := @parameter1: java.util.Vector;
+        temp$0 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle southEast(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$0);
+        temp$1 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle southWest(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$1);
+        temp$2 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle northEast(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$2);
+        temp$3 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle northWest(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$3);
+        return;
+    }
+
+    public static void addHandles(CH.ifa.draw.framework.Figure, java.util.Vector)
+    {
+        CH.ifa.draw.framework.Figure f;
+        java.util.Vector handles;
+        CH.ifa.draw.framework.Handle temp$0, temp$1, temp$2, temp$3;
+
+        f := @parameter0: CH.ifa.draw.framework.Figure;
+        handles := @parameter1: java.util.Vector;
+        staticinvoke <CH.ifa.draw.standard.BoxHandleKit: void addCornerHandles(CH.ifa.draw.framework.Figure,java.util.Vector)>(f, handles);
+        temp$0 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle south(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$0);
+        temp$1 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle north(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$1);
+        temp$2 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle east(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$2);
+        temp$3 = staticinvoke <CH.ifa.draw.standard.BoxHandleKit: CH.ifa.draw.framework.Handle west(CH.ifa.draw.framework.Figure)>(f);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$3);
+        return;
+    }
+
+    public static CH.ifa.draw.framework.Handle south(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.SouthHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.SouthHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.SouthHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Handle southEast(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.SouthEastHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.SouthEastHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.SouthEastHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Handle southWest(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.SouthWestHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.SouthWestHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.SouthWestHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Handle north(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.NorthHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.NorthHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.NorthHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Handle northEast(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.NorthEastHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.NorthEastHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.NorthEastHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Handle northWest(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.NorthWestHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.NorthWestHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.NorthWestHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Handle east(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.EastHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.EastHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.EastHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.framework.Handle west(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.standard.WestHandle temp$0;
+
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = new CH.ifa.draw.standard.WestHandle;
+        specialinvoke temp$0.<CH.ifa.draw.standard.WestHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return temp$0;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.standard.BoxHandleKit this;
+
+        this := @this: CH.ifa.draw.standard.BoxHandleKit;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}

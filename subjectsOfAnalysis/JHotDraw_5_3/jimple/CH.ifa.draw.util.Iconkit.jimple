@@ -1,0 +1,318 @@
+public class CH.ifa.draw.util.Iconkit extends java.lang.Object
+{
+    private java.util.Hashtable fMap;
+    private java.util.Vector fRegisteredImages;
+    private java.awt.Component fComponent;
+    private static final int ID;
+    private static CH.ifa.draw.util.Iconkit fgIconkit;
+    private static boolean fgDebug;
+
+    static void <clinit>()
+    {
+        int temp$0;
+        CH.ifa.draw.util.Iconkit temp$1;
+        boolean temp$2;
+
+        temp$0 = 123;
+        <CH.ifa.draw.util.Iconkit: int ID> = temp$0;
+        temp$1 = null;
+        <CH.ifa.draw.util.Iconkit: CH.ifa.draw.util.Iconkit fgIconkit> = temp$1;
+        temp$2 = 0;
+        <CH.ifa.draw.util.Iconkit: boolean fgDebug> = temp$2;
+        return;
+    }
+
+    public void <init>(java.awt.Component)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.awt.Component component;
+        java.util.Hashtable temp$0;
+        java.util.Vector temp$1;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        component := @parameter0: java.awt.Component;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = new java.util.Hashtable;
+        specialinvoke temp$0.<java.util.Hashtable: void <init>(int)>(53);
+        this.<CH.ifa.draw.util.Iconkit: java.util.Hashtable fMap> = temp$0;
+        temp$1 = new java.util.Vector;
+        specialinvoke temp$1.<java.util.Vector: void <init>(int)>(10);
+        this.<CH.ifa.draw.util.Iconkit: java.util.Vector fRegisteredImages> = temp$1;
+        this.<CH.ifa.draw.util.Iconkit: java.awt.Component fComponent> = component;
+        <CH.ifa.draw.util.Iconkit: CH.ifa.draw.util.Iconkit fgIconkit> = this;
+        return;
+    }
+
+    public static CH.ifa.draw.util.Iconkit instance()
+    {
+        CH.ifa.draw.util.Iconkit temp$0;
+
+        temp$0 = <CH.ifa.draw.util.Iconkit: CH.ifa.draw.util.Iconkit fgIconkit>;
+        return temp$0;
+    }
+
+    public void loadRegisteredImages(java.awt.Component)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.awt.Component component;
+        java.util.Vector temp$0, temp$3, temp$9;
+        int temp$1;
+        java.awt.MediaTracker tracker, temp$2;
+        java.util.Enumeration k, temp$4;
+        boolean temp$5;
+        java.lang.String fileName;
+        java.lang.Object temp$6;
+        java.awt.Image temp$7, temp$8;
+        java.lang.Exception e;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        component := @parameter0: java.awt.Component;
+        temp$0 = this.<CH.ifa.draw.util.Iconkit: java.util.Vector fRegisteredImages>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: int size()>();
+        if temp$1 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        temp$2 = new java.awt.MediaTracker;
+        specialinvoke temp$2.<java.awt.MediaTracker: void <init>(java.awt.Component)>(component);
+        tracker = temp$2;
+        temp$3 = this.<CH.ifa.draw.util.Iconkit: java.util.Vector fRegisteredImages>;
+        temp$4 = virtualinvoke temp$3.<java.util.Vector: java.util.Enumeration elements()>();
+        k = temp$4;
+
+     label2:
+        nop;
+        temp$5 = interfaceinvoke k.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$5 == 0 goto label6;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$6 = interfaceinvoke k.<java.util.Enumeration: java.lang.Object nextElement()>();
+        fileName = (java.lang.String) temp$6;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.util.Iconkit: java.awt.Image basicGetImage(java.lang.String)>(fileName);
+        if temp$7 == null goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$8 = virtualinvoke this.<CH.ifa.draw.util.Iconkit: java.awt.Image loadImage(java.lang.String)>(fileName);
+        virtualinvoke tracker.<java.awt.MediaTracker: void addImage(java.awt.Image,int)>(temp$8, 123);
+
+     label5:
+        nop;
+        goto label2;
+
+     label6:
+        nop;
+        temp$9 = this.<CH.ifa.draw.util.Iconkit: java.util.Vector fRegisteredImages>;
+        virtualinvoke temp$9.<java.util.Vector: void removeAllElements()>();
+
+     label7:
+        nop;
+        virtualinvoke tracker.<java.awt.MediaTracker: void waitForAll()>();
+        goto label9;
+
+     label8:
+        nop;
+        e := @caughtexception;
+        nop;
+        goto label9;
+
+     label9:
+        nop;
+        return;
+
+        catch java.lang.Exception from label7 to label8 with label8;
+    }
+
+    public void registerImage(java.lang.String)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.lang.String fileName;
+        java.util.Vector temp$0;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        fileName := @parameter0: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.util.Iconkit: java.util.Vector fRegisteredImages>;
+        virtualinvoke temp$0.<java.util.Vector: void addElement(java.lang.Object)>(fileName);
+        return;
+    }
+
+    public java.awt.Image registerAndLoadImage(java.awt.Component, java.lang.String)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.awt.Component component;
+        java.lang.String fileName;
+        java.awt.Image temp$0;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        component := @parameter0: java.awt.Component;
+        fileName := @parameter1: java.lang.String;
+        virtualinvoke this.<CH.ifa.draw.util.Iconkit: void registerImage(java.lang.String)>(fileName);
+        virtualinvoke this.<CH.ifa.draw.util.Iconkit: void loadRegisteredImages(java.awt.Component)>(component);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.Iconkit: java.awt.Image getImage(java.lang.String)>(fileName);
+        return temp$0;
+    }
+
+    public java.awt.Image loadImage(java.lang.String)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.lang.String filename;
+        java.util.Hashtable temp$0, temp$2, temp$6;
+        boolean temp$1;
+        java.lang.Object temp$3, temp$7;
+        java.awt.Image temp$4, image, temp$5;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        filename := @parameter0: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.util.Iconkit: java.util.Hashtable fMap>;
+        temp$1 = virtualinvoke temp$0.<java.util.Hashtable: boolean containsKey(java.lang.Object)>(filename);
+        if temp$1 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.util.Iconkit: java.util.Hashtable fMap>;
+        temp$3 = virtualinvoke temp$2.<java.util.Hashtable: java.lang.Object get(java.lang.Object)>(filename);
+        temp$4 = (java.awt.Image) temp$3;
+        return temp$4;
+
+     label1:
+        nop;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.util.Iconkit: java.awt.Image loadImageResource(java.lang.String)>(filename);
+        image = temp$5;
+        if image != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$6 = this.<CH.ifa.draw.util.Iconkit: java.util.Hashtable fMap>;
+        temp$7 = virtualinvoke temp$6.<java.util.Hashtable: java.lang.Object put(java.lang.Object,java.lang.Object)>(filename, image);
+
+     label3:
+        nop;
+        return image;
+    }
+
+    public java.awt.Image loadImageResource(java.lang.String)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.lang.String resourcename;
+        java.awt.Toolkit toolkit, temp$0;
+        java.net.URL url, temp$2;
+        java.lang.Class temp$1;
+        boolean temp$3;
+        java.io.PrintStream temp$4;
+        java.lang.Object temp$5;
+        java.awt.image.ImageProducer temp$6;
+        java.awt.Image temp$7, temp$8;
+        java.lang.Exception ex;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        resourcename := @parameter0: java.lang.String;
+        temp$0 = staticinvoke <java.awt.Toolkit: java.awt.Toolkit getDefaultToolkit()>();
+        toolkit = temp$0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.Iconkit: java.lang.Class getClass()>();
+        temp$2 = virtualinvoke temp$1.<java.lang.Class: java.net.URL getResource(java.lang.String)>(resourcename);
+        url = temp$2;
+        temp$3 = <CH.ifa.draw.util.Iconkit: boolean fgDebug>;
+        if temp$3 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$4 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$4.<java.io.PrintStream: void println(java.lang.String)>(resourcename);
+
+     label2:
+        nop;
+        temp$5 = virtualinvoke url.<java.net.URL: java.lang.Object getContent()>();
+        temp$6 = (java.awt.image.ImageProducer) temp$5;
+        temp$7 = virtualinvoke toolkit.<java.awt.Toolkit: java.awt.Image createImage(java.awt.image.ImageProducer)>(temp$6);
+
+     label3:
+        nop;
+        return temp$7;
+
+     label4:
+        nop;
+        ex := @caughtexception;
+        temp$8 = null;
+        nop;
+        return temp$8;
+
+        catch java.lang.Exception from label0 to label3 with label4;
+    }
+
+    public java.awt.Image getImage(java.lang.String)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.lang.String filename;
+        java.awt.Image image, temp$0, temp$2;
+        java.awt.Component temp$1;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        filename := @parameter0: java.lang.String;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.Iconkit: java.awt.Image basicGetImage(java.lang.String)>(filename);
+        image = temp$0;
+        if image != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return image;
+
+     label1:
+        nop;
+        temp$1 = this.<CH.ifa.draw.util.Iconkit: java.awt.Component fComponent>;
+        virtualinvoke this.<CH.ifa.draw.util.Iconkit: void loadRegisteredImages(java.awt.Component)>(temp$1);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.util.Iconkit: java.awt.Image basicGetImage(java.lang.String)>(filename);
+        return temp$2;
+    }
+
+    private final java.awt.Image basicGetImage(java.lang.String)
+    {
+        CH.ifa.draw.util.Iconkit this;
+        java.lang.String filename;
+        java.util.Hashtable temp$0, temp$2;
+        boolean temp$1;
+        java.lang.Object temp$3;
+        java.awt.Image temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.util.Iconkit;
+        filename := @parameter0: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.util.Iconkit: java.util.Hashtable fMap>;
+        temp$1 = virtualinvoke temp$0.<java.util.Hashtable: boolean containsKey(java.lang.Object)>(filename);
+        if temp$1 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.util.Iconkit: java.util.Hashtable fMap>;
+        temp$3 = virtualinvoke temp$2.<java.util.Hashtable: java.lang.Object get(java.lang.Object)>(filename);
+        temp$4 = (java.awt.Image) temp$3;
+        return temp$4;
+
+     label1:
+        nop;
+        temp$5 = null;
+        return temp$5;
+    }
+}

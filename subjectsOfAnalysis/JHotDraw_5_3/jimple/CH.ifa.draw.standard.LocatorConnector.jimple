@@ -1,0 +1,164 @@
+public class CH.ifa.draw.standard.LocatorConnector extends CH.ifa.draw.standard.AbstractConnector
+{
+    public static final int SIZE;
+    private CH.ifa.draw.framework.Locator fLocator;
+    private static final long serialVersionUID;
+    private int locatorConnectorSerializedDataVersion;
+
+    static void <clinit>()
+    {
+        int temp$0;
+        long temp$1;
+
+        temp$0 = 8;
+        <CH.ifa.draw.standard.LocatorConnector: int SIZE> = temp$0;
+        temp$1 = 5062833203337604181L;
+        <CH.ifa.draw.standard.LocatorConnector: long serialVersionUID> = temp$1;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        int temp$0;
+        CH.ifa.draw.framework.Locator temp$1;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractConnector: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.standard.LocatorConnector: int locatorConnectorSerializedDataVersion> = temp$0;
+        temp$1 = null;
+        this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Locator fLocator> = temp$1;
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure, CH.ifa.draw.framework.Locator)
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.framework.Locator l;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        l := @parameter1: CH.ifa.draw.framework.Locator;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractConnector: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        temp$0 = 1;
+        this.<CH.ifa.draw.standard.LocatorConnector: int locatorConnectorSerializedDataVersion> = temp$0;
+        this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Locator fLocator> = l;
+        return;
+    }
+
+    protected java.awt.Point locate(CH.ifa.draw.framework.ConnectionFigure)
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        CH.ifa.draw.framework.ConnectionFigure connection;
+        CH.ifa.draw.framework.Locator temp$0;
+        CH.ifa.draw.framework.Figure temp$1;
+        java.awt.Point temp$2;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        connection := @parameter0: CH.ifa.draw.framework.ConnectionFigure;
+        temp$0 = this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Locator fLocator>;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Figure owner()>();
+        temp$2 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Locator: java.awt.Point locate(CH.ifa.draw.framework.Figure)>(temp$1);
+        return temp$2;
+    }
+
+    public boolean containsPoint(int, int)
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        int x, y;
+        java.awt.Rectangle temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.LocatorConnector: java.awt.Rectangle displayBox()>();
+        temp$1 = virtualinvoke temp$0.<java.awt.Rectangle: boolean contains(int,int)>(x, y);
+        return temp$1;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        java.awt.Point p, temp$2;
+        CH.ifa.draw.framework.Locator temp$0;
+        CH.ifa.draw.framework.Figure temp$1;
+        java.awt.Rectangle temp$3;
+        int temp$4, temp$5, temp$6, temp$7;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        temp$0 = this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Locator fLocator>;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Figure owner()>();
+        temp$2 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Locator: java.awt.Point locate(CH.ifa.draw.framework.Figure)>(temp$1);
+        p = temp$2;
+        temp$3 = new java.awt.Rectangle;
+        temp$4 = p.<java.awt.Point: int x>;
+        temp$5 = temp$4 - 4;
+        temp$6 = p.<java.awt.Point: int y>;
+        temp$7 = temp$6 - 4;
+        specialinvoke temp$3.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$5, temp$7, 8, 8);
+        return temp$3;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Color temp$1, temp$6;
+        int temp$2, temp$3, temp$4, temp$5, temp$7, temp$8, temp$9, temp$10;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.LocatorConnector: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = <java.awt.Color: java.awt.Color blue>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void fillOval(int,int,int,int)>(temp$2, temp$3, temp$4, temp$5);
+        temp$6 = <java.awt.Color: java.awt.Color black>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$6);
+        temp$7 = r.<java.awt.Rectangle: int x>;
+        temp$8 = r.<java.awt.Rectangle: int y>;
+        temp$9 = r.<java.awt.Rectangle: int width>;
+        temp$10 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void drawOval(int,int,int,int)>(temp$7, temp$8, temp$9, temp$10);
+        return;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        CH.ifa.draw.util.StorableOutput dw;
+        CH.ifa.draw.framework.Locator temp$0;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractConnector: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Locator fLocator>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeStorable(CH.ifa.draw.util.Storable)>(temp$0);
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.standard.LocatorConnector this;
+        CH.ifa.draw.util.StorableInput dr;
+        CH.ifa.draw.util.Storable temp$0;
+        CH.ifa.draw.framework.Locator temp$1;
+
+        this := @this: CH.ifa.draw.standard.LocatorConnector;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractConnector: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: CH.ifa.draw.util.Storable readStorable()>();
+        temp$1 = (CH.ifa.draw.framework.Locator) temp$0;
+        this.<CH.ifa.draw.standard.LocatorConnector: CH.ifa.draw.framework.Locator fLocator> = temp$1;
+        return;
+    }
+}

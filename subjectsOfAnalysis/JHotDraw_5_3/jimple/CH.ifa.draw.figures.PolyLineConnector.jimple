@@ -1,0 +1,165 @@
+public class CH.ifa.draw.figures.PolyLineConnector extends CH.ifa.draw.standard.ChopBoxConnector
+{
+    private static final long serialVersionUID;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = 6018435940519102865L;
+        <CH.ifa.draw.figures.PolyLineConnector: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.figures.PolyLineConnector this;
+
+        this := @this: CH.ifa.draw.figures.PolyLineConnector;
+        specialinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: void <init>()>();
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.figures.PolyLineConnector this;
+        CH.ifa.draw.framework.Figure owner;
+
+        this := @this: CH.ifa.draw.figures.PolyLineConnector;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return;
+    }
+
+    protected java.awt.Point chop(CH.ifa.draw.framework.Figure, java.awt.Point)
+    {
+        CH.ifa.draw.figures.PolyLineConnector this;
+        CH.ifa.draw.framework.Figure target, temp$0;
+        java.awt.Point 'from', ctr, temp$1, p1, temp$4, p2, temp$7, chop, temp$16, pp, temp$28, temp$39;
+        CH.ifa.draw.figures.PolyLineFigure p;
+        int cx, cy, i, temp$2, temp$3, temp$5, temp$6, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$17, temp$18, temp$19, temp$20, temp$22, temp$23, temp$24, temp$25, temp$26, i, temp$27, temp$29, temp$30, temp$31, temp$32, temp$34, temp$35, temp$36, temp$37, temp$38;
+        long len, cl, temp$21, l, temp$33;
+
+        this := @this: CH.ifa.draw.figures.PolyLineConnector;
+        target := @parameter0: CH.ifa.draw.framework.Figure;
+        'from' := @parameter1: java.awt.Point;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.PolyLineConnector: CH.ifa.draw.framework.Figure owner()>();
+        p = (CH.ifa.draw.figures.PolyLineFigure) temp$0;
+        temp$1 = virtualinvoke p.<CH.ifa.draw.figures.PolyLineFigure: java.awt.Point center()>();
+        ctr = temp$1;
+        cx = -1;
+        cy = -1;
+        len = 9223372036854775807L;
+        i = 0;
+
+     label0:
+        nop;
+        temp$2 = virtualinvoke p.<CH.ifa.draw.figures.PolyLineFigure: int pointCount()>();
+        temp$3 = temp$2 - 1;
+        if i < temp$3 goto label1;
+
+        goto label6;
+
+     label1:
+        nop;
+        temp$4 = virtualinvoke p.<CH.ifa.draw.figures.PolyLineFigure: java.awt.Point pointAt(int)>(i);
+        p1 = temp$4;
+        temp$5 = i;
+        temp$6 = temp$5 + 1;
+        temp$7 = virtualinvoke p.<CH.ifa.draw.figures.PolyLineFigure: java.awt.Point pointAt(int)>(temp$6);
+        p2 = temp$7;
+        temp$8 = p1.<java.awt.Point: int x>;
+        temp$9 = p1.<java.awt.Point: int y>;
+        temp$10 = p2.<java.awt.Point: int x>;
+        temp$11 = p2.<java.awt.Point: int y>;
+        temp$12 = 'from'.<java.awt.Point: int x>;
+        temp$13 = 'from'.<java.awt.Point: int y>;
+        temp$14 = ctr.<java.awt.Point: int x>;
+        temp$15 = ctr.<java.awt.Point: int y>;
+        temp$16 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point intersect(int,int,int,int,int,int,int,int)>(temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15);
+        chop = temp$16;
+        if chop != null goto label2;
+
+        goto label5;
+
+     label2:
+        nop;
+        temp$17 = chop.<java.awt.Point: int x>;
+        temp$18 = chop.<java.awt.Point: int y>;
+        temp$19 = 'from'.<java.awt.Point: int x>;
+        temp$20 = 'from'.<java.awt.Point: int y>;
+        temp$21 = staticinvoke <CH.ifa.draw.util.Geom: long length2(int,int,int,int)>(temp$17, temp$18, temp$19, temp$20);
+        cl = temp$21;
+        temp$22 = cl cmp len;
+        if temp$22 >= 0 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        len = cl;
+        temp$23 = chop.<java.awt.Point: int x>;
+        cx = temp$23;
+        temp$24 = chop.<java.awt.Point: int y>;
+        cy = temp$24;
+
+     label4:
+        nop;
+
+     label5:
+        nop;
+        nop;
+        temp$25 = i;
+        temp$26 = temp$25 + 1;
+        i = temp$26;
+        goto label0;
+
+     label6:
+        nop;
+        i = 0;
+
+     label7:
+        nop;
+        temp$27 = virtualinvoke p.<CH.ifa.draw.figures.PolyLineFigure: int pointCount()>();
+        if i < temp$27 goto label8;
+
+        goto label11;
+
+     label8:
+        nop;
+        temp$28 = virtualinvoke p.<CH.ifa.draw.figures.PolyLineFigure: java.awt.Point pointAt(int)>(i);
+        pp = temp$28;
+        temp$29 = pp.<java.awt.Point: int x>;
+        temp$30 = pp.<java.awt.Point: int y>;
+        temp$31 = 'from'.<java.awt.Point: int x>;
+        temp$32 = 'from'.<java.awt.Point: int y>;
+        temp$33 = staticinvoke <CH.ifa.draw.util.Geom: long length2(int,int,int,int)>(temp$29, temp$30, temp$31, temp$32);
+        l = temp$33;
+        temp$34 = l cmp len;
+        if temp$34 >= 0 goto label10;
+
+        goto label9;
+
+     label9:
+        nop;
+        len = l;
+        temp$35 = pp.<java.awt.Point: int x>;
+        cx = temp$35;
+        temp$36 = pp.<java.awt.Point: int y>;
+        cy = temp$36;
+
+     label10:
+        nop;
+        nop;
+        temp$37 = i;
+        temp$38 = temp$37 + 1;
+        i = temp$38;
+        goto label7;
+
+     label11:
+        nop;
+        temp$39 = new java.awt.Point;
+        specialinvoke temp$39.<java.awt.Point: void <init>(int,int)>(cx, cy);
+        return temp$39;
+    }
+}

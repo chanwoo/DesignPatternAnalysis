@@ -1,0 +1,35 @@
+public class CH.ifa.draw.standard.SimpleUpdateStrategy extends java.lang.Object implements CH.ifa.draw.framework.Painter
+{
+    private static final long serialVersionUID;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = -7539925820692134566L;
+        <CH.ifa.draw.standard.SimpleUpdateStrategy: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void draw(java.awt.Graphics, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.SimpleUpdateStrategy this;
+        java.awt.Graphics g;
+        CH.ifa.draw.framework.DrawingView view;
+
+        this := @this: CH.ifa.draw.standard.SimpleUpdateStrategy;
+        g := @parameter0: java.awt.Graphics;
+        view := @parameter1: CH.ifa.draw.framework.DrawingView;
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void drawAll(java.awt.Graphics)>(g);
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.standard.SimpleUpdateStrategy this;
+
+        this := @this: CH.ifa.draw.standard.SimpleUpdateStrategy;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}

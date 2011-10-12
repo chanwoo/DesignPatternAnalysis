@@ -1,0 +1,360 @@
+public class CH.ifa.draw.figures.ImageFigure extends CH.ifa.draw.figures.AttributeFigure implements java.awt.image.ImageObserver
+{
+    private java.lang.String fFileName;
+    private java.awt.Image fImage;
+    private java.awt.Rectangle fDisplayBox;
+    private static final long serialVersionUID;
+    private int imageFigureSerializedDataVersion;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = 148012030121282439L;
+        <CH.ifa.draw.figures.ImageFigure: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        int temp$0;
+        java.lang.String temp$1;
+        java.awt.Image temp$2;
+        java.awt.Rectangle temp$3;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        specialinvoke this.<CH.ifa.draw.figures.AttributeFigure: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.ImageFigure: int imageFigureSerializedDataVersion> = temp$0;
+        temp$1 = null;
+        this.<CH.ifa.draw.figures.ImageFigure: java.lang.String fFileName> = temp$1;
+        temp$2 = null;
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage> = temp$2;
+        temp$3 = null;
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox> = temp$3;
+        return;
+    }
+
+    public void <init>(java.awt.Image, java.lang.String, java.awt.Point)
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.awt.Image image, temp$5, temp$8;
+        java.lang.String fileName;
+        java.awt.Point origin;
+        int temp$0, temp$2, temp$3, temp$6, temp$9;
+        java.awt.Rectangle temp$1, temp$4, temp$7;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        image := @parameter0: java.awt.Image;
+        fileName := @parameter1: java.lang.String;
+        origin := @parameter2: java.awt.Point;
+        specialinvoke this.<CH.ifa.draw.figures.AttributeFigure: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.ImageFigure: int imageFigureSerializedDataVersion> = temp$0;
+        this.<CH.ifa.draw.figures.ImageFigure: java.lang.String fFileName> = fileName;
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage> = image;
+        temp$1 = new java.awt.Rectangle;
+        temp$2 = origin.<java.awt.Point: int x>;
+        temp$3 = origin.<java.awt.Point: int y>;
+        specialinvoke temp$1.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$2, temp$3, 0, 0);
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox> = temp$1;
+        temp$4 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$5 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage>;
+        temp$6 = virtualinvoke temp$5.<java.awt.Image: int getWidth(java.awt.image.ImageObserver)>(this);
+        temp$4.<java.awt.Rectangle: int width> = temp$6;
+        temp$7 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$8 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage>;
+        temp$9 = virtualinvoke temp$8.<java.awt.Image: int getHeight(java.awt.image.ImageObserver)>(this);
+        temp$7.<java.awt.Rectangle: int height> = temp$9;
+        return;
+    }
+
+    public void basicDisplayBox(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.awt.Point origin, corner;
+        java.awt.Rectangle temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        temp$0 = new java.awt.Rectangle;
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(java.awt.Point)>(origin);
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox> = temp$0;
+        temp$1 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        virtualinvoke temp$1.<java.awt.Rectangle: void add(java.awt.Point)>(corner);
+        return;
+    }
+
+    public java.util.Vector handles()
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.util.Vector handles, temp$0;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>()>();
+        handles = temp$0;
+        staticinvoke <CH.ifa.draw.standard.BoxHandleKit: void addHandles(CH.ifa.draw.framework.Figure,java.util.Vector)>(this, handles);
+        return handles;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.awt.Rectangle temp$0, temp$1, temp$3, temp$5, temp$7;
+        int temp$2, temp$4, temp$6, temp$8;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        temp$0 = new java.awt.Rectangle;
+        temp$1 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$2 = temp$1.<java.awt.Rectangle: int x>;
+        temp$3 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$4 = temp$3.<java.awt.Rectangle: int y>;
+        temp$5 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$6 = temp$5.<java.awt.Rectangle: int width>;
+        temp$7 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$8 = temp$7.<java.awt.Rectangle: int height>;
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$2, temp$4, temp$6, temp$8);
+        return temp$0;
+    }
+
+    protected void basicMoveBy(int, int)
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        int x, y;
+        java.awt.Rectangle temp$0;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        virtualinvoke temp$0.<java.awt.Rectangle: void translate(int,int)>(x, y);
+        return;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.awt.Graphics g;
+        java.awt.Image temp$0, temp$3, temp$4, temp$5;
+        CH.ifa.draw.util.Iconkit temp$1;
+        java.lang.String temp$2;
+        java.awt.Rectangle temp$6, temp$8, temp$10, temp$12;
+        int temp$7, temp$9, temp$11, temp$13;
+        boolean temp$14;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = staticinvoke <CH.ifa.draw.util.Iconkit: CH.ifa.draw.util.Iconkit instance()>();
+        temp$2 = this.<CH.ifa.draw.figures.ImageFigure: java.lang.String fFileName>;
+        temp$3 = virtualinvoke temp$1.<CH.ifa.draw.util.Iconkit: java.awt.Image getImage(java.lang.String)>(temp$2);
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage> = temp$3;
+
+     label1:
+        nop;
+        temp$4 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage>;
+        if temp$4 != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$5 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage>;
+        temp$6 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$7 = temp$6.<java.awt.Rectangle: int x>;
+        temp$8 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$9 = temp$8.<java.awt.Rectangle: int y>;
+        temp$10 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$11 = temp$10.<java.awt.Rectangle: int width>;
+        temp$12 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$13 = temp$12.<java.awt.Rectangle: int height>;
+        temp$14 = virtualinvoke g.<java.awt.Graphics: boolean drawImage(java.awt.Image,int,int,int,int,java.awt.image.ImageObserver)>(temp$5, temp$7, temp$9, temp$11, temp$13, this);
+        goto label4;
+
+     label3:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.ImageFigure: void drawGhost(java.awt.Graphics)>(g);
+
+     label4:
+        nop;
+        return;
+    }
+
+    private final void drawGhost(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.awt.Graphics g;
+        java.awt.Color temp$0;
+        java.awt.Rectangle temp$1, temp$3, temp$5, temp$7;
+        int temp$2, temp$4, temp$6, temp$8;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = <java.awt.Color: java.awt.Color gray>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$0);
+        temp$1 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$2 = temp$1.<java.awt.Rectangle: int x>;
+        temp$3 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$4 = temp$3.<java.awt.Rectangle: int y>;
+        temp$5 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$6 = temp$5.<java.awt.Rectangle: int width>;
+        temp$7 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$8 = temp$7.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void fillRect(int,int,int,int)>(temp$2, temp$4, temp$6, temp$8);
+        return;
+    }
+
+    public boolean imageUpdate(java.awt.Image, int, int, int, int, int)
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.awt.Image img;
+        int flags, x, y, w, h, temp$0, temp$4;
+        CH.ifa.draw.framework.FigureChangeListener temp$1, temp$2;
+        CH.ifa.draw.framework.FigureChangeEvent temp$3;
+        boolean temp$5;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        img := @parameter0: java.awt.Image;
+        flags := @parameter1: int;
+        x := @parameter2: int;
+        y := @parameter3: int;
+        w := @parameter4: int;
+        h := @parameter5: int;
+        temp$0 = flags & 48;
+        if temp$0 != 0 goto label0;
+
+        goto label3;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.ImageFigure: void invalidate()>();
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.ImageFigure: CH.ifa.draw.framework.FigureChangeListener listener()>();
+        if temp$1 != null goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.ImageFigure: CH.ifa.draw.framework.FigureChangeListener listener()>();
+        temp$3 = new CH.ifa.draw.framework.FigureChangeEvent;
+        specialinvoke temp$3.<CH.ifa.draw.framework.FigureChangeEvent: void <init>(CH.ifa.draw.framework.Figure)>(this);
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.FigureChangeListener: void figureRequestUpdate(CH.ifa.draw.framework.FigureChangeEvent)>(temp$3);
+
+     label2:
+        nop;
+
+     label3:
+        nop;
+        temp$4 = flags & 160;
+        if temp$4 == 0 goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$5 = 0;
+        goto label6;
+
+     label5:
+        nop;
+        temp$5 = 1;
+
+     label6:
+        nop;
+        return temp$5;
+    }
+
+    public void release()
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.awt.Image temp$0;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        temp$0 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage>;
+        virtualinvoke temp$0.<java.awt.Image: void flush()>();
+        return;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        CH.ifa.draw.util.StorableOutput dw;
+        java.awt.Rectangle temp$0, temp$2, temp$4, temp$6;
+        int temp$1, temp$3, temp$5, temp$7;
+        java.lang.String temp$8;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.figures.AttributeFigure: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$1 = temp$0.<java.awt.Rectangle: int x>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$1);
+        temp$2 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$3 = temp$2.<java.awt.Rectangle: int y>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$3);
+        temp$4 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$5 = temp$4.<java.awt.Rectangle: int width>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$5);
+        temp$6 = this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox>;
+        temp$7 = temp$6.<java.awt.Rectangle: int height>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$7);
+        temp$8 = this.<CH.ifa.draw.figures.ImageFigure: java.lang.String fFileName>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeString(java.lang.String)>(temp$8);
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        CH.ifa.draw.util.StorableInput dr;
+        java.awt.Rectangle temp$0;
+        int temp$1, temp$2, temp$3, temp$4;
+        java.lang.String temp$5, temp$7;
+        CH.ifa.draw.util.Iconkit temp$6;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.figures.AttributeFigure: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = new java.awt.Rectangle;
+        temp$1 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$2 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$3 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$4 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$1, temp$2, temp$3, temp$4);
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Rectangle fDisplayBox> = temp$0;
+        temp$5 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: java.lang.String readString()>();
+        this.<CH.ifa.draw.figures.ImageFigure: java.lang.String fFileName> = temp$5;
+        temp$6 = staticinvoke <CH.ifa.draw.util.Iconkit: CH.ifa.draw.util.Iconkit instance()>();
+        temp$7 = this.<CH.ifa.draw.figures.ImageFigure: java.lang.String fFileName>;
+        virtualinvoke temp$6.<CH.ifa.draw.util.Iconkit: void registerImage(java.lang.String)>(temp$7);
+        return;
+    }
+
+    private final void readObject(java.io.ObjectInputStream) throws java.lang.ClassNotFoundException, java.io.IOException
+    {
+        CH.ifa.draw.figures.ImageFigure this;
+        java.io.ObjectInputStream s;
+        CH.ifa.draw.util.Iconkit temp$0;
+        java.lang.String temp$1;
+        java.awt.Image temp$2;
+
+        this := @this: CH.ifa.draw.figures.ImageFigure;
+        s := @parameter0: java.io.ObjectInputStream;
+        virtualinvoke s.<java.io.ObjectInputStream: void defaultReadObject()>();
+        temp$0 = staticinvoke <CH.ifa.draw.util.Iconkit: CH.ifa.draw.util.Iconkit instance()>();
+        temp$1 = this.<CH.ifa.draw.figures.ImageFigure: java.lang.String fFileName>;
+        virtualinvoke temp$0.<CH.ifa.draw.util.Iconkit: void registerImage(java.lang.String)>(temp$1);
+        temp$2 = null;
+        this.<CH.ifa.draw.figures.ImageFigure: java.awt.Image fImage> = temp$2;
+        return;
+    }
+}

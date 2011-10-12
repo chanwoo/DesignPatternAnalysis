@@ -1,0 +1,29 @@
+public class Off extends java.lang.Object implements State
+{
+
+    public void changeSpeed(CeilingFan)
+    {
+        Off this;
+        CeilingFan fan;
+        LowSpeed temp$0;
+        java.io.PrintStream temp$1;
+
+        this := @this: Off;
+        fan := @parameter0: CeilingFan;
+        temp$0 = new LowSpeed;
+        specialinvoke temp$0.<LowSpeed: void <init>()>();
+        virtualinvoke fan.<CeilingFan: void setState(State)>(temp$0);
+        temp$1 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$1.<java.io.PrintStream: void println(java.lang.String)>("low speed");
+        return;
+    }
+
+    public void <init>()
+    {
+        Off this;
+
+        this := @this: Off;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}

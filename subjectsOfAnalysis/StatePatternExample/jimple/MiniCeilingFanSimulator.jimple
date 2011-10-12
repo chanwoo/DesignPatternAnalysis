@@ -1,0 +1,30 @@
+public class MiniCeilingFanSimulator extends java.lang.Object
+{
+
+    public static void main(java.lang.String[])
+    {
+        java.lang.String[] args;
+        CeilingFan fan, temp$0;
+
+        args := @parameter0: java.lang.String[];
+        temp$0 = new CeilingFan;
+        specialinvoke temp$0.<CeilingFan: void <init>()>();
+        fan = temp$0;
+        virtualinvoke fan.<CeilingFan: void changeSpeed()>();
+        virtualinvoke fan.<CeilingFan: void changeSpeed()>();
+        virtualinvoke fan.<CeilingFan: void changeSpeed()>();
+        virtualinvoke fan.<CeilingFan: void changeSpeed()>();
+        virtualinvoke fan.<CeilingFan: void changeSpeed()>();
+        virtualinvoke fan.<CeilingFan: void changeSpeed()>();
+        return;
+    }
+
+    public void <init>()
+    {
+        MiniCeilingFanSimulator this;
+
+        this := @this: MiniCeilingFanSimulator;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}

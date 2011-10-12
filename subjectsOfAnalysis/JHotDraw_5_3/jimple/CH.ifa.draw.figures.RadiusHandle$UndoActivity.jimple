@@ -1,0 +1,121 @@
+public static class CH.ifa.draw.figures.RadiusHandle$UndoActivity extends CH.ifa.draw.util.UndoableAdapter
+{
+    private java.awt.Point myOldRadius;
+
+    public void <init>(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.figures.RadiusHandle$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newView;
+
+        this := @this: CH.ifa.draw.figures.RadiusHandle$UndoActivity;
+        newView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void <init>(CH.ifa.draw.framework.DrawingView)>(newView);
+        virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: void setUndoable(boolean)>(1);
+        virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: void setRedoable(boolean)>(1);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.figures.RadiusHandle$UndoActivity this;
+        boolean temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.RadiusHandle$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean undo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: boolean resetRadius()>();
+        return temp$2;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.figures.RadiusHandle$UndoActivity this;
+        boolean temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.RadiusHandle$UndoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: boolean isRedoable()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: boolean resetRadius()>();
+        return temp$2;
+    }
+
+    protected boolean resetRadius()
+    {
+        CH.ifa.draw.figures.RadiusHandle$UndoActivity this;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$0;
+        boolean temp$1, temp$2, temp$9;
+        CH.ifa.draw.figures.RoundRectangleFigure currentFigure;
+        CH.ifa.draw.framework.Figure temp$3;
+        java.awt.Point figureRadius, temp$4, temp$5, temp$7;
+        int temp$6, temp$8;
+
+        this := @this: CH.ifa.draw.figures.RadiusHandle$UndoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$0;
+        temp$1 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        return temp$2;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        currentFigure = (CH.ifa.draw.figures.RoundRectangleFigure) temp$3;
+        temp$4 = virtualinvoke currentFigure.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Point getArc()>();
+        figureRadius = temp$4;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: java.awt.Point getOldRadius()>();
+        temp$6 = temp$5.<java.awt.Point: int x>;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: java.awt.Point getOldRadius()>();
+        temp$8 = temp$7.<java.awt.Point: int y>;
+        virtualinvoke currentFigure.<CH.ifa.draw.figures.RoundRectangleFigure: void setArc(int,int)>(temp$6, temp$8);
+        virtualinvoke this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: void setOldRadius(java.awt.Point)>(figureRadius);
+        temp$9 = 1;
+        return temp$9;
+    }
+
+    protected void setOldRadius(java.awt.Point)
+    {
+        CH.ifa.draw.figures.RadiusHandle$UndoActivity this;
+        java.awt.Point newOldRadius;
+
+        this := @this: CH.ifa.draw.figures.RadiusHandle$UndoActivity;
+        newOldRadius := @parameter0: java.awt.Point;
+        this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: java.awt.Point myOldRadius> = newOldRadius;
+        return;
+    }
+
+    public java.awt.Point getOldRadius()
+    {
+        CH.ifa.draw.figures.RadiusHandle$UndoActivity this;
+        java.awt.Point temp$0;
+
+        this := @this: CH.ifa.draw.figures.RadiusHandle$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.figures.RadiusHandle$UndoActivity: java.awt.Point myOldRadius>;
+        return temp$0;
+    }
+}

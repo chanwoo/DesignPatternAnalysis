@@ -1,0 +1,767 @@
+public class CH.ifa.draw.contrib.MDI_DrawApplication extends CH.ifa.draw.application.DrawApplication implements javax.swing.event.InternalFrameListener
+{
+    private CH.ifa.draw.contrib.MDI_InternalFrame currentFrame;
+    private javax.swing.JComponent desktop;
+    private java.util.Vector mdiListeners;
+    public static java.lang.Class class$CH$ifa$draw$contrib$MDI_InternalFrame;
+    public static java.lang.Class class$CH$ifa$draw$framework$DrawingView;
+
+    public void <init>()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        specialinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void <init>(java.lang.String)>("JHotDraw");
+        return;
+    }
+
+    public void <init>(java.lang.String)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        java.lang.String title;
+        CH.ifa.draw.contrib.MDIDesktopPane temp$0;
+        javax.swing.JComponent temp$1;
+        java.util.Vector temp$2;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        title := @parameter0: java.lang.String;
+        specialinvoke this.<CH.ifa.draw.application.DrawApplication: void <init>(java.lang.String)>(title);
+        temp$0 = new CH.ifa.draw.contrib.MDIDesktopPane;
+        specialinvoke temp$0.<CH.ifa.draw.contrib.MDIDesktopPane: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void setDesktop(javax.swing.JComponent)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent getDesktop()>();
+        virtualinvoke temp$1.<javax.swing.JComponent: void setAlignmentX(float)>(0.0F);
+        temp$2 = new java.util.Vector;
+        specialinvoke temp$2.<java.util.Vector: void <init>()>();
+        this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.util.Vector mdiListeners> = temp$2;
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void addInternalFrameListener(javax.swing.event.InternalFrameListener)>(this);
+        return;
+    }
+
+    protected CH.ifa.draw.application.DrawApplication createApplication()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this, temp$0;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = new CH.ifa.draw.contrib.MDI_DrawApplication;
+        specialinvoke temp$0.<CH.ifa.draw.contrib.MDI_DrawApplication: void <init>()>();
+        return temp$0;
+    }
+
+    protected void createTools(javax.swing.JToolBar)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.JToolBar palette;
+        CH.ifa.draw.framework.Tool tool;
+        CH.ifa.draw.contrib.DragNDropTool temp$0;
+        CH.ifa.draw.standard.ToolButton tb, temp$1;
+        java.awt.Component temp$2;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        palette := @parameter0: javax.swing.JToolBar;
+        specialinvoke this.<CH.ifa.draw.application.DrawApplication: void createTools(javax.swing.JToolBar)>(palette);
+        temp$0 = new CH.ifa.draw.contrib.DragNDropTool;
+        specialinvoke temp$0.<CH.ifa.draw.contrib.DragNDropTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        tool = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/SEL", "Drag N Drop Tool", tool);
+        tb = temp$1;
+        temp$2 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(tb);
+        return;
+    }
+
+    protected javax.swing.JComponent createContents(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.framework.DrawingView view;
+        boolean temp$0;
+        CH.ifa.draw.contrib.MDI_InternalFrame internalFrame, temp$1;
+        javax.swing.JComponent contents, temp$2, temp$5, temp$7;
+        java.awt.Container temp$3;
+        java.awt.Component temp$4, temp$6;
+        java.beans.PropertyVetoException e;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: boolean isInteractive()>();
+        if temp$0 == 0 goto label4;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame createInternalFrame(CH.ifa.draw.framework.DrawingView)>(view);
+        internalFrame = temp$1;
+        temp$2 = specialinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JComponent createContents(CH.ifa.draw.framework.DrawingView)>(view);
+        contents = temp$2;
+        temp$3 = virtualinvoke internalFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: java.awt.Container getContentPane()>();
+        temp$4 = virtualinvoke temp$3.<java.awt.Container: java.awt.Component add(java.awt.Component)>(contents);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent getDesktop()>();
+        temp$6 = virtualinvoke temp$5.<javax.swing.JComponent: java.awt.Component add(java.awt.Component)>(internalFrame);
+        virtualinvoke internalFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: void setVisible(boolean)>(1);
+
+     label1:
+        nop;
+        virtualinvoke internalFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: void setSelected(boolean)>(1);
+        goto label3;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        nop;
+        goto label3;
+
+     label3:
+        nop;
+
+     label4:
+        nop;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent getDesktop()>();
+        return temp$7;
+
+        catch java.beans.PropertyVetoException from label1 to label2 with label2;
+    }
+
+    protected CH.ifa.draw.contrib.MDI_InternalFrame createInternalFrame(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.framework.DrawingView view;
+        java.lang.String applicationTitle, temp$2, temp$4, temp$5, temp$6, temp$8, temp$10, temp$11;
+        CH.ifa.draw.framework.Drawing temp$0, temp$1, temp$9;
+        java.lang.StringBuffer temp$3, temp$7;
+        CH.ifa.draw.contrib.MDI_InternalFrame internalFrame, temp$12;
+        java.util.Enumeration enum1, temp$14;
+        java.util.Vector temp$13;
+        boolean temp$15;
+        java.lang.Object temp$16;
+        javax.swing.event.InternalFrameListener temp$17;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        applicationTitle = null;
+        if view == null goto label2;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$0 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        if temp$0 == null goto label2;
+
+        goto label1;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$1 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: java.lang.String getTitle()>();
+        if temp$2 == null goto label2;
+
+        goto label3;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$3 = new java.lang.StringBuffer;
+        specialinvoke temp$3.<java.lang.StringBuffer: void <init>()>();
+        temp$4 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.String getApplicationName()>();
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$4);
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" - ");
+        temp$5 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.String getDefaultDrawingTitle()>();
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$5);
+        temp$6 = virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.String toString()>();
+        applicationTitle = temp$6;
+        goto label4;
+
+     label3:
+        nop;
+        temp$7 = new java.lang.StringBuffer;
+        specialinvoke temp$7.<java.lang.StringBuffer: void <init>()>();
+        temp$8 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.String getApplicationName()>();
+        virtualinvoke temp$7.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$8);
+        virtualinvoke temp$7.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" - ");
+        temp$9 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$10 = interfaceinvoke temp$9.<CH.ifa.draw.framework.Drawing: java.lang.String getTitle()>();
+        virtualinvoke temp$7.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$10);
+        temp$11 = virtualinvoke temp$7.<java.lang.StringBuffer: java.lang.String toString()>();
+        applicationTitle = temp$11;
+
+     label4:
+        nop;
+        temp$12 = new CH.ifa.draw.contrib.MDI_InternalFrame;
+        specialinvoke temp$12.<CH.ifa.draw.contrib.MDI_InternalFrame: void <init>(java.lang.String,boolean,boolean,boolean,boolean)>(applicationTitle, 1, 1, 1, 1);
+        internalFrame = temp$12;
+        virtualinvoke internalFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: void setDrawingView(CH.ifa.draw.framework.DrawingView)>(view);
+        virtualinvoke internalFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: void setSize(int,int)>(200, 200);
+        temp$13 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.util.Vector mdiListeners>;
+        temp$14 = virtualinvoke temp$13.<java.util.Vector: java.util.Enumeration elements()>();
+        enum1 = temp$14;
+
+     label5:
+        nop;
+        temp$15 = interfaceinvoke enum1.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$15 == 0 goto label7;
+
+        goto label6;
+
+     label6:
+        nop;
+        temp$16 = interfaceinvoke enum1.<java.util.Enumeration: java.lang.Object nextElement()>();
+        temp$17 = (javax.swing.event.InternalFrameListener) temp$16;
+        virtualinvoke internalFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: void addInternalFrameListener(javax.swing.event.InternalFrameListener)>(temp$17);
+        goto label5;
+
+     label7:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void fireViewCreatedEvent(CH.ifa.draw.framework.DrawingView)>(view);
+        return internalFrame;
+    }
+
+    public void promptNew()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        boolean temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: boolean hasInternalFrames()>();
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        specialinvoke this.<CH.ifa.draw.application.DrawApplication: void promptNew()>();
+        goto label2;
+
+     label1:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.framework.Drawing createDrawing()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void newWindow(CH.ifa.draw.framework.Drawing)>(temp$1);
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void newWindow(CH.ifa.draw.framework.Drawing)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.framework.Drawing newDrawing;
+        CH.ifa.draw.framework.DrawingView newView, temp$0;
+        javax.swing.JComponent temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        newDrawing := @parameter0: CH.ifa.draw.framework.Drawing;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.framework.DrawingView createDrawingView()>();
+        newView = temp$0;
+        interfaceinvoke newView.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(newDrawing);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent createContents(CH.ifa.draw.framework.DrawingView)>(newView);
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void toolDone()>();
+        return;
+    }
+
+    protected CH.ifa.draw.framework.DrawingView createInitialDrawingView()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = staticinvoke <CH.ifa.draw.standard.NullDrawingView: CH.ifa.draw.framework.DrawingView getManagedDrawingView(CH.ifa.draw.framework.DrawingEditor)>(this);
+        return temp$0;
+    }
+
+    public void newView()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$2, fView, temp$5, temp$6;
+        boolean temp$1;
+        java.lang.String copyTitle, temp$4, temp$10, temp$12, temp$13;
+        CH.ifa.draw.framework.Drawing temp$3, temp$7;
+        javax.swing.JComponent temp$8;
+        java.lang.StringBuffer temp$9, temp$11;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: boolean isInteractive()>();
+        if temp$1 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.Drawing: java.lang.String getTitle()>();
+        copyTitle = temp$4;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.framework.DrawingView createDrawingView()>();
+        fView = temp$5;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$7 = interfaceinvoke temp$6.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        interfaceinvoke fView.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(temp$7);
+        temp$8 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent createContents(CH.ifa.draw.framework.DrawingView)>(fView);
+        if copyTitle != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$9 = new java.lang.StringBuffer;
+        specialinvoke temp$9.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(copyTitle);
+        virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" (View)");
+        temp$10 = virtualinvoke temp$9.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void setDrawingTitle(java.lang.String)>(temp$10);
+        goto label4;
+
+     label3:
+        nop;
+        temp$11 = new java.lang.StringBuffer;
+        specialinvoke temp$11.<java.lang.StringBuffer: void <init>()>();
+        temp$12 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.String getDefaultDrawingTitle()>();
+        virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$12);
+        virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" (View)");
+        temp$13 = virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void setDrawingTitle(java.lang.String)>(temp$13);
+
+     label4:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void toolDone()>();
+        return;
+    }
+
+    protected void setDesktop(javax.swing.JComponent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.JComponent newDesktop;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        newDesktop := @parameter0: javax.swing.JComponent;
+        this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent desktop> = newDesktop;
+        return;
+    }
+
+    public javax.swing.JComponent getDesktop()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.JComponent temp$0;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent desktop>;
+        return temp$0;
+    }
+
+    public void addInternalFrameListener(javax.swing.event.InternalFrameListener)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameListener newMDIListener;
+        java.util.Vector temp$0;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        newMDIListener := @parameter0: javax.swing.event.InternalFrameListener;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.util.Vector mdiListeners>;
+        virtualinvoke temp$0.<java.util.Vector: void addElement(java.lang.Object)>(newMDIListener);
+        return;
+    }
+
+    public void removeInternalFrameListener(javax.swing.event.InternalFrameListener)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameListener oldMDIListener;
+        java.util.Vector temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        oldMDIListener := @parameter0: javax.swing.event.InternalFrameListener;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.util.Vector mdiListeners>;
+        temp$1 = virtualinvoke temp$0.<java.util.Vector: boolean removeElement(java.lang.Object)>(oldMDIListener);
+        return;
+    }
+
+    public void activateFrame(CH.ifa.draw.contrib.MDI_InternalFrame)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.contrib.MDI_InternalFrame newFrame, temp$0, temp$4, temp$5, temp$7, temp$9;
+        CH.ifa.draw.framework.DrawingView temp$1, temp$3, temp$6, temp$8, temp$10;
+        CH.ifa.draw.framework.Drawing temp$2;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        newFrame := @parameter0: CH.ifa.draw.contrib.MDI_InternalFrame;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        if temp$0 != newFrame goto label0;
+
+        goto label5;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke newFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        if temp$2 != null goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke newFrame.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        interfaceinvoke temp$3.<CH.ifa.draw.framework.DrawingView: void unfreezeView()>();
+
+     label2:
+        nop;
+        temp$4 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        if temp$4 != null goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$5 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        temp$6 = virtualinvoke temp$5.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        interfaceinvoke temp$6.<CH.ifa.draw.framework.DrawingView: void freezeView()>();
+        temp$7 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        temp$8 = virtualinvoke temp$7.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        interfaceinvoke temp$8.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+
+     label4:
+        nop;
+        this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame> = newFrame;
+
+     label5:
+        nop;
+        temp$9 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        temp$10 = virtualinvoke temp$9.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void setView(CH.ifa.draw.framework.DrawingView)>(temp$10);
+        return;
+    }
+
+    public void deactivateFrame(CH.ifa.draw.contrib.MDI_InternalFrame)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.contrib.MDI_InternalFrame frame, temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        frame := @parameter0: CH.ifa.draw.contrib.MDI_InternalFrame;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        if temp$0 == frame goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = null;
+        this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame> = temp$1;
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void internalFrameActivated(javax.swing.event.InternalFrameEvent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameEvent e;
+        java.lang.Object temp$0;
+        CH.ifa.draw.contrib.MDI_InternalFrame temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        e := @parameter0: javax.swing.event.InternalFrameEvent;
+        temp$0 = virtualinvoke e.<javax.swing.event.InternalFrameEvent: java.lang.Object getSource()>();
+        temp$1 = (CH.ifa.draw.contrib.MDI_InternalFrame) temp$0;
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void activateFrame(CH.ifa.draw.contrib.MDI_InternalFrame)>(temp$1);
+        return;
+    }
+
+    public void internalFrameOpened(javax.swing.event.InternalFrameEvent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameEvent e;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        e := @parameter0: javax.swing.event.InternalFrameEvent;
+        return;
+    }
+
+    public void internalFrameClosing(javax.swing.event.InternalFrameEvent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameEvent e;
+        CH.ifa.draw.contrib.MDI_InternalFrame mdf, temp$2, temp$3;
+        java.lang.Object temp$0;
+        CH.ifa.draw.framework.DrawingView dv, temp$1, temp$4;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        e := @parameter0: javax.swing.event.InternalFrameEvent;
+        temp$0 = virtualinvoke e.<javax.swing.event.InternalFrameEvent: java.lang.Object getSource()>();
+        mdf = (CH.ifa.draw.contrib.MDI_InternalFrame) temp$0;
+        temp$1 = virtualinvoke mdf.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        dv = temp$1;
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void fireViewDestroyingEvent(CH.ifa.draw.framework.DrawingView)>(dv);
+        temp$2 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        if mdf == temp$2 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$3 = null;
+        this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame> = temp$3;
+        temp$4 = staticinvoke <CH.ifa.draw.standard.NullDrawingView: CH.ifa.draw.framework.DrawingView getManagedDrawingView(CH.ifa.draw.framework.DrawingEditor)>(this);
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void setView(CH.ifa.draw.framework.DrawingView)>(temp$4);
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void internalFrameClosed(javax.swing.event.InternalFrameEvent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameEvent e;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        e := @parameter0: javax.swing.event.InternalFrameEvent;
+        return;
+    }
+
+    public void internalFrameIconified(javax.swing.event.InternalFrameEvent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameEvent e;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        e := @parameter0: javax.swing.event.InternalFrameEvent;
+        return;
+    }
+
+    public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameEvent e;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        e := @parameter0: javax.swing.event.InternalFrameEvent;
+        return;
+    }
+
+    public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.event.InternalFrameEvent e;
+        java.lang.Object temp$0;
+        CH.ifa.draw.contrib.MDI_InternalFrame temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        e := @parameter0: javax.swing.event.InternalFrameEvent;
+        temp$0 = virtualinvoke e.<javax.swing.event.InternalFrameEvent: java.lang.Object getSource()>();
+        temp$1 = (CH.ifa.draw.contrib.MDI_InternalFrame) temp$0;
+        virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: void deactivateFrame(CH.ifa.draw.contrib.MDI_InternalFrame)>(temp$1);
+        return;
+    }
+
+    protected void setDrawingTitle(java.lang.String)
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        java.lang.String newDrawingTitle, temp$2, temp$3;
+        CH.ifa.draw.contrib.MDI_InternalFrame temp$0;
+        java.lang.StringBuffer temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        newDrawingTitle := @parameter0: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        temp$1 = new java.lang.StringBuffer;
+        specialinvoke temp$1.<java.lang.StringBuffer: void <init>()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.String getApplicationName()>();
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$2);
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" - ");
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(newDrawingTitle);
+        temp$3 = virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke temp$0.<CH.ifa.draw.contrib.MDI_InternalFrame: void setTitle(java.lang.String)>(temp$3);
+        return;
+    }
+
+    protected java.lang.String getDrawingTitle()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.contrib.MDI_InternalFrame temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+        java.lang.String temp$2;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_DrawApplication: CH.ifa.draw.contrib.MDI_InternalFrame currentFrame>;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.Drawing getDrawing()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: java.lang.String getTitle()>();
+        return temp$2;
+    }
+
+    public boolean hasInternalFrames()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        javax.swing.JComponent temp$0;
+        javax.swing.JDesktopPane temp$1;
+        javax.swing.JInternalFrame[] temp$2;
+        int temp$3;
+        boolean temp$4;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent getDesktop()>();
+        temp$1 = (javax.swing.JDesktopPane) temp$0;
+        temp$2 = virtualinvoke temp$1.<javax.swing.JDesktopPane: javax.swing.JInternalFrame[] getAllFrames()>();
+        temp$3 = lengthof temp$2;
+        if temp$3 > 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$4 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$4 = 1;
+
+     label2:
+        nop;
+        return temp$4;
+    }
+
+    public CH.ifa.draw.framework.DrawingView[] views()
+    {
+        CH.ifa.draw.contrib.MDI_DrawApplication this;
+        CH.ifa.draw.framework.DrawingView[] views, temp$25;
+        java.util.ArrayList frames, temp$0;
+        javax.swing.JInternalFrame[] ifs, temp$3, temp$8, temp$12;
+        javax.swing.JComponent temp$1;
+        javax.swing.JDesktopPane temp$2;
+        int x, temp$4, temp$9, temp$13, temp$22, temp$23, temp$24;
+        java.lang.Class temp$5, temp$6, temp$7, temp$17, temp$18, temp$19;
+        javax.swing.JInternalFrame temp$10, temp$14;
+        boolean temp$11, temp$20, temp$21;
+        CH.ifa.draw.framework.DrawingView dv, temp$16;
+        CH.ifa.draw.contrib.MDI_InternalFrame temp$15;
+        java.lang.Object[] temp$26;
+
+        this := @this: CH.ifa.draw.contrib.MDI_DrawApplication;
+        temp$0 = new java.util.ArrayList;
+        specialinvoke temp$0.<java.util.ArrayList: void <init>()>();
+        frames = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_DrawApplication: javax.swing.JComponent getDesktop()>();
+        temp$2 = (javax.swing.JDesktopPane) temp$1;
+        temp$3 = virtualinvoke temp$2.<javax.swing.JDesktopPane: javax.swing.JInternalFrame[] getAllFrames()>();
+        ifs = temp$3;
+        x = 0;
+
+     label0:
+        nop;
+        temp$4 = lengthof ifs;
+        if x < temp$4 goto label1;
+
+        goto label10;
+
+     label1:
+        nop;
+        temp$6 = <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$CH$ifa$draw$contrib$MDI_InternalFrame>;
+        if temp$6 != null goto label2;
+
+        temp$7 = staticinvoke <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.contrib.MDI_InternalFrame");
+        <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$CH$ifa$draw$contrib$MDI_InternalFrame> = temp$7;
+        temp$5 = temp$7;
+        goto label3;
+
+     label2:
+        nop;
+        temp$5 = <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$CH$ifa$draw$contrib$MDI_InternalFrame>;
+
+     label3:
+        nop;
+        temp$8 = ifs;
+        temp$9 = x;
+        temp$10 = temp$8[temp$9];
+        temp$11 = virtualinvoke temp$5.<java.lang.Class: boolean isInstance(java.lang.Object)>(temp$10);
+        if temp$11 == 0 goto label9;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$12 = ifs;
+        temp$13 = x;
+        temp$14 = temp$12[temp$13];
+        temp$15 = (CH.ifa.draw.contrib.MDI_InternalFrame) temp$14;
+        temp$16 = virtualinvoke temp$15.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        dv = temp$16;
+        temp$18 = <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$CH$ifa$draw$framework$DrawingView>;
+        if temp$18 != null goto label5;
+
+        temp$19 = staticinvoke <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.framework.DrawingView");
+        <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$CH$ifa$draw$framework$DrawingView> = temp$19;
+        temp$17 = temp$19;
+        goto label6;
+
+     label5:
+        nop;
+        temp$17 = <CH.ifa.draw.contrib.MDI_DrawApplication: java.lang.Class class$CH$ifa$draw$framework$DrawingView>;
+
+     label6:
+        nop;
+        temp$20 = virtualinvoke temp$17.<java.lang.Class: boolean isInstance(java.lang.Object)>(dv);
+        if temp$20 == 0 goto label8;
+
+        goto label7;
+
+     label7:
+        nop;
+        temp$21 = virtualinvoke frames.<java.util.ArrayList: boolean add(java.lang.Object)>(dv);
+
+     label8:
+        nop;
+
+     label9:
+        nop;
+        nop;
+        temp$22 = x;
+        temp$23 = temp$22 + 1;
+        x = temp$23;
+        goto label0;
+
+     label10:
+        nop;
+        temp$24 = virtualinvoke frames.<java.util.ArrayList: int size()>();
+        temp$25 = newarray (CH.ifa.draw.framework.DrawingView)[temp$24];
+        views = temp$25;
+        temp$26 = virtualinvoke frames.<java.util.ArrayList: java.lang.Object[] toArray(java.lang.Object[])>(views);
+        return views;
+    }
+
+    public static java.lang.Class class$(java.lang.String)
+    {
+        java.lang.String name, temp$2;
+        java.lang.Class temp$0;
+        java.lang.ClassNotFoundException e;
+        java.lang.NoClassDefFoundError temp$1;
+
+        name := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = staticinvoke <java.lang.Class: java.lang.Class forName(java.lang.String)>(name);
+
+     label1:
+        nop;
+        return temp$0;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        temp$1 = new java.lang.NoClassDefFoundError;
+        temp$2 = virtualinvoke e.<java.lang.ClassNotFoundException: java.lang.String getMessage()>();
+        specialinvoke temp$1.<java.lang.NoClassDefFoundError: void <init>(java.lang.String)>(temp$2);
+        throw temp$1;
+
+        catch java.lang.ClassNotFoundException from label0 to label1 with label2;
+    }
+}

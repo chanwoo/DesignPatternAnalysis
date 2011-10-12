@@ -1,0 +1,101 @@
+public interface  CH.ifa.draw.framework.DrawingView extends java.lang.Object implements java.awt.image.ImageObserver, CH.ifa.draw.framework.DrawingChangeListener
+{
+
+    public abstract void setEditor(CH.ifa.draw.framework.DrawingEditor);
+
+    public abstract CH.ifa.draw.framework.Tool tool();
+
+    public abstract CH.ifa.draw.framework.Drawing drawing();
+
+    public abstract void setDrawing(CH.ifa.draw.framework.Drawing);
+
+    public abstract CH.ifa.draw.framework.DrawingEditor editor();
+
+    public abstract CH.ifa.draw.framework.Figure add(CH.ifa.draw.framework.Figure);
+
+    public abstract CH.ifa.draw.framework.Figure remove(CH.ifa.draw.framework.Figure);
+
+    public abstract void addAll(java.util.Vector);
+
+    public abstract java.awt.Dimension getSize();
+
+    public abstract java.awt.Dimension getMinimumSize();
+
+    public abstract java.awt.Dimension getPreferredSize();
+
+    public abstract void setDisplayUpdate(CH.ifa.draw.framework.Painter);
+
+    public abstract CH.ifa.draw.framework.Painter getDisplayUpdate();
+
+    public abstract java.util.Vector selection();
+
+    public abstract CH.ifa.draw.framework.FigureEnumeration selectionElements();
+
+    public abstract java.util.Vector selectionZOrdered();
+
+    public abstract int selectionCount();
+
+    public abstract boolean isFigureSelected(CH.ifa.draw.framework.Figure);
+
+    public abstract void addToSelection(CH.ifa.draw.framework.Figure);
+
+    public abstract void addToSelectionAll(java.util.Vector);
+
+    public abstract void addToSelectionAll(CH.ifa.draw.framework.FigureEnumeration);
+
+    public abstract void removeFromSelection(CH.ifa.draw.framework.Figure);
+
+    public abstract void toggleSelection(CH.ifa.draw.framework.Figure);
+
+    public abstract void clearSelection();
+
+    public abstract CH.ifa.draw.framework.FigureSelection getFigureSelection();
+
+    public abstract CH.ifa.draw.framework.Handle findHandle(int, int);
+
+    public abstract java.awt.Point lastClick();
+
+    public abstract void setConstrainer(CH.ifa.draw.framework.PointConstrainer);
+
+    public abstract CH.ifa.draw.framework.PointConstrainer getConstrainer();
+
+    public abstract void checkDamage();
+
+    public abstract void repairDamage();
+
+    public abstract void paint(java.awt.Graphics);
+
+    public abstract java.awt.Image createImage(int, int);
+
+    public abstract java.awt.Graphics getGraphics();
+
+    public abstract java.awt.Color getBackground();
+
+    public abstract void setBackground(java.awt.Color);
+
+    public abstract void drawAll(java.awt.Graphics);
+
+    public abstract void draw(java.awt.Graphics, CH.ifa.draw.framework.FigureEnumeration);
+
+    public abstract void drawHandles(java.awt.Graphics);
+
+    public abstract void drawDrawing(java.awt.Graphics);
+
+    public abstract void drawBackground(java.awt.Graphics);
+
+    public abstract void setCursor(java.awt.Cursor);
+
+    public abstract void freezeView();
+
+    public abstract void unfreezeView();
+
+    public abstract void addFigureSelectionListener(CH.ifa.draw.framework.FigureSelectionListener);
+
+    public abstract void removeFigureSelectionListener(CH.ifa.draw.framework.FigureSelectionListener);
+
+    public abstract java.util.Vector getConnectionFigures(CH.ifa.draw.framework.Figure);
+
+    public abstract CH.ifa.draw.framework.FigureEnumeration insertFigures(CH.ifa.draw.framework.FigureEnumeration, int, int, boolean);
+
+    public abstract boolean isInteractive();
+}

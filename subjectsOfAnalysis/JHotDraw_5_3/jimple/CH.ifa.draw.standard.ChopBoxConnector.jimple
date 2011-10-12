@@ -1,0 +1,153 @@
+public class CH.ifa.draw.standard.ChopBoxConnector extends CH.ifa.draw.standard.AbstractConnector
+{
+    private static final long serialVersionUID;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = -1461450322712345462L;
+        <CH.ifa.draw.standard.ChopBoxConnector: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.standard.ChopBoxConnector this;
+
+        this := @this: CH.ifa.draw.standard.ChopBoxConnector;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractConnector: void <init>()>();
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.ChopBoxConnector this;
+        CH.ifa.draw.framework.Figure owner;
+
+        this := @this: CH.ifa.draw.standard.ChopBoxConnector;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractConnector: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return;
+    }
+
+    public java.awt.Point findStart(CH.ifa.draw.framework.ConnectionFigure)
+    {
+        CH.ifa.draw.standard.ChopBoxConnector this;
+        CH.ifa.draw.framework.ConnectionFigure connection;
+        CH.ifa.draw.framework.Figure startFigure, temp$1;
+        CH.ifa.draw.framework.Connector temp$0, temp$2;
+        java.awt.Rectangle r2, temp$3;
+        java.awt.Point r2c, temp$5, temp$14, temp$15;
+        int temp$4, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13;
+
+        this := @this: CH.ifa.draw.standard.ChopBoxConnector;
+        connection := @parameter0: CH.ifa.draw.framework.ConnectionFigure;
+        temp$0 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getStartConnector()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        startFigure = temp$1;
+        temp$2 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getEndConnector()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.Connector: java.awt.Rectangle displayBox()>();
+        r2 = temp$3;
+        r2c = null;
+        temp$4 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: int pointCount()>();
+        if temp$4 == 2 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$5 = new java.awt.Point;
+        temp$6 = r2.<java.awt.Rectangle: int x>;
+        temp$7 = r2.<java.awt.Rectangle: int width>;
+        temp$8 = temp$7 / 2;
+        temp$9 = temp$6 + temp$8;
+        temp$10 = r2.<java.awt.Rectangle: int y>;
+        temp$11 = r2.<java.awt.Rectangle: int height>;
+        temp$12 = temp$11 / 2;
+        temp$13 = temp$10 + temp$12;
+        specialinvoke temp$5.<java.awt.Point: void <init>(int,int)>(temp$9, temp$13);
+        r2c = temp$5;
+        goto label2;
+
+     label1:
+        nop;
+        temp$14 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: java.awt.Point pointAt(int)>(1);
+        r2c = temp$14;
+
+     label2:
+        nop;
+        temp$15 = virtualinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: java.awt.Point chop(CH.ifa.draw.framework.Figure,java.awt.Point)>(startFigure, r2c);
+        return temp$15;
+    }
+
+    public java.awt.Point findEnd(CH.ifa.draw.framework.ConnectionFigure)
+    {
+        CH.ifa.draw.standard.ChopBoxConnector this;
+        CH.ifa.draw.framework.ConnectionFigure connection;
+        CH.ifa.draw.framework.Figure endFigure, temp$1;
+        CH.ifa.draw.framework.Connector temp$0, temp$2;
+        java.awt.Rectangle r1, temp$3;
+        java.awt.Point r1c, temp$5, temp$16, temp$17;
+        int temp$4, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15;
+
+        this := @this: CH.ifa.draw.standard.ChopBoxConnector;
+        connection := @parameter0: CH.ifa.draw.framework.ConnectionFigure;
+        temp$0 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getEndConnector()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Connector: CH.ifa.draw.framework.Figure owner()>();
+        endFigure = temp$1;
+        temp$2 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: CH.ifa.draw.framework.Connector getStartConnector()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.Connector: java.awt.Rectangle displayBox()>();
+        r1 = temp$3;
+        r1c = null;
+        temp$4 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: int pointCount()>();
+        if temp$4 == 2 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$5 = new java.awt.Point;
+        temp$6 = r1.<java.awt.Rectangle: int x>;
+        temp$7 = r1.<java.awt.Rectangle: int width>;
+        temp$8 = temp$7 / 2;
+        temp$9 = temp$6 + temp$8;
+        temp$10 = r1.<java.awt.Rectangle: int y>;
+        temp$11 = r1.<java.awt.Rectangle: int height>;
+        temp$12 = temp$11 / 2;
+        temp$13 = temp$10 + temp$12;
+        specialinvoke temp$5.<java.awt.Point: void <init>(int,int)>(temp$9, temp$13);
+        r1c = temp$5;
+        goto label2;
+
+     label1:
+        nop;
+        temp$14 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: int pointCount()>();
+        temp$15 = temp$14 - 2;
+        temp$16 = interfaceinvoke connection.<CH.ifa.draw.framework.ConnectionFigure: java.awt.Point pointAt(int)>(temp$15);
+        r1c = temp$16;
+
+     label2:
+        nop;
+        temp$17 = virtualinvoke this.<CH.ifa.draw.standard.ChopBoxConnector: java.awt.Point chop(CH.ifa.draw.framework.Figure,java.awt.Point)>(endFigure, r1c);
+        return temp$17;
+    }
+
+    protected java.awt.Point chop(CH.ifa.draw.framework.Figure, java.awt.Point)
+    {
+        CH.ifa.draw.standard.ChopBoxConnector this;
+        CH.ifa.draw.framework.Figure target;
+        java.awt.Point 'from', temp$2;
+        java.awt.Rectangle r, temp$0;
+        double temp$1;
+
+        this := @this: CH.ifa.draw.standard.ChopBoxConnector;
+        target := @parameter0: CH.ifa.draw.framework.Figure;
+        'from' := @parameter1: java.awt.Point;
+        temp$0 = interfaceinvoke target.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = staticinvoke <CH.ifa.draw.util.Geom: double pointToAngle(java.awt.Rectangle,java.awt.Point)>(r, 'from');
+        temp$2 = staticinvoke <CH.ifa.draw.util.Geom: java.awt.Point angleToPoint(java.awt.Rectangle,double)>(r, temp$1);
+        return temp$2;
+    }
+}

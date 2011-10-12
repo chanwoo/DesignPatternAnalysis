@@ -1,0 +1,154 @@
+public static class CH.ifa.draw.standard.DragTracker$UndoActivity extends CH.ifa.draw.util.UndoableAdapter
+{
+    private java.awt.Point myOriginalPoint;
+    private java.awt.Point myBackupPoint;
+
+    public void <init>(CH.ifa.draw.framework.DrawingView, java.awt.Point)
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+        java.awt.Point newOriginalPoint;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        newOriginalPoint := @parameter1: java.awt.Point;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void <init>(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: void setOriginalPoint(java.awt.Point)>(newOriginalPoint);
+        virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: void setUndoable(boolean)>(1);
+        virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: void setRedoable(boolean)>(1);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        boolean temp$0, temp$1, temp$4;
+        java.awt.Point temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean undo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point getBackupPoint()>();
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point getOriginalPoint()>();
+        virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: void moveAffectedFigures(java.awt.Point,java.awt.Point)>(temp$2, temp$3);
+        temp$4 = 1;
+        return temp$4;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        boolean temp$0, temp$1, temp$4;
+        java.awt.Point temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean redo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point getOriginalPoint()>();
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point getBackupPoint()>();
+        virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: void moveAffectedFigures(java.awt.Point,java.awt.Point)>(temp$2, temp$3);
+        temp$4 = 1;
+        return temp$4;
+    }
+
+    public void setBackupPoint(java.awt.Point)
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        java.awt.Point newBackupPoint;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        newBackupPoint := @parameter0: java.awt.Point;
+        this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point myBackupPoint> = newBackupPoint;
+        return;
+    }
+
+    public java.awt.Point getBackupPoint()
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        java.awt.Point temp$0;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point myBackupPoint>;
+        return temp$0;
+    }
+
+    public void setOriginalPoint(java.awt.Point)
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        java.awt.Point newOriginalPoint;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        newOriginalPoint := @parameter0: java.awt.Point;
+        this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point myOriginalPoint> = newOriginalPoint;
+        return;
+    }
+
+    public java.awt.Point getOriginalPoint()
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        java.awt.Point temp$0;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.standard.DragTracker$UndoActivity: java.awt.Point myOriginalPoint>;
+        return temp$0;
+    }
+
+    public void moveAffectedFigures(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.standard.DragTracker$UndoActivity this;
+        java.awt.Point startPoint, endPoint;
+        CH.ifa.draw.framework.FigureEnumeration figures, temp$0;
+        boolean temp$1;
+        CH.ifa.draw.framework.Figure temp$2;
+        int temp$3, temp$4, temp$5, temp$6, temp$7, temp$8;
+
+        this := @this: CH.ifa.draw.standard.DragTracker$UndoActivity;
+        startPoint := @parameter0: java.awt.Point;
+        endPoint := @parameter1: java.awt.Point;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.DragTracker$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        figures = temp$0;
+
+     label0:
+        nop;
+        temp$1 = interfaceinvoke figures.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$2 = interfaceinvoke figures.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        temp$3 = endPoint.<java.awt.Point: int x>;
+        temp$4 = startPoint.<java.awt.Point: int x>;
+        temp$5 = temp$3 - temp$4;
+        temp$6 = endPoint.<java.awt.Point: int y>;
+        temp$7 = startPoint.<java.awt.Point: int y>;
+        temp$8 = temp$6 - temp$7;
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.Figure: void moveBy(int,int)>(temp$5, temp$8);
+        goto label0;
+
+     label2:
+        nop;
+        return;
+    }
+}

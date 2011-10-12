@@ -1,0 +1,2276 @@
+public class CH.ifa.draw.application.DrawApplication extends javax.swing.JFrame implements CH.ifa.draw.framework.DrawingEditor, CH.ifa.draw.util.PaletteListener, CH.ifa.draw.util.VersionRequester
+{
+    private CH.ifa.draw.framework.Tool fTool;
+    private CH.ifa.draw.util.Iconkit fIconkit;
+    private javax.swing.JTextField fStatusLine;
+    private CH.ifa.draw.framework.DrawingView fView;
+    private CH.ifa.draw.standard.ToolButton fDefaultToolButton;
+    private CH.ifa.draw.standard.ToolButton fSelectedToolButton;
+    private java.lang.String fApplicationName;
+    private CH.ifa.draw.util.StorageFormatManager fStorageFormatManager;
+    private CH.ifa.draw.util.UndoManager myUndoManager;
+    protected static java.lang.String fgUntitled;
+    private final javax.swing.event.EventListenerList listenerList;
+    private static final java.lang.String fgDrawPath;
+    public static final java.lang.String IMAGES;
+    protected static int winCount;
+    public static final int FILE_MENU;
+    public static final int EDIT_MENU;
+    public static final int ALIGNMENT_MENU;
+    public static final int ATTRIBUTES_MENU;
+    public static java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener;
+    public static java.lang.Class class$CH$ifa$draw$application$DrawApplication;
+
+    static void <clinit>()
+    {
+        java.lang.String temp$0, temp$1, temp$2;
+        int temp$3, temp$4, temp$5, temp$6, temp$7;
+
+        temp$0 = "untitled";
+        <CH.ifa.draw.application.DrawApplication: java.lang.String fgUntitled> = temp$0;
+        temp$1 = "/CH/ifa/draw/";
+        <CH.ifa.draw.application.DrawApplication: java.lang.String fgDrawPath> = temp$1;
+        temp$2 = "/CH/ifa/draw/images/";
+        <CH.ifa.draw.application.DrawApplication: java.lang.String IMAGES> = temp$2;
+        temp$3 = 0;
+        <CH.ifa.draw.application.DrawApplication: int winCount> = temp$3;
+        temp$4 = 0;
+        <CH.ifa.draw.application.DrawApplication: int FILE_MENU> = temp$4;
+        temp$5 = 1;
+        <CH.ifa.draw.application.DrawApplication: int EDIT_MENU> = temp$5;
+        temp$6 = 2;
+        <CH.ifa.draw.application.DrawApplication: int ALIGNMENT_MENU> = temp$6;
+        temp$7 = 3;
+        <CH.ifa.draw.application.DrawApplication: int ATTRIBUTES_MENU> = temp$7;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        specialinvoke this.<CH.ifa.draw.application.DrawApplication: void <init>(java.lang.String)>("JHotDraw");
+        return;
+    }
+
+    public void <init>(java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String title;
+        javax.swing.event.EventListenerList temp$0;
+        int temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        title := @parameter0: java.lang.String;
+        specialinvoke this.<javax.swing.JFrame: void <init>(java.lang.String)>(title);
+        temp$0 = new javax.swing.event.EventListenerList;
+        specialinvoke temp$0.<javax.swing.event.EventListenerList: void <init>()>();
+        this.<CH.ifa.draw.application.DrawApplication: javax.swing.event.EventListenerList listenerList> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setApplicationName(java.lang.String)>(title);
+        temp$1 = <CH.ifa.draw.application.DrawApplication: int winCount>;
+        temp$2 = temp$1 + 1;
+        <CH.ifa.draw.application.DrawApplication: int winCount> = temp$2;
+        return;
+    }
+
+    protected CH.ifa.draw.application.DrawApplication createApplication()
+    {
+        CH.ifa.draw.application.DrawApplication this, temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.application.DrawApplication;
+        specialinvoke temp$0.<CH.ifa.draw.application.DrawApplication: void <init>()>();
+        return temp$0;
+    }
+
+    public void newView()
+    {
+        CH.ifa.draw.application.DrawApplication this, window, temp$1;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$2, temp$3, temp$7;
+        CH.ifa.draw.framework.Drawing temp$4, temp$8;
+        java.lang.String temp$5, temp$9, temp$10, temp$12, temp$13;
+        java.lang.StringBuffer temp$6, temp$11;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.application.DrawApplication createApplication()>();
+        window = temp$1;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        virtualinvoke window.<CH.ifa.draw.application.DrawApplication: void open(CH.ifa.draw.framework.DrawingView)>(temp$2);
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$5 = interfaceinvoke temp$4.<CH.ifa.draw.framework.Drawing: java.lang.String getTitle()>();
+        if temp$5 != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$6 = new java.lang.StringBuffer;
+        specialinvoke temp$6.<java.lang.StringBuffer: void <init>()>();
+        temp$7 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$8 = interfaceinvoke temp$7.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$9 = interfaceinvoke temp$8.<CH.ifa.draw.framework.Drawing: java.lang.String getTitle()>();
+        virtualinvoke temp$6.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$9);
+        virtualinvoke temp$6.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" (View)");
+        temp$10 = virtualinvoke temp$6.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke window.<CH.ifa.draw.application.DrawApplication: void setDrawingTitle(java.lang.String)>(temp$10);
+        goto label4;
+
+     label3:
+        nop;
+        temp$11 = new java.lang.StringBuffer;
+        specialinvoke temp$11.<java.lang.StringBuffer: void <init>()>();
+        temp$12 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.lang.String getDefaultDrawingTitle()>();
+        virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$12);
+        virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" (View)");
+        temp$13 = virtualinvoke temp$11.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke window.<CH.ifa.draw.application.DrawApplication: void setDrawingTitle(java.lang.String)>(temp$13);
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void newWindow(CH.ifa.draw.framework.Drawing)
+    {
+        CH.ifa.draw.application.DrawApplication this, window, temp$0;
+        CH.ifa.draw.framework.Drawing initialDrawing;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        initialDrawing := @parameter0: CH.ifa.draw.framework.Drawing;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.application.DrawApplication createApplication()>();
+        window = temp$0;
+        if initialDrawing == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke window.<CH.ifa.draw.application.DrawApplication: void open()>();
+        goto label2;
+
+     label1:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView createDrawingView(CH.ifa.draw.framework.Drawing)>(initialDrawing);
+        virtualinvoke window.<CH.ifa.draw.application.DrawApplication: void open(CH.ifa.draw.framework.DrawingView)>(temp$1);
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void open()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView createInitialDrawingView()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void open(CH.ifa.draw.framework.DrawingView)>(temp$0);
+        return;
+    }
+
+    protected void open(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView newDrawingView, temp$9;
+        CH.ifa.draw.util.VersionControlStrategy temp$0;
+        CH.ifa.draw.util.UndoManager temp$1;
+        CH.ifa.draw.util.Iconkit temp$2;
+        java.awt.Container temp$3, temp$6, temp$14;
+        java.awt.BorderLayout temp$4, temp$13;
+        javax.swing.JTextField temp$5, temp$7;
+        CH.ifa.draw.standard.NullTool temp$8;
+        javax.swing.JComponent contents, temp$10;
+        javax.swing.JToolBar tools, temp$11;
+        javax.swing.JPanel activePanel, temp$12;
+        javax.swing.JMenuBar mb, temp$15;
+        java.awt.Dimension d, temp$16, temp$17, temp$22;
+        int temp$18, temp$19, temp$20, temp$21, temp$23, temp$24;
+        CH.ifa.draw.util.StorageFormatManager temp$25;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.VersionControlStrategy getVersionControlStrategy()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.util.VersionControlStrategy: void assertCompatibleVersion()>();
+        temp$1 = new CH.ifa.draw.util.UndoManager;
+        specialinvoke temp$1.<CH.ifa.draw.util.UndoManager: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setUndoManager(CH.ifa.draw.util.UndoManager)>(temp$1);
+        temp$2 = new CH.ifa.draw.util.Iconkit;
+        specialinvoke temp$2.<CH.ifa.draw.util.Iconkit: void <init>(java.awt.Component)>(this);
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.Iconkit fIconkit> = temp$2;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.awt.Container getContentPane()>();
+        temp$4 = new java.awt.BorderLayout;
+        specialinvoke temp$4.<java.awt.BorderLayout: void <init>()>();
+        virtualinvoke temp$3.<java.awt.Container: void setLayout(java.awt.LayoutManager)>(temp$4);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JTextField createStatusLine()>();
+        this.<CH.ifa.draw.application.DrawApplication: javax.swing.JTextField fStatusLine> = temp$5;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.awt.Container getContentPane()>();
+        temp$7 = this.<CH.ifa.draw.application.DrawApplication: javax.swing.JTextField fStatusLine>;
+        virtualinvoke temp$6.<java.awt.Container: void add(java.awt.Component,java.lang.Object)>(temp$7, "South");
+        temp$8 = new CH.ifa.draw.standard.NullTool;
+        specialinvoke temp$8.<CH.ifa.draw.standard.NullTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setTool(CH.ifa.draw.framework.Tool,java.lang.String)>(temp$8, "");
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setView(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        temp$9 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$10 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JComponent createContents(CH.ifa.draw.framework.DrawingView)>(temp$9);
+        contents = temp$10;
+        virtualinvoke contents.<javax.swing.JComponent: void setAlignmentX(float)>(0.0F);
+        temp$11 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JToolBar createToolPalette()>();
+        tools = temp$11;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void createTools(javax.swing.JToolBar)>(tools);
+        temp$12 = new javax.swing.JPanel;
+        specialinvoke temp$12.<javax.swing.JPanel: void <init>()>();
+        activePanel = temp$12;
+        virtualinvoke activePanel.<javax.swing.JPanel: void setAlignmentX(float)>(0.0F);
+        virtualinvoke activePanel.<javax.swing.JPanel: void setAlignmentY(float)>(0.0F);
+        temp$13 = new java.awt.BorderLayout;
+        specialinvoke temp$13.<java.awt.BorderLayout: void <init>()>();
+        virtualinvoke activePanel.<javax.swing.JPanel: void setLayout(java.awt.LayoutManager)>(temp$13);
+        virtualinvoke activePanel.<javax.swing.JPanel: void add(java.awt.Component,java.lang.Object)>(tools, "North");
+        virtualinvoke activePanel.<javax.swing.JPanel: void add(java.awt.Component,java.lang.Object)>(contents, "Center");
+        temp$14 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.awt.Container getContentPane()>();
+        virtualinvoke temp$14.<java.awt.Container: void add(java.awt.Component,java.lang.Object)>(activePanel, "Center");
+        temp$15 = new javax.swing.JMenuBar;
+        specialinvoke temp$15.<javax.swing.JMenuBar: void <init>()>();
+        mb = temp$15;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void createMenus(javax.swing.JMenuBar)>(mb);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setJMenuBar(javax.swing.JMenuBar)>(mb);
+        temp$16 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.awt.Dimension defaultSize()>();
+        d = temp$16;
+        temp$17 = virtualinvoke mb.<javax.swing.JMenuBar: java.awt.Dimension getPreferredSize()>();
+        temp$18 = d.<java.awt.Dimension: int width>;
+        temp$19 = temp$17.<java.awt.Dimension: int width>;
+        if temp$18 > temp$19 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$20 = d.<java.awt.Dimension: int width>;
+        temp$21 = d.<java.awt.Dimension: int height>;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setSize(int,int)>(temp$20, temp$21);
+        goto label2;
+
+     label1:
+        nop;
+        temp$22 = virtualinvoke mb.<javax.swing.JMenuBar: java.awt.Dimension getPreferredSize()>();
+        temp$23 = temp$22.<java.awt.Dimension: int width>;
+        temp$24 = d.<java.awt.Dimension: int height>;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setSize(int,int)>(temp$23, temp$24);
+
+     label2:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void addListeners()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setVisible(boolean)>(1);
+        temp$25 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager createStorageFormatManager()>();
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager fStorageFormatManager> = temp$25;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void toolDone()>();
+        return;
+    }
+
+    protected void addListeners()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.application.DrawApplication$8Anonymous0 temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.application.DrawApplication$8Anonymous0;
+        specialinvoke temp$0.<CH.ifa.draw.application.DrawApplication$8Anonymous0: void <init>(CH.ifa.draw.application.DrawApplication)>(this);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void addWindowListener(java.awt.event.WindowListener)>(temp$0);
+        return;
+    }
+
+    protected void createMenus(javax.swing.JMenuBar)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JMenuBar mb;
+        javax.swing.JMenu temp$0, temp$1, temp$2, temp$3, temp$4;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        mb := @parameter0: javax.swing.JMenuBar;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createFileMenu()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createEditMenu()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$1);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createAlignmentMenu()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$2);
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createAttributesMenu()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$3);
+        temp$4 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createDebugMenu()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void addMenuIfPossible(javax.swing.JMenuBar,javax.swing.JMenu)>(mb, temp$4);
+        return;
+    }
+
+    protected void addMenuIfPossible(javax.swing.JMenuBar, javax.swing.JMenu)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JMenuBar mb;
+        javax.swing.JMenu newMenu, temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        mb := @parameter0: javax.swing.JMenuBar;
+        newMenu := @parameter1: javax.swing.JMenu;
+        if newMenu != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = virtualinvoke mb.<javax.swing.JMenuBar: javax.swing.JMenu add(javax.swing.JMenu)>(newMenu);
+
+     label1:
+        nop;
+        return;
+    }
+
+    protected javax.swing.JMenu createFileMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.util.Command cmd;
+        CH.ifa.draw.application.DrawApplication$6Anonymous1 temp$1;
+        java.awt.MenuShortcut temp$2, temp$4, temp$6, temp$8;
+        CH.ifa.draw.application.DrawApplication$2Anonymous2 temp$3;
+        CH.ifa.draw.application.DrawApplication$4Anonymous3 temp$5;
+        CH.ifa.draw.application.DrawApplication$5Anonymous4 temp$7;
+        CH.ifa.draw.application.DrawApplication$7Anonymous5 temp$9;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("File");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.application.DrawApplication$6Anonymous1;
+        specialinvoke temp$1.<CH.ifa.draw.application.DrawApplication$6Anonymous1: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor,boolean)>(this, "New", this, 0);
+        cmd = temp$1;
+        temp$2 = new java.awt.MenuShortcut;
+        specialinvoke temp$2.<java.awt.MenuShortcut: void <init>(int)>(110);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(cmd, temp$2);
+        temp$3 = new CH.ifa.draw.application.DrawApplication$2Anonymous2;
+        specialinvoke temp$3.<CH.ifa.draw.application.DrawApplication$2Anonymous2: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor,boolean)>(this, "Open...", this, 0);
+        cmd = temp$3;
+        temp$4 = new java.awt.MenuShortcut;
+        specialinvoke temp$4.<java.awt.MenuShortcut: void <init>(int)>(111);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(cmd, temp$4);
+        temp$5 = new CH.ifa.draw.application.DrawApplication$4Anonymous3;
+        specialinvoke temp$5.<CH.ifa.draw.application.DrawApplication$4Anonymous3: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor,boolean)>(this, "Save As...", this, 1);
+        cmd = temp$5;
+        temp$6 = new java.awt.MenuShortcut;
+        specialinvoke temp$6.<java.awt.MenuShortcut: void <init>(int)>(115);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(cmd, temp$6);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$7 = new CH.ifa.draw.application.DrawApplication$5Anonymous4;
+        specialinvoke temp$7.<CH.ifa.draw.application.DrawApplication$5Anonymous4: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor,boolean)>(this, "Print...", this, 1);
+        cmd = temp$7;
+        temp$8 = new java.awt.MenuShortcut;
+        specialinvoke temp$8.<java.awt.MenuShortcut: void <init>(int)>(112);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(cmd, temp$8);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$9 = new CH.ifa.draw.application.DrawApplication$7Anonymous5;
+        specialinvoke temp$9.<CH.ifa.draw.application.DrawApplication$7Anonymous5: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor,boolean)>(this, "Exit", this, 1);
+        cmd = temp$9;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createEditMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.util.UndoableCommand temp$1, temp$4, temp$9, temp$12, temp$15, temp$17, temp$19, temp$21, temp$23;
+        CH.ifa.draw.standard.SelectAllCommand temp$2;
+        java.awt.MenuShortcut temp$3, temp$6, temp$8, temp$11, temp$14;
+        CH.ifa.draw.standard.CutCommand temp$5;
+        CH.ifa.draw.standard.CopyCommand temp$7;
+        CH.ifa.draw.standard.PasteCommand temp$10;
+        CH.ifa.draw.standard.DuplicateCommand temp$13;
+        CH.ifa.draw.standard.DeleteCommand temp$16;
+        CH.ifa.draw.figures.GroupCommand temp$18;
+        CH.ifa.draw.figures.UngroupCommand temp$20;
+        CH.ifa.draw.standard.SendToBackCommand temp$22;
+        CH.ifa.draw.standard.BringToFrontCommand temp$24;
+        CH.ifa.draw.util.UndoCommand temp$25;
+        CH.ifa.draw.util.RedoCommand temp$26;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Edit");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.util.UndoableCommand;
+        temp$2 = new CH.ifa.draw.standard.SelectAllCommand;
+        specialinvoke temp$2.<CH.ifa.draw.standard.SelectAllCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Select All", this);
+        specialinvoke temp$1.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$2);
+        temp$3 = new java.awt.MenuShortcut;
+        specialinvoke temp$3.<java.awt.MenuShortcut: void <init>(int)>(97);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(temp$1, temp$3);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$4 = new CH.ifa.draw.util.UndoableCommand;
+        temp$5 = new CH.ifa.draw.standard.CutCommand;
+        specialinvoke temp$5.<CH.ifa.draw.standard.CutCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Cut", this);
+        specialinvoke temp$4.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$5);
+        temp$6 = new java.awt.MenuShortcut;
+        specialinvoke temp$6.<java.awt.MenuShortcut: void <init>(int)>(120);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(temp$4, temp$6);
+        temp$7 = new CH.ifa.draw.standard.CopyCommand;
+        specialinvoke temp$7.<CH.ifa.draw.standard.CopyCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Copy", this);
+        temp$8 = new java.awt.MenuShortcut;
+        specialinvoke temp$8.<java.awt.MenuShortcut: void <init>(int)>(99);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(temp$7, temp$8);
+        temp$9 = new CH.ifa.draw.util.UndoableCommand;
+        temp$10 = new CH.ifa.draw.standard.PasteCommand;
+        specialinvoke temp$10.<CH.ifa.draw.standard.PasteCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Paste", this);
+        specialinvoke temp$9.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$10);
+        temp$11 = new java.awt.MenuShortcut;
+        specialinvoke temp$11.<java.awt.MenuShortcut: void <init>(int)>(118);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(temp$9, temp$11);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$12 = new CH.ifa.draw.util.UndoableCommand;
+        temp$13 = new CH.ifa.draw.standard.DuplicateCommand;
+        specialinvoke temp$13.<CH.ifa.draw.standard.DuplicateCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Duplicate", this);
+        specialinvoke temp$12.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$13);
+        temp$14 = new java.awt.MenuShortcut;
+        specialinvoke temp$14.<java.awt.MenuShortcut: void <init>(int)>(100);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command,java.awt.MenuShortcut)>(temp$12, temp$14);
+        temp$15 = new CH.ifa.draw.util.UndoableCommand;
+        temp$16 = new CH.ifa.draw.standard.DeleteCommand;
+        specialinvoke temp$16.<CH.ifa.draw.standard.DeleteCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Delete", this);
+        specialinvoke temp$15.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$16);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$15);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$17 = new CH.ifa.draw.util.UndoableCommand;
+        temp$18 = new CH.ifa.draw.figures.GroupCommand;
+        specialinvoke temp$18.<CH.ifa.draw.figures.GroupCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Group", this);
+        specialinvoke temp$17.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$18);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$17);
+        temp$19 = new CH.ifa.draw.util.UndoableCommand;
+        temp$20 = new CH.ifa.draw.figures.UngroupCommand;
+        specialinvoke temp$20.<CH.ifa.draw.figures.UngroupCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Ungroup", this);
+        specialinvoke temp$19.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$20);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$19);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$21 = new CH.ifa.draw.util.UndoableCommand;
+        temp$22 = new CH.ifa.draw.standard.SendToBackCommand;
+        specialinvoke temp$22.<CH.ifa.draw.standard.SendToBackCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Send to Back", this);
+        specialinvoke temp$21.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$22);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$21);
+        temp$23 = new CH.ifa.draw.util.UndoableCommand;
+        temp$24 = new CH.ifa.draw.standard.BringToFrontCommand;
+        specialinvoke temp$24.<CH.ifa.draw.standard.BringToFrontCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Bring to Front", this);
+        specialinvoke temp$23.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$24);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$23);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$25 = new CH.ifa.draw.util.UndoCommand;
+        specialinvoke temp$25.<CH.ifa.draw.util.UndoCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Undo Command", this);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$25);
+        temp$26 = new CH.ifa.draw.util.RedoCommand;
+        specialinvoke temp$26.<CH.ifa.draw.util.RedoCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>("Redo Command", this);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$26);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createAlignmentMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.standard.ToggleGridCommand temp$1;
+        java.awt.Point temp$2;
+        CH.ifa.draw.util.UndoableCommand temp$3, temp$6, temp$9, temp$12, temp$15, temp$18;
+        CH.ifa.draw.standard.AlignCommand temp$4, temp$7, temp$10, temp$13, temp$16, temp$19;
+        CH.ifa.draw.standard.AlignCommand$Alignment temp$5, temp$8, temp$11, temp$14, temp$17, temp$20;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Align");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.standard.ToggleGridCommand;
+        temp$2 = new java.awt.Point;
+        specialinvoke temp$2.<java.awt.Point: void <init>(int,int)>(4, 4);
+        specialinvoke temp$1.<CH.ifa.draw.standard.ToggleGridCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor,java.awt.Point)>("Toggle Snap to Grid", this, temp$2);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addCheckItem(CH.ifa.draw.util.Command)>(temp$1);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$3 = new CH.ifa.draw.util.UndoableCommand;
+        temp$4 = new CH.ifa.draw.standard.AlignCommand;
+        temp$5 = <CH.ifa.draw.standard.AlignCommand$Alignment: CH.ifa.draw.standard.AlignCommand$Alignment LEFTS>;
+        specialinvoke temp$4.<CH.ifa.draw.standard.AlignCommand: void <init>(CH.ifa.draw.standard.AlignCommand$Alignment,CH.ifa.draw.framework.DrawingEditor)>(temp$5, this);
+        specialinvoke temp$3.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$4);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$3);
+        temp$6 = new CH.ifa.draw.util.UndoableCommand;
+        temp$7 = new CH.ifa.draw.standard.AlignCommand;
+        temp$8 = <CH.ifa.draw.standard.AlignCommand$Alignment: CH.ifa.draw.standard.AlignCommand$Alignment CENTERS>;
+        specialinvoke temp$7.<CH.ifa.draw.standard.AlignCommand: void <init>(CH.ifa.draw.standard.AlignCommand$Alignment,CH.ifa.draw.framework.DrawingEditor)>(temp$8, this);
+        specialinvoke temp$6.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$7);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$6);
+        temp$9 = new CH.ifa.draw.util.UndoableCommand;
+        temp$10 = new CH.ifa.draw.standard.AlignCommand;
+        temp$11 = <CH.ifa.draw.standard.AlignCommand$Alignment: CH.ifa.draw.standard.AlignCommand$Alignment RIGHTS>;
+        specialinvoke temp$10.<CH.ifa.draw.standard.AlignCommand: void <init>(CH.ifa.draw.standard.AlignCommand$Alignment,CH.ifa.draw.framework.DrawingEditor)>(temp$11, this);
+        specialinvoke temp$9.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$10);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$9);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void addSeparator()>();
+        temp$12 = new CH.ifa.draw.util.UndoableCommand;
+        temp$13 = new CH.ifa.draw.standard.AlignCommand;
+        temp$14 = <CH.ifa.draw.standard.AlignCommand$Alignment: CH.ifa.draw.standard.AlignCommand$Alignment TOPS>;
+        specialinvoke temp$13.<CH.ifa.draw.standard.AlignCommand: void <init>(CH.ifa.draw.standard.AlignCommand$Alignment,CH.ifa.draw.framework.DrawingEditor)>(temp$14, this);
+        specialinvoke temp$12.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$13);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$12);
+        temp$15 = new CH.ifa.draw.util.UndoableCommand;
+        temp$16 = new CH.ifa.draw.standard.AlignCommand;
+        temp$17 = <CH.ifa.draw.standard.AlignCommand$Alignment: CH.ifa.draw.standard.AlignCommand$Alignment MIDDLES>;
+        specialinvoke temp$16.<CH.ifa.draw.standard.AlignCommand: void <init>(CH.ifa.draw.standard.AlignCommand$Alignment,CH.ifa.draw.framework.DrawingEditor)>(temp$17, this);
+        specialinvoke temp$15.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$16);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$15);
+        temp$18 = new CH.ifa.draw.util.UndoableCommand;
+        temp$19 = new CH.ifa.draw.standard.AlignCommand;
+        temp$20 = <CH.ifa.draw.standard.AlignCommand$Alignment: CH.ifa.draw.standard.AlignCommand$Alignment BOTTOMS>;
+        specialinvoke temp$19.<CH.ifa.draw.standard.AlignCommand: void <init>(CH.ifa.draw.standard.AlignCommand$Alignment,CH.ifa.draw.framework.DrawingEditor)>(temp$20, this);
+        specialinvoke temp$18.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$19);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$18);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createDebugMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.util.Command cmd;
+        CH.ifa.draw.application.DrawApplication$9Anonymous6 temp$1;
+        CH.ifa.draw.application.DrawApplication$1Anonymous7 temp$2;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Debug");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.application.DrawApplication$9Anonymous6;
+        specialinvoke temp$1.<CH.ifa.draw.application.DrawApplication$9Anonymous6: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(this, "Simple Update", this);
+        cmd = temp$1;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        temp$2 = new CH.ifa.draw.application.DrawApplication$1Anonymous7;
+        specialinvoke temp$2.<CH.ifa.draw.application.DrawApplication$1Anonymous7: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(this, "Buffered Update", this);
+        cmd = temp$2;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createAttributesMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JMenu menu, temp$0, temp$1, temp$3, temp$5, temp$7, temp$9, temp$11, temp$13;
+        javax.swing.JMenuItem temp$2, temp$4, temp$6, temp$8, temp$10, temp$12, temp$14;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new javax.swing.JMenu;
+        specialinvoke temp$0.<javax.swing.JMenu: void <init>(java.lang.String)>("Attributes");
+        menu = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createColorMenu(java.lang.String,java.lang.String)>("Fill Color", "FillColor");
+        temp$2 = virtualinvoke menu.<javax.swing.JMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$1);
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createColorMenu(java.lang.String,java.lang.String)>("Pen Color", "FrameColor");
+        temp$4 = virtualinvoke menu.<javax.swing.JMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$3);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createArrowMenu()>();
+        temp$6 = virtualinvoke menu.<javax.swing.JMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$5);
+        virtualinvoke menu.<javax.swing.JMenu: void addSeparator()>();
+        temp$7 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createFontMenu()>();
+        temp$8 = virtualinvoke menu.<javax.swing.JMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$7);
+        temp$9 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createFontSizeMenu()>();
+        temp$10 = virtualinvoke menu.<javax.swing.JMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$9);
+        temp$11 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createFontStyleMenu()>();
+        temp$12 = virtualinvoke menu.<javax.swing.JMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$11);
+        temp$13 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenu createColorMenu(java.lang.String,java.lang.String)>("Text Color", "TextColor");
+        temp$14 = virtualinvoke menu.<javax.swing.JMenu: javax.swing.JMenuItem add(javax.swing.JMenuItem)>(temp$13);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createColorMenu(java.lang.String, java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String title, attribute, temp$4;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        int i, temp$1, temp$6, temp$7;
+        CH.ifa.draw.util.UndoableCommand temp$2;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$3;
+        java.awt.Color temp$5;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        title := @parameter0: java.lang.String;
+        attribute := @parameter1: java.lang.String;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>(title);
+        menu = temp$0;
+        i = 0;
+
+     label0:
+        nop;
+        temp$1 = staticinvoke <CH.ifa.draw.util.ColorMap: int size()>();
+        if i < temp$1 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = new CH.ifa.draw.util.UndoableCommand;
+        temp$3 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$4 = staticinvoke <CH.ifa.draw.util.ColorMap: java.lang.String name(int)>(i);
+        temp$5 = staticinvoke <CH.ifa.draw.util.ColorMap: java.awt.Color color(int)>(i);
+        specialinvoke temp$3.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>(temp$4, attribute, temp$5, this);
+        specialinvoke temp$2.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$3);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$2);
+        nop;
+        temp$6 = i;
+        temp$7 = temp$6 + 1;
+        i = temp$7;
+        goto label0;
+
+     label2:
+        nop;
+        return menu;
+    }
+
+    protected javax.swing.JMenu createArrowMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.util.UndoableCommand temp$1, temp$4, temp$7, temp$10;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$2, temp$5, temp$8, temp$11;
+        java.lang.Integer temp$3, temp$6, temp$9, temp$12;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Arrow");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.util.UndoableCommand;
+        temp$2 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$3 = new java.lang.Integer;
+        specialinvoke temp$3.<java.lang.Integer: void <init>(int)>(0);
+        specialinvoke temp$2.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("none", "ArrowMode", temp$3, this);
+        specialinvoke temp$1.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$2);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$1);
+        temp$4 = new CH.ifa.draw.util.UndoableCommand;
+        temp$5 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$6 = new java.lang.Integer;
+        specialinvoke temp$6.<java.lang.Integer: void <init>(int)>(1);
+        specialinvoke temp$5.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("at Start", "ArrowMode", temp$6, this);
+        specialinvoke temp$4.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$5);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$4);
+        temp$7 = new CH.ifa.draw.util.UndoableCommand;
+        temp$8 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$9 = new java.lang.Integer;
+        specialinvoke temp$9.<java.lang.Integer: void <init>(int)>(2);
+        specialinvoke temp$8.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("at End", "ArrowMode", temp$9, this);
+        specialinvoke temp$7.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$8);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$7);
+        temp$10 = new CH.ifa.draw.util.UndoableCommand;
+        temp$11 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$12 = new java.lang.Integer;
+        specialinvoke temp$12.<java.lang.Integer: void <init>(int)>(3);
+        specialinvoke temp$11.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("at Both", "ArrowMode", temp$12, this);
+        specialinvoke temp$10.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$11);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$10);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createFontMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        java.lang.String[] fonts, temp$2, temp$6, temp$9;
+        java.awt.Toolkit temp$1;
+        int i, temp$3, temp$7, temp$10, temp$12, temp$13;
+        CH.ifa.draw.util.UndoableCommand temp$4;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$5;
+        java.lang.String temp$8, temp$11;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Font");
+        menu = temp$0;
+        temp$1 = staticinvoke <java.awt.Toolkit: java.awt.Toolkit getDefaultToolkit()>();
+        temp$2 = virtualinvoke temp$1.<java.awt.Toolkit: java.lang.String[] getFontList()>();
+        fonts = temp$2;
+        i = 0;
+
+     label0:
+        nop;
+        temp$3 = lengthof fonts;
+        if i < temp$3 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$4 = new CH.ifa.draw.util.UndoableCommand;
+        temp$5 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$6 = fonts;
+        temp$7 = i;
+        temp$8 = temp$6[temp$7];
+        temp$9 = fonts;
+        temp$10 = i;
+        temp$11 = temp$9[temp$10];
+        specialinvoke temp$5.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>(temp$8, "FontName", temp$11, this);
+        specialinvoke temp$4.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$5);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$4);
+        nop;
+        temp$12 = i;
+        temp$13 = temp$12 + 1;
+        i = temp$13;
+        goto label0;
+
+     label2:
+        nop;
+        return menu;
+    }
+
+    protected javax.swing.JMenu createFontStyleMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        CH.ifa.draw.util.UndoableCommand temp$1, temp$4, temp$7;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$2, temp$5, temp$8;
+        java.lang.Integer temp$3, temp$6, temp$9;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Font Style");
+        menu = temp$0;
+        temp$1 = new CH.ifa.draw.util.UndoableCommand;
+        temp$2 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$3 = new java.lang.Integer;
+        specialinvoke temp$3.<java.lang.Integer: void <init>(int)>(0);
+        specialinvoke temp$2.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("Plain", "FontStyle", temp$3, this);
+        specialinvoke temp$1.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$2);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$1);
+        temp$4 = new CH.ifa.draw.util.UndoableCommand;
+        temp$5 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$6 = new java.lang.Integer;
+        specialinvoke temp$6.<java.lang.Integer: void <init>(int)>(2);
+        specialinvoke temp$5.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("Italic", "FontStyle", temp$6, this);
+        specialinvoke temp$4.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$5);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$4);
+        temp$7 = new CH.ifa.draw.util.UndoableCommand;
+        temp$8 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$9 = new java.lang.Integer;
+        specialinvoke temp$9.<java.lang.Integer: void <init>(int)>(1);
+        specialinvoke temp$8.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>("Bold", "FontStyle", temp$9, this);
+        specialinvoke temp$7.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$8);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$7);
+        return menu;
+    }
+
+    protected javax.swing.JMenu createFontSizeMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        int[] sizes, temp$1, temp$5, temp$10;
+        int i, temp$2, temp$6, temp$7, temp$11, temp$12, temp$13, temp$14;
+        CH.ifa.draw.util.UndoableCommand temp$3;
+        CH.ifa.draw.standard.ChangeAttributeCommand temp$4;
+        java.lang.String temp$8;
+        java.lang.Integer temp$9;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Font Size");
+        menu = temp$0;
+        temp$1 = newarray (int)[9];
+        temp$1[0] = 9;
+        temp$1[1] = 10;
+        temp$1[2] = 12;
+        temp$1[3] = 14;
+        temp$1[4] = 18;
+        temp$1[5] = 24;
+        temp$1[6] = 36;
+        temp$1[7] = 48;
+        temp$1[8] = 72;
+        sizes = temp$1;
+        i = 0;
+
+     label0:
+        nop;
+        temp$2 = lengthof sizes;
+        if i < temp$2 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = new CH.ifa.draw.util.UndoableCommand;
+        temp$4 = new CH.ifa.draw.standard.ChangeAttributeCommand;
+        temp$5 = sizes;
+        temp$6 = i;
+        temp$7 = temp$5[temp$6];
+        temp$8 = staticinvoke <java.lang.Integer: java.lang.String toString(int)>(temp$7);
+        temp$9 = new java.lang.Integer;
+        temp$10 = sizes;
+        temp$11 = i;
+        temp$12 = temp$10[temp$11];
+        specialinvoke temp$9.<java.lang.Integer: void <init>(int)>(temp$12);
+        specialinvoke temp$4.<CH.ifa.draw.standard.ChangeAttributeCommand: void <init>(java.lang.String,java.lang.String,java.lang.Object,CH.ifa.draw.framework.DrawingEditor)>(temp$8, "FontSize", temp$9, this);
+        specialinvoke temp$3.<CH.ifa.draw.util.UndoableCommand: void <init>(CH.ifa.draw.util.Command)>(temp$4);
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(temp$3);
+        nop;
+        temp$13 = i;
+        temp$14 = temp$13 + 1;
+        i = temp$14;
+        goto label0;
+
+     label2:
+        nop;
+        return menu;
+    }
+
+    public javax.swing.JMenu createLookAndFeelMenu()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.CommandMenu menu, temp$0;
+        javax.swing.UIManager$LookAndFeelInfo[] lafs, temp$1, temp$3, temp$8;
+        int i, temp$2, temp$4, temp$9, temp$12, temp$13;
+        java.lang.String lnfClassName, temp$6, temp$11;
+        javax.swing.UIManager$LookAndFeelInfo temp$5, temp$10;
+        CH.ifa.draw.util.Command cmd;
+        CH.ifa.draw.application.DrawApplication$3Anonymous8 temp$7;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.CommandMenu;
+        specialinvoke temp$0.<CH.ifa.draw.util.CommandMenu: void <init>(java.lang.String)>("Look\'n\'Feel");
+        menu = temp$0;
+        temp$1 = staticinvoke <javax.swing.UIManager: javax.swing.UIManager$LookAndFeelInfo[] getInstalledLookAndFeels()>();
+        lafs = temp$1;
+        i = 0;
+
+     label0:
+        nop;
+        temp$2 = lengthof lafs;
+        if i < temp$2 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = lafs;
+        temp$4 = i;
+        temp$5 = temp$3[temp$4];
+        temp$6 = virtualinvoke temp$5.<javax.swing.UIManager$LookAndFeelInfo: java.lang.String getClassName()>();
+        lnfClassName = temp$6;
+        temp$7 = new CH.ifa.draw.application.DrawApplication$3Anonymous8;
+        temp$8 = lafs;
+        temp$9 = i;
+        temp$10 = temp$8[temp$9];
+        temp$11 = virtualinvoke temp$10.<javax.swing.UIManager$LookAndFeelInfo: java.lang.String getName()>();
+        specialinvoke temp$7.<CH.ifa.draw.application.DrawApplication$3Anonymous8: void <init>(CH.ifa.draw.application.DrawApplication,java.lang.String,CH.ifa.draw.framework.DrawingEditor,java.lang.String)>(this, temp$11, this, lnfClassName);
+        cmd = temp$7;
+        virtualinvoke menu.<CH.ifa.draw.util.CommandMenu: void add(CH.ifa.draw.util.Command)>(cmd);
+        nop;
+        temp$12 = i;
+        temp$13 = temp$12 + 1;
+        i = temp$13;
+        goto label0;
+
+     label2:
+        nop;
+        return menu;
+    }
+
+    protected javax.swing.JToolBar createToolPalette()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JToolBar palette, temp$0;
+        java.awt.Color temp$1;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new javax.swing.JToolBar;
+        specialinvoke temp$0.<javax.swing.JToolBar: void <init>()>();
+        palette = temp$0;
+        temp$1 = <java.awt.Color: java.awt.Color lightGray>;
+        virtualinvoke palette.<javax.swing.JToolBar: void setBackground(java.awt.Color)>(temp$1);
+        return palette;
+    }
+
+    protected void createTools(javax.swing.JToolBar)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JToolBar palette;
+        CH.ifa.draw.framework.Tool tool, temp$0;
+        CH.ifa.draw.standard.ToolButton temp$1, temp$2;
+        java.awt.Component temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        palette := @parameter0: javax.swing.JToolBar;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool createSelectionTool()>();
+        tool = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>("/CH/ifa/draw/images/SEL", "Selection Tool", tool);
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fDefaultToolButton> = temp$1;
+        temp$2 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        temp$3 = virtualinvoke palette.<javax.swing.JToolBar: java.awt.Component add(java.awt.Component)>(temp$2);
+        return;
+    }
+
+    protected CH.ifa.draw.framework.Tool createSelectionTool()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.standard.SelectionTool temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.standard.SelectionTool;
+        specialinvoke temp$0.<CH.ifa.draw.standard.SelectionTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(this);
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.standard.ToolButton createToolButton(java.lang.String, java.lang.String, CH.ifa.draw.framework.Tool)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String iconName, toolName;
+        CH.ifa.draw.framework.Tool tool;
+        CH.ifa.draw.standard.ToolButton temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        iconName := @parameter0: java.lang.String;
+        toolName := @parameter1: java.lang.String;
+        tool := @parameter2: CH.ifa.draw.framework.Tool;
+        temp$0 = new CH.ifa.draw.standard.ToolButton;
+        specialinvoke temp$0.<CH.ifa.draw.standard.ToolButton: void <init>(CH.ifa.draw.util.PaletteListener,java.lang.String,java.lang.String,CH.ifa.draw.framework.Tool)>(this, iconName, toolName, tool);
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.framework.DrawingView createDrawingView()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView createdDrawingView, temp$1;
+        CH.ifa.draw.framework.Drawing temp$0, temp$2;
+        java.lang.String temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Drawing createDrawing()>();
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView createDrawingView(CH.ifa.draw.framework.Drawing)>(temp$0);
+        createdDrawingView = temp$1;
+        temp$2 = interfaceinvoke createdDrawingView.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.lang.String getDefaultDrawingTitle()>();
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.Drawing: void setTitle(java.lang.String)>(temp$3);
+        return createdDrawingView;
+    }
+
+    protected CH.ifa.draw.framework.DrawingView createDrawingView(CH.ifa.draw.framework.Drawing)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.Drawing newDrawing;
+        java.awt.Dimension d, temp$0;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+        CH.ifa.draw.standard.StandardDrawingView temp$1;
+        int temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        newDrawing := @parameter0: CH.ifa.draw.framework.Drawing;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.awt.Dimension getDrawingViewSize()>();
+        d = temp$0;
+        temp$1 = new CH.ifa.draw.standard.StandardDrawingView;
+        temp$2 = d.<java.awt.Dimension: int width>;
+        temp$3 = d.<java.awt.Dimension: int height>;
+        specialinvoke temp$1.<CH.ifa.draw.standard.StandardDrawingView: void <init>(CH.ifa.draw.framework.DrawingEditor,int,int)>(this, temp$2, temp$3);
+        newDrawingView = temp$1;
+        interfaceinvoke newDrawingView.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(newDrawing);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void fireViewCreatedEvent(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        return newDrawingView;
+    }
+
+    protected CH.ifa.draw.framework.DrawingView createInitialDrawingView()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView createDrawingView()>();
+        return temp$0;
+    }
+
+    protected java.awt.Dimension getDrawingViewSize()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.awt.Dimension temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new java.awt.Dimension;
+        specialinvoke temp$0.<java.awt.Dimension: void <init>(int,int)>(800, 800);
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.framework.Drawing createDrawing()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.standard.StandardDrawing temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.standard.StandardDrawing;
+        specialinvoke temp$0.<CH.ifa.draw.standard.StandardDrawing: void <init>()>();
+        return temp$0;
+    }
+
+    protected javax.swing.JComponent createContents(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView view;
+        boolean temp$0;
+        javax.swing.JScrollPane sp, temp$1;
+        java.awt.Component temp$2;
+        javax.swing.JPanel temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = view instanceof java.awt.Component;
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = new javax.swing.JScrollPane;
+        temp$2 = (java.awt.Component) view;
+        specialinvoke temp$1.<javax.swing.JScrollPane: void <init>(java.awt.Component)>(temp$2);
+        sp = temp$1;
+        virtualinvoke sp.<javax.swing.JScrollPane: void setVerticalScrollBarPolicy(int)>(22);
+        virtualinvoke sp.<javax.swing.JScrollPane: void setHorizontalScrollBarPolicy(int)>(32);
+        return sp;
+
+     label1:
+        nop;
+        temp$3 = new javax.swing.JPanel;
+        specialinvoke temp$3.<javax.swing.JPanel: void <init>()>();
+        return temp$3;
+    }
+
+    public CH.ifa.draw.util.StorageFormatManager createStorageFormatManager()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.StorageFormatManager storageFormatManager, temp$0;
+        CH.ifa.draw.util.StandardStorageFormat temp$1;
+        CH.ifa.draw.util.StorageFormat temp$2;
+        CH.ifa.draw.util.SerializationStorageFormat temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.StorageFormatManager;
+        specialinvoke temp$0.<CH.ifa.draw.util.StorageFormatManager: void <init>()>();
+        storageFormatManager = temp$0;
+        temp$1 = new CH.ifa.draw.util.StandardStorageFormat;
+        specialinvoke temp$1.<CH.ifa.draw.util.StandardStorageFormat: void <init>()>();
+        virtualinvoke storageFormatManager.<CH.ifa.draw.util.StorageFormatManager: void setDefaultStorageFormat(CH.ifa.draw.util.StorageFormat)>(temp$1);
+        temp$2 = virtualinvoke storageFormatManager.<CH.ifa.draw.util.StorageFormatManager: CH.ifa.draw.util.StorageFormat getDefaultStorageFormat()>();
+        virtualinvoke storageFormatManager.<CH.ifa.draw.util.StorageFormatManager: void addStorageFormat(CH.ifa.draw.util.StorageFormat)>(temp$2);
+        temp$3 = new CH.ifa.draw.util.SerializationStorageFormat;
+        specialinvoke temp$3.<CH.ifa.draw.util.SerializationStorageFormat: void <init>()>();
+        virtualinvoke storageFormatManager.<CH.ifa.draw.util.StorageFormatManager: void addStorageFormat(CH.ifa.draw.util.StorageFormat)>(temp$3);
+        return storageFormatManager;
+    }
+
+    protected final void setStorageFormatManager(CH.ifa.draw.util.StorageFormatManager)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.StorageFormatManager storageFormatManager;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        storageFormatManager := @parameter0: CH.ifa.draw.util.StorageFormatManager;
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager fStorageFormatManager> = storageFormatManager;
+        return;
+    }
+
+    public CH.ifa.draw.util.StorageFormatManager getStorageFormatManager()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.StorageFormatManager temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager fStorageFormatManager>;
+        return temp$0;
+    }
+
+    protected java.awt.Dimension defaultSize()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.awt.Dimension temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new java.awt.Dimension;
+        specialinvoke temp$0.<java.awt.Dimension: void <init>(int,int)>(600, 450);
+        return temp$0;
+    }
+
+    protected javax.swing.JTextField createStatusLine()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JTextField field, temp$0;
+        java.awt.Color temp$1;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new javax.swing.JTextField;
+        specialinvoke temp$0.<javax.swing.JTextField: void <init>(java.lang.String,int)>("No Tool", 40);
+        field = temp$0;
+        temp$1 = <java.awt.Color: java.awt.Color white>;
+        virtualinvoke field.<javax.swing.JTextField: void setBackground(java.awt.Color)>(temp$1);
+        virtualinvoke field.<javax.swing.JTextField: void setEditable(boolean)>(0);
+        return field;
+    }
+
+    public void paletteUserSelected(CH.ifa.draw.util.PaletteButton)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.PaletteButton button;
+        CH.ifa.draw.standard.ToolButton toolButton;
+        CH.ifa.draw.framework.Tool temp$0;
+        java.lang.String temp$1;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        button := @parameter0: CH.ifa.draw.util.PaletteButton;
+        toolButton = (CH.ifa.draw.standard.ToolButton) button;
+        temp$0 = virtualinvoke toolButton.<CH.ifa.draw.standard.ToolButton: CH.ifa.draw.framework.Tool tool()>();
+        temp$1 = virtualinvoke toolButton.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setTool(CH.ifa.draw.framework.Tool,java.lang.String)>(temp$0, temp$1);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setSelected(CH.ifa.draw.standard.ToolButton)>(toolButton);
+        return;
+    }
+
+    public void paletteUserOver(CH.ifa.draw.util.PaletteButton, boolean)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.PaletteButton button;
+        boolean inside;
+        CH.ifa.draw.standard.ToolButton toolButton, temp$1;
+        java.lang.String temp$0, temp$2;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        button := @parameter0: CH.ifa.draw.util.PaletteButton;
+        inside := @parameter1: boolean;
+        toolButton = (CH.ifa.draw.standard.ToolButton) button;
+        if inside == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$0 = virtualinvoke toolButton.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(temp$0);
+        goto label2;
+
+     label1:
+        nop;
+        temp$1 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(temp$2);
+
+     label2:
+        nop;
+        return;
+    }
+
+    public CH.ifa.draw.framework.Tool tool()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.Tool temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool fTool>;
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.DrawingView view()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView fView>;
+        return temp$0;
+    }
+
+    protected void setView(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView newView, oldView, temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        newView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        oldView = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView fView>;
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView fView> = newView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void fireViewSelectionChangedEvent(CH.ifa.draw.framework.DrawingView,CH.ifa.draw.framework.DrawingView)>(oldView, temp$0);
+        return;
+    }
+
+    public CH.ifa.draw.framework.DrawingView[] views()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView[] temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = newarray (CH.ifa.draw.framework.DrawingView)[1];
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$0[0] = temp$1;
+        return temp$0;
+    }
+
+    public void toolDone()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.standard.ToolButton temp$0, temp$1, temp$3, temp$5;
+        CH.ifa.draw.framework.Tool temp$2;
+        java.lang.String temp$4;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.standard.ToolButton: CH.ifa.draw.framework.Tool tool()>();
+        temp$3 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        temp$4 = virtualinvoke temp$3.<CH.ifa.draw.standard.ToolButton: java.lang.String name()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setTool(CH.ifa.draw.framework.Tool,java.lang.String)>(temp$2, temp$4);
+        temp$5 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fDefaultToolButton>;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setSelected(CH.ifa.draw.standard.ToolButton)>(temp$5);
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void figureSelectionChanged(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView view;
+        javax.swing.JMenuBar mb, temp$0;
+        CH.ifa.draw.util.CommandMenu editMenu, alignmentMenu, temp$7;
+        javax.swing.JMenu temp$1, temp$2, attributeMenu, temp$3;
+        int i, temp$4, temp$8, temp$9;
+        javax.swing.JMenuItem currentMenu, temp$5;
+        boolean temp$6;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JMenuBar getJMenuBar()>();
+        mb = temp$0;
+        temp$1 = virtualinvoke mb.<javax.swing.JMenuBar: javax.swing.JMenu getMenu(int)>(1);
+        editMenu = (CH.ifa.draw.util.CommandMenu) temp$1;
+        if editMenu != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke editMenu.<CH.ifa.draw.util.CommandMenu: void checkEnabled()>();
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke mb.<javax.swing.JMenuBar: javax.swing.JMenu getMenu(int)>(2);
+        alignmentMenu = (CH.ifa.draw.util.CommandMenu) temp$2;
+        if alignmentMenu != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        virtualinvoke alignmentMenu.<CH.ifa.draw.util.CommandMenu: void checkEnabled()>();
+
+     label3:
+        nop;
+        temp$3 = virtualinvoke mb.<javax.swing.JMenuBar: javax.swing.JMenu getMenu(int)>(3);
+        attributeMenu = temp$3;
+        if attributeMenu != null goto label4;
+
+        goto label10;
+
+     label4:
+        nop;
+        i = 0;
+
+     label5:
+        nop;
+        temp$4 = virtualinvoke attributeMenu.<javax.swing.JMenu: int getItemCount()>();
+        if i < temp$4 goto label6;
+
+        goto label9;
+
+     label6:
+        nop;
+        temp$5 = virtualinvoke attributeMenu.<javax.swing.JMenu: javax.swing.JMenuItem getItem(int)>(i);
+        currentMenu = temp$5;
+        temp$6 = currentMenu instanceof CH.ifa.draw.util.CommandMenu;
+        if temp$6 == 0 goto label8;
+
+        goto label7;
+
+     label7:
+        nop;
+        temp$7 = (CH.ifa.draw.util.CommandMenu) currentMenu;
+        virtualinvoke temp$7.<CH.ifa.draw.util.CommandMenu: void checkEnabled()>();
+
+     label8:
+        nop;
+        nop;
+        temp$8 = i;
+        temp$9 = temp$8 + 1;
+        i = temp$9;
+        goto label5;
+
+     label9:
+        nop;
+
+     label10:
+        nop;
+        return;
+    }
+
+    public void addViewChangeListener(CH.ifa.draw.framework.ViewChangeListener)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.ViewChangeListener vsl;
+        javax.swing.event.EventListenerList temp$0;
+        java.lang.Class temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        vsl := @parameter0: CH.ifa.draw.framework.ViewChangeListener;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: javax.swing.event.EventListenerList listenerList>;
+        temp$2 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+        if temp$2 != null goto label0;
+
+        temp$3 = staticinvoke <CH.ifa.draw.application.DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.framework.ViewChangeListener");
+        <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener> = temp$3;
+        temp$1 = temp$3;
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+
+     label1:
+        nop;
+        virtualinvoke temp$0.<javax.swing.event.EventListenerList: void add(java.lang.Class,java.util.EventListener)>(temp$1, vsl);
+        return;
+    }
+
+    public void removeViewChangeListener(CH.ifa.draw.framework.ViewChangeListener)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.ViewChangeListener vsl;
+        javax.swing.event.EventListenerList temp$0;
+        java.lang.Class temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        vsl := @parameter0: CH.ifa.draw.framework.ViewChangeListener;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: javax.swing.event.EventListenerList listenerList>;
+        temp$2 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+        if temp$2 != null goto label0;
+
+        temp$3 = staticinvoke <CH.ifa.draw.application.DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.framework.ViewChangeListener");
+        <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener> = temp$3;
+        temp$1 = temp$3;
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+
+     label1:
+        nop;
+        virtualinvoke temp$0.<javax.swing.event.EventListenerList: void remove(java.lang.Class,java.util.EventListener)>(temp$1, vsl);
+        return;
+    }
+
+    protected void fireViewSelectionChangedEvent(CH.ifa.draw.framework.DrawingView, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView oldView, newView;
+        java.lang.Object[] listeners, temp$1, temp$4, temp$10;
+        javax.swing.event.EventListenerList temp$0;
+        CH.ifa.draw.framework.ViewChangeListener vsl, temp$14;
+        int i, temp$2, temp$3, temp$5, temp$11, temp$12, temp$15, temp$16;
+        java.lang.Class temp$6, temp$7, temp$8;
+        java.lang.Object temp$9, temp$13;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        oldView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        newView := @parameter1: CH.ifa.draw.framework.DrawingView;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: javax.swing.event.EventListenerList listenerList>;
+        temp$1 = virtualinvoke temp$0.<javax.swing.event.EventListenerList: java.lang.Object[] getListenerList()>();
+        listeners = temp$1;
+        vsl = null;
+        temp$2 = lengthof listeners;
+        temp$3 = temp$2 - 2;
+        i = temp$3;
+
+     label0:
+        nop;
+        if i >= 0 goto label1;
+
+        goto label6;
+
+     label1:
+        nop;
+        temp$4 = listeners;
+        temp$5 = i;
+        temp$7 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+        if temp$7 != null goto label2;
+
+        temp$8 = staticinvoke <CH.ifa.draw.application.DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.framework.ViewChangeListener");
+        <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener> = temp$8;
+        temp$6 = temp$8;
+        goto label3;
+
+     label2:
+        nop;
+        temp$6 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+
+     label3:
+        nop;
+        temp$9 = temp$4[temp$5];
+        if temp$9 == temp$6 goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$10 = listeners;
+        temp$11 = i;
+        temp$12 = temp$11 + 1;
+        temp$13 = temp$10[temp$12];
+        temp$14 = (CH.ifa.draw.framework.ViewChangeListener) temp$13;
+        vsl = temp$14;
+        interfaceinvoke vsl.<CH.ifa.draw.framework.ViewChangeListener: void viewSelectionChanged(CH.ifa.draw.framework.DrawingView,CH.ifa.draw.framework.DrawingView)>(oldView, newView);
+
+     label5:
+        nop;
+        nop;
+        temp$15 = i;
+        temp$16 = temp$15 - 2;
+        i = temp$16;
+        goto label0;
+
+     label6:
+        nop;
+        return;
+    }
+
+    protected void fireViewCreatedEvent(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView view;
+        java.lang.Object[] listeners, temp$1, temp$4, temp$10;
+        javax.swing.event.EventListenerList temp$0;
+        CH.ifa.draw.framework.ViewChangeListener vsl, temp$14;
+        int i, temp$2, temp$3, temp$5, temp$11, temp$12, temp$15, temp$16;
+        java.lang.Class temp$6, temp$7, temp$8;
+        java.lang.Object temp$9, temp$13;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: javax.swing.event.EventListenerList listenerList>;
+        temp$1 = virtualinvoke temp$0.<javax.swing.event.EventListenerList: java.lang.Object[] getListenerList()>();
+        listeners = temp$1;
+        vsl = null;
+        temp$2 = lengthof listeners;
+        temp$3 = temp$2 - 2;
+        i = temp$3;
+
+     label0:
+        nop;
+        if i >= 0 goto label1;
+
+        goto label6;
+
+     label1:
+        nop;
+        temp$4 = listeners;
+        temp$5 = i;
+        temp$7 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+        if temp$7 != null goto label2;
+
+        temp$8 = staticinvoke <CH.ifa.draw.application.DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.framework.ViewChangeListener");
+        <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener> = temp$8;
+        temp$6 = temp$8;
+        goto label3;
+
+     label2:
+        nop;
+        temp$6 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+
+     label3:
+        nop;
+        temp$9 = temp$4[temp$5];
+        if temp$9 == temp$6 goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$10 = listeners;
+        temp$11 = i;
+        temp$12 = temp$11 + 1;
+        temp$13 = temp$10[temp$12];
+        temp$14 = (CH.ifa.draw.framework.ViewChangeListener) temp$13;
+        vsl = temp$14;
+        interfaceinvoke vsl.<CH.ifa.draw.framework.ViewChangeListener: void viewCreated(CH.ifa.draw.framework.DrawingView)>(view);
+
+     label5:
+        nop;
+        nop;
+        temp$15 = i;
+        temp$16 = temp$15 - 2;
+        i = temp$16;
+        goto label0;
+
+     label6:
+        nop;
+        return;
+    }
+
+    protected void fireViewDestroyingEvent(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView view;
+        java.lang.Object[] listeners, temp$1, temp$4, temp$10;
+        javax.swing.event.EventListenerList temp$0;
+        CH.ifa.draw.framework.ViewChangeListener vsl, temp$14;
+        int i, temp$2, temp$3, temp$5, temp$11, temp$12, temp$15, temp$16;
+        java.lang.Class temp$6, temp$7, temp$8;
+        java.lang.Object temp$9, temp$13;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: javax.swing.event.EventListenerList listenerList>;
+        temp$1 = virtualinvoke temp$0.<javax.swing.event.EventListenerList: java.lang.Object[] getListenerList()>();
+        listeners = temp$1;
+        vsl = null;
+        temp$2 = lengthof listeners;
+        temp$3 = temp$2 - 2;
+        i = temp$3;
+
+     label0:
+        nop;
+        if i >= 0 goto label1;
+
+        goto label6;
+
+     label1:
+        nop;
+        temp$4 = listeners;
+        temp$5 = i;
+        temp$7 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+        if temp$7 != null goto label2;
+
+        temp$8 = staticinvoke <CH.ifa.draw.application.DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.framework.ViewChangeListener");
+        <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener> = temp$8;
+        temp$6 = temp$8;
+        goto label3;
+
+     label2:
+        nop;
+        temp$6 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$framework$ViewChangeListener>;
+
+     label3:
+        nop;
+        temp$9 = temp$4[temp$5];
+        if temp$9 == temp$6 goto label4;
+
+        goto label5;
+
+     label4:
+        nop;
+        temp$10 = listeners;
+        temp$11 = i;
+        temp$12 = temp$11 + 1;
+        temp$13 = temp$10[temp$12];
+        temp$14 = (CH.ifa.draw.framework.ViewChangeListener) temp$13;
+        vsl = temp$14;
+        interfaceinvoke vsl.<CH.ifa.draw.framework.ViewChangeListener: void viewDestroying(CH.ifa.draw.framework.DrawingView)>(view);
+
+     label5:
+        nop;
+        nop;
+        temp$15 = i;
+        temp$16 = temp$15 - 2;
+        i = temp$16;
+        goto label0;
+
+     label6:
+        nop;
+        return;
+    }
+
+    public void showStatus(java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String string;
+        javax.swing.JTextField temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        string := @parameter0: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: javax.swing.JTextField fStatusLine>;
+        virtualinvoke temp$0.<javax.swing.JTextField: void setText(java.lang.String)>(string);
+        return;
+    }
+
+    public void setTool(CH.ifa.draw.framework.Tool, java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.Tool t, temp$0, temp$1, temp$3, temp$4, temp$5;
+        java.lang.String name;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        t := @parameter0: CH.ifa.draw.framework.Tool;
+        name := @parameter1: java.lang.String;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool tool()>();
+        if temp$0 != null goto label0;
+
+        goto label2;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool tool()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Tool: boolean isActive()>();
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool tool()>();
+        interfaceinvoke temp$3.<CH.ifa.draw.framework.Tool: void deactivate()>();
+
+     label2:
+        nop;
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool fTool> = t;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool tool()>();
+        if temp$4 != null goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(name);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool tool()>();
+        interfaceinvoke temp$5.<CH.ifa.draw.framework.Tool: void activate()>();
+
+     label4:
+        nop;
+        return;
+    }
+
+    private final void setSelected(CH.ifa.draw.standard.ToolButton)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.standard.ToolButton button, temp$0, temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        button := @parameter0: CH.ifa.draw.standard.ToolButton;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        virtualinvoke temp$1.<CH.ifa.draw.standard.ToolButton: void reset()>();
+
+     label1:
+        nop;
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fSelectedToolButton> = button;
+        temp$2 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        if temp$2 != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$3 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.standard.ToolButton fSelectedToolButton>;
+        virtualinvoke temp$3.<CH.ifa.draw.standard.ToolButton: void select()>();
+
+     label3:
+        nop;
+        return;
+    }
+
+    public void exit()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        int temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void destroy()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setVisible(boolean)>(0);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void dispose()>();
+        temp$0 = <CH.ifa.draw.application.DrawApplication: int winCount>;
+        temp$1 = temp$0 + -1;
+        <CH.ifa.draw.application.DrawApplication: int winCount> = temp$1;
+        temp$2 = <CH.ifa.draw.application.DrawApplication: int winCount>;
+        if temp$2 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        staticinvoke <java.lang.System: void exit(int)>(0);
+
+     label1:
+        nop;
+        return;
+    }
+
+    protected void destroy()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        return;
+    }
+
+    public void promptNew()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$2;
+        CH.ifa.draw.framework.Drawing temp$1, temp$3;
+        java.lang.String temp$4;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void toolDone()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Drawing createDrawing()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(temp$1);
+        temp$2 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$4 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.lang.String getDefaultDrawingTitle()>();
+        interfaceinvoke temp$3.<CH.ifa.draw.framework.Drawing: void setTitle(java.lang.String)>(temp$4);
+        return;
+    }
+
+    public void promptOpen()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JFileChooser openDialog, temp$0;
+        CH.ifa.draw.util.StorageFormatManager temp$1, temp$3;
+        int temp$2;
+        CH.ifa.draw.util.StorageFormat foundFormat, temp$5;
+        javax.swing.filechooser.FileFilter temp$4, temp$9;
+        java.io.File temp$6;
+        java.lang.String temp$7, temp$10, temp$11;
+        java.lang.StringBuffer temp$8;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void toolDone()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JFileChooser createOpenFileChooser()>();
+        openDialog = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager getStorageFormatManager()>();
+        virtualinvoke temp$1.<CH.ifa.draw.util.StorageFormatManager: void registerFileFilters(javax.swing.JFileChooser)>(openDialog);
+        temp$2 = virtualinvoke openDialog.<javax.swing.JFileChooser: int showOpenDialog(java.awt.Component)>(this);
+        if temp$2 == 0 goto label0;
+
+        goto label4;
+
+     label0:
+        nop;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager getStorageFormatManager()>();
+        temp$4 = virtualinvoke openDialog.<javax.swing.JFileChooser: javax.swing.filechooser.FileFilter getFileFilter()>();
+        temp$5 = virtualinvoke temp$3.<CH.ifa.draw.util.StorageFormatManager: CH.ifa.draw.util.StorageFormat findStorageFormat(javax.swing.filechooser.FileFilter)>(temp$4);
+        foundFormat = temp$5;
+        if foundFormat != null goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$6 = virtualinvoke openDialog.<javax.swing.JFileChooser: java.io.File getSelectedFile()>();
+        temp$7 = virtualinvoke temp$6.<java.io.File: java.lang.String getAbsolutePath()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void loadDrawing(CH.ifa.draw.util.StorageFormat,java.lang.String)>(foundFormat, temp$7);
+        goto label3;
+
+     label2:
+        nop;
+        temp$8 = new java.lang.StringBuffer;
+        specialinvoke temp$8.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Not a valid file format: ");
+        temp$9 = virtualinvoke openDialog.<javax.swing.JFileChooser: javax.swing.filechooser.FileFilter getFileFilter()>();
+        temp$10 = virtualinvoke temp$9.<javax.swing.filechooser.FileFilter: java.lang.String getDescription()>();
+        virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$10);
+        temp$11 = virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(temp$11);
+
+     label3:
+        nop;
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void promptSaveAs()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JFileChooser saveDialog, temp$0;
+        CH.ifa.draw.util.StorageFormatManager temp$1, temp$3;
+        int temp$2;
+        CH.ifa.draw.util.StorageFormat foundFormat, temp$5;
+        javax.swing.filechooser.FileFilter temp$4, temp$9;
+        java.io.File temp$6;
+        java.lang.String temp$7, temp$10, temp$11;
+        java.lang.StringBuffer temp$8;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void toolDone()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: javax.swing.JFileChooser createSaveFileChooser()>();
+        saveDialog = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager getStorageFormatManager()>();
+        virtualinvoke temp$1.<CH.ifa.draw.util.StorageFormatManager: void registerFileFilters(javax.swing.JFileChooser)>(saveDialog);
+        temp$2 = virtualinvoke saveDialog.<javax.swing.JFileChooser: int showSaveDialog(java.awt.Component)>(this);
+        if temp$2 == 0 goto label0;
+
+        goto label4;
+
+     label0:
+        nop;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.StorageFormatManager getStorageFormatManager()>();
+        temp$4 = virtualinvoke saveDialog.<javax.swing.JFileChooser: javax.swing.filechooser.FileFilter getFileFilter()>();
+        temp$5 = virtualinvoke temp$3.<CH.ifa.draw.util.StorageFormatManager: CH.ifa.draw.util.StorageFormat findStorageFormat(javax.swing.filechooser.FileFilter)>(temp$4);
+        foundFormat = temp$5;
+        if foundFormat != null goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$6 = virtualinvoke saveDialog.<javax.swing.JFileChooser: java.io.File getSelectedFile()>();
+        temp$7 = virtualinvoke temp$6.<java.io.File: java.lang.String getAbsolutePath()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void saveDrawing(CH.ifa.draw.util.StorageFormat,java.lang.String)>(foundFormat, temp$7);
+        goto label3;
+
+     label2:
+        nop;
+        temp$8 = new java.lang.StringBuffer;
+        specialinvoke temp$8.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Not a valid file format: ");
+        temp$9 = virtualinvoke saveDialog.<javax.swing.JFileChooser: javax.swing.filechooser.FileFilter getFileFilter()>();
+        temp$10 = virtualinvoke temp$9.<javax.swing.filechooser.FileFilter: java.lang.String getDescription()>();
+        virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$10);
+        temp$11 = virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(temp$11);
+
+     label3:
+        nop;
+
+     label4:
+        nop;
+        return;
+    }
+
+    protected javax.swing.JFileChooser createOpenFileChooser()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JFileChooser openDialog, temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new javax.swing.JFileChooser;
+        specialinvoke temp$0.<javax.swing.JFileChooser: void <init>()>();
+        openDialog = temp$0;
+        virtualinvoke openDialog.<javax.swing.JFileChooser: void setDialogTitle(java.lang.String)>("Open File...");
+        return openDialog;
+    }
+
+    protected javax.swing.JFileChooser createSaveFileChooser()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        javax.swing.JFileChooser saveDialog, temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new javax.swing.JFileChooser;
+        specialinvoke temp$0.<javax.swing.JFileChooser: void <init>()>();
+        saveDialog = temp$0;
+        virtualinvoke saveDialog.<javax.swing.JFileChooser: void setDialogTitle(java.lang.String)>("Save File...");
+        return saveDialog;
+    }
+
+    public void print()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.Tool temp$0, temp$6;
+        java.awt.PrintJob printJob, temp$2;
+        java.awt.Toolkit temp$1;
+        java.awt.Graphics pg, temp$3;
+        CH.ifa.draw.framework.DrawingView temp$4;
+        CH.ifa.draw.standard.StandardDrawingView temp$5;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool tool()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.Tool: void deactivate()>();
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.awt.Toolkit getToolkit()>();
+        temp$2 = virtualinvoke temp$1.<java.awt.Toolkit: java.awt.PrintJob getPrintJob(java.awt.Frame,java.lang.String,java.util.Properties)>(this, "Print Drawing", null);
+        printJob = temp$2;
+        if printJob != null goto label0;
+
+        goto label3;
+
+     label0:
+        nop;
+        temp$3 = virtualinvoke printJob.<java.awt.PrintJob: java.awt.Graphics getGraphics()>();
+        pg = temp$3;
+        if pg != null goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$5 = (CH.ifa.draw.standard.StandardDrawingView) temp$4;
+        virtualinvoke temp$5.<CH.ifa.draw.standard.StandardDrawingView: void printAll(java.awt.Graphics)>(pg);
+        virtualinvoke pg.<java.awt.Graphics: void dispose()>();
+
+     label2:
+        nop;
+        virtualinvoke printJob.<java.awt.PrintJob: void end()>();
+
+     label3:
+        nop;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.Tool tool()>();
+        interfaceinvoke temp$6.<CH.ifa.draw.framework.Tool: void activate()>();
+        return;
+    }
+
+    protected void saveDrawing(CH.ifa.draw.util.StorageFormat, java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.StorageFormat storeFormat;
+        java.lang.String file, name, temp$3, temp$6;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$1, temp$4;
+        CH.ifa.draw.framework.Drawing temp$2, temp$5;
+        java.io.IOException e;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        storeFormat := @parameter0: CH.ifa.draw.util.StorageFormat;
+        file := @parameter1: java.lang.String;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+
+     label2:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$3 = interfaceinvoke storeFormat.<CH.ifa.draw.util.StorageFormat: java.lang.String store(java.lang.String,CH.ifa.draw.framework.Drawing)>(file, temp$2);
+        name = temp$3;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$5 = interfaceinvoke temp$4.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        interfaceinvoke temp$5.<CH.ifa.draw.framework.Drawing: void setTitle(java.lang.String)>(name);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setDrawingTitle(java.lang.String)>(name);
+        goto label4;
+
+     label3:
+        nop;
+        e := @caughtexception;
+        temp$6 = virtualinvoke e.<java.io.IOException: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(temp$6);
+        nop;
+        goto label4;
+
+     label4:
+        nop;
+        return;
+
+        catch java.io.IOException from label2 to label3 with label3;
+    }
+
+    protected void loadDrawing(CH.ifa.draw.util.StorageFormat, java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.StorageFormat restoreFormat;
+        java.lang.String file, temp$2, temp$4;
+        CH.ifa.draw.framework.Drawing restoredDrawing, temp$0;
+        java.lang.StringBuffer temp$1, temp$3;
+        java.io.IOException e;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        restoreFormat := @parameter0: CH.ifa.draw.util.StorageFormat;
+        file := @parameter1: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = interfaceinvoke restoreFormat.<CH.ifa.draw.util.StorageFormat: CH.ifa.draw.framework.Drawing restore(java.lang.String)>(file);
+        restoredDrawing = temp$0;
+        if restoredDrawing != null goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        interfaceinvoke restoredDrawing.<CH.ifa.draw.framework.Drawing: void setTitle(java.lang.String)>(file);
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void newWindow(CH.ifa.draw.framework.Drawing)>(restoredDrawing);
+        goto label3;
+
+     label2:
+        nop;
+        temp$1 = new java.lang.StringBuffer;
+        specialinvoke temp$1.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Unknown file type: could not open file \'");
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(file);
+        virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("\'");
+        temp$2 = virtualinvoke temp$1.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(temp$2);
+
+     label3:
+        nop;
+        goto label5;
+
+     label4:
+        nop;
+        e := @caughtexception;
+        temp$3 = new java.lang.StringBuffer;
+        specialinvoke temp$3.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Error: ");
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(e);
+        temp$4 = virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void showStatus(java.lang.String)>(temp$4);
+        nop;
+        goto label5;
+
+     label5:
+        nop;
+        return;
+
+        catch java.io.IOException from label0 to label4 with label4;
+    }
+
+    private final void newLookAndFeel(java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String landf;
+        java.lang.Exception e;
+        java.io.PrintStream temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        landf := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        staticinvoke <javax.swing.UIManager: void setLookAndFeel(java.lang.String)>(landf);
+        staticinvoke <javax.swing.SwingUtilities: void updateComponentTreeUI(java.awt.Component)>(this);
+        goto label2;
+
+     label1:
+        nop;
+        e := @caughtexception;
+        temp$0 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$0.<java.io.PrintStream: void println(java.lang.Object)>(e);
+        nop;
+        goto label2;
+
+     label2:
+        nop;
+        return;
+
+        catch java.lang.Exception from label0 to label1 with label1;
+    }
+
+    protected void setDrawingTitle(java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String drawingTitle, temp$0, temp$2, temp$4, temp$5;
+        boolean temp$1;
+        java.lang.StringBuffer temp$3;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        drawingTitle := @parameter0: java.lang.String;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.lang.String getDefaultDrawingTitle()>();
+        temp$1 = virtualinvoke temp$0.<java.lang.String: boolean equals(java.lang.Object)>(drawingTitle);
+        if temp$1 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.lang.String getApplicationName()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setTitle(java.lang.String)>(temp$2);
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = new java.lang.StringBuffer;
+        specialinvoke temp$3.<java.lang.StringBuffer: void <init>()>();
+        temp$4 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: java.lang.String getApplicationName()>();
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$4);
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(" - ");
+        virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(drawingTitle);
+        temp$5 = virtualinvoke temp$3.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void setTitle(java.lang.String)>(temp$5);
+
+     label2:
+        nop;
+        return;
+    }
+
+    protected java.lang.String getDrawingTitle()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+        java.lang.String temp$2;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: java.lang.String getTitle()>();
+        return temp$2;
+    }
+
+    public void setApplicationName(java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String applicationName;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        applicationName := @parameter0: java.lang.String;
+        this.<CH.ifa.draw.application.DrawApplication: java.lang.String fApplicationName> = applicationName;
+        return;
+    }
+
+    public java.lang.String getApplicationName()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: java.lang.String fApplicationName>;
+        return temp$0;
+    }
+
+    protected void setUndoManager(CH.ifa.draw.util.UndoManager)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.UndoManager newUndoManager;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        newUndoManager := @parameter0: CH.ifa.draw.util.UndoManager;
+        this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.UndoManager myUndoManager> = newUndoManager;
+        return;
+    }
+
+    public CH.ifa.draw.util.UndoManager getUndoManager()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.UndoManager temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = this.<CH.ifa.draw.application.DrawApplication: CH.ifa.draw.util.UndoManager myUndoManager>;
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.util.VersionControlStrategy getVersionControlStrategy()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        CH.ifa.draw.util.StandardVersionControlStrategy temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = new CH.ifa.draw.util.StandardVersionControlStrategy;
+        specialinvoke temp$0.<CH.ifa.draw.util.StandardVersionControlStrategy: void <init>(CH.ifa.draw.util.VersionRequester)>(this);
+        return temp$0;
+    }
+
+    public java.lang.String[] getRequiredVersions()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String[] requiredVersions, temp$0;
+        int temp$1;
+        java.lang.Class temp$2, temp$3, temp$4;
+        java.lang.Package temp$5;
+        java.lang.String temp$6;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        requiredVersions = newarray (java.lang.String)[1];
+        temp$0 = requiredVersions;
+        temp$1 = 0;
+        temp$3 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$application$DrawApplication>;
+        if temp$3 != null goto label0;
+
+        temp$4 = staticinvoke <CH.ifa.draw.application.DrawApplication: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.application.DrawApplication");
+        <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$application$DrawApplication> = temp$4;
+        temp$2 = temp$4;
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = <CH.ifa.draw.application.DrawApplication: java.lang.Class class$CH$ifa$draw$application$DrawApplication>;
+
+     label1:
+        nop;
+        temp$5 = virtualinvoke temp$2.<java.lang.Class: java.lang.Package getPackage()>();
+        temp$6 = staticinvoke <CH.ifa.draw.util.VersionManagement: java.lang.String getPackageVersion(java.lang.Package)>(temp$5);
+        temp$0[temp$1] = temp$6;
+        return requiredVersions;
+    }
+
+    protected java.lang.String getDefaultDrawingTitle()
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        temp$0 = <CH.ifa.draw.application.DrawApplication: java.lang.String fgUntitled>;
+        return temp$0;
+    }
+
+    public void newLookAndFeel$access$0(java.lang.String)
+    {
+        CH.ifa.draw.application.DrawApplication this;
+        java.lang.String landf;
+
+        this := @this: CH.ifa.draw.application.DrawApplication;
+        landf := @parameter0: java.lang.String;
+        virtualinvoke this.<CH.ifa.draw.application.DrawApplication: void newLookAndFeel(java.lang.String)>(landf);
+        return;
+    }
+
+    public static java.lang.Class class$(java.lang.String)
+    {
+        java.lang.String name, temp$2;
+        java.lang.Class temp$0;
+        java.lang.ClassNotFoundException e;
+        java.lang.NoClassDefFoundError temp$1;
+
+        name := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = staticinvoke <java.lang.Class: java.lang.Class forName(java.lang.String)>(name);
+
+     label1:
+        nop;
+        return temp$0;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        temp$1 = new java.lang.NoClassDefFoundError;
+        temp$2 = virtualinvoke e.<java.lang.ClassNotFoundException: java.lang.String getMessage()>();
+        specialinvoke temp$1.<java.lang.NoClassDefFoundError: void <init>(java.lang.String)>(temp$2);
+        throw temp$1;
+
+        catch java.lang.ClassNotFoundException from label0 to label1 with label2;
+    }
+}

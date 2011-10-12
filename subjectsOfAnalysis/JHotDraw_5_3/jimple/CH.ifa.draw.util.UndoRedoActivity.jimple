@@ -1,0 +1,220 @@
+public class CH.ifa.draw.util.UndoRedoActivity extends java.lang.Object implements CH.ifa.draw.util.Undoable
+{
+    private CH.ifa.draw.util.Undoable myReversedActivity;
+
+    protected void <init>(CH.ifa.draw.util.Undoable)
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable newReversedActivity;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        newReversedActivity := @parameter0: CH.ifa.draw.util.Undoable;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: void setReversedActivity(CH.ifa.draw.util.Undoable)>(newReversedActivity);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        boolean temp$0, temp$2, temp$3;
+        CH.ifa.draw.util.Undoable temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: boolean isRedoable()>();
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.util.Undoable: boolean redo()>();
+        return temp$2;
+
+     label1:
+        nop;
+        temp$3 = 0;
+        return temp$3;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        boolean temp$0, temp$2, temp$3;
+        CH.ifa.draw.util.Undoable temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: boolean isUndoable()>();
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.util.Undoable: boolean undo()>();
+        return temp$2;
+
+     label1:
+        nop;
+        temp$3 = 0;
+        return temp$3;
+    }
+
+    public boolean isUndoable()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: boolean isRedoable()>();
+        return temp$1;
+    }
+
+    public void setUndoable(boolean)
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        boolean newIsUndoable;
+        CH.ifa.draw.util.Undoable temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        newIsUndoable := @parameter0: boolean;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: void setRedoable(boolean)>(newIsUndoable);
+        return;
+    }
+
+    public boolean isRedoable()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: boolean isUndoable()>();
+        return temp$1;
+    }
+
+    public void setRedoable(boolean)
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        boolean newIsRedoable;
+        CH.ifa.draw.util.Undoable temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        newIsRedoable := @parameter0: boolean;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: void setUndoable(boolean)>(newIsRedoable);
+        return;
+    }
+
+    public void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.framework.FigureEnumeration newAffectedFigures;
+        CH.ifa.draw.util.Undoable temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        newAffectedFigures := @parameter0: CH.ifa.draw.framework.FigureEnumeration;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(newAffectedFigures);
+        return;
+    }
+
+    public CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable temp$0;
+        CH.ifa.draw.framework.FigureEnumeration temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        return temp$1;
+    }
+
+    public int getAffectedFiguresCount()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable temp$0;
+        int temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: int getAffectedFiguresCount()>();
+        return temp$1;
+    }
+
+    public CH.ifa.draw.framework.DrawingView getDrawingView()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        return temp$1;
+    }
+
+    public void release()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.util.Undoable: void release()>();
+        return;
+    }
+
+    protected void setReversedActivity(CH.ifa.draw.util.Undoable)
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable newReversedActivity;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        newReversedActivity := @parameter0: CH.ifa.draw.util.Undoable;
+        this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable myReversedActivity> = newReversedActivity;
+        return;
+    }
+
+    public CH.ifa.draw.util.Undoable getReversedActivity()
+    {
+        CH.ifa.draw.util.UndoRedoActivity this;
+        CH.ifa.draw.util.Undoable temp$0;
+
+        this := @this: CH.ifa.draw.util.UndoRedoActivity;
+        temp$0 = this.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable myReversedActivity>;
+        return temp$0;
+    }
+
+    public static CH.ifa.draw.util.Undoable createUndoRedoActivity(CH.ifa.draw.util.Undoable)
+    {
+        CH.ifa.draw.util.Undoable toBeReversed, temp$2;
+        boolean temp$0;
+        CH.ifa.draw.util.UndoRedoActivity temp$1, temp$3;
+
+        toBeReversed := @parameter0: CH.ifa.draw.util.Undoable;
+        temp$0 = toBeReversed instanceof CH.ifa.draw.util.UndoRedoActivity;
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$1 = (CH.ifa.draw.util.UndoRedoActivity) toBeReversed;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.util.UndoRedoActivity: CH.ifa.draw.util.Undoable getReversedActivity()>();
+        return temp$2;
+
+     label1:
+        nop;
+        temp$3 = new CH.ifa.draw.util.UndoRedoActivity;
+        specialinvoke temp$3.<CH.ifa.draw.util.UndoRedoActivity: void <init>(CH.ifa.draw.util.Undoable)>(toBeReversed);
+        return temp$3;
+    }
+}

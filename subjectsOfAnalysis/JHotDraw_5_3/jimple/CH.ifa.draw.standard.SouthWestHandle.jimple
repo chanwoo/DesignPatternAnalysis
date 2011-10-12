@@ -1,0 +1,53 @@
+class CH.ifa.draw.standard.SouthWestHandle extends CH.ifa.draw.standard.ResizeHandle
+{
+
+    void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.SouthWestHandle this;
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.framework.Locator temp$0;
+
+        this := @this: CH.ifa.draw.standard.SouthWestHandle;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southWest()>();
+        specialinvoke this.<CH.ifa.draw.standard.ResizeHandle: void <init>(CH.ifa.draw.framework.Figure,CH.ifa.draw.framework.Locator)>(owner, temp$0);
+        return;
+    }
+
+    public void invokeStep(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.SouthWestHandle this;
+        int x, y, anchorX, anchorY, temp$4, temp$5, temp$6, temp$7, temp$8, temp$10, temp$11, temp$12, temp$13, temp$14;
+        CH.ifa.draw.framework.DrawingView view;
+        java.awt.Rectangle r, temp$1;
+        CH.ifa.draw.framework.Figure temp$0, temp$2;
+        java.awt.Point temp$3, temp$9;
+
+        this := @this: CH.ifa.draw.standard.SouthWestHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SouthWestHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        r = temp$1;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.SouthWestHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$3 = new java.awt.Point;
+        temp$4 = r.<java.awt.Rectangle: int x>;
+        temp$5 = r.<java.awt.Rectangle: int width>;
+        temp$6 = temp$4 + temp$5;
+        temp$7 = staticinvoke <java.lang.Math: int min(int,int)>(temp$6, x);
+        temp$8 = r.<java.awt.Rectangle: int y>;
+        specialinvoke temp$3.<java.awt.Point: void <init>(int,int)>(temp$7, temp$8);
+        temp$9 = new java.awt.Point;
+        temp$10 = r.<java.awt.Rectangle: int x>;
+        temp$11 = r.<java.awt.Rectangle: int width>;
+        temp$12 = temp$10 + temp$11;
+        temp$13 = r.<java.awt.Rectangle: int y>;
+        temp$14 = staticinvoke <java.lang.Math: int max(int,int)>(temp$13, y);
+        specialinvoke temp$9.<java.awt.Point: void <init>(int,int)>(temp$12, temp$14);
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.Figure: void displayBox(java.awt.Point,java.awt.Point)>(temp$3, temp$9);
+        return;
+    }
+}

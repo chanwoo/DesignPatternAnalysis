@@ -1,0 +1,55 @@
+public class CH.ifa.draw.standard.StandardDrawingView$ASH extends CH.ifa.draw.contrib.AutoscrollHelper
+{
+    CH.ifa.draw.standard.StandardDrawingView this$0;
+
+    public void <init>(CH.ifa.draw.standard.StandardDrawingView, int)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$ASH this;
+        int margin;
+        CH.ifa.draw.standard.StandardDrawingView temp$0;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$ASH;
+        margin := @parameter1: int;
+        temp$0 := @parameter0: CH.ifa.draw.standard.StandardDrawingView;
+        specialinvoke this.<CH.ifa.draw.contrib.AutoscrollHelper: void <init>(int)>(margin);
+        this.<CH.ifa.draw.standard.StandardDrawingView$ASH: CH.ifa.draw.standard.StandardDrawingView this$0> = temp$0;
+        return;
+    }
+
+    public java.awt.Dimension getSize()
+    {
+        CH.ifa.draw.standard.StandardDrawingView$ASH this;
+        CH.ifa.draw.standard.StandardDrawingView temp$0;
+        java.awt.Dimension temp$1;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$ASH;
+        temp$0 = this.<CH.ifa.draw.standard.StandardDrawingView$ASH: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.standard.StandardDrawingView: java.awt.Dimension getSize()>();
+        return temp$1;
+    }
+
+    public java.awt.Rectangle getVisibleRect()
+    {
+        CH.ifa.draw.standard.StandardDrawingView$ASH this;
+        CH.ifa.draw.standard.StandardDrawingView temp$0;
+        java.awt.Rectangle temp$1;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$ASH;
+        temp$0 = this.<CH.ifa.draw.standard.StandardDrawingView$ASH: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.standard.StandardDrawingView: java.awt.Rectangle getVisibleRect()>();
+        return temp$1;
+    }
+
+    public void scrollRectToVisible(java.awt.Rectangle)
+    {
+        CH.ifa.draw.standard.StandardDrawingView$ASH this;
+        java.awt.Rectangle aRect;
+        CH.ifa.draw.standard.StandardDrawingView temp$0;
+
+        this := @this: CH.ifa.draw.standard.StandardDrawingView$ASH;
+        aRect := @parameter0: java.awt.Rectangle;
+        temp$0 = this.<CH.ifa.draw.standard.StandardDrawingView$ASH: CH.ifa.draw.standard.StandardDrawingView this$0>;
+        virtualinvoke temp$0.<CH.ifa.draw.standard.StandardDrawingView: void scrollRectToVisible(java.awt.Rectangle)>(aRect);
+        return;
+    }
+}

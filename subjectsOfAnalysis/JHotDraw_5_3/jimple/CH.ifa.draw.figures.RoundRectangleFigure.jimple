@@ -1,0 +1,288 @@
+public class CH.ifa.draw.figures.RoundRectangleFigure extends CH.ifa.draw.figures.AttributeFigure
+{
+    private java.awt.Rectangle fDisplayBox;
+    private int fArcWidth;
+    private int fArcHeight;
+    private static final int DEFAULT_ARC;
+    private static final long serialVersionUID;
+    private int roundRectangleSerializedDataVersion;
+
+    static void <clinit>()
+    {
+        int temp$0;
+        long temp$1;
+
+        temp$0 = 8;
+        <CH.ifa.draw.figures.RoundRectangleFigure: int DEFAULT_ARC> = temp$0;
+        temp$1 = 7907900248924036885L;
+        <CH.ifa.draw.figures.RoundRectangleFigure: long serialVersionUID> = temp$1;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Point temp$0, temp$1;
+        int temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        temp$0 = new java.awt.Point;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(0, 0);
+        temp$1 = new java.awt.Point;
+        specialinvoke temp$1.<java.awt.Point: void <init>(int,int)>(0, 0);
+        specialinvoke this.<CH.ifa.draw.figures.RoundRectangleFigure: void <init>(java.awt.Point,java.awt.Point)>(temp$0, temp$1);
+        temp$2 = 8;
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight> = temp$2;
+        temp$3 = 8;
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth> = temp$3;
+        return;
+    }
+
+    public void <init>(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Point origin, corner;
+        int temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        specialinvoke this.<CH.ifa.draw.figures.AttributeFigure: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int roundRectangleSerializedDataVersion> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.figures.RoundRectangleFigure: void basicDisplayBox(java.awt.Point,java.awt.Point)>(origin, corner);
+        temp$1 = 8;
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight> = temp$1;
+        temp$2 = 8;
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth> = temp$2;
+        return;
+    }
+
+    public void basicDisplayBox(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Point origin, corner;
+        java.awt.Rectangle temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        temp$0 = new java.awt.Rectangle;
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(java.awt.Point)>(origin);
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox> = temp$0;
+        temp$1 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        virtualinvoke temp$1.<java.awt.Rectangle: void add(java.awt.Point)>(corner);
+        return;
+    }
+
+    public void setArc(int, int)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        int width, height;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        width := @parameter0: int;
+        height := @parameter1: int;
+        virtualinvoke this.<CH.ifa.draw.figures.RoundRectangleFigure: void willChange()>();
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth> = width;
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight> = height;
+        virtualinvoke this.<CH.ifa.draw.figures.RoundRectangleFigure: void changed()>();
+        return;
+    }
+
+    public java.awt.Point getArc()
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Point temp$0;
+        int temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        temp$0 = new java.awt.Point;
+        temp$1 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth>;
+        temp$2 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight>;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$1, temp$2);
+        return temp$0;
+    }
+
+    public java.util.Vector handles()
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.util.Vector handles, temp$0;
+        CH.ifa.draw.figures.RadiusHandle temp$1;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        temp$0 = new java.util.Vector;
+        specialinvoke temp$0.<java.util.Vector: void <init>()>();
+        handles = temp$0;
+        staticinvoke <CH.ifa.draw.standard.BoxHandleKit: void addHandles(CH.ifa.draw.framework.Figure,java.util.Vector)>(this, handles);
+        temp$1 = new CH.ifa.draw.figures.RadiusHandle;
+        specialinvoke temp$1.<CH.ifa.draw.figures.RadiusHandle: void <init>(CH.ifa.draw.figures.RoundRectangleFigure)>(this);
+        virtualinvoke handles.<java.util.Vector: void addElement(java.lang.Object)>(temp$1);
+        return handles;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Rectangle temp$0, temp$1, temp$3, temp$5, temp$7;
+        int temp$2, temp$4, temp$6, temp$8;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        temp$0 = new java.awt.Rectangle;
+        temp$1 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$2 = temp$1.<java.awt.Rectangle: int x>;
+        temp$3 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$4 = temp$3.<java.awt.Rectangle: int y>;
+        temp$5 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$6 = temp$5.<java.awt.Rectangle: int width>;
+        temp$7 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$8 = temp$7.<java.awt.Rectangle: int height>;
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$2, temp$4, temp$6, temp$8);
+        return temp$0;
+    }
+
+    protected void basicMoveBy(int, int)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        int x, y;
+        java.awt.Rectangle temp$0;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        virtualinvoke temp$0.<java.awt.Rectangle: void translate(int,int)>(x, y);
+        return;
+    }
+
+    public void drawBackground(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = r.<java.awt.Rectangle: int x>;
+        temp$2 = r.<java.awt.Rectangle: int y>;
+        temp$3 = r.<java.awt.Rectangle: int width>;
+        temp$4 = r.<java.awt.Rectangle: int height>;
+        temp$5 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth>;
+        temp$6 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight>;
+        virtualinvoke g.<java.awt.Graphics: void fillRoundRect(int,int,int,int,int,int)>(temp$1, temp$2, temp$3, temp$4, temp$5, temp$6);
+        return;
+    }
+
+    public void drawFrame(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = r.<java.awt.Rectangle: int x>;
+        temp$2 = r.<java.awt.Rectangle: int y>;
+        temp$3 = r.<java.awt.Rectangle: int width>;
+        temp$4 = temp$3 - 1;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        temp$6 = temp$5 - 1;
+        temp$7 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth>;
+        temp$8 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight>;
+        virtualinvoke g.<java.awt.Graphics: void drawRoundRect(int,int,int,int,int,int)>(temp$1, temp$2, temp$4, temp$6, temp$7, temp$8);
+        return;
+    }
+
+    public java.awt.Insets connectionInsets()
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        java.awt.Insets temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        temp$0 = new java.awt.Insets;
+        temp$1 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight>;
+        temp$2 = temp$1 / 2;
+        temp$3 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth>;
+        temp$4 = temp$3 / 2;
+        temp$5 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight>;
+        temp$6 = temp$5 / 2;
+        temp$7 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth>;
+        temp$8 = temp$7 / 2;
+        specialinvoke temp$0.<java.awt.Insets: void <init>(int,int,int,int)>(temp$2, temp$4, temp$6, temp$8);
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.Connector connectorAt(int, int)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        int x, y;
+        CH.ifa.draw.figures.ShortestDistanceConnector temp$0;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        temp$0 = new CH.ifa.draw.figures.ShortestDistanceConnector;
+        specialinvoke temp$0.<CH.ifa.draw.figures.ShortestDistanceConnector: void <init>(CH.ifa.draw.framework.Figure)>(this);
+        return temp$0;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        CH.ifa.draw.util.StorableOutput dw;
+        java.awt.Rectangle temp$0, temp$2, temp$4, temp$6;
+        int temp$1, temp$3, temp$5, temp$7, temp$8, temp$9;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.figures.AttributeFigure: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$1 = temp$0.<java.awt.Rectangle: int x>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$1);
+        temp$2 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$3 = temp$2.<java.awt.Rectangle: int y>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$3);
+        temp$4 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$5 = temp$4.<java.awt.Rectangle: int width>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$5);
+        temp$6 = this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox>;
+        temp$7 = temp$6.<java.awt.Rectangle: int height>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$7);
+        temp$8 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$8);
+        temp$9 = this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$9);
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.figures.RoundRectangleFigure this;
+        CH.ifa.draw.util.StorableInput dr;
+        java.awt.Rectangle temp$0;
+        int temp$1, temp$2, temp$3, temp$4, temp$5, temp$6;
+
+        this := @this: CH.ifa.draw.figures.RoundRectangleFigure;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.figures.AttributeFigure: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = new java.awt.Rectangle;
+        temp$1 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$2 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$3 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        temp$4 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        specialinvoke temp$0.<java.awt.Rectangle: void <init>(int,int,int,int)>(temp$1, temp$2, temp$3, temp$4);
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: java.awt.Rectangle fDisplayBox> = temp$0;
+        temp$5 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcWidth> = temp$5;
+        temp$6 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        this.<CH.ifa.draw.figures.RoundRectangleFigure: int fArcHeight> = temp$6;
+        return;
+    }
+}

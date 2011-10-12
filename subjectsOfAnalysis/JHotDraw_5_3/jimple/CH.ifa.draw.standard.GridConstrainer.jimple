@@ -1,0 +1,70 @@
+public class CH.ifa.draw.standard.GridConstrainer extends java.lang.Object implements CH.ifa.draw.framework.PointConstrainer, java.io.Serializable
+{
+    private int fGridX;
+    private int fGridY;
+
+    public void <init>(int, int)
+    {
+        CH.ifa.draw.standard.GridConstrainer this;
+        int x, y, temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.standard.GridConstrainer;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = staticinvoke <java.lang.Math: int max(int,int)>(1, x);
+        this.<CH.ifa.draw.standard.GridConstrainer: int fGridX> = temp$0;
+        temp$1 = staticinvoke <java.lang.Math: int max(int,int)>(1, y);
+        this.<CH.ifa.draw.standard.GridConstrainer: int fGridY> = temp$1;
+        return;
+    }
+
+    public java.awt.Point constrainPoint(java.awt.Point)
+    {
+        CH.ifa.draw.standard.GridConstrainer this;
+        java.awt.Point p;
+        int temp$0, temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15;
+
+        this := @this: CH.ifa.draw.standard.GridConstrainer;
+        p := @parameter0: java.awt.Point;
+        temp$0 = p.<java.awt.Point: int x>;
+        temp$1 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridX>;
+        temp$2 = temp$1 / 2;
+        temp$3 = temp$0 + temp$2;
+        temp$4 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridX>;
+        temp$5 = temp$3 / temp$4;
+        temp$6 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridX>;
+        temp$7 = temp$5 * temp$6;
+        p.<java.awt.Point: int x> = temp$7;
+        temp$8 = p.<java.awt.Point: int y>;
+        temp$9 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridY>;
+        temp$10 = temp$9 / 2;
+        temp$11 = temp$8 + temp$10;
+        temp$12 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridY>;
+        temp$13 = temp$11 / temp$12;
+        temp$14 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridY>;
+        temp$15 = temp$13 * temp$14;
+        p.<java.awt.Point: int y> = temp$15;
+        return p;
+    }
+
+    public int getStepX()
+    {
+        CH.ifa.draw.standard.GridConstrainer this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.standard.GridConstrainer;
+        temp$0 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridX>;
+        return temp$0;
+    }
+
+    public int getStepY()
+    {
+        CH.ifa.draw.standard.GridConstrainer this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.standard.GridConstrainer;
+        temp$0 = this.<CH.ifa.draw.standard.GridConstrainer: int fGridY>;
+        return temp$0;
+    }
+}

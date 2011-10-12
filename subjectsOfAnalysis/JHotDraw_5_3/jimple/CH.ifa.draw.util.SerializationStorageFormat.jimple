@@ -1,0 +1,111 @@
+public class CH.ifa.draw.util.SerializationStorageFormat extends CH.ifa.draw.util.StandardStorageFormat
+{
+
+    public void <init>()
+    {
+        CH.ifa.draw.util.SerializationStorageFormat this;
+
+        this := @this: CH.ifa.draw.util.SerializationStorageFormat;
+        specialinvoke this.<CH.ifa.draw.util.StandardStorageFormat: void <init>()>();
+        return;
+    }
+
+    protected java.lang.String createFileExtension()
+    {
+        CH.ifa.draw.util.SerializationStorageFormat this;
+        java.lang.String temp$0;
+
+        this := @this: CH.ifa.draw.util.SerializationStorageFormat;
+        temp$0 = "ser";
+        return temp$0;
+    }
+
+    public java.lang.String createFileDescription()
+    {
+        CH.ifa.draw.util.SerializationStorageFormat this;
+        java.lang.StringBuffer temp$0;
+        java.lang.String temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.util.SerializationStorageFormat;
+        temp$0 = new java.lang.StringBuffer;
+        specialinvoke temp$0.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$0.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Serialization (");
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.SerializationStorageFormat: java.lang.String getFileExtension()>();
+        virtualinvoke temp$0.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(temp$1);
+        virtualinvoke temp$0.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(")");
+        temp$2 = virtualinvoke temp$0.<java.lang.StringBuffer: java.lang.String toString()>();
+        return temp$2;
+    }
+
+    public java.lang.String store(java.lang.String, CH.ifa.draw.framework.Drawing) throws java.io.IOException
+    {
+        CH.ifa.draw.util.SerializationStorageFormat this;
+        java.lang.String fileName, temp$1, temp$3;
+        CH.ifa.draw.framework.Drawing saveDrawing;
+        java.io.FileOutputStream stream, temp$0;
+        java.io.ObjectOutput output;
+        java.io.ObjectOutputStream temp$2;
+
+        this := @this: CH.ifa.draw.util.SerializationStorageFormat;
+        fileName := @parameter0: java.lang.String;
+        saveDrawing := @parameter1: CH.ifa.draw.framework.Drawing;
+        temp$0 = new java.io.FileOutputStream;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.util.SerializationStorageFormat: java.lang.String adjustFileName(java.lang.String)>(fileName);
+        specialinvoke temp$0.<java.io.FileOutputStream: void <init>(java.lang.String)>(temp$1);
+        stream = temp$0;
+        temp$2 = new java.io.ObjectOutputStream;
+        specialinvoke temp$2.<java.io.ObjectOutputStream: void <init>(java.io.OutputStream)>(stream);
+        output = temp$2;
+        interfaceinvoke output.<java.io.ObjectOutput: void writeObject(java.lang.Object)>(saveDrawing);
+        interfaceinvoke output.<java.io.ObjectOutput: void close()>();
+        temp$3 = virtualinvoke this.<CH.ifa.draw.util.SerializationStorageFormat: java.lang.String adjustFileName(java.lang.String)>(fileName);
+        return temp$3;
+    }
+
+    public CH.ifa.draw.framework.Drawing restore(java.lang.String) throws java.io.IOException
+    {
+        CH.ifa.draw.util.SerializationStorageFormat this;
+        java.lang.String fileName, temp$6;
+        java.io.FileInputStream stream, temp$0;
+        java.io.ObjectInput input;
+        java.io.ObjectInputStream temp$1;
+        java.lang.Object temp$2;
+        CH.ifa.draw.framework.Drawing temp$3;
+        java.lang.ClassNotFoundException exception;
+        java.io.IOException temp$4;
+        java.lang.StringBuffer temp$5;
+
+        this := @this: CH.ifa.draw.util.SerializationStorageFormat;
+        fileName := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = new java.io.FileInputStream;
+        specialinvoke temp$0.<java.io.FileInputStream: void <init>(java.lang.String)>(fileName);
+        stream = temp$0;
+        temp$1 = new java.io.ObjectInputStream;
+        specialinvoke temp$1.<java.io.ObjectInputStream: void <init>(java.io.InputStream)>(stream);
+        input = temp$1;
+        temp$2 = interfaceinvoke input.<java.io.ObjectInput: java.lang.Object readObject()>();
+        temp$3 = (CH.ifa.draw.framework.Drawing) temp$2;
+
+     label1:
+        nop;
+        return temp$3;
+
+     label2:
+        nop;
+        exception := @caughtexception;
+        temp$4 = new java.io.IOException;
+        temp$5 = new java.lang.StringBuffer;
+        specialinvoke temp$5.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$5.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Could not restore drawing \'");
+        virtualinvoke temp$5.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(fileName);
+        virtualinvoke temp$5.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("\': class not found!");
+        temp$6 = virtualinvoke temp$5.<java.lang.StringBuffer: java.lang.String toString()>();
+        specialinvoke temp$4.<java.io.IOException: void <init>(java.lang.String)>(temp$6);
+        throw temp$4;
+
+        catch java.lang.ClassNotFoundException from label0 to label1 with label2;
+    }
+}

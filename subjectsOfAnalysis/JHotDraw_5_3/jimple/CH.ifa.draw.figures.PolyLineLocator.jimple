@@ -1,0 +1,47 @@
+class CH.ifa.draw.figures.PolyLineLocator extends CH.ifa.draw.standard.AbstractLocator
+{
+    int fIndex;
+
+    public void <init>(int)
+    {
+        CH.ifa.draw.figures.PolyLineLocator this;
+        int index;
+
+        this := @this: CH.ifa.draw.figures.PolyLineLocator;
+        index := @parameter0: int;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void <init>()>();
+        this.<CH.ifa.draw.figures.PolyLineLocator: int fIndex> = index;
+        return;
+    }
+
+    public java.awt.Point locate(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.figures.PolyLineLocator this;
+        CH.ifa.draw.framework.Figure owner;
+        CH.ifa.draw.figures.PolyLineFigure plf, temp$2;
+        int temp$0, temp$1, temp$3;
+        java.awt.Point temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.figures.PolyLineLocator;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        plf = (CH.ifa.draw.figures.PolyLineFigure) owner;
+        temp$0 = virtualinvoke plf.<CH.ifa.draw.figures.PolyLineFigure: int pointCount()>();
+        temp$1 = this.<CH.ifa.draw.figures.PolyLineLocator: int fIndex>;
+        if temp$1 < temp$0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = (CH.ifa.draw.figures.PolyLineFigure) owner;
+        temp$3 = this.<CH.ifa.draw.figures.PolyLineLocator: int fIndex>;
+        temp$4 = virtualinvoke temp$2.<CH.ifa.draw.figures.PolyLineFigure: java.awt.Point pointAt(int)>(temp$3);
+        return temp$4;
+
+     label1:
+        nop;
+        temp$5 = new java.awt.Point;
+        specialinvoke temp$5.<java.awt.Point: void <init>(int,int)>(0, 0);
+        return temp$5;
+    }
+}

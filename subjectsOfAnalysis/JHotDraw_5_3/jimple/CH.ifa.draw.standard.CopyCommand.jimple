@@ -1,0 +1,61 @@
+public class CH.ifa.draw.standard.CopyCommand extends CH.ifa.draw.standard.FigureTransferCommand
+{
+
+    public void <init>(java.lang.String, CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.standard.CopyCommand this;
+        java.lang.String name;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+
+        this := @this: CH.ifa.draw.standard.CopyCommand;
+        name := @parameter0: java.lang.String;
+        newDrawingEditor := @parameter1: CH.ifa.draw.framework.DrawingEditor;
+        specialinvoke this.<CH.ifa.draw.standard.FigureTransferCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(name, newDrawingEditor);
+        return;
+    }
+
+    public void execute()
+    {
+        CH.ifa.draw.standard.CopyCommand this;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$2;
+        CH.ifa.draw.framework.FigureEnumeration temp$1;
+        int temp$3;
+
+        this := @this: CH.ifa.draw.standard.CopyCommand;
+        specialinvoke this.<CH.ifa.draw.standard.FigureTransferCommand: void execute()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.CopyCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.FigureEnumeration selectionElements()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.CopyCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: int selectionCount()>();
+        virtualinvoke this.<CH.ifa.draw.standard.CopyCommand: void copyFigures(CH.ifa.draw.framework.FigureEnumeration,int)>(temp$1, temp$3);
+        return;
+    }
+
+    protected boolean isExecutableWithView()
+    {
+        CH.ifa.draw.standard.CopyCommand this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        int temp$1;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.standard.CopyCommand;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.CopyCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: int selectionCount()>();
+        if temp$1 > 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = 1;
+
+     label2:
+        nop;
+        return temp$2;
+    }
+}

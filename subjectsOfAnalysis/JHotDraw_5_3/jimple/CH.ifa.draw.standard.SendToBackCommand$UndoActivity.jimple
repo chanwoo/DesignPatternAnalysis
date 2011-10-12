@@ -1,0 +1,204 @@
+public static class CH.ifa.draw.standard.SendToBackCommand$UndoActivity extends CH.ifa.draw.util.UndoableAdapter
+{
+    private java.util.Hashtable myOriginalLayers;
+
+    public void <init>(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+        java.util.Hashtable temp$0;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void <init>(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        temp$0 = new java.util.Hashtable;
+        specialinvoke temp$0.<java.util.Hashtable: void <init>()>();
+        this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: java.util.Hashtable myOriginalLayers> = temp$0;
+        virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: void setUndoable(boolean)>(1);
+        virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: void setRedoable(boolean)>(1);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity this;
+        boolean temp$0, temp$1, temp$3, temp$8;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$2;
+        CH.ifa.draw.framework.Figure currentFigure, temp$4;
+        int currentFigureLayer, temp$5;
+        CH.ifa.draw.framework.DrawingView temp$6;
+        CH.ifa.draw.framework.Drawing temp$7;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean undo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$2;
+
+     label2:
+        nop;
+        temp$3 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$4 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        currentFigure = temp$4;
+        temp$5 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: int getOriginalLayer(CH.ifa.draw.framework.Figure)>(currentFigure);
+        currentFigureLayer = temp$5;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$7 = interfaceinvoke temp$6.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        interfaceinvoke temp$7.<CH.ifa.draw.framework.Drawing: void sendToLayer(CH.ifa.draw.framework.Figure,int)>(currentFigure, currentFigureLayer);
+        goto label2;
+
+     label4:
+        nop;
+        temp$8 = 1;
+        return temp$8;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity this;
+        boolean temp$0, temp$1, temp$3, temp$5;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$2;
+        CH.ifa.draw.framework.Figure temp$4;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: boolean isRedoable()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$2;
+
+     label2:
+        nop;
+        temp$3 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$4 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: void sendToCommand(CH.ifa.draw.framework.Figure)>(temp$4);
+        goto label2;
+
+     label4:
+        nop;
+        temp$5 = 1;
+        return temp$5;
+    }
+
+    protected void sendToCommand(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity this;
+        CH.ifa.draw.framework.Figure f;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        f := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: void sendToBack(CH.ifa.draw.framework.Figure)>(f);
+        return;
+    }
+
+    protected void addOriginalLayer(CH.ifa.draw.framework.Figure, int)
+    {
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity this;
+        CH.ifa.draw.framework.Figure affectedFigure;
+        int newOriginalLayer;
+        java.util.Hashtable temp$0;
+        java.lang.Integer temp$1;
+        java.lang.Object temp$2;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        affectedFigure := @parameter0: CH.ifa.draw.framework.Figure;
+        newOriginalLayer := @parameter1: int;
+        temp$0 = this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: java.util.Hashtable myOriginalLayers>;
+        temp$1 = new java.lang.Integer;
+        specialinvoke temp$1.<java.lang.Integer: void <init>(int)>(newOriginalLayer);
+        temp$2 = virtualinvoke temp$0.<java.util.Hashtable: java.lang.Object put(java.lang.Object,java.lang.Object)>(affectedFigure, temp$1);
+        return;
+    }
+
+    protected int getOriginalLayer(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity this;
+        CH.ifa.draw.framework.Figure lookupAffectedFigure;
+        java.util.Hashtable temp$0;
+        java.lang.Object temp$1;
+        java.lang.Integer temp$2;
+        int temp$3;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        lookupAffectedFigure := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: java.util.Hashtable myOriginalLayers>;
+        temp$1 = virtualinvoke temp$0.<java.util.Hashtable: java.lang.Object get(java.lang.Object)>(lookupAffectedFigure);
+        temp$2 = (java.lang.Integer) temp$1;
+        temp$3 = virtualinvoke temp$2.<java.lang.Integer: int intValue()>();
+        return temp$3;
+    }
+
+    public void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)
+    {
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity this;
+        CH.ifa.draw.framework.FigureEnumeration fe, copyFe, temp$0;
+        boolean temp$1;
+        CH.ifa.draw.framework.Figure f, temp$2;
+        int originalLayer, temp$5;
+        CH.ifa.draw.framework.DrawingView temp$3;
+        CH.ifa.draw.framework.Drawing temp$4;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        fe := @parameter0: CH.ifa.draw.framework.FigureEnumeration;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(fe);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        copyFe = temp$0;
+
+     label0:
+        nop;
+        temp$1 = interfaceinvoke copyFe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$2 = interfaceinvoke copyFe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        f = temp$2;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$5 = interfaceinvoke temp$4.<CH.ifa.draw.framework.Drawing: int getLayer(CH.ifa.draw.framework.Figure)>(f);
+        originalLayer = temp$5;
+        virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: void addOriginalLayer(CH.ifa.draw.framework.Figure,int)>(f, originalLayer);
+        goto label0;
+
+     label2:
+        nop;
+        return;
+    }
+}

@@ -1,0 +1,43 @@
+public interface  CH.ifa.draw.framework.ConnectionFigure extends java.lang.Object implements CH.ifa.draw.framework.Figure, CH.ifa.draw.framework.FigureChangeListener
+{
+
+    public abstract void connectStart(CH.ifa.draw.framework.Connector);
+
+    public abstract void connectEnd(CH.ifa.draw.framework.Connector);
+
+    public abstract void updateConnection();
+
+    public abstract void disconnectStart();
+
+    public abstract void disconnectEnd();
+
+    public abstract CH.ifa.draw.framework.Connector getStartConnector();
+
+    public abstract CH.ifa.draw.framework.Connector getEndConnector();
+
+    public abstract boolean canConnect(CH.ifa.draw.framework.Figure, CH.ifa.draw.framework.Figure);
+
+    public abstract boolean connectsSame(CH.ifa.draw.framework.ConnectionFigure);
+
+    public abstract void startPoint(int, int);
+
+    public abstract void endPoint(int, int);
+
+    public abstract java.awt.Point startPoint();
+
+    public abstract java.awt.Point endPoint();
+
+    public abstract void setPointAt(java.awt.Point, int);
+
+    public abstract java.awt.Point pointAt(int);
+
+    public abstract int pointCount();
+
+    public abstract int splitSegment(int, int);
+
+    public abstract boolean joinSegments(int, int);
+
+    public abstract CH.ifa.draw.framework.Figure startFigure();
+
+    public abstract CH.ifa.draw.framework.Figure endFigure();
+}

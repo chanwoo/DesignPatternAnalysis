@@ -1,0 +1,49 @@
+public class CeilingFan extends java.lang.Object
+{
+    State current_state;
+
+    public void <init>()
+    {
+        CeilingFan this;
+        Off temp$0;
+
+        this := @this: CeilingFan;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = new Off;
+        specialinvoke temp$0.<Off: void <init>()>();
+        this.<CeilingFan: State current_state> = temp$0;
+        return;
+    }
+
+    public void setState(State)
+    {
+        CeilingFan this;
+        State s;
+
+        this := @this: CeilingFan;
+        s := @parameter0: State;
+        this.<CeilingFan: State current_state> = s;
+        return;
+    }
+
+    public void changeSpeed()
+    {
+        CeilingFan this;
+        State temp$0;
+
+        this := @this: CeilingFan;
+        temp$0 = virtualinvoke this.<CeilingFan: State getState()>();
+        interfaceinvoke temp$0.<State: void changeSpeed(CeilingFan)>(this);
+        return;
+    }
+
+    public State getState()
+    {
+        CeilingFan this;
+        State temp$0;
+
+        this := @this: CeilingFan;
+        temp$0 = this.<CeilingFan: State current_state>;
+        return temp$0;
+    }
+}

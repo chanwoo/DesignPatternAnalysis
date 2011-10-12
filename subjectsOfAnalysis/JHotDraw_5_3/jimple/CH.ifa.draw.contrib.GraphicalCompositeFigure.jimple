@@ -1,0 +1,392 @@
+public class CH.ifa.draw.contrib.GraphicalCompositeFigure extends CH.ifa.draw.standard.CompositeFigure implements CH.ifa.draw.contrib.Layoutable
+{
+    private CH.ifa.draw.framework.Figure myPresentationFigure;
+    private CH.ifa.draw.contrib.Layouter myLayouter;
+    private static final long serialVersionUID;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = 1265742491024232713L;
+        <CH.ifa.draw.contrib.GraphicalCompositeFigure: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.figures.RectangleFigure temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = new CH.ifa.draw.figures.RectangleFigure;
+        specialinvoke temp$0.<CH.ifa.draw.figures.RectangleFigure: void <init>()>();
+        specialinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void <init>(CH.ifa.draw.framework.Figure)>(temp$0);
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.framework.Figure newPresentationFigure;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        newPresentationFigure := @parameter0: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void setPresentationFigure(CH.ifa.draw.framework.Figure)>(newPresentationFigure);
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void initialize()>();
+        return;
+    }
+
+    protected void initialize()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.contrib.StandardLayouter temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = new CH.ifa.draw.contrib.StandardLayouter;
+        specialinvoke temp$0.<CH.ifa.draw.contrib.StandardLayouter: void <init>(CH.ifa.draw.contrib.Layoutable)>(this);
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void setLayouter(CH.ifa.draw.contrib.Layouter)>(temp$0);
+        return;
+    }
+
+    public java.lang.Object clone()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this, temp$1;
+        java.lang.Object cloneObject, temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: java.lang.Object clone()>();
+        cloneObject = temp$0;
+        temp$1 = (CH.ifa.draw.contrib.GraphicalCompositeFigure) cloneObject;
+        virtualinvoke temp$1.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void initialize()>();
+        return cloneObject;
+    }
+
+    public java.awt.Rectangle displayBox()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.framework.Figure temp$0;
+        java.awt.Rectangle temp$1;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        return temp$1;
+    }
+
+    public void basicDisplayBox(java.awt.Point, java.awt.Point)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        java.awt.Point origin, corner, temp$3, temp$4;
+        java.awt.Rectangle r, temp$1;
+        CH.ifa.draw.contrib.Layouter temp$0;
+        CH.ifa.draw.framework.Figure temp$2;
+        int temp$5, temp$6;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        origin := @parameter0: java.awt.Point;
+        corner := @parameter1: java.awt.Point;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.contrib.Layouter getLayouter()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.contrib.Layouter: java.awt.Rectangle layout(java.awt.Point,java.awt.Point)>(origin, corner);
+        r = temp$1;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        temp$3 = virtualinvoke r.<java.awt.Rectangle: java.awt.Point getLocation()>();
+        temp$4 = new java.awt.Point;
+        temp$5 = r.<java.awt.Rectangle: int width>;
+        temp$6 = r.<java.awt.Rectangle: int height>;
+        specialinvoke temp$4.<java.awt.Point: void <init>(int,int)>(temp$5, temp$6);
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.Figure: void basicDisplayBox(java.awt.Point,java.awt.Point)>(temp$3, temp$4);
+        return;
+    }
+
+    protected void basicMoveBy(int, int)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        int dx, dy;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        dx := @parameter0: int;
+        dy := @parameter1: int;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void basicMoveBy(int,int)>(dx, dy);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.Figure: void moveBy(int,int)>(dx, dy);
+        return;
+    }
+
+    public void update()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void willChange()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void layout()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void change()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void changed()>();
+        return;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        java.awt.Graphics g;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.Figure: void draw(java.awt.Graphics)>(g);
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void draw(java.awt.Graphics)>(g);
+        return;
+    }
+
+    public java.util.Vector handles()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.framework.Figure temp$0;
+        java.util.Vector temp$1;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Figure: java.util.Vector handles()>();
+        return temp$1;
+    }
+
+    public java.lang.Object getAttribute(java.lang.String)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        java.lang.String name;
+        CH.ifa.draw.framework.Figure temp$0, temp$1;
+        java.lang.Object temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        name := @parameter0: java.lang.String;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Figure: java.lang.Object getAttribute(java.lang.String)>(name);
+        return temp$2;
+
+     label1:
+        nop;
+        temp$3 = specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: java.lang.Object getAttribute(java.lang.String)>(name);
+        return temp$3;
+    }
+
+    public void setAttribute(java.lang.String, java.lang.Object)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        java.lang.String name;
+        java.lang.Object value;
+        CH.ifa.draw.framework.Figure temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        name := @parameter0: java.lang.String;
+        value := @parameter1: java.lang.Object;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.Figure: void setAttribute(java.lang.String,java.lang.Object)>(name, value);
+        goto label2;
+
+     label1:
+        nop;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void setAttribute(java.lang.String,java.lang.Object)>(name, value);
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void setPresentationFigure(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.framework.Figure newPresentationFigure;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        newPresentationFigure := @parameter0: CH.ifa.draw.framework.Figure;
+        this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure myPresentationFigure> = newPresentationFigure;
+        return;
+    }
+
+    public CH.ifa.draw.framework.Figure getPresentationFigure()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure myPresentationFigure>;
+        return temp$0;
+    }
+
+    public void layout()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.contrib.Layouter temp$0, temp$1;
+        java.awt.Rectangle r, temp$2, temp$4, temp$6;
+        java.awt.Point temp$3, temp$5, temp$7, temp$8;
+        int temp$9, temp$10, temp$11, temp$12, temp$13, temp$14;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.contrib.Layouter getLayouter()>();
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.contrib.Layouter getLayouter()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: java.awt.Rectangle displayBox()>();
+        temp$3 = virtualinvoke temp$2.<java.awt.Rectangle: java.awt.Point getLocation()>();
+        temp$4 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: java.awt.Rectangle displayBox()>();
+        temp$5 = virtualinvoke temp$4.<java.awt.Rectangle: java.awt.Point getLocation()>();
+        temp$6 = interfaceinvoke temp$1.<CH.ifa.draw.contrib.Layouter: java.awt.Rectangle calculateLayout(java.awt.Point,java.awt.Point)>(temp$3, temp$5);
+        r = temp$6;
+        temp$7 = virtualinvoke r.<java.awt.Rectangle: java.awt.Point getLocation()>();
+        temp$8 = new java.awt.Point;
+        temp$9 = r.<java.awt.Rectangle: int x>;
+        temp$10 = r.<java.awt.Rectangle: int width>;
+        temp$11 = temp$9 + temp$10;
+        temp$12 = r.<java.awt.Rectangle: int y>;
+        temp$13 = r.<java.awt.Rectangle: int height>;
+        temp$14 = temp$12 + temp$13;
+        specialinvoke temp$8.<java.awt.Point: void <init>(int,int)>(temp$11, temp$14);
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void displayBox(java.awt.Point,java.awt.Point)>(temp$7, temp$8);
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void setLayouter(CH.ifa.draw.contrib.Layouter)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.contrib.Layouter newLayouter;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        newLayouter := @parameter0: CH.ifa.draw.contrib.Layouter;
+        this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.contrib.Layouter myLayouter> = newLayouter;
+        return;
+    }
+
+    public CH.ifa.draw.contrib.Layouter getLayouter()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.contrib.Layouter temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.contrib.Layouter myLayouter>;
+        return temp$0;
+    }
+
+    protected void change()
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.framework.FigureChangeListener temp$0, temp$1;
+        CH.ifa.draw.framework.FigureChangeEvent temp$2;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.FigureChangeListener listener()>();
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.FigureChangeListener listener()>();
+        temp$2 = new CH.ifa.draw.framework.FigureChangeEvent;
+        specialinvoke temp$2.<CH.ifa.draw.framework.FigureChangeEvent: void <init>(CH.ifa.draw.framework.Figure)>(this);
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.FigureChangeListener: void figureRequestUpdate(CH.ifa.draw.framework.FigureChangeEvent)>(temp$2);
+
+     label1:
+        nop;
+        return;
+    }
+
+    public void figureRequestRemove(CH.ifa.draw.framework.FigureChangeEvent)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.framework.FigureChangeEvent e, temp$4;
+        CH.ifa.draw.framework.FigureChangeListener temp$0, temp$3;
+        CH.ifa.draw.framework.Figure temp$1, temp$5;
+        boolean temp$2;
+        java.awt.Rectangle temp$6;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        e := @parameter0: CH.ifa.draw.framework.FigureChangeEvent;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.FigureChangeListener listener()>();
+        if temp$0 != null goto label0;
+
+        goto label4;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke e.<CH.ifa.draw.framework.FigureChangeEvent: CH.ifa.draw.framework.Figure getFigure()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: boolean includes(CH.ifa.draw.framework.Figure)>(temp$1);
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.FigureChangeListener listener()>();
+        temp$4 = new CH.ifa.draw.framework.FigureChangeEvent;
+        temp$5 = virtualinvoke e.<CH.ifa.draw.framework.FigureChangeEvent: CH.ifa.draw.framework.Figure getFigure()>();
+        temp$6 = virtualinvoke e.<CH.ifa.draw.framework.FigureChangeEvent: java.awt.Rectangle getInvalidatedRectangle()>();
+        specialinvoke temp$4.<CH.ifa.draw.framework.FigureChangeEvent: void <init>(CH.ifa.draw.framework.Figure,java.awt.Rectangle)>(temp$5, temp$6);
+        interfaceinvoke temp$3.<CH.ifa.draw.framework.FigureChangeListener: void figureRequestRemove(CH.ifa.draw.framework.FigureChangeEvent)>(temp$4);
+        goto label3;
+
+     label2:
+        nop;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void figureRequestRemove(CH.ifa.draw.framework.FigureChangeEvent)>(e);
+
+     label3:
+        nop;
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.util.StorableInput dr;
+        CH.ifa.draw.util.Storable temp$0;
+        CH.ifa.draw.framework.Figure temp$1;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: CH.ifa.draw.util.Storable readStorable()>();
+        temp$1 = (CH.ifa.draw.framework.Figure) temp$0;
+        virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: void setPresentationFigure(CH.ifa.draw.framework.Figure)>(temp$1);
+        return;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.contrib.GraphicalCompositeFigure this;
+        CH.ifa.draw.util.StorableOutput dw;
+        CH.ifa.draw.framework.Figure temp$0;
+
+        this := @this: CH.ifa.draw.contrib.GraphicalCompositeFigure;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.standard.CompositeFigure: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.GraphicalCompositeFigure: CH.ifa.draw.framework.Figure getPresentationFigure()>();
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeStorable(CH.ifa.draw.util.Storable)>(temp$0);
+        return;
+    }
+}

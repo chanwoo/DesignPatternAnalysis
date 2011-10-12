@@ -1,0 +1,7 @@
+public interface  CH.ifa.draw.util.PaletteListener extends java.lang.Object
+{
+
+    public abstract void paletteUserSelected(CH.ifa.draw.util.PaletteButton);
+
+    public abstract void paletteUserOver(CH.ifa.draw.util.PaletteButton, boolean);
+}

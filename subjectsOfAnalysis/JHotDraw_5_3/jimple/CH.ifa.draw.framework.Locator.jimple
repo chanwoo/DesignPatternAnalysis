@@ -1,0 +1,5 @@
+public interface  CH.ifa.draw.framework.Locator extends java.lang.Object implements CH.ifa.draw.util.Storable, java.io.Serializable, java.lang.Cloneable
+{
+
+    public abstract java.awt.Point locate(CH.ifa.draw.framework.Figure);
+}

@@ -1,0 +1,36 @@
+public final class CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3 extends CH.ifa.draw.standard.AbstractCommand
+{
+    CH.ifa.draw.samples.javadraw.JavaDrawApp this$0;
+
+    public final void execute()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3 this;
+        CH.ifa.draw.samples.javadraw.JavaDrawApp temp$0, temp$1;
+        CH.ifa.draw.framework.Drawing temp$2;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3: CH.ifa.draw.samples.javadraw.JavaDrawApp this$0>;
+        temp$1 = this.<CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3: CH.ifa.draw.samples.javadraw.JavaDrawApp this$0>;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.samples.javadraw.JavaDrawApp: CH.ifa.draw.framework.Drawing createDrawing()>();
+        virtualinvoke temp$0.<CH.ifa.draw.samples.javadraw.JavaDrawApp: void newWindow(CH.ifa.draw.framework.Drawing)>(temp$2);
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.samples.javadraw.JavaDrawApp, java.lang.String, CH.ifa.draw.framework.DrawingEditor, boolean)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3 this;
+        java.lang.String newName;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+        boolean newIsViewRequired;
+        CH.ifa.draw.samples.javadraw.JavaDrawApp temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3;
+        newName := @parameter1: java.lang.String;
+        newDrawingEditor := @parameter2: CH.ifa.draw.framework.DrawingEditor;
+        newIsViewRequired := @parameter3: boolean;
+        temp$0 := @parameter0: CH.ifa.draw.samples.javadraw.JavaDrawApp;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor,boolean)>(newName, newDrawingEditor, newIsViewRequired);
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawApp$2Anonymous3: CH.ifa.draw.samples.javadraw.JavaDrawApp this$0> = temp$0;
+        return;
+    }
+}

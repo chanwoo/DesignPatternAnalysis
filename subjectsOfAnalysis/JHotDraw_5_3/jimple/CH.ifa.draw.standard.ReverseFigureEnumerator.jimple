@@ -1,0 +1,57 @@
+public final class CH.ifa.draw.standard.ReverseFigureEnumerator extends java.lang.Object implements CH.ifa.draw.framework.FigureEnumeration
+{
+    CH.ifa.draw.util.ReverseVectorEnumerator fEnumeration;
+
+    public void <init>(java.util.Vector)
+    {
+        CH.ifa.draw.standard.ReverseFigureEnumerator this;
+        java.util.Vector v;
+        CH.ifa.draw.util.ReverseVectorEnumerator temp$0;
+
+        this := @this: CH.ifa.draw.standard.ReverseFigureEnumerator;
+        v := @parameter0: java.util.Vector;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        temp$0 = new CH.ifa.draw.util.ReverseVectorEnumerator;
+        specialinvoke temp$0.<CH.ifa.draw.util.ReverseVectorEnumerator: void <init>(java.util.Vector)>(v);
+        this.<CH.ifa.draw.standard.ReverseFigureEnumerator: CH.ifa.draw.util.ReverseVectorEnumerator fEnumeration> = temp$0;
+        return;
+    }
+
+    public final boolean hasMoreElements()
+    {
+        CH.ifa.draw.standard.ReverseFigureEnumerator this;
+        CH.ifa.draw.util.ReverseVectorEnumerator temp$0;
+        boolean temp$1;
+
+        this := @this: CH.ifa.draw.standard.ReverseFigureEnumerator;
+        temp$0 = this.<CH.ifa.draw.standard.ReverseFigureEnumerator: CH.ifa.draw.util.ReverseVectorEnumerator fEnumeration>;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.util.ReverseVectorEnumerator: boolean hasMoreElements()>();
+        return temp$1;
+    }
+
+    public final java.lang.Object nextElement()
+    {
+        CH.ifa.draw.standard.ReverseFigureEnumerator this;
+        CH.ifa.draw.util.ReverseVectorEnumerator temp$0;
+        java.lang.Object temp$1;
+
+        this := @this: CH.ifa.draw.standard.ReverseFigureEnumerator;
+        temp$0 = this.<CH.ifa.draw.standard.ReverseFigureEnumerator: CH.ifa.draw.util.ReverseVectorEnumerator fEnumeration>;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.util.ReverseVectorEnumerator: java.lang.Object nextElement()>();
+        return temp$1;
+    }
+
+    public final CH.ifa.draw.framework.Figure nextFigure()
+    {
+        CH.ifa.draw.standard.ReverseFigureEnumerator this;
+        CH.ifa.draw.util.ReverseVectorEnumerator temp$0;
+        java.lang.Object temp$1;
+        CH.ifa.draw.framework.Figure temp$2;
+
+        this := @this: CH.ifa.draw.standard.ReverseFigureEnumerator;
+        temp$0 = this.<CH.ifa.draw.standard.ReverseFigureEnumerator: CH.ifa.draw.util.ReverseVectorEnumerator fEnumeration>;
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.util.ReverseVectorEnumerator: java.lang.Object nextElement()>();
+        temp$2 = (CH.ifa.draw.framework.Figure) temp$1;
+        return temp$2;
+    }
+}

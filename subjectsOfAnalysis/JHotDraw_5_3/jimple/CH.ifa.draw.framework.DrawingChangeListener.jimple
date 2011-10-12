@@ -1,0 +1,7 @@
+public interface  CH.ifa.draw.framework.DrawingChangeListener extends java.lang.Object implements java.util.EventListener
+{
+
+    public abstract void drawingInvalidated(CH.ifa.draw.framework.DrawingChangeEvent);
+
+    public abstract void drawingRequestUpdate(CH.ifa.draw.framework.DrawingChangeEvent);
+}

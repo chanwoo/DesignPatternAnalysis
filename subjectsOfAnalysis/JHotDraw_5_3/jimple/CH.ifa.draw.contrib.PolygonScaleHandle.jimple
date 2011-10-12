@@ -1,0 +1,286 @@
+class CH.ifa.draw.contrib.PolygonScaleHandle extends CH.ifa.draw.standard.AbstractHandle
+{
+    private java.awt.Point fCurrent;
+
+    public void <init>(CH.ifa.draw.contrib.PolygonFigure)
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        CH.ifa.draw.contrib.PolygonFigure owner;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        owner := @parameter0: CH.ifa.draw.contrib.PolygonFigure;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractHandle: void <init>(CH.ifa.draw.framework.Figure)>(owner);
+        return;
+    }
+
+    public void invokeStart(int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        int x, y;
+        CH.ifa.draw.framework.DrawingView view;
+        java.awt.Point temp$0;
+        CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity activity;
+        CH.ifa.draw.util.Undoable temp$1;
+        CH.ifa.draw.standard.SingleFigureEnumerator temp$2;
+        CH.ifa.draw.framework.Figure temp$3, temp$4;
+        CH.ifa.draw.contrib.PolygonFigure temp$5;
+        java.awt.Polygon temp$6;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        view := @parameter2: CH.ifa.draw.framework.DrawingView;
+        temp$0 = new java.awt.Point;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(x, y);
+        this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent> = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.util.Undoable createUndoActivity(CH.ifa.draw.framework.DrawingView)>(view);
+        activity = (CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity) temp$1;
+        virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: void setUndoActivity(CH.ifa.draw.util.Undoable)>(activity);
+        temp$2 = new CH.ifa.draw.standard.SingleFigureEnumerator;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.framework.Figure owner()>();
+        specialinvoke temp$2.<CH.ifa.draw.standard.SingleFigureEnumerator: void <init>(CH.ifa.draw.framework.Figure)>(temp$3);
+        virtualinvoke activity.<CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$2);
+        temp$4 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$5 = (CH.ifa.draw.contrib.PolygonFigure) temp$4;
+        temp$6 = virtualinvoke temp$5.<CH.ifa.draw.contrib.PolygonFigure: java.awt.Polygon getPolygon()>();
+        virtualinvoke activity.<CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity: void setPolygon(java.awt.Polygon)>(temp$6);
+        return;
+    }
+
+    public void invokeStep(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        int x, y, anchorX, anchorY;
+        CH.ifa.draw.framework.DrawingView view;
+        java.awt.Point temp$0, temp$6, temp$7;
+        java.awt.Polygon polygon, temp$3;
+        CH.ifa.draw.util.Undoable temp$1;
+        CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity temp$2;
+        CH.ifa.draw.framework.Figure temp$4;
+        CH.ifa.draw.contrib.PolygonFigure temp$5;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = new java.awt.Point;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(x, y);
+        this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent> = temp$0;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$2 = (CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity) temp$1;
+        temp$3 = virtualinvoke temp$2.<CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity: java.awt.Polygon getPolygon()>();
+        polygon = temp$3;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$5 = (CH.ifa.draw.contrib.PolygonFigure) temp$4;
+        temp$6 = new java.awt.Point;
+        specialinvoke temp$6.<java.awt.Point: void <init>(int,int)>(anchorX, anchorY);
+        temp$7 = this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent>;
+        virtualinvoke temp$5.<CH.ifa.draw.contrib.PolygonFigure: void scaleRotate(java.awt.Point,java.awt.Polygon,java.awt.Point)>(temp$6, polygon, temp$7);
+        return;
+    }
+
+    public void invokeEnd(int, int, int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        int x, y, anchorX, anchorY, temp$3, temp$5;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.framework.Figure temp$0;
+        CH.ifa.draw.contrib.PolygonFigure temp$1;
+        java.awt.Point temp$2, temp$4, temp$6;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        x := @parameter0: int;
+        y := @parameter1: int;
+        anchorX := @parameter2: int;
+        anchorY := @parameter3: int;
+        view := @parameter4: CH.ifa.draw.framework.DrawingView;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$1 = (CH.ifa.draw.contrib.PolygonFigure) temp$0;
+        virtualinvoke temp$1.<CH.ifa.draw.contrib.PolygonFigure: void smoothPoints()>();
+        temp$2 = this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent>;
+        temp$3 = temp$2.<java.awt.Point: int x>;
+        if temp$3 == anchorX goto label0;
+
+        goto label2;
+
+     label0:
+        nop;
+        temp$4 = this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent>;
+        temp$5 = temp$4.<java.awt.Point: int y>;
+        if temp$5 == anchorY goto label1;
+
+        goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: void setUndoActivity(CH.ifa.draw.util.Undoable)>(null);
+
+     label2:
+        nop;
+        temp$6 = null;
+        this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent> = temp$6;
+        return;
+    }
+
+    public java.awt.Point locate()
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        java.awt.Point temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        temp$0 = this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point getOrigin()>();
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Point fCurrent>;
+        return temp$2;
+    }
+
+    java.awt.Point getOrigin()
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        java.awt.Point outer, temp$2, ctr, temp$5, temp$12, temp$19, temp$32;
+        CH.ifa.draw.framework.Figure temp$0, temp$3;
+        CH.ifa.draw.contrib.PolygonFigure temp$1, temp$4;
+        double len, u, temp$17, temp$34, temp$35, temp$36, temp$37, temp$39, temp$40, temp$41, temp$44, temp$45, temp$46, temp$47, temp$49, temp$50, temp$51;
+        int temp$6, temp$7, temp$8, temp$9, temp$11, temp$13, temp$14, temp$15, temp$16, temp$18, temp$20, temp$21, temp$22, temp$23, temp$24, temp$25, temp$26, temp$27, temp$28, temp$29, temp$30, temp$31, temp$33, temp$38, temp$42, temp$43, temp$48, temp$52;
+        long temp$10;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$1 = (CH.ifa.draw.contrib.PolygonFigure) temp$0;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.contrib.PolygonFigure: java.awt.Point outermostPoint()>();
+        outer = temp$2;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: CH.ifa.draw.framework.Figure owner()>();
+        temp$4 = (CH.ifa.draw.contrib.PolygonFigure) temp$3;
+        temp$5 = virtualinvoke temp$4.<CH.ifa.draw.contrib.PolygonFigure: java.awt.Point center()>();
+        ctr = temp$5;
+        temp$6 = outer.<java.awt.Point: int x>;
+        temp$7 = outer.<java.awt.Point: int y>;
+        temp$8 = ctr.<java.awt.Point: int x>;
+        temp$9 = ctr.<java.awt.Point: int y>;
+        temp$10 = staticinvoke <CH.ifa.draw.util.Geom: long length(int,int,int,int)>(temp$6, temp$7, temp$8, temp$9);
+        len = (double) temp$10;
+        temp$11 = len cmpg 0.0;
+        if temp$11 != 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$12 = new java.awt.Point;
+        temp$13 = outer.<java.awt.Point: int x>;
+        temp$14 = temp$13 - 4;
+        temp$15 = outer.<java.awt.Point: int y>;
+        temp$16 = temp$15 + 4;
+        specialinvoke temp$12.<java.awt.Point: void <init>(int,int)>(temp$14, temp$16);
+        return temp$12;
+
+     label1:
+        nop;
+        temp$17 = 8.0 / len;
+        u = temp$17;
+        temp$18 = u cmpl 1.0;
+        if temp$18 <= 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$19 = new java.awt.Point;
+        temp$20 = outer.<java.awt.Point: int x>;
+        temp$21 = temp$20 * 3;
+        temp$22 = temp$21;
+        temp$23 = ctr.<java.awt.Point: int x>;
+        temp$24 = temp$22 + temp$23;
+        temp$25 = temp$24 / 4;
+        temp$26 = outer.<java.awt.Point: int y>;
+        temp$27 = temp$26 * 3;
+        temp$28 = temp$27;
+        temp$29 = ctr.<java.awt.Point: int y>;
+        temp$30 = temp$28 + temp$29;
+        temp$31 = temp$30 / 4;
+        specialinvoke temp$19.<java.awt.Point: void <init>(int,int)>(temp$25, temp$31);
+        return temp$19;
+
+     label3:
+        nop;
+        temp$32 = new java.awt.Point;
+        temp$33 = outer.<java.awt.Point: int x>;
+        temp$34 = 1.0 - u;
+        temp$35 = (double) temp$33;
+        temp$36 = temp$35 * temp$34;
+        temp$37 = temp$36;
+        temp$38 = ctr.<java.awt.Point: int x>;
+        temp$39 = (double) temp$38;
+        temp$40 = temp$39 * u;
+        temp$41 = temp$37 + temp$40;
+        temp$42 = (int) temp$41;
+        temp$43 = outer.<java.awt.Point: int y>;
+        temp$44 = 1.0 - u;
+        temp$45 = (double) temp$43;
+        temp$46 = temp$45 * temp$44;
+        temp$47 = temp$46;
+        temp$48 = ctr.<java.awt.Point: int y>;
+        temp$49 = (double) temp$48;
+        temp$50 = temp$49 * u;
+        temp$51 = temp$47 + temp$50;
+        temp$52 = (int) temp$51;
+        specialinvoke temp$32.<java.awt.Point: void <init>(int,int)>(temp$42, temp$52);
+        return temp$32;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        java.awt.Graphics g;
+        java.awt.Rectangle r, temp$0;
+        java.awt.Color temp$1, temp$6;
+        int temp$2, temp$3, temp$4, temp$5, temp$7, temp$8, temp$9, temp$10;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.PolygonScaleHandle: java.awt.Rectangle displayBox()>();
+        r = temp$0;
+        temp$1 = <java.awt.Color: java.awt.Color yellow>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$1);
+        temp$2 = r.<java.awt.Rectangle: int x>;
+        temp$3 = r.<java.awt.Rectangle: int y>;
+        temp$4 = r.<java.awt.Rectangle: int width>;
+        temp$5 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void fillOval(int,int,int,int)>(temp$2, temp$3, temp$4, temp$5);
+        temp$6 = <java.awt.Color: java.awt.Color black>;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(temp$6);
+        temp$7 = r.<java.awt.Rectangle: int x>;
+        temp$8 = r.<java.awt.Rectangle: int y>;
+        temp$9 = r.<java.awt.Rectangle: int width>;
+        temp$10 = r.<java.awt.Rectangle: int height>;
+        virtualinvoke g.<java.awt.Graphics: void drawOval(int,int,int,int)>(temp$7, temp$8, temp$9, temp$10);
+        return;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.PolygonScaleHandle this;
+        CH.ifa.draw.framework.DrawingView newView;
+        CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity temp$0;
+
+        this := @this: CH.ifa.draw.contrib.PolygonScaleHandle;
+        newView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$0 = new CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity;
+        specialinvoke temp$0.<CH.ifa.draw.contrib.PolygonScaleHandle$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView)>(newView);
+        return temp$0;
+    }
+}

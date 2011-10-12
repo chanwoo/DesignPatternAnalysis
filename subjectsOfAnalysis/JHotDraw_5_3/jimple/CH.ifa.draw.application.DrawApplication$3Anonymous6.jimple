@@ -1,0 +1,34 @@
+public final class CH.ifa.draw.application.DrawApplication$3Anonymous6 extends CH.ifa.draw.standard.AbstractCommand
+{
+    CH.ifa.draw.application.DrawApplication this$0;
+
+    public final void executable()
+    {
+        CH.ifa.draw.application.DrawApplication$3Anonymous6 this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.standard.SimpleUpdateStrategy temp$1;
+
+        this := @this: CH.ifa.draw.application.DrawApplication$3Anonymous6;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.application.DrawApplication$3Anonymous6: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = new CH.ifa.draw.standard.SimpleUpdateStrategy;
+        specialinvoke temp$1.<CH.ifa.draw.standard.SimpleUpdateStrategy: void <init>()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: void setDisplayUpdate(CH.ifa.draw.framework.Painter)>(temp$1);
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.application.DrawApplication, java.lang.String, CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.application.DrawApplication$3Anonymous6 this;
+        java.lang.String newName;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+        CH.ifa.draw.application.DrawApplication temp$0;
+
+        this := @this: CH.ifa.draw.application.DrawApplication$3Anonymous6;
+        newName := @parameter1: java.lang.String;
+        newDrawingEditor := @parameter2: CH.ifa.draw.framework.DrawingEditor;
+        temp$0 := @parameter0: CH.ifa.draw.application.DrawApplication;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(newName, newDrawingEditor);
+        this.<CH.ifa.draw.application.DrawApplication$3Anonymous6: CH.ifa.draw.application.DrawApplication this$0> = temp$0;
+        return;
+    }
+}

@@ -1,0 +1,9 @@
+public interface  CH.ifa.draw.framework.ViewChangeListener extends java.lang.Object implements java.util.EventListener
+{
+
+    public abstract void viewSelectionChanged(CH.ifa.draw.framework.DrawingView, CH.ifa.draw.framework.DrawingView);
+
+    public abstract void viewCreated(CH.ifa.draw.framework.DrawingView);
+
+    public abstract void viewDestroying(CH.ifa.draw.framework.DrawingView);
+}

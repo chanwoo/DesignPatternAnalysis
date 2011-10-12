@@ -1,0 +1,168 @@
+public class CH.ifa.draw.standard.PasteCommand extends CH.ifa.draw.standard.FigureTransferCommand
+{
+
+    public void <init>(java.lang.String, CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.standard.PasteCommand this;
+        java.lang.String name;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+
+        this := @this: CH.ifa.draw.standard.PasteCommand;
+        name := @parameter0: java.lang.String;
+        newDrawingEditor := @parameter1: CH.ifa.draw.framework.DrawingEditor;
+        specialinvoke this.<CH.ifa.draw.standard.FigureTransferCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(name, newDrawingEditor);
+        return;
+    }
+
+    public void execute()
+    {
+        CH.ifa.draw.standard.PasteCommand this;
+        java.awt.Point lastClick, temp$1;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$14, temp$25;
+        CH.ifa.draw.framework.FigureSelection selection;
+        CH.ifa.draw.util.Clipboard temp$2;
+        java.lang.Object temp$3, temp$6;
+        CH.ifa.draw.util.Undoable temp$4, temp$5, temp$8, temp$11, temp$15, temp$24;
+        CH.ifa.draw.standard.FigureEnumerator temp$7;
+        CH.ifa.draw.framework.FigureEnumeration temp$9, temp$12, fe, temp$16, temp$23;
+        boolean temp$10;
+        java.awt.Rectangle r, temp$13;
+        int temp$17, temp$18, temp$19, temp$20, temp$21, temp$22;
+
+        this := @this: CH.ifa.draw.standard.PasteCommand;
+        specialinvoke this.<CH.ifa.draw.standard.FigureTransferCommand: void execute()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: java.awt.Point lastClick()>();
+        lastClick = temp$1;
+        temp$2 = staticinvoke <CH.ifa.draw.util.Clipboard: CH.ifa.draw.util.Clipboard getClipboard()>();
+        temp$3 = virtualinvoke temp$2.<CH.ifa.draw.util.Clipboard: java.lang.Object getContents()>();
+        selection = (CH.ifa.draw.framework.FigureSelection) temp$3;
+        if selection != null goto label0;
+
+        goto label3;
+
+     label0:
+        nop;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.util.Undoable createUndoActivity()>();
+        virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$4);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$6 = interfaceinvoke selection.<CH.ifa.draw.framework.FigureSelection: java.lang.Object getData(java.lang.String)>("CH.ifa.draw.Figures");
+        temp$7 = (CH.ifa.draw.standard.FigureEnumerator) temp$6;
+        interfaceinvoke temp$5.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$7);
+        temp$8 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$9 = interfaceinvoke temp$8.<CH.ifa.draw.util.Undoable: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        temp$10 = interfaceinvoke temp$9.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$10 == 0 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: void setUndoActivity(CH.ifa.draw.util.Undoable)>(null);
+        return;
+
+     label2:
+        nop;
+        temp$11 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$12 = interfaceinvoke temp$11.<CH.ifa.draw.util.Undoable: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        temp$13 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: java.awt.Rectangle bounds(java.util.Enumeration)>(temp$12);
+        r = temp$13;
+        temp$14 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$14.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        temp$15 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$16 = interfaceinvoke temp$15.<CH.ifa.draw.util.Undoable: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        temp$17 = lastClick.<java.awt.Point: int x>;
+        temp$18 = r.<java.awt.Rectangle: int x>;
+        temp$19 = temp$17 - temp$18;
+        temp$20 = lastClick.<java.awt.Point: int y>;
+        temp$21 = r.<java.awt.Rectangle: int y>;
+        temp$22 = temp$20 - temp$21;
+        temp$23 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.framework.FigureEnumeration insertFigures(CH.ifa.draw.framework.FigureEnumeration,int,int)>(temp$16, temp$19, temp$22);
+        fe = temp$23;
+        temp$24 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        interfaceinvoke temp$24.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(fe);
+        temp$25 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$25.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+
+     label3:
+        nop;
+        return;
+    }
+
+    public boolean isExecutableWithView()
+    {
+        CH.ifa.draw.standard.PasteCommand this;
+        CH.ifa.draw.util.Clipboard temp$0;
+        java.lang.Object temp$1;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.standard.PasteCommand;
+        temp$0 = staticinvoke <CH.ifa.draw.util.Clipboard: CH.ifa.draw.util.Clipboard getClipboard()>();
+        temp$1 = virtualinvoke temp$0.<CH.ifa.draw.util.Clipboard: java.lang.Object getContents()>();
+        if temp$1 != null goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = 1;
+
+     label2:
+        nop;
+        return temp$2;
+    }
+
+    java.awt.Rectangle bounds(java.util.Enumeration)
+    {
+        CH.ifa.draw.standard.PasteCommand this;
+        java.util.Enumeration k;
+        java.awt.Rectangle r, temp$2, temp$6;
+        java.lang.Object temp$0, temp$4;
+        CH.ifa.draw.framework.Figure temp$1, temp$5;
+        boolean temp$3;
+
+        this := @this: CH.ifa.draw.standard.PasteCommand;
+        k := @parameter0: java.util.Enumeration;
+        temp$0 = interfaceinvoke k.<java.util.Enumeration: java.lang.Object nextElement()>();
+        temp$1 = (CH.ifa.draw.framework.Figure) temp$0;
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        r = temp$2;
+
+     label0:
+        nop;
+        temp$3 = interfaceinvoke k.<java.util.Enumeration: boolean hasMoreElements()>();
+        if temp$3 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$4 = interfaceinvoke k.<java.util.Enumeration: java.lang.Object nextElement()>();
+        temp$5 = (CH.ifa.draw.framework.Figure) temp$4;
+        temp$6 = interfaceinvoke temp$5.<CH.ifa.draw.framework.Figure: java.awt.Rectangle displayBox()>();
+        virtualinvoke r.<java.awt.Rectangle: void add(java.awt.Rectangle)>(temp$6);
+        goto label0;
+
+     label2:
+        nop;
+        return r;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity()
+    {
+        CH.ifa.draw.standard.PasteCommand this;
+        CH.ifa.draw.standard.PasteCommand$UndoActivity temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.standard.PasteCommand;
+        temp$0 = new CH.ifa.draw.standard.PasteCommand$UndoActivity;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.PasteCommand: CH.ifa.draw.framework.DrawingView view()>();
+        specialinvoke temp$0.<CH.ifa.draw.standard.PasteCommand$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView)>(temp$1);
+        return temp$0;
+    }
+}

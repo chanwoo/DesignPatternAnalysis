@@ -1,0 +1,29 @@
+public static class CH.ifa.draw.standard.BringToFrontCommand$UndoActivity extends CH.ifa.draw.standard.SendToBackCommand$UndoActivity
+{
+
+    public void <init>(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.standard.BringToFrontCommand$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newDrawingView;
+
+        this := @this: CH.ifa.draw.standard.BringToFrontCommand$UndoActivity;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        specialinvoke this.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView)>(newDrawingView);
+        return;
+    }
+
+    protected void sendToCommand(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.BringToFrontCommand$UndoActivity this;
+        CH.ifa.draw.framework.Figure f;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+
+        this := @this: CH.ifa.draw.standard.BringToFrontCommand$UndoActivity;
+        f := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.BringToFrontCommand$UndoActivity: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: void bringToFront(CH.ifa.draw.framework.Figure)>(f);
+        return;
+    }
+}

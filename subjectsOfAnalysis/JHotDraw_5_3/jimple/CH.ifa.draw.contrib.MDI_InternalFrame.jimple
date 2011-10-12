@@ -1,0 +1,213 @@
+public class CH.ifa.draw.contrib.MDI_InternalFrame extends javax.swing.JInternalFrame
+{
+    private CH.ifa.draw.framework.DrawingView internalDrawingView;
+
+    public void <init>()
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        specialinvoke this.<javax.swing.JInternalFrame: void <init>()>();
+        return;
+    }
+
+    public void <init>(java.lang.String)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        java.lang.String title;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        title := @parameter0: java.lang.String;
+        specialinvoke this.<javax.swing.JInternalFrame: void <init>(java.lang.String)>(title);
+        return;
+    }
+
+    public void <init>(java.lang.String, boolean)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        java.lang.String title;
+        boolean resizable;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        title := @parameter0: java.lang.String;
+        resizable := @parameter1: boolean;
+        specialinvoke this.<javax.swing.JInternalFrame: void <init>(java.lang.String,boolean)>(title, resizable);
+        return;
+    }
+
+    public void <init>(java.lang.String, boolean, boolean)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        java.lang.String title;
+        boolean resizable, closable;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        title := @parameter0: java.lang.String;
+        resizable := @parameter1: boolean;
+        closable := @parameter2: boolean;
+        specialinvoke this.<javax.swing.JInternalFrame: void <init>(java.lang.String,boolean,boolean)>(title, resizable, closable);
+        return;
+    }
+
+    public void <init>(java.lang.String, boolean, boolean, boolean)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        java.lang.String title;
+        boolean resizable, closable, maximizable;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        title := @parameter0: java.lang.String;
+        resizable := @parameter1: boolean;
+        closable := @parameter2: boolean;
+        maximizable := @parameter3: boolean;
+        specialinvoke this.<javax.swing.JInternalFrame: void <init>(java.lang.String,boolean,boolean,boolean)>(title, resizable, closable, maximizable);
+        return;
+    }
+
+    public void <init>(java.lang.String, boolean, boolean, boolean, boolean)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        java.lang.String title;
+        boolean resizable, closable, maximizable, iconifiable;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        title := @parameter0: java.lang.String;
+        resizable := @parameter1: boolean;
+        closable := @parameter2: boolean;
+        maximizable := @parameter3: boolean;
+        iconifiable := @parameter4: boolean;
+        specialinvoke this.<javax.swing.JInternalFrame: void <init>(java.lang.String,boolean,boolean,boolean,boolean)>(title, resizable, closable, maximizable, iconifiable);
+        return;
+    }
+
+    public void setDrawingView(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        CH.ifa.draw.framework.DrawingView newInternalDrawingView;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        newInternalDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        this.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView internalDrawingView> = newInternalDrawingView;
+        return;
+    }
+
+    public CH.ifa.draw.framework.DrawingView getDrawingView()
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        temp$0 = this.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView internalDrawingView>;
+        return temp$0;
+    }
+
+    public void setDrawing(CH.ifa.draw.framework.Drawing)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        CH.ifa.draw.framework.Drawing newInternalDrawing;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        newInternalDrawing := @parameter0: CH.ifa.draw.framework.Drawing;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(newInternalDrawing);
+        return;
+    }
+
+    public CH.ifa.draw.framework.Drawing getDrawing()
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.framework.Drawing temp$1;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView getDrawingView()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        return temp$1;
+    }
+
+    protected CH.ifa.draw.framework.DrawingView findDrawingView(CH.ifa.draw.framework.DrawingView, java.awt.Container)
+    {
+        CH.ifa.draw.contrib.MDI_InternalFrame this;
+        CH.ifa.draw.framework.DrawingView newDrawingView, oldDrawingView, temp$9, temp$18;
+        java.awt.Container container, temp$17;
+        java.awt.Component[] components, temp$0, temp$2, temp$6, temp$10, temp$14;
+        int i, temp$1, temp$3, temp$7, temp$11, temp$15, temp$19, temp$20;
+        java.awt.Component temp$4, temp$8, temp$12, temp$16;
+        boolean temp$5, temp$13;
+
+        this := @this: CH.ifa.draw.contrib.MDI_InternalFrame;
+        newDrawingView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        container := @parameter1: java.awt.Container;
+        oldDrawingView = null;
+        temp$0 = virtualinvoke container.<java.awt.Container: java.awt.Component[] getComponents()>();
+        components = temp$0;
+        i = 0;
+
+     label0:
+        nop;
+        temp$1 = lengthof components;
+        if i < temp$1 goto label1;
+
+        goto label8;
+
+     label1:
+        nop;
+        temp$2 = components;
+        temp$3 = i;
+        temp$4 = temp$2[temp$3];
+        temp$5 = temp$4 instanceof CH.ifa.draw.framework.DrawingView;
+        if temp$5 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        temp$6 = components;
+        temp$7 = i;
+        temp$8 = temp$6[temp$7];
+        temp$9 = (CH.ifa.draw.framework.DrawingView) temp$8;
+        return temp$9;
+
+     label3:
+        nop;
+        temp$10 = components;
+        temp$11 = i;
+        temp$12 = temp$10[temp$11];
+        temp$13 = temp$12 instanceof java.awt.Container;
+        if temp$13 == 0 goto label7;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$14 = components;
+        temp$15 = i;
+        temp$16 = temp$14[temp$15];
+        temp$17 = (java.awt.Container) temp$16;
+        temp$18 = virtualinvoke this.<CH.ifa.draw.contrib.MDI_InternalFrame: CH.ifa.draw.framework.DrawingView findDrawingView(CH.ifa.draw.framework.DrawingView,java.awt.Container)>(newDrawingView, temp$17);
+        oldDrawingView = temp$18;
+        if oldDrawingView != null goto label5;
+
+        goto label6;
+
+     label5:
+        nop;
+        return oldDrawingView;
+
+     label6:
+        nop;
+
+     label7:
+        nop;
+        nop;
+        temp$19 = i;
+        temp$20 = temp$19 + 1;
+        i = temp$20;
+        goto label0;
+
+     label8:
+        nop;
+        return oldDrawingView;
+    }
+}

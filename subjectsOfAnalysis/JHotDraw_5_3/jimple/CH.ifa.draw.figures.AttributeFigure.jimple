@@ -1,0 +1,337 @@
+public abstract class CH.ifa.draw.figures.AttributeFigure extends CH.ifa.draw.standard.AbstractFigure
+{
+    private CH.ifa.draw.figures.FigureAttributes fAttributes;
+    private static CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes;
+    private static final long serialVersionUID;
+    private int attributeFigureSerializedDataVersion;
+
+    static void <clinit>()
+    {
+        CH.ifa.draw.figures.FigureAttributes temp$0;
+        long temp$1;
+
+        temp$0 = null;
+        <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes> = temp$0;
+        temp$1 = -10857585979273442L;
+        <CH.ifa.draw.figures.AttributeFigure: long serialVersionUID> = temp$1;
+        return;
+    }
+
+    protected void <init>()
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        int temp$0;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractFigure: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.figures.AttributeFigure: int attributeFigureSerializedDataVersion> = temp$0;
+        return;
+    }
+
+    public void draw(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.awt.Graphics g;
+        java.awt.Color fill, temp$0, frame, temp$2;
+        boolean temp$1, temp$3;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        g := @parameter0: java.awt.Graphics;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: java.awt.Color getFillColor()>();
+        fill = temp$0;
+        temp$1 = staticinvoke <CH.ifa.draw.util.ColorMap: boolean isTransparent(java.awt.Color)>(fill);
+        if temp$1 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(fill);
+        virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: void drawBackground(java.awt.Graphics)>(g);
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: java.awt.Color getFrameColor()>();
+        frame = temp$2;
+        temp$3 = staticinvoke <CH.ifa.draw.util.ColorMap: boolean isTransparent(java.awt.Color)>(frame);
+        if temp$3 == 0 goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        virtualinvoke g.<java.awt.Graphics: void setColor(java.awt.Color)>(frame);
+        virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: void drawFrame(java.awt.Graphics)>(g);
+
+     label3:
+        nop;
+        return;
+    }
+
+    protected void drawBackground(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.awt.Graphics g;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        g := @parameter0: java.awt.Graphics;
+        return;
+    }
+
+    protected void drawFrame(java.awt.Graphics)
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.awt.Graphics g;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        g := @parameter0: java.awt.Graphics;
+        return;
+    }
+
+    public java.awt.Color getFillColor()
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.lang.Object temp$0;
+        java.awt.Color temp$1;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: java.lang.Object getAttribute(java.lang.String)>("FillColor");
+        temp$1 = (java.awt.Color) temp$0;
+        return temp$1;
+    }
+
+    public java.awt.Color getFrameColor()
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.lang.Object temp$0;
+        java.awt.Color temp$1;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: java.lang.Object getAttribute(java.lang.String)>("FrameColor");
+        temp$1 = (java.awt.Color) temp$0;
+        return temp$1;
+    }
+
+    private static final void initializeAttributes()
+    {
+        CH.ifa.draw.figures.FigureAttributes temp$0, temp$1, temp$3, temp$5, temp$7, temp$9, temp$10, temp$12;
+        java.awt.Color temp$2, temp$4, temp$6;
+        java.lang.Integer temp$8, temp$11, temp$13;
+
+        temp$0 = new CH.ifa.draw.figures.FigureAttributes;
+        specialinvoke temp$0.<CH.ifa.draw.figures.FigureAttributes: void <init>()>();
+        <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes> = temp$0;
+        temp$1 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        temp$2 = <java.awt.Color: java.awt.Color black>;
+        virtualinvoke temp$1.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>("FrameColor", temp$2);
+        temp$3 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        temp$4 = new java.awt.Color;
+        specialinvoke temp$4.<java.awt.Color: void <init>(int)>(7396243);
+        virtualinvoke temp$3.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>("FillColor", temp$4);
+        temp$5 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        temp$6 = <java.awt.Color: java.awt.Color black>;
+        virtualinvoke temp$5.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>("TextColor", temp$6);
+        temp$7 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        temp$8 = new java.lang.Integer;
+        specialinvoke temp$8.<java.lang.Integer: void <init>(int)>(0);
+        virtualinvoke temp$7.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>("ArrowMode", temp$8);
+        temp$9 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        virtualinvoke temp$9.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>("FontName", "Helvetica");
+        temp$10 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        temp$11 = new java.lang.Integer;
+        specialinvoke temp$11.<java.lang.Integer: void <init>(int)>(12);
+        virtualinvoke temp$10.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>("FontSize", temp$11);
+        temp$12 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        temp$13 = new java.lang.Integer;
+        specialinvoke temp$13.<java.lang.Integer: void <init>(int)>(0);
+        virtualinvoke temp$12.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>("FontStyle", temp$13);
+        return;
+    }
+
+    public static java.lang.Object getDefaultAttribute(java.lang.String)
+    {
+        java.lang.String name;
+        CH.ifa.draw.figures.FigureAttributes temp$0, temp$1;
+        java.lang.Object temp$2;
+
+        name := @parameter0: java.lang.String;
+        temp$0 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        staticinvoke <CH.ifa.draw.figures.AttributeFigure: void initializeAttributes()>();
+
+     label1:
+        nop;
+        temp$1 = <CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fgDefaultAttributes>;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.figures.FigureAttributes: java.lang.Object get(java.lang.String)>(name);
+        return temp$2;
+    }
+
+    public java.lang.Object getAttribute(java.lang.String)
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.lang.String name;
+        CH.ifa.draw.figures.FigureAttributes temp$0, temp$1, temp$3;
+        boolean temp$2;
+        java.lang.Object temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        name := @parameter0: java.lang.String;
+        temp$0 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        if temp$0 != null goto label0;
+
+        goto label3;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        temp$2 = virtualinvoke temp$1.<CH.ifa.draw.figures.FigureAttributes: boolean hasDefined(java.lang.String)>(name);
+        if temp$2 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        temp$4 = virtualinvoke temp$3.<CH.ifa.draw.figures.FigureAttributes: java.lang.Object get(java.lang.String)>(name);
+        return temp$4;
+
+     label2:
+        nop;
+
+     label3:
+        nop;
+        temp$5 = staticinvoke <CH.ifa.draw.figures.AttributeFigure: java.lang.Object getDefaultAttribute(java.lang.String)>(name);
+        return temp$5;
+    }
+
+    public void setAttribute(java.lang.String, java.lang.Object)
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.lang.String name;
+        java.lang.Object value;
+        CH.ifa.draw.figures.FigureAttributes temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        name := @parameter0: java.lang.String;
+        value := @parameter1: java.lang.Object;
+        temp$0 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = new CH.ifa.draw.figures.FigureAttributes;
+        specialinvoke temp$1.<CH.ifa.draw.figures.FigureAttributes: void <init>()>();
+        this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes> = temp$1;
+
+     label1:
+        nop;
+        temp$2 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        virtualinvoke temp$2.<CH.ifa.draw.figures.FigureAttributes: void set(java.lang.String,java.lang.Object)>(name, value);
+        virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: void changed()>();
+        return;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        CH.ifa.draw.util.StorableOutput dw;
+        CH.ifa.draw.figures.FigureAttributes temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractFigure: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        if temp$0 == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeString(java.lang.String)>("no_attributes");
+        goto label2;
+
+     label1:
+        nop;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeString(java.lang.String)>("attributes");
+        temp$1 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        virtualinvoke temp$1.<CH.ifa.draw.figures.FigureAttributes: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        CH.ifa.draw.util.StorableInput dr;
+        java.lang.String s, temp$0, temp$1;
+        boolean temp$2;
+        CH.ifa.draw.figures.FigureAttributes temp$3, temp$4;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractFigure: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: java.lang.String readString()>();
+        s = temp$0;
+        temp$1 = virtualinvoke s.<java.lang.String: java.lang.String toLowerCase()>();
+        temp$2 = virtualinvoke temp$1.<java.lang.String: boolean equals(java.lang.Object)>("attributes");
+        if temp$2 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$3 = new CH.ifa.draw.figures.FigureAttributes;
+        specialinvoke temp$3.<CH.ifa.draw.figures.FigureAttributes: void <init>()>();
+        this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes> = temp$3;
+        temp$4 = this.<CH.ifa.draw.figures.AttributeFigure: CH.ifa.draw.figures.FigureAttributes fAttributes>;
+        virtualinvoke temp$4.<CH.ifa.draw.figures.FigureAttributes: void read(CH.ifa.draw.util.StorableInput)>(dr);
+
+     label1:
+        nop;
+        return;
+    }
+
+    private final void writeObject(java.io.ObjectOutputStream) throws java.io.IOException
+    {
+        CH.ifa.draw.figures.AttributeFigure this;
+        java.io.ObjectOutputStream o;
+        java.lang.Object associatedMenu, temp$0;
+
+        this := @this: CH.ifa.draw.figures.AttributeFigure;
+        o := @parameter0: java.io.ObjectOutputStream;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: java.lang.Object getAttribute(java.lang.String)>("POPUP_MENU");
+        associatedMenu = temp$0;
+        if associatedMenu != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: void setAttribute(java.lang.String,java.lang.Object)>("POPUP_MENU", null);
+
+     label1:
+        nop;
+        virtualinvoke o.<java.io.ObjectOutputStream: void defaultWriteObject()>();
+        if associatedMenu != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.figures.AttributeFigure: void setAttribute(java.lang.String,java.lang.Object)>("POPUP_MENU", associatedMenu);
+
+     label3:
+        nop;
+        return;
+    }
+}

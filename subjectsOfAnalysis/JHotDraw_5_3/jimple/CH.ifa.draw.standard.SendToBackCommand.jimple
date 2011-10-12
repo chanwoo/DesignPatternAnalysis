@@ -1,0 +1,105 @@
+public class CH.ifa.draw.standard.SendToBackCommand extends CH.ifa.draw.standard.AbstractCommand
+{
+
+    public void <init>(java.lang.String, CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.standard.SendToBackCommand this;
+        java.lang.String name;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand;
+        name := @parameter0: java.lang.String;
+        newDrawingEditor := @parameter1: CH.ifa.draw.framework.DrawingEditor;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(name, newDrawingEditor);
+        return;
+    }
+
+    public void execute()
+    {
+        CH.ifa.draw.standard.SendToBackCommand this;
+        CH.ifa.draw.util.Undoable temp$0, temp$1, temp$5;
+        CH.ifa.draw.standard.ReverseFigureEnumerator temp$2;
+        CH.ifa.draw.framework.DrawingView temp$3, temp$8, temp$11;
+        java.util.Vector temp$4;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$6;
+        boolean temp$7;
+        CH.ifa.draw.framework.Drawing temp$9;
+        CH.ifa.draw.framework.Figure temp$10;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void execute()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.util.Undoable createUndoActivity()>();
+        virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: void setUndoActivity(CH.ifa.draw.util.Undoable)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$2 = new CH.ifa.draw.standard.ReverseFigureEnumerator;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$4 = interfaceinvoke temp$3.<CH.ifa.draw.framework.DrawingView: java.util.Vector selectionZOrdered()>();
+        specialinvoke temp$2.<CH.ifa.draw.standard.ReverseFigureEnumerator: void <init>(java.util.Vector)>(temp$4);
+        interfaceinvoke temp$1.<CH.ifa.draw.util.Undoable: void setAffectedFigures(CH.ifa.draw.framework.FigureEnumeration)>(temp$2);
+        temp$5 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$6 = interfaceinvoke temp$5.<CH.ifa.draw.util.Undoable: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$6;
+
+     label0:
+        nop;
+        temp$7 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$7 == 0 goto label2;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$8 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$9 = interfaceinvoke temp$8.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$10 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        interfaceinvoke temp$9.<CH.ifa.draw.framework.Drawing: void sendToBack(CH.ifa.draw.framework.Figure)>(temp$10);
+        goto label0;
+
+     label2:
+        nop;
+        temp$11 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$11.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+        return;
+    }
+
+    protected boolean isExecutableWithView()
+    {
+        CH.ifa.draw.standard.SendToBackCommand this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        int temp$1;
+        boolean temp$2;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: int selectionCount()>();
+        if temp$1 > 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        goto label2;
+
+     label1:
+        nop;
+        temp$2 = 1;
+
+     label2:
+        nop;
+        return temp$2;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity()
+    {
+        CH.ifa.draw.standard.SendToBackCommand this;
+        CH.ifa.draw.standard.SendToBackCommand$UndoActivity temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.standard.SendToBackCommand;
+        temp$0 = new CH.ifa.draw.standard.SendToBackCommand$UndoActivity;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.standard.SendToBackCommand: CH.ifa.draw.framework.DrawingView view()>();
+        specialinvoke temp$0.<CH.ifa.draw.standard.SendToBackCommand$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView)>(temp$1);
+        return temp$0;
+    }
+}

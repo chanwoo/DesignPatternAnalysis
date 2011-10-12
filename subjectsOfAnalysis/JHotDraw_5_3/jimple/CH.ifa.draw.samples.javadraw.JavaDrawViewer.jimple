@@ -1,0 +1,237 @@
+public class CH.ifa.draw.samples.javadraw.JavaDrawViewer extends javax.swing.JApplet implements CH.ifa.draw.framework.DrawingEditor
+{
+    private CH.ifa.draw.framework.Drawing fDrawing;
+    private CH.ifa.draw.framework.Tool fTool;
+    private CH.ifa.draw.standard.StandardDrawingView fView;
+    private CH.ifa.draw.util.Iconkit fIconkit;
+    private CH.ifa.draw.util.UndoManager myUndoManager;
+
+    public void init()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.util.UndoManager temp$0;
+        java.awt.Container temp$1, temp$4;
+        java.awt.BorderLayout temp$2;
+        CH.ifa.draw.standard.StandardDrawingView temp$3, temp$5, temp$10;
+        java.awt.Component temp$6;
+        CH.ifa.draw.samples.javadraw.FollowURLTool temp$7;
+        CH.ifa.draw.util.Iconkit temp$8;
+        java.lang.String filename, temp$9;
+        CH.ifa.draw.framework.Drawing temp$11;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        temp$0 = new CH.ifa.draw.util.UndoManager;
+        specialinvoke temp$0.<CH.ifa.draw.util.UndoManager: void <init>()>();
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: void setUndoManager(CH.ifa.draw.util.UndoManager)>(temp$0);
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: java.awt.Container getContentPane()>();
+        temp$2 = new java.awt.BorderLayout;
+        specialinvoke temp$2.<java.awt.BorderLayout: void <init>()>();
+        virtualinvoke temp$1.<java.awt.Container: void setLayout(java.awt.LayoutManager)>(temp$2);
+        temp$3 = new CH.ifa.draw.standard.StandardDrawingView;
+        specialinvoke temp$3.<CH.ifa.draw.standard.StandardDrawingView: void <init>(CH.ifa.draw.framework.DrawingEditor,int,int)>(this, 400, 370);
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.standard.StandardDrawingView fView> = temp$3;
+        temp$4 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: java.awt.Container getContentPane()>();
+        temp$5 = this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.standard.StandardDrawingView fView>;
+        temp$6 = virtualinvoke temp$4.<java.awt.Container: java.awt.Component add(java.lang.String,java.awt.Component)>("Center", temp$5);
+        temp$7 = new CH.ifa.draw.samples.javadraw.FollowURLTool;
+        specialinvoke temp$7.<CH.ifa.draw.samples.javadraw.FollowURLTool: void <init>(CH.ifa.draw.framework.DrawingEditor,javax.swing.JApplet)>(this, this);
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.framework.Tool fTool> = temp$7;
+        temp$8 = new CH.ifa.draw.util.Iconkit;
+        specialinvoke temp$8.<CH.ifa.draw.util.Iconkit: void <init>(java.awt.Component)>(this);
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.util.Iconkit fIconkit> = temp$8;
+        temp$9 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: java.lang.String getParameter(java.lang.String)>("Drawing");
+        filename = temp$9;
+        if filename != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: void loadDrawing(java.lang.String)>(filename);
+        temp$10 = this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.standard.StandardDrawingView fView>;
+        temp$11 = this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.framework.Drawing fDrawing>;
+        virtualinvoke temp$10.<CH.ifa.draw.standard.StandardDrawingView: void setDrawing(CH.ifa.draw.framework.Drawing)>(temp$11);
+        goto label2;
+
+     label1:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: void showStatus(java.lang.String)>("Unable to load drawing");
+
+     label2:
+        nop;
+        return;
+    }
+
+    public void addViewChangeListener(CH.ifa.draw.framework.ViewChangeListener)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.framework.ViewChangeListener vsl;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        vsl := @parameter0: CH.ifa.draw.framework.ViewChangeListener;
+        return;
+    }
+
+    public void removeViewChangeListener(CH.ifa.draw.framework.ViewChangeListener)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.framework.ViewChangeListener vsl;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        vsl := @parameter0: CH.ifa.draw.framework.ViewChangeListener;
+        return;
+    }
+
+    private final void loadDrawing(java.lang.String)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        java.lang.String filename, temp$9, temp$11;
+        java.net.URL url, temp$0, temp$1;
+        java.io.InputStream stream, temp$2;
+        CH.ifa.draw.util.StorableInput reader, temp$3;
+        CH.ifa.draw.util.Storable temp$4;
+        CH.ifa.draw.framework.Drawing temp$5;
+        java.io.IOException e;
+        CH.ifa.draw.standard.StandardDrawing temp$6;
+        java.io.PrintStream temp$7;
+        java.lang.StringBuffer temp$8, temp$10;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        filename := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = new java.net.URL;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: java.net.URL getCodeBase()>();
+        specialinvoke temp$0.<java.net.URL: void <init>(java.net.URL,java.lang.String)>(temp$1, filename);
+        url = temp$0;
+        temp$2 = virtualinvoke url.<java.net.URL: java.io.InputStream openStream()>();
+        stream = temp$2;
+        temp$3 = new CH.ifa.draw.util.StorableInput;
+        specialinvoke temp$3.<CH.ifa.draw.util.StorableInput: void <init>(java.io.InputStream)>(stream);
+        reader = temp$3;
+        temp$4 = virtualinvoke reader.<CH.ifa.draw.util.StorableInput: CH.ifa.draw.util.Storable readStorable()>();
+        temp$5 = (CH.ifa.draw.framework.Drawing) temp$4;
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.framework.Drawing fDrawing> = temp$5;
+        goto label2;
+
+     label1:
+        nop;
+        e := @caughtexception;
+        temp$6 = new CH.ifa.draw.standard.StandardDrawing;
+        specialinvoke temp$6.<CH.ifa.draw.standard.StandardDrawing: void <init>()>();
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.framework.Drawing fDrawing> = temp$6;
+        temp$7 = <java.lang.System: java.io.PrintStream err>;
+        temp$8 = new java.lang.StringBuffer;
+        specialinvoke temp$8.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Error when Loading: ");
+        virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(e);
+        temp$9 = virtualinvoke temp$8.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke temp$7.<java.io.PrintStream: void println(java.lang.String)>(temp$9);
+        temp$10 = new java.lang.StringBuffer;
+        specialinvoke temp$10.<java.lang.StringBuffer: void <init>()>();
+        virtualinvoke temp$10.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>("Error when Loading: ");
+        virtualinvoke temp$10.<java.lang.StringBuffer: java.lang.StringBuffer append(java.lang.Object)>(e);
+        temp$11 = virtualinvoke temp$10.<java.lang.StringBuffer: java.lang.String toString()>();
+        virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: void showStatus(java.lang.String)>(temp$11);
+        nop;
+        goto label2;
+
+     label2:
+        nop;
+        return;
+
+        catch java.io.IOException from label0 to label1 with label1;
+    }
+
+    public CH.ifa.draw.framework.DrawingView view()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.framework.DrawingView temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.standard.StandardDrawingView fView>;
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.DrawingView[] views()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.framework.DrawingView[] temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        temp$0 = newarray (CH.ifa.draw.framework.DrawingView)[1];
+        temp$1 = virtualinvoke this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.framework.DrawingView view()>();
+        temp$0[0] = temp$1;
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.Drawing drawing()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.framework.Drawing temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.framework.Drawing fDrawing>;
+        return temp$0;
+    }
+
+    public CH.ifa.draw.framework.Tool tool()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.framework.Tool temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.framework.Tool fTool>;
+        return temp$0;
+    }
+
+    public void toolDone()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        return;
+    }
+
+    public void figureSelectionChanged(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.framework.DrawingView view;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        return;
+    }
+
+    protected void setUndoManager(CH.ifa.draw.util.UndoManager)
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.util.UndoManager newUndoManager;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        newUndoManager := @parameter0: CH.ifa.draw.util.UndoManager;
+        this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.util.UndoManager myUndoManager> = newUndoManager;
+        return;
+    }
+
+    public CH.ifa.draw.util.UndoManager getUndoManager()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+        CH.ifa.draw.util.UndoManager temp$0;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        temp$0 = this.<CH.ifa.draw.samples.javadraw.JavaDrawViewer: CH.ifa.draw.util.UndoManager myUndoManager>;
+        return temp$0;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.samples.javadraw.JavaDrawViewer this;
+
+        this := @this: CH.ifa.draw.samples.javadraw.JavaDrawViewer;
+        specialinvoke this.<javax.swing.JApplet: void <init>()>();
+        return;
+    }
+}

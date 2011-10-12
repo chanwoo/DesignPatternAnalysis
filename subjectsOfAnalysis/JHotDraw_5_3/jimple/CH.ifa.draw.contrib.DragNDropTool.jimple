@@ -1,0 +1,1814 @@
+public class CH.ifa.draw.contrib.DragNDropTool extends CH.ifa.draw.standard.AbstractTool implements java.awt.dnd.DropTargetListener, java.awt.dnd.DragGestureListener, java.awt.dnd.DragSourceListener
+{
+    protected CH.ifa.draw.framework.Tool fChild;
+    protected java.awt.dnd.DragSource dragSource;
+    private java.util.ArrayList fDropTargets;
+    private java.util.ArrayList fDragGestureRecognizers;
+    private java.awt.Point origin;
+    public static java.awt.datatransfer.DataFlavor VECTORFlavor;
+    public static java.awt.datatransfer.DataFlavor ASCIIFlavor;
+    public static java.lang.Class class$java$util$Vector;
+    public static java.lang.Class class$java$awt$Component;
+    public static java.lang.Class class$CH$ifa$draw$standard$LocatorHandle;
+    public static java.lang.Class class$CH$ifa$draw$standard$RelativeLocator;
+    public static java.lang.Class class$CH$ifa$draw$framework$DrawingView;
+
+    static void <clinit>()
+    {
+        java.awt.datatransfer.DataFlavor temp$0, temp$4;
+        java.lang.Class temp$1, temp$2, temp$3;
+
+        temp$0 = new java.awt.datatransfer.DataFlavor;
+        temp$2 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$util$Vector>;
+        if temp$2 != null goto label0;
+
+        temp$3 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$(java.lang.String)>("java.util.Vector");
+        <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$util$Vector> = temp$3;
+        temp$1 = temp$3;
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$util$Vector>;
+
+     label1:
+        nop;
+        specialinvoke temp$0.<java.awt.datatransfer.DataFlavor: void <init>(java.lang.Class,java.lang.String)>(temp$1, "Vector");
+        <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor VECTORFlavor> = temp$0;
+        temp$4 = new java.awt.datatransfer.DataFlavor;
+        specialinvoke temp$4.<java.awt.datatransfer.DataFlavor: void <init>(java.lang.String,java.lang.String)>("text/plain; charset=ascii", "ASCII text");
+        <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor ASCIIFlavor> = temp$4;
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.DrawingEditor)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        CH.ifa.draw.framework.DrawingEditor editor;
+        CH.ifa.draw.framework.Tool temp$0;
+        java.awt.dnd.DragSource temp$1, temp$5;
+        java.util.ArrayList temp$2, temp$3, temp$6, temp$7;
+        java.awt.Point temp$4;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        editor := @parameter0: CH.ifa.draw.framework.DrawingEditor;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractTool: void <init>(CH.ifa.draw.framework.DrawingEditor)>(editor);
+        temp$0 = null;
+        this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild> = temp$0;
+        temp$1 = null;
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.awt.dnd.DragSource dragSource> = temp$1;
+        temp$2 = null;
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.util.ArrayList fDropTargets> = temp$2;
+        temp$3 = null;
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.util.ArrayList fDragGestureRecognizers> = temp$3;
+        temp$4 = null;
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.awt.Point origin> = temp$4;
+        temp$5 = staticinvoke <java.awt.dnd.DragSource: java.awt.dnd.DragSource getDefaultDragSource()>();
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.awt.dnd.DragSource dragSource> = temp$5;
+        temp$6 = new java.util.ArrayList;
+        specialinvoke temp$6.<java.util.ArrayList: void <init>()>();
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.util.ArrayList fDropTargets> = temp$6;
+        temp$7 = new java.util.ArrayList;
+        specialinvoke temp$7.<java.util.ArrayList: void <init>()>();
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.util.ArrayList fDragGestureRecognizers> = temp$7;
+        return;
+    }
+
+    public void viewCreated(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        CH.ifa.draw.framework.DrawingView view;
+        java.lang.Class temp$0, temp$1, temp$2;
+        boolean temp$3, temp$6, temp$10;
+        java.awt.Component c;
+        java.awt.dnd.DropTarget dt, temp$4;
+        java.util.ArrayList temp$5;
+        java.lang.NullPointerException npe;
+        java.io.PrintStream temp$7, temp$8, temp$9;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractTool: void viewCreated(CH.ifa.draw.framework.DrawingView)>(view);
+        temp$1 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component>;
+        if temp$1 != null goto label0;
+
+        temp$2 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$(java.lang.String)>("java.awt.Component");
+        <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component> = temp$2;
+        temp$0 = temp$2;
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component>;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke temp$0.<java.lang.Class: boolean isInstance(java.lang.Object)>(view);
+        if temp$3 == 0 goto label6;
+
+        goto label2;
+
+     label2:
+        nop;
+        c = (java.awt.Component) view;
+
+     label3:
+        nop;
+        temp$4 = new java.awt.dnd.DropTarget;
+        specialinvoke temp$4.<java.awt.dnd.DropTarget: void <init>(java.awt.Component,int,java.awt.dnd.DropTargetListener)>(c, 3, this);
+        dt = temp$4;
+        temp$5 = this.<CH.ifa.draw.contrib.DragNDropTool: java.util.ArrayList fDropTargets>;
+        temp$6 = virtualinvoke temp$5.<java.util.ArrayList: boolean add(java.lang.Object)>(dt);
+        goto label5;
+
+     label4:
+        nop;
+        npe := @caughtexception;
+        temp$7 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$7.<java.io.PrintStream: void println(java.lang.String)>("View Failed to initialize to DND.");
+        temp$8 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$8.<java.io.PrintStream: void println(java.lang.String)>("Container likely did not have peer before the DropTarget was added");
+        temp$9 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$9.<java.io.PrintStream: void println(java.lang.Object)>(npe);
+        nop;
+        goto label5;
+
+     label5:
+        nop;
+
+     label6:
+        nop;
+        temp$10 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: boolean isActive()>();
+        if temp$10 == 0 goto label8;
+
+        goto label7;
+
+     label7:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: void createDragGestureRecognizer(CH.ifa.draw.framework.DrawingView,java.awt.dnd.DragGestureListener)>(view, this);
+
+     label8:
+        nop;
+        return;
+
+        catch java.lang.NullPointerException from label3 to label4 with label4;
+    }
+
+    public void viewDestroying(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        CH.ifa.draw.framework.DrawingView view;
+        java.lang.Class temp$0, temp$1, temp$2;
+        boolean temp$3;
+        java.awt.Component c;
+        java.awt.dnd.DropTarget dt, temp$4;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        view := @parameter0: CH.ifa.draw.framework.DrawingView;
+        temp$1 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component>;
+        if temp$1 != null goto label0;
+
+        temp$2 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$(java.lang.String)>("java.awt.Component");
+        <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component> = temp$2;
+        temp$0 = temp$2;
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component>;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke temp$0.<java.lang.Class: boolean isInstance(java.lang.Object)>(view);
+        if temp$3 == 0 goto label5;
+
+        goto label2;
+
+     label2:
+        nop;
+        c = (java.awt.Component) view;
+        temp$4 = virtualinvoke c.<java.awt.Component: java.awt.dnd.DropTarget getDropTarget()>();
+        dt = temp$4;
+        if dt != null goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        virtualinvoke dt.<java.awt.dnd.DropTarget: void setComponent(java.awt.Component)>(null);
+        virtualinvoke dt.<java.awt.dnd.DropTarget: void removeDropTargetListener(java.awt.dnd.DropTargetListener)>(this);
+
+     label4:
+        nop;
+        virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: void destroyDragGestreRecognizer(CH.ifa.draw.framework.DrawingView,java.awt.dnd.DragGestureListener)>(view, this);
+
+     label5:
+        nop;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractTool: void viewDestroying(CH.ifa.draw.framework.DrawingView)>(view);
+        return;
+    }
+
+    public void activate()
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        boolean temp$0;
+        CH.ifa.draw.framework.DrawingView[] dv, temp$2, temp$4;
+        CH.ifa.draw.framework.DrawingEditor temp$1;
+        int x, temp$3, temp$5, temp$7, temp$8;
+        CH.ifa.draw.framework.DrawingView temp$6;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: boolean isActive()>();
+        if temp$0 == 0 goto label1;
+
+        goto label0;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractTool: void activate()>();
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingEditor editor()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.DrawingEditor: CH.ifa.draw.framework.DrawingView[] views()>();
+        dv = temp$2;
+        x = 0;
+
+     label2:
+        nop;
+        temp$3 = lengthof dv;
+        if x < temp$3 goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$4 = dv;
+        temp$5 = x;
+        temp$6 = temp$4[temp$5];
+        virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: void createDragGestureRecognizer(CH.ifa.draw.framework.DrawingView,java.awt.dnd.DragGestureListener)>(temp$6, this);
+        nop;
+        temp$7 = x;
+        temp$8 = temp$7 + 1;
+        x = temp$8;
+        goto label2;
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void deactivate()
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        boolean temp$0;
+        CH.ifa.draw.framework.DrawingView[] dv, temp$2, temp$4;
+        CH.ifa.draw.framework.DrawingEditor temp$1;
+        int x, temp$3, temp$5, temp$7, temp$8;
+        CH.ifa.draw.framework.DrawingView temp$6;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: boolean isActive()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingEditor editor()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.DrawingEditor: CH.ifa.draw.framework.DrawingView[] views()>();
+        dv = temp$2;
+        x = 0;
+
+     label2:
+        nop;
+        temp$3 = lengthof dv;
+        if x < temp$3 goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        temp$4 = dv;
+        temp$5 = x;
+        temp$6 = temp$4[temp$5];
+        virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: void destroyDragGestreRecognizer(CH.ifa.draw.framework.DrawingView,java.awt.dnd.DragGestureListener)>(temp$6, this);
+        nop;
+        temp$7 = x;
+        temp$8 = temp$7 + 1;
+        x = temp$8;
+        goto label2;
+
+     label4:
+        nop;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractTool: void deactivate()>();
+        return;
+    }
+
+    public static void setCursor(int, int, CH.ifa.draw.framework.DrawingView)
+    {
+        int x, y;
+        CH.ifa.draw.framework.DrawingView view;
+        CH.ifa.draw.framework.Handle handle, temp$0;
+        CH.ifa.draw.framework.Figure figure, temp$2;
+        CH.ifa.draw.framework.Drawing temp$1;
+        java.lang.Class temp$3, temp$4, temp$5, temp$8, temp$9, temp$10;
+        boolean temp$6, temp$11, temp$13, temp$16, temp$19, temp$22, temp$25, temp$28, temp$31, temp$34;
+        CH.ifa.draw.standard.LocatorHandle lh;
+        CH.ifa.draw.framework.Locator loc, temp$7, temp$12, temp$15, temp$18, temp$21, temp$24, temp$27, temp$30, temp$33;
+        CH.ifa.draw.standard.RelativeLocator rl;
+        java.awt.Cursor temp$14, temp$17, temp$20, temp$23, temp$26, temp$29, temp$32, temp$35, temp$36, temp$37;
+
+        x := @parameter0: int;
+        y := @parameter1: int;
+        view := @parameter2: CH.ifa.draw.framework.DrawingView;
+        temp$0 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Handle findHandle(int,int)>(x, y);
+        handle = temp$0;
+        temp$1 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$2 = interfaceinvoke temp$1.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure findFigure(int,int)>(x, y);
+        figure = temp$2;
+        if handle != null goto label0;
+
+        goto label32;
+
+     label0:
+        nop;
+        temp$4 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$standard$LocatorHandle>;
+        if temp$4 != null goto label1;
+
+        temp$5 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.standard.LocatorHandle");
+        <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$standard$LocatorHandle> = temp$5;
+        temp$3 = temp$5;
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$standard$LocatorHandle>;
+
+     label2:
+        nop;
+        temp$6 = virtualinvoke temp$3.<java.lang.Class: boolean isInstance(java.lang.Object)>(handle);
+        if temp$6 == 0 goto label31;
+
+        goto label3;
+
+     label3:
+        nop;
+        lh = (CH.ifa.draw.standard.LocatorHandle) handle;
+        temp$7 = virtualinvoke lh.<CH.ifa.draw.standard.LocatorHandle: CH.ifa.draw.framework.Locator getLocator()>();
+        loc = temp$7;
+        temp$9 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$standard$RelativeLocator>;
+        if temp$9 != null goto label4;
+
+        temp$10 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.standard.RelativeLocator");
+        <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$standard$RelativeLocator> = temp$10;
+        temp$8 = temp$10;
+        goto label5;
+
+     label4:
+        nop;
+        temp$8 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$standard$RelativeLocator>;
+
+     label5:
+        nop;
+        temp$11 = virtualinvoke temp$8.<java.lang.Class: boolean isInstance(java.lang.Object)>(loc);
+        if temp$11 == 0 goto label30;
+
+        goto label6;
+
+     label6:
+        nop;
+        rl = (CH.ifa.draw.standard.RelativeLocator) loc;
+        temp$12 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator north()>();
+        temp$13 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$12);
+        if temp$13 == 0 goto label8;
+
+        goto label7;
+
+     label7:
+        nop;
+        temp$14 = new java.awt.Cursor;
+        specialinvoke temp$14.<java.awt.Cursor: void <init>(int)>(8);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$14);
+        goto label29;
+
+     label8:
+        nop;
+        temp$15 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northEast()>();
+        temp$16 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$15);
+        if temp$16 == 0 goto label10;
+
+        goto label9;
+
+     label9:
+        nop;
+        temp$17 = new java.awt.Cursor;
+        specialinvoke temp$17.<java.awt.Cursor: void <init>(int)>(7);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$17);
+        goto label28;
+
+     label10:
+        nop;
+        temp$18 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator east()>();
+        temp$19 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$18);
+        if temp$19 == 0 goto label12;
+
+        goto label11;
+
+     label11:
+        nop;
+        temp$20 = new java.awt.Cursor;
+        specialinvoke temp$20.<java.awt.Cursor: void <init>(int)>(11);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$20);
+        goto label27;
+
+     label12:
+        nop;
+        temp$21 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southEast()>();
+        temp$22 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$21);
+        if temp$22 == 0 goto label14;
+
+        goto label13;
+
+     label13:
+        nop;
+        temp$23 = new java.awt.Cursor;
+        specialinvoke temp$23.<java.awt.Cursor: void <init>(int)>(5);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$23);
+        goto label26;
+
+     label14:
+        nop;
+        temp$24 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator south()>();
+        temp$25 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$24);
+        if temp$25 == 0 goto label16;
+
+        goto label15;
+
+     label15:
+        nop;
+        temp$26 = new java.awt.Cursor;
+        specialinvoke temp$26.<java.awt.Cursor: void <init>(int)>(9);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$26);
+        goto label25;
+
+     label16:
+        nop;
+        temp$27 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator southWest()>();
+        temp$28 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$27);
+        if temp$28 == 0 goto label18;
+
+        goto label17;
+
+     label17:
+        nop;
+        temp$29 = new java.awt.Cursor;
+        specialinvoke temp$29.<java.awt.Cursor: void <init>(int)>(4);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$29);
+        goto label24;
+
+     label18:
+        nop;
+        temp$30 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator west()>();
+        temp$31 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$30);
+        if temp$31 == 0 goto label20;
+
+        goto label19;
+
+     label19:
+        nop;
+        temp$32 = new java.awt.Cursor;
+        specialinvoke temp$32.<java.awt.Cursor: void <init>(int)>(10);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$32);
+        goto label23;
+
+     label20:
+        nop;
+        temp$33 = staticinvoke <CH.ifa.draw.standard.RelativeLocator: CH.ifa.draw.framework.Locator northWest()>();
+        temp$34 = virtualinvoke rl.<CH.ifa.draw.standard.RelativeLocator: boolean equals(java.lang.Object)>(temp$33);
+        if temp$34 == 0 goto label22;
+
+        goto label21;
+
+     label21:
+        nop;
+        temp$35 = new java.awt.Cursor;
+        specialinvoke temp$35.<java.awt.Cursor: void <init>(int)>(6);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$35);
+
+     label22:
+        nop;
+
+     label23:
+        nop;
+
+     label24:
+        nop;
+
+     label25:
+        nop;
+
+     label26:
+        nop;
+
+     label27:
+        nop;
+
+     label28:
+        nop;
+
+     label29:
+        nop;
+
+     label30:
+        nop;
+
+     label31:
+        nop;
+        goto label36;
+
+     label32:
+        nop;
+        if figure != null goto label33;
+
+        goto label34;
+
+     label33:
+        nop;
+        temp$36 = new java.awt.Cursor;
+        specialinvoke temp$36.<java.awt.Cursor: void <init>(int)>(13);
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$36);
+        goto label35;
+
+     label34:
+        nop;
+        temp$37 = staticinvoke <java.awt.Cursor: java.awt.Cursor getDefaultCursor()>();
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void setCursor(java.awt.Cursor)>(temp$37);
+
+     label35:
+        nop;
+
+     label36:
+        nop;
+        return;
+    }
+
+    public void mouseMove(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.event.MouseEvent evt;
+        int x, y, temp$0, temp$1;
+        CH.ifa.draw.framework.DrawingView temp$2;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        evt := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        temp$0 = virtualinvoke evt.<java.awt.event.MouseEvent: int getX()>();
+        temp$1 = virtualinvoke evt.<java.awt.event.MouseEvent: int getY()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        staticinvoke <CH.ifa.draw.contrib.DragNDropTool: void setCursor(int,int,CH.ifa.draw.framework.DrawingView)>(temp$0, temp$1, temp$2);
+        return;
+    }
+
+    public void mouseUp(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.event.MouseEvent e;
+        int x, y;
+        CH.ifa.draw.framework.DrawingView temp$0;
+        CH.ifa.draw.framework.Tool temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: void unfreezeView()>();
+        temp$1 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        if temp$1 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.Tool: void mouseUp(java.awt.event.MouseEvent,int,int)>(e, x, y);
+
+     label1:
+        nop;
+        temp$3 = null;
+        this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild> = temp$3;
+        return;
+    }
+
+    public void mouseDown(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.event.MouseEvent e;
+        int x, y, temp$3, temp$4, temp$8, temp$9;
+        CH.ifa.draw.framework.Tool temp$0, temp$6, temp$20, temp$21, temp$22;
+        CH.ifa.draw.framework.DrawingView temp$1, temp$2, temp$12, temp$13, temp$16, temp$17, temp$19;
+        CH.ifa.draw.framework.Handle handle, temp$5;
+        CH.ifa.draw.framework.Figure figure, temp$10;
+        CH.ifa.draw.framework.Drawing temp$7;
+        boolean temp$11, temp$15, temp$18;
+        java.util.Vector temp$14;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        temp$0 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.DrawingView: void freezeView()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        temp$3 = virtualinvoke e.<java.awt.event.MouseEvent: int getX()>();
+        temp$4 = virtualinvoke e.<java.awt.event.MouseEvent: int getY()>();
+        temp$5 = interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Handle findHandle(int,int)>(temp$3, temp$4);
+        handle = temp$5;
+        if handle != null goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$6 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool createHandleTracker(CH.ifa.draw.framework.Handle)>(handle);
+        this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild> = temp$6;
+        goto label14;
+
+     label3:
+        nop;
+        temp$7 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$8 = virtualinvoke e.<java.awt.event.MouseEvent: int getX()>();
+        temp$9 = virtualinvoke e.<java.awt.event.MouseEvent: int getY()>();
+        temp$10 = interfaceinvoke temp$7.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure findFigure(int,int)>(temp$8, temp$9);
+        figure = temp$10;
+        if figure != null goto label4;
+
+        goto label10;
+
+     label4:
+        nop;
+        temp$11 = virtualinvoke e.<java.awt.event.MouseEvent: boolean isShiftDown()>();
+        if temp$11 == 0 goto label6;
+
+        goto label5;
+
+     label5:
+        nop;
+        temp$12 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$12.<CH.ifa.draw.framework.DrawingView: void toggleSelection(CH.ifa.draw.framework.Figure)>(figure);
+        goto label9;
+
+     label6:
+        nop;
+        temp$13 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        temp$14 = interfaceinvoke temp$13.<CH.ifa.draw.framework.DrawingView: java.util.Vector selection()>();
+        temp$15 = virtualinvoke temp$14.<java.util.Vector: boolean contains(java.lang.Object)>(figure);
+        if temp$15 == 0 goto label7;
+
+        goto label8;
+
+     label7:
+        nop;
+        temp$16 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$16.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        temp$17 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$17.<CH.ifa.draw.framework.DrawingView: void addToSelection(CH.ifa.draw.framework.Figure)>(figure);
+
+     label8:
+        nop;
+
+     label9:
+        nop;
+        goto label13;
+
+     label10:
+        nop;
+        temp$18 = virtualinvoke e.<java.awt.event.MouseEvent: boolean isShiftDown()>();
+        if temp$18 == 0 goto label11;
+
+        goto label12;
+
+     label11:
+        nop;
+        temp$19 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$19.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+
+     label12:
+        nop;
+        temp$20 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool createAreaTracker()>();
+        this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild> = temp$20;
+
+     label13:
+        nop;
+
+     label14:
+        nop;
+        temp$21 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        if temp$21 != null goto label15;
+
+        goto label16;
+
+     label15:
+        nop;
+        temp$22 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        interfaceinvoke temp$22.<CH.ifa.draw.framework.Tool: void mouseDown(java.awt.event.MouseEvent,int,int)>(e, x, y);
+
+     label16:
+        nop;
+        return;
+    }
+
+    public void mouseDrag(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.event.MouseEvent e;
+        int x, y;
+        CH.ifa.draw.framework.Tool temp$0, temp$1;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        temp$0 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        if temp$0 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        interfaceinvoke temp$1.<CH.ifa.draw.framework.Tool: void mouseDrag(java.awt.event.MouseEvent,int,int)>(e, x, y);
+
+     label1:
+        nop;
+        return;
+    }
+
+    protected CH.ifa.draw.framework.Tool createAreaTracker()
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        CH.ifa.draw.standard.SelectAreaTracker temp$0;
+        CH.ifa.draw.framework.DrawingEditor temp$1;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        temp$0 = new CH.ifa.draw.standard.SelectAreaTracker;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingEditor editor()>();
+        specialinvoke temp$0.<CH.ifa.draw.standard.SelectAreaTracker: void <init>(CH.ifa.draw.framework.DrawingEditor)>(temp$1);
+        return temp$0;
+    }
+
+    protected CH.ifa.draw.framework.Tool createHandleTracker(CH.ifa.draw.framework.Handle)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        CH.ifa.draw.framework.Handle handle;
+        CH.ifa.draw.standard.HandleTracker temp$0;
+        CH.ifa.draw.framework.DrawingEditor temp$1;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        handle := @parameter0: CH.ifa.draw.framework.Handle;
+        temp$0 = new CH.ifa.draw.standard.HandleTracker;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.DrawingEditor editor()>();
+        specialinvoke temp$0.<CH.ifa.draw.standard.HandleTracker: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Handle)>(temp$1, handle);
+        return temp$0;
+    }
+
+    private final void createDragGestureRecognizer(CH.ifa.draw.framework.DrawingView, java.awt.dnd.DragGestureListener)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        CH.ifa.draw.framework.DrawingView dv;
+        java.awt.dnd.DragGestureListener dgl;
+        java.lang.Class temp$0, temp$1, temp$2;
+        boolean temp$3, temp$7;
+        java.awt.Component c;
+        java.awt.dnd.DragGestureRecognizer dgr, temp$5;
+        java.awt.dnd.DragSource temp$4;
+        java.util.ArrayList temp$6;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dv := @parameter0: CH.ifa.draw.framework.DrawingView;
+        dgl := @parameter1: java.awt.dnd.DragGestureListener;
+        temp$1 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component>;
+        if temp$1 != null goto label0;
+
+        temp$2 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$(java.lang.String)>("java.awt.Component");
+        <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component> = temp$2;
+        temp$0 = temp$2;
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$java$awt$Component>;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke temp$0.<java.lang.Class: boolean isInstance(java.lang.Object)>(dv);
+        if temp$3 == 0 goto label3;
+
+        goto label2;
+
+     label2:
+        nop;
+        c = (java.awt.Component) dv;
+        temp$4 = this.<CH.ifa.draw.contrib.DragNDropTool: java.awt.dnd.DragSource dragSource>;
+        temp$5 = virtualinvoke temp$4.<java.awt.dnd.DragSource: java.awt.dnd.DragGestureRecognizer createDefaultDragGestureRecognizer(java.awt.Component,int,java.awt.dnd.DragGestureListener)>(c, 3, this);
+        dgr = temp$5;
+        temp$6 = this.<CH.ifa.draw.contrib.DragNDropTool: java.util.ArrayList fDragGestureRecognizers>;
+        temp$7 = virtualinvoke temp$6.<java.util.ArrayList: boolean add(java.lang.Object)>(dgr);
+
+     label3:
+        nop;
+        return;
+    }
+
+    private final void destroyDragGestreRecognizer(CH.ifa.draw.framework.DrawingView, java.awt.dnd.DragGestureListener)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        CH.ifa.draw.framework.DrawingView dv;
+        java.awt.dnd.DragGestureListener dgl;
+        java.util.Iterator i, temp$1;
+        java.util.ArrayList temp$0;
+        boolean temp$2;
+        java.awt.dnd.DragGestureRecognizer dgr;
+        java.lang.Object temp$3;
+        java.awt.Component temp$4;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dv := @parameter0: CH.ifa.draw.framework.DrawingView;
+        dgl := @parameter1: java.awt.dnd.DragGestureListener;
+        temp$0 = this.<CH.ifa.draw.contrib.DragNDropTool: java.util.ArrayList fDragGestureRecognizers>;
+        temp$1 = virtualinvoke temp$0.<java.util.AbstractList: java.util.Iterator iterator()>();
+        i = temp$1;
+
+     label0:
+        nop;
+        temp$2 = interfaceinvoke i.<java.util.Iterator: boolean hasNext()>();
+        if temp$2 == 0 goto label4;
+
+        goto label1;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke i.<java.util.Iterator: java.lang.Object next()>();
+        dgr = (java.awt.dnd.DragGestureRecognizer) temp$3;
+        temp$4 = virtualinvoke dgr.<java.awt.dnd.DragGestureRecognizer: java.awt.Component getComponent()>();
+        if temp$4 == dv goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        virtualinvoke dgr.<java.awt.dnd.DragGestureRecognizer: void removeDragGestureListener(java.awt.dnd.DragGestureListener)>(this);
+        virtualinvoke dgr.<java.awt.dnd.DragGestureRecognizer: void setComponent(java.awt.Component)>(null);
+        interfaceinvoke i.<java.util.Iterator: void remove()>();
+        goto label4;
+
+     label3:
+        nop;
+        goto label0;
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void dragGestureRecognized(java.awt.dnd.DragGestureEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DragGestureEvent dge;
+        java.awt.Component c, temp$0;
+        java.util.Vector selectedElements, temp$6;
+        java.awt.image.BufferedImage bi;
+        CH.ifa.draw.framework.Tool temp$1, temp$17;
+        java.lang.Class temp$2, temp$3, temp$4;
+        boolean temp$5, found, temp$8, temp$10, temp$15, temp$16;
+        CH.ifa.draw.framework.DrawingView dv;
+        java.util.Iterator itr, temp$7;
+        java.awt.Point p, temp$9;
+        java.lang.Object temp$11;
+        CH.ifa.draw.framework.Figure temp$12;
+        int temp$13, temp$14;
+        CH.ifa.draw.contrib.DragNDropTool$MyTransferable trans, temp$18;
+        java.awt.dnd.DragSource temp$19;
+        java.awt.Cursor temp$20;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dge := @parameter0: java.awt.dnd.DragGestureEvent;
+        temp$0 = virtualinvoke dge.<java.awt.dnd.DragGestureEvent: java.awt.Component getComponent()>();
+        c = temp$0;
+        temp$1 = this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild>;
+        if temp$1 != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        return;
+
+     label1:
+        nop;
+        temp$3 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$framework$DrawingView>;
+        if temp$3 != null goto label2;
+
+        temp$4 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$(java.lang.String)>("CH.ifa.draw.framework.DrawingView");
+        <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$framework$DrawingView> = temp$4;
+        temp$2 = temp$4;
+        goto label3;
+
+     label2:
+        nop;
+        temp$2 = <CH.ifa.draw.contrib.DragNDropTool: java.lang.Class class$CH$ifa$draw$framework$DrawingView>;
+
+     label3:
+        nop;
+        temp$5 = virtualinvoke temp$2.<java.lang.Class: boolean isInstance(java.lang.Object)>(c);
+        if temp$5 == 0 goto label14;
+
+        goto label4;
+
+     label4:
+        nop;
+        found = 0;
+        dv = (CH.ifa.draw.framework.DrawingView) c;
+        temp$6 = interfaceinvoke dv.<CH.ifa.draw.framework.DrawingView: java.util.Vector selectionZOrdered()>();
+        selectedElements = temp$6;
+        temp$7 = virtualinvoke selectedElements.<java.util.AbstractList: java.util.Iterator iterator()>();
+        itr = temp$7;
+        temp$8 = interfaceinvoke itr.<java.util.Iterator: boolean hasNext()>();
+        if temp$8 == 0 goto label5;
+
+        goto label6;
+
+     label5:
+        nop;
+        return;
+
+     label6:
+        nop;
+        temp$9 = virtualinvoke dge.<java.awt.dnd.DragGestureEvent: java.awt.Point getDragOrigin()>();
+        p = temp$9;
+
+     label7:
+        nop;
+        temp$10 = interfaceinvoke itr.<java.util.Iterator: boolean hasNext()>();
+        if temp$10 == 0 goto label11;
+
+        goto label8;
+
+     label8:
+        nop;
+        temp$11 = interfaceinvoke itr.<java.util.Iterator: java.lang.Object next()>();
+        temp$12 = (CH.ifa.draw.framework.Figure) temp$11;
+        temp$13 = p.<java.awt.Point: int x>;
+        temp$14 = p.<java.awt.Point: int y>;
+        temp$15 = interfaceinvoke temp$12.<CH.ifa.draw.framework.Figure: boolean containsPoint(int,int)>(temp$13, temp$14);
+        if temp$15 == 0 goto label10;
+
+        goto label9;
+
+     label9:
+        nop;
+        temp$16 = 1;
+        found = temp$16;
+        goto label11;
+
+     label10:
+        nop;
+        goto label7;
+
+     label11:
+        nop;
+        if found == 1 goto label12;
+
+        goto label13;
+
+     label12:
+        nop;
+        temp$17 = null;
+        this.<CH.ifa.draw.contrib.DragNDropTool: CH.ifa.draw.framework.Tool fChild> = temp$17;
+        this.<CH.ifa.draw.contrib.DragNDropTool: java.awt.Point origin> = p;
+        temp$18 = new CH.ifa.draw.contrib.DragNDropTool$MyTransferable;
+        specialinvoke temp$18.<CH.ifa.draw.contrib.DragNDropTool$MyTransferable: void <init>(CH.ifa.draw.contrib.DragNDropTool,java.lang.Object)>(this, selectedElements);
+        trans = temp$18;
+        temp$19 = virtualinvoke dge.<java.awt.dnd.DragGestureEvent: java.awt.dnd.DragSource getDragSource()>();
+        temp$20 = <java.awt.dnd.DragSource: java.awt.Cursor DefaultMoveDrop>;
+        virtualinvoke temp$19.<java.awt.dnd.DragSource: void startDrag(java.awt.dnd.DragGestureEvent,java.awt.Cursor,java.awt.datatransfer.Transferable,java.awt.dnd.DragSourceListener)>(dge, temp$20, trans, this);
+
+     label13:
+        nop;
+
+     label14:
+        nop;
+        return;
+    }
+
+    public void dragEnter(java.awt.dnd.DropTargetDragEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DropTargetDragEvent dtde;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dtde := @parameter0: java.awt.dnd.DropTargetDragEvent;
+        staticinvoke <CH.ifa.draw.contrib.DragNDropTool: void supportDropTargetDragEvent(java.awt.dnd.DropTargetDragEvent)>(dtde);
+        return;
+    }
+
+    public void dragExit(java.awt.dnd.DropTargetEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DropTargetEvent dte;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dte := @parameter0: java.awt.dnd.DropTargetEvent;
+        return;
+    }
+
+    public void dragOver(java.awt.dnd.DropTargetDragEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DropTargetDragEvent dtde;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dtde := @parameter0: java.awt.dnd.DropTargetDragEvent;
+        staticinvoke <CH.ifa.draw.contrib.DragNDropTool: void supportDropTargetDragEvent(java.awt.dnd.DropTargetDragEvent)>(dtde);
+        return;
+    }
+
+    public void drop(java.awt.dnd.DropTargetDropEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DropTargetDropEvent dtde;
+        java.awt.datatransfer.Transferable trans, temp$8, temp$35, temp$44, temp$55;
+        java.util.Vector figures, temp$10;
+        CH.ifa.draw.framework.DrawingView lView, temp$13;
+        java.awt.datatransfer.DataFlavor temp$0, temp$7, temp$30, temp$34, temp$40, temp$43, temp$50, temp$54;
+        boolean temp$1, temp$4, temp$24, temp$31, temp$41, temp$51;
+        int temp$2, temp$3, temp$6, dx, temp$17, temp$18, temp$19, dy, temp$21, temp$22, temp$23, temp$27, temp$33, acts, temp$53, x, temp$58, temp$61, temp$64, temp$65;
+        java.io.PrintStream temp$5, temp$32, temp$37, temp$42, temp$46, temp$48, temp$52, temp$57, temp$59;
+        java.lang.Object temp$9, temp$25, o, temp$36, o, temp$45, temp$56;
+        java.awt.dnd.DropTargetContext temp$11, temp$28, temp$29, temp$38, temp$39, temp$47, temp$49, temp$66, temp$67;
+        java.awt.Component temp$12;
+        java.util.Iterator itr, temp$14;
+        java.awt.Point newP, temp$15, temp$16, temp$20;
+        CH.ifa.draw.framework.Figure f, temp$26;
+        java.io.File[] fList, temp$60;
+        java.io.File temp$62;
+        java.lang.String temp$63;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dtde := @parameter0: java.awt.dnd.DropTargetDropEvent;
+        temp$0 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor VECTORFlavor>;
+        temp$1 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$0);
+        if temp$1 == 1 goto label0;
+
+        goto label14;
+
+     label0:
+        nop;
+        temp$2 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: int getDropAction()>();
+        temp$3 = temp$2 & 3;
+        if temp$3 != 0 goto label1;
+
+        goto label12;
+
+     label1:
+        nop;
+        temp$4 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: boolean isLocalTransfer()>();
+        if temp$4 == 0 goto label2;
+
+        goto label3;
+
+     label2:
+        nop;
+        temp$5 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$5.<java.io.PrintStream: void println(java.lang.String)>("Intra-JVM Transfers not implemented for figures yet.");
+        return;
+
+     label3:
+        nop;
+        temp$6 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: int getDropAction()>();
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: void acceptDrop(int)>(temp$6);
+        temp$7 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor VECTORFlavor>;
+        temp$8 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.datatransfer.Transferable getTransferable()>();
+        temp$9 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Object ProcessReceivedData(java.awt.datatransfer.DataFlavor,java.awt.datatransfer.Transferable)>(temp$7, temp$8);
+        temp$10 = (java.util.Vector) temp$9;
+        figures = temp$10;
+        if figures != null goto label4;
+
+        goto label10;
+
+     label4:
+        nop;
+        temp$11 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        temp$12 = virtualinvoke temp$11.<java.awt.dnd.DropTargetContext: java.awt.Component getComponent()>();
+        temp$13 = (CH.ifa.draw.framework.DrawingView) temp$12;
+        lView = temp$13;
+        interfaceinvoke lView.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        temp$14 = virtualinvoke figures.<java.util.AbstractList: java.util.Iterator iterator()>();
+        itr = temp$14;
+        temp$15 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.Point getLocation()>();
+        newP = temp$15;
+        temp$16 = this.<CH.ifa.draw.contrib.DragNDropTool: java.awt.Point origin>;
+        temp$17 = newP.<java.awt.Point: int x>;
+        temp$18 = temp$16.<java.awt.Point: int x>;
+        temp$19 = temp$17 - temp$18;
+        dx = temp$19;
+        temp$20 = this.<CH.ifa.draw.contrib.DragNDropTool: java.awt.Point origin>;
+        temp$21 = newP.<java.awt.Point: int y>;
+        temp$22 = temp$20.<java.awt.Point: int y>;
+        temp$23 = temp$21 - temp$22;
+        dy = temp$23;
+
+     label5:
+        nop;
+        temp$24 = interfaceinvoke itr.<java.util.Iterator: boolean hasNext()>();
+        if temp$24 == 0 goto label9;
+
+        goto label6;
+
+     label6:
+        nop;
+        temp$25 = interfaceinvoke itr.<java.util.Iterator: java.lang.Object next()>();
+        f = (CH.ifa.draw.framework.Figure) temp$25;
+        interfaceinvoke f.<CH.ifa.draw.framework.Figure: void moveBy(int,int)>(dx, dy);
+        temp$26 = interfaceinvoke lView.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Figure add(CH.ifa.draw.framework.Figure)>(f);
+        temp$27 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: int getDropAction()>();
+        if temp$27 == 2 goto label7;
+
+        goto label8;
+
+     label7:
+        nop;
+        interfaceinvoke lView.<CH.ifa.draw.framework.DrawingView: void addToSelection(CH.ifa.draw.framework.Figure)>(f);
+
+     label8:
+        nop;
+        goto label5;
+
+     label9:
+        nop;
+        interfaceinvoke lView.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+        temp$28 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$28.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(1);
+        goto label11;
+
+     label10:
+        nop;
+        temp$29 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$29.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(0);
+
+     label11:
+        nop;
+        goto label13;
+
+     label12:
+        nop;
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: void rejectDrop()>();
+
+     label13:
+        nop;
+        goto label35;
+
+     label14:
+        nop;
+        temp$30 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor stringFlavor>;
+        temp$31 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$30);
+        if temp$31 == 0 goto label19;
+
+        goto label15;
+
+     label15:
+        nop;
+        temp$32 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$32.<java.io.PrintStream: void println(java.lang.String)>("String flavor dropped.");
+        temp$33 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: int getDropAction()>();
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: void acceptDrop(int)>(temp$33);
+        temp$34 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor stringFlavor>;
+        temp$35 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.datatransfer.Transferable getTransferable()>();
+        temp$36 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Object ProcessReceivedData(java.awt.datatransfer.DataFlavor,java.awt.datatransfer.Transferable)>(temp$34, temp$35);
+        o = temp$36;
+        if o != null goto label16;
+
+        goto label17;
+
+     label16:
+        nop;
+        temp$37 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$37.<java.io.PrintStream: void println(java.lang.String)>("Received string flavored data.");
+        temp$38 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$38.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(1);
+        goto label18;
+
+     label17:
+        nop;
+        temp$39 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$39.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(0);
+
+     label18:
+        nop;
+        goto label34;
+
+     label19:
+        nop;
+        temp$40 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor ASCIIFlavor>;
+        temp$41 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$40);
+        if temp$41 == 1 goto label20;
+
+        goto label24;
+
+     label20:
+        nop;
+        temp$42 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$42.<java.io.PrintStream: void println(java.lang.String)>("ASCII Flavor dropped.");
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: void acceptDrop(int)>(1);
+        temp$43 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor ASCIIFlavor>;
+        temp$44 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.datatransfer.Transferable getTransferable()>();
+        temp$45 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Object ProcessReceivedData(java.awt.datatransfer.DataFlavor,java.awt.datatransfer.Transferable)>(temp$43, temp$44);
+        o = temp$45;
+        if o != null goto label21;
+
+        goto label22;
+
+     label21:
+        nop;
+        temp$46 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$46.<java.io.PrintStream: void println(java.lang.String)>("Received ASCII Flavored data.");
+        temp$47 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$47.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(1);
+        temp$48 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$48.<java.io.PrintStream: void println(java.lang.Object)>(o);
+        goto label23;
+
+     label22:
+        nop;
+        temp$49 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$49.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(0);
+
+     label23:
+        nop;
+        goto label33;
+
+     label24:
+        nop;
+        temp$50 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor javaFileListFlavor>;
+        temp$51 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$50);
+        if temp$51 == 0 goto label32;
+
+        goto label25;
+
+     label25:
+        nop;
+        temp$52 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$52.<java.io.PrintStream: void println(java.lang.String)>("Java File List Flavor dropped.");
+        temp$53 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: int getDropAction()>();
+        acts = temp$53;
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: void acceptDrop(int)>(1);
+        temp$54 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor javaFileListFlavor>;
+        temp$55 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.datatransfer.Transferable getTransferable()>();
+        temp$56 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Object ProcessReceivedData(java.awt.datatransfer.DataFlavor,java.awt.datatransfer.Transferable)>(temp$54, temp$55);
+        fList = (java.io.File[]) temp$56;
+        if fList != null goto label26;
+
+        goto label30;
+
+     label26:
+        nop;
+        temp$57 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$57.<java.io.PrintStream: void println(java.lang.String)>("Got list of files.");
+        x = 0;
+
+     label27:
+        nop;
+        temp$58 = lengthof fList;
+        if x < temp$58 goto label28;
+
+        goto label29;
+
+     label28:
+        nop;
+        temp$59 = <java.lang.System: java.io.PrintStream out>;
+        temp$60 = fList;
+        temp$61 = x;
+        temp$62 = temp$60[temp$61];
+        temp$63 = virtualinvoke temp$62.<java.io.File: java.lang.String getAbsolutePath()>();
+        virtualinvoke temp$59.<java.io.PrintStream: void println(java.lang.String)>(temp$63);
+        nop;
+        temp$64 = x;
+        temp$65 = temp$64 + 1;
+        x = temp$65;
+        goto label27;
+
+     label29:
+        nop;
+        temp$66 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$66.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(1);
+        goto label31;
+
+     label30:
+        nop;
+        temp$67 = virtualinvoke dtde.<java.awt.dnd.DropTargetDropEvent: java.awt.dnd.DropTargetContext getDropTargetContext()>();
+        virtualinvoke temp$67.<java.awt.dnd.DropTargetContext: void dropComplete(boolean)>(0);
+
+     label31:
+        nop;
+
+     label32:
+        nop;
+
+     label33:
+        nop;
+
+     label34:
+        nop;
+
+     label35:
+        nop;
+        return;
+    }
+
+    public void dropActionChanged(java.awt.dnd.DropTargetDragEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DropTargetDragEvent dtde;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dtde := @parameter0: java.awt.dnd.DropTargetDragEvent;
+        staticinvoke <CH.ifa.draw.contrib.DragNDropTool: void supportDropTargetDragEvent(java.awt.dnd.DropTargetDragEvent)>(dtde);
+        return;
+    }
+
+    public void dragDropEnd(java.awt.dnd.DragSourceDropEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DragSourceDropEvent dsde;
+        CH.ifa.draw.framework.DrawingView view;
+        java.awt.dnd.DragSourceContext temp$0, temp$5;
+        java.awt.Component temp$1;
+        java.util.Vector figures, temp$8;
+        boolean temp$2, temp$10;
+        int temp$3, temp$14;
+        java.awt.datatransfer.DataFlavor temp$4;
+        java.awt.datatransfer.Transferable temp$6;
+        java.lang.Object temp$7, temp$11;
+        java.util.Iterator itr, temp$9;
+        CH.ifa.draw.framework.Figure temp$12, temp$13;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dsde := @parameter0: java.awt.dnd.DragSourceDropEvent;
+        temp$0 = virtualinvoke dsde.<java.awt.dnd.DragSourceDropEvent: java.awt.dnd.DragSourceContext getDragSourceContext()>();
+        temp$1 = virtualinvoke temp$0.<java.awt.dnd.DragSourceContext: java.awt.Component getComponent()>();
+        view = (CH.ifa.draw.framework.DrawingView) temp$1;
+        temp$2 = virtualinvoke dsde.<java.awt.dnd.DragSourceDropEvent: boolean getDropSuccess()>();
+        if temp$2 == 1 goto label0;
+
+        goto label11;
+
+     label0:
+        nop;
+        temp$3 = virtualinvoke dsde.<java.awt.dnd.DragSourceDropEvent: int getDropAction()>();
+        if temp$3 == 2 goto label1;
+
+        goto label7;
+
+     label1:
+        nop;
+        temp$4 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor VECTORFlavor>;
+        temp$5 = virtualinvoke dsde.<java.awt.dnd.DragSourceDropEvent: java.awt.dnd.DragSourceContext getDragSourceContext()>();
+        temp$6 = virtualinvoke temp$5.<java.awt.dnd.DragSourceContext: java.awt.datatransfer.Transferable getTransferable()>();
+        temp$7 = staticinvoke <CH.ifa.draw.contrib.DragNDropTool: java.lang.Object ProcessReceivedData(java.awt.datatransfer.DataFlavor,java.awt.datatransfer.Transferable)>(temp$4, temp$6);
+        temp$8 = (java.util.Vector) temp$7;
+        figures = temp$8;
+        if figures != null goto label2;
+
+        goto label6;
+
+     label2:
+        nop;
+        temp$9 = virtualinvoke figures.<java.util.AbstractList: java.util.Iterator iterator()>();
+        itr = temp$9;
+
+     label3:
+        nop;
+        temp$10 = interfaceinvoke itr.<java.util.Iterator: boolean hasNext()>();
+        if temp$10 == 0 goto label5;
+
+        goto label4;
+
+     label4:
+        nop;
+        temp$11 = interfaceinvoke itr.<java.util.Iterator: java.lang.Object next()>();
+        temp$12 = (CH.ifa.draw.framework.Figure) temp$11;
+        temp$13 = interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.Figure remove(CH.ifa.draw.framework.Figure)>(temp$12);
+        goto label3;
+
+     label5:
+        nop;
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void clearSelection()>();
+        interfaceinvoke view.<CH.ifa.draw.framework.DrawingView: void checkDamage()>();
+
+     label6:
+        nop;
+        goto label10;
+
+     label7:
+        nop;
+        temp$14 = virtualinvoke dsde.<java.awt.dnd.DragSourceDropEvent: int getDropAction()>();
+        if temp$14 == 1 goto label8;
+
+        goto label9;
+
+     label8:
+        nop;
+
+     label9:
+        nop;
+
+     label10:
+        nop;
+
+     label11:
+        nop;
+        return;
+    }
+
+    public void dragEnter(java.awt.dnd.DragSourceDragEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DragSourceDragEvent dsde;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dsde := @parameter0: java.awt.dnd.DragSourceDragEvent;
+        return;
+    }
+
+    public void dragExit(java.awt.dnd.DragSourceEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DragSourceEvent dse;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dse := @parameter0: java.awt.dnd.DragSourceEvent;
+        return;
+    }
+
+    public void dragOver(java.awt.dnd.DragSourceDragEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DragSourceDragEvent dsde;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dsde := @parameter0: java.awt.dnd.DragSourceDragEvent;
+        return;
+    }
+
+    public void dropActionChanged(java.awt.dnd.DragSourceDragEvent)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.dnd.DragSourceDragEvent dsde;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        dsde := @parameter0: java.awt.dnd.DragSourceDragEvent;
+        return;
+    }
+
+    protected static void supportDropTargetDragEvent(java.awt.dnd.DropTargetDragEvent)
+    {
+        java.awt.dnd.DropTargetDragEvent dtde;
+        java.awt.datatransfer.DataFlavor temp$0, temp$4, temp$7, temp$10;
+        boolean temp$1, temp$5, temp$8, temp$11;
+        int temp$2, temp$3, temp$6, temp$9, temp$12;
+
+        dtde := @parameter0: java.awt.dnd.DropTargetDragEvent;
+        temp$0 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor VECTORFlavor>;
+        temp$1 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$0);
+        if temp$1 == 1 goto label0;
+
+        goto label6;
+
+     label0:
+        nop;
+        temp$2 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: int getDropAction()>();
+        if temp$2 == 1 goto label1;
+
+        goto label2;
+
+     label1:
+        nop;
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: void acceptDrag(int)>(1);
+        goto label5;
+
+     label2:
+        nop;
+        temp$3 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: int getDropAction()>();
+        if temp$3 == 2 goto label3;
+
+        goto label4;
+
+     label3:
+        nop;
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: void acceptDrag(int)>(2);
+
+     label4:
+        nop;
+
+     label5:
+        nop;
+        goto label16;
+
+     label6:
+        nop;
+        temp$4 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor ASCIIFlavor>;
+        temp$5 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$4);
+        if temp$5 == 1 goto label7;
+
+        goto label8;
+
+     label7:
+        nop;
+        temp$6 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: int getDropAction()>();
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: void acceptDrag(int)>(temp$6);
+        goto label15;
+
+     label8:
+        nop;
+        temp$7 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor stringFlavor>;
+        temp$8 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$7);
+        if temp$8 == 1 goto label9;
+
+        goto label10;
+
+     label9:
+        nop;
+        temp$9 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: int getDropAction()>();
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: void acceptDrag(int)>(temp$9);
+        goto label14;
+
+     label10:
+        nop;
+        temp$10 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor javaFileListFlavor>;
+        temp$11 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor)>(temp$10);
+        if temp$11 == 1 goto label11;
+
+        goto label12;
+
+     label11:
+        nop;
+        temp$12 = virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: int getDropAction()>();
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: void acceptDrag(int)>(temp$12);
+        goto label13;
+
+     label12:
+        nop;
+        virtualinvoke dtde.<java.awt.dnd.DropTargetDragEvent: void rejectDrag()>();
+
+     label13:
+        nop;
+
+     label14:
+        nop;
+
+     label15:
+        nop;
+
+     label16:
+        nop;
+        return;
+    }
+
+    protected static java.lang.Object ProcessReceivedData(java.awt.datatransfer.DataFlavor, java.awt.datatransfer.Transferable)
+    {
+        java.awt.datatransfer.DataFlavor flavor, temp$1, temp$3, temp$5, temp$7, temp$11, temp$13, temp$18, temp$20;
+        java.awt.datatransfer.Transferable transferable;
+        java.lang.Object temp$0, temp$4, temp$8, temp$14, temp$21, temp$22, temp$24, temp$26, temp$28;
+        boolean temp$2, temp$6, temp$12, temp$19;
+        java.lang.String str, txt, temp$17;
+        java.util.List aList;
+        java.io.File[] fList;
+        int temp$9, length, temp$15, n, temp$16;
+        java.lang.Object[] temp$10;
+        java.io.InputStream is;
+        byte[] bytes;
+        java.util.Vector v;
+        java.io.IOException ioe;
+        java.io.PrintStream temp$23, temp$25, temp$27;
+        java.awt.datatransfer.UnsupportedFlavorException ufe;
+        java.lang.ClassCastException cce;
+
+        flavor := @parameter0: java.awt.datatransfer.DataFlavor;
+        transferable := @parameter1: java.awt.datatransfer.Transferable;
+        if transferable == null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$0 = null;
+        return temp$0;
+
+     label1:
+        nop;
+
+     label2:
+        nop;
+        temp$1 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor stringFlavor>;
+        temp$2 = virtualinvoke flavor.<java.awt.datatransfer.DataFlavor: boolean equals(java.awt.datatransfer.DataFlavor)>(temp$1);
+        if temp$2 == 0 goto label5;
+
+        goto label3;
+
+     label3:
+        nop;
+        temp$3 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor stringFlavor>;
+        temp$4 = interfaceinvoke transferable.<java.awt.datatransfer.Transferable: java.lang.Object getTransferData(java.awt.datatransfer.DataFlavor)>(temp$3);
+        str = (java.lang.String) temp$4;
+
+     label4:
+        nop;
+        return str;
+
+     label5:
+        nop;
+        temp$5 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor javaFileListFlavor>;
+        temp$6 = virtualinvoke flavor.<java.awt.datatransfer.DataFlavor: boolean equals(java.awt.datatransfer.DataFlavor)>(temp$5);
+        if temp$6 == 0 goto label8;
+
+        goto label6;
+
+     label6:
+        nop;
+        temp$7 = <java.awt.datatransfer.DataFlavor: java.awt.datatransfer.DataFlavor javaFileListFlavor>;
+        temp$8 = interfaceinvoke transferable.<java.awt.datatransfer.Transferable: java.lang.Object getTransferData(java.awt.datatransfer.DataFlavor)>(temp$7);
+        aList = (java.util.List) temp$8;
+        temp$9 = interfaceinvoke aList.<java.util.List: int size()>();
+        fList = newarray (java.io.File)[temp$9];
+        temp$10 = interfaceinvoke aList.<java.util.List: java.lang.Object[] toArray(java.lang.Object[])>(fList);
+
+     label7:
+        nop;
+        return aList;
+
+     label8:
+        nop;
+        temp$11 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor ASCIIFlavor>;
+        temp$12 = virtualinvoke flavor.<java.awt.datatransfer.DataFlavor: boolean equals(java.awt.datatransfer.DataFlavor)>(temp$11);
+        if temp$12 == 0 goto label13;
+
+        goto label9;
+
+     label9:
+        nop;
+        txt = null;
+        temp$13 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor ASCIIFlavor>;
+        temp$14 = interfaceinvoke transferable.<java.awt.datatransfer.Transferable: java.lang.Object getTransferData(java.awt.datatransfer.DataFlavor)>(temp$13);
+        is = (java.io.InputStream) temp$14;
+        temp$15 = virtualinvoke is.<java.io.InputStream: int available()>();
+        length = temp$15;
+        bytes = newarray (byte)[length];
+        temp$16 = virtualinvoke is.<java.io.InputStream: int read(byte[])>(bytes);
+        n = temp$16;
+        if n > 0 goto label10;
+
+        goto label11;
+
+     label10:
+        nop;
+        temp$17 = new java.lang.String;
+        specialinvoke temp$17.<java.lang.String: void <init>(byte[],int,int)>(bytes, 0, n);
+        txt = temp$17;
+
+     label11:
+        nop;
+
+     label12:
+        nop;
+        return txt;
+
+     label13:
+        nop;
+        temp$18 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor VECTORFlavor>;
+        temp$19 = virtualinvoke flavor.<java.awt.datatransfer.DataFlavor: boolean equals(java.awt.datatransfer.DataFlavor)>(temp$18);
+        if temp$19 == 0 goto label16;
+
+        goto label14;
+
+     label14:
+        nop;
+        temp$20 = <CH.ifa.draw.contrib.DragNDropTool: java.awt.datatransfer.DataFlavor VECTORFlavor>;
+        temp$21 = interfaceinvoke transferable.<java.awt.datatransfer.Transferable: java.lang.Object getTransferData(java.awt.datatransfer.DataFlavor)>(temp$20);
+        v = (java.util.Vector) temp$21;
+
+     label15:
+        nop;
+        return v;
+
+     label16:
+        nop;
+        temp$22 = null;
+
+     label17:
+        nop;
+        return temp$22;
+
+     label18:
+        nop;
+        ioe := @caughtexception;
+        temp$23 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$23.<java.io.PrintStream: void println(java.lang.Object)>(ioe);
+        temp$24 = null;
+        nop;
+        return temp$24;
+
+     label19:
+        nop;
+        ufe := @caughtexception;
+        temp$25 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$25.<java.io.PrintStream: void println(java.lang.Object)>(ufe);
+        temp$26 = null;
+        nop;
+        return temp$26;
+
+     label20:
+        nop;
+        cce := @caughtexception;
+        temp$27 = <java.lang.System: java.io.PrintStream err>;
+        virtualinvoke temp$27.<java.io.PrintStream: void println(java.lang.Object)>(cce);
+        temp$28 = null;
+        nop;
+        return temp$28;
+
+        catch java.io.IOException from label2 to label4 with label18;
+        catch java.io.IOException from label5 to label7 with label18;
+        catch java.io.IOException from label8 to label12 with label18;
+        catch java.io.IOException from label13 to label15 with label18;
+        catch java.io.IOException from label16 to label17 with label18;
+        catch java.awt.datatransfer.UnsupportedFlavorException from label2 to label4 with label19;
+        catch java.awt.datatransfer.UnsupportedFlavorException from label5 to label7 with label19;
+        catch java.awt.datatransfer.UnsupportedFlavorException from label8 to label12 with label19;
+        catch java.awt.datatransfer.UnsupportedFlavorException from label13 to label15 with label19;
+        catch java.awt.datatransfer.UnsupportedFlavorException from label16 to label17 with label19;
+        catch java.lang.ClassCastException from label2 to label4 with label20;
+        catch java.lang.ClassCastException from label5 to label7 with label20;
+        catch java.lang.ClassCastException from label8 to label12 with label20;
+        catch java.lang.ClassCastException from label13 to label15 with label20;
+        catch java.lang.ClassCastException from label16 to label17 with label20;
+    }
+
+    protected java.lang.Object ProcessRemotelyReceivedData(java.awt.datatransfer.DataFlavor, java.awt.datatransfer.Transferable)
+    {
+        CH.ifa.draw.contrib.DragNDropTool this;
+        java.awt.datatransfer.DataFlavor flavor;
+        java.awt.datatransfer.Transferable transferable;
+        java.lang.Object temp$0;
+
+        this := @this: CH.ifa.draw.contrib.DragNDropTool;
+        flavor := @parameter0: java.awt.datatransfer.DataFlavor;
+        transferable := @parameter1: java.awt.datatransfer.Transferable;
+        temp$0 = null;
+        return temp$0;
+    }
+
+    public static java.lang.Class class$(java.lang.String)
+    {
+        java.lang.String name, temp$2;
+        java.lang.Class temp$0;
+        java.lang.ClassNotFoundException e;
+        java.lang.NoClassDefFoundError temp$1;
+
+        name := @parameter0: java.lang.String;
+
+     label0:
+        nop;
+        temp$0 = staticinvoke <java.lang.Class: java.lang.Class forName(java.lang.String)>(name);
+
+     label1:
+        nop;
+        return temp$0;
+
+     label2:
+        nop;
+        e := @caughtexception;
+        temp$1 = new java.lang.NoClassDefFoundError;
+        temp$2 = virtualinvoke e.<java.lang.ClassNotFoundException: java.lang.String getMessage()>();
+        specialinvoke temp$1.<java.lang.NoClassDefFoundError: void <init>(java.lang.String)>(temp$2);
+        throw temp$1;
+
+        catch java.lang.ClassNotFoundException from label0 to label1 with label2;
+    }
+}

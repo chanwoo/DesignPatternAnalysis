@@ -1,0 +1,65 @@
+public class CH.ifa.draw.standard.ToggleGridCommand extends CH.ifa.draw.standard.AbstractCommand
+{
+    private java.awt.Point fGrid;
+
+    public void <init>(java.lang.String, CH.ifa.draw.framework.DrawingEditor, java.awt.Point)
+    {
+        CH.ifa.draw.standard.ToggleGridCommand this;
+        java.lang.String name;
+        CH.ifa.draw.framework.DrawingEditor newDrawingEditor;
+        java.awt.Point grid, temp$0;
+        int temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.standard.ToggleGridCommand;
+        name := @parameter0: java.lang.String;
+        newDrawingEditor := @parameter1: CH.ifa.draw.framework.DrawingEditor;
+        grid := @parameter2: java.awt.Point;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void <init>(java.lang.String,CH.ifa.draw.framework.DrawingEditor)>(name, newDrawingEditor);
+        temp$0 = new java.awt.Point;
+        temp$1 = grid.<java.awt.Point: int x>;
+        temp$2 = grid.<java.awt.Point: int y>;
+        specialinvoke temp$0.<java.awt.Point: void <init>(int,int)>(temp$1, temp$2);
+        this.<CH.ifa.draw.standard.ToggleGridCommand: java.awt.Point fGrid> = temp$0;
+        return;
+    }
+
+    public void execute()
+    {
+        CH.ifa.draw.standard.ToggleGridCommand this;
+        CH.ifa.draw.framework.PointConstrainer grid, temp$1;
+        CH.ifa.draw.framework.DrawingView temp$0, temp$2, temp$3;
+        CH.ifa.draw.standard.GridConstrainer temp$4;
+        java.awt.Point temp$5, temp$7;
+        int temp$6, temp$8;
+
+        this := @this: CH.ifa.draw.standard.ToggleGridCommand;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractCommand: void execute()>();
+        temp$0 = virtualinvoke this.<CH.ifa.draw.standard.ToggleGridCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.DrawingView: CH.ifa.draw.framework.PointConstrainer getConstrainer()>();
+        grid = temp$1;
+        if grid != null goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.standard.ToggleGridCommand: CH.ifa.draw.framework.DrawingView view()>();
+        interfaceinvoke temp$2.<CH.ifa.draw.framework.DrawingView: void setConstrainer(CH.ifa.draw.framework.PointConstrainer)>(null);
+        goto label2;
+
+     label1:
+        nop;
+        temp$3 = virtualinvoke this.<CH.ifa.draw.standard.ToggleGridCommand: CH.ifa.draw.framework.DrawingView view()>();
+        temp$4 = new CH.ifa.draw.standard.GridConstrainer;
+        temp$5 = this.<CH.ifa.draw.standard.ToggleGridCommand: java.awt.Point fGrid>;
+        temp$6 = temp$5.<java.awt.Point: int x>;
+        temp$7 = this.<CH.ifa.draw.standard.ToggleGridCommand: java.awt.Point fGrid>;
+        temp$8 = temp$7.<java.awt.Point: int y>;
+        specialinvoke temp$4.<CH.ifa.draw.standard.GridConstrainer: void <init>(int,int)>(temp$6, temp$8);
+        interfaceinvoke temp$3.<CH.ifa.draw.framework.DrawingView: void setConstrainer(CH.ifa.draw.framework.PointConstrainer)>(temp$4);
+
+     label2:
+        nop;
+        return;
+    }
+}

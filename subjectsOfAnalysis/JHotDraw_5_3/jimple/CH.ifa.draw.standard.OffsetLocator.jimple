@@ -1,0 +1,145 @@
+public class CH.ifa.draw.standard.OffsetLocator extends CH.ifa.draw.standard.AbstractLocator
+{
+    private static final long serialVersionUID;
+    private int offsetLocatorSerializedDataVersion;
+    private CH.ifa.draw.framework.Locator fBase;
+    private int fOffsetX;
+    private int fOffsetY;
+
+    static void <clinit>()
+    {
+        long temp$0;
+
+        temp$0 = 2679950024611847621L;
+        <CH.ifa.draw.standard.OffsetLocator: long serialVersionUID> = temp$0;
+        return;
+    }
+
+    public void <init>()
+    {
+        CH.ifa.draw.standard.OffsetLocator this;
+        int temp$0, temp$2, temp$3;
+        CH.ifa.draw.framework.Locator temp$1;
+
+        this := @this: CH.ifa.draw.standard.OffsetLocator;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void <init>()>();
+        temp$0 = 1;
+        this.<CH.ifa.draw.standard.OffsetLocator: int offsetLocatorSerializedDataVersion> = temp$0;
+        temp$1 = null;
+        this.<CH.ifa.draw.standard.OffsetLocator: CH.ifa.draw.framework.Locator fBase> = temp$1;
+        temp$2 = 0;
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetX> = temp$2;
+        temp$3 = 0;
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetY> = temp$3;
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Locator)
+    {
+        CH.ifa.draw.standard.OffsetLocator this;
+        CH.ifa.draw.framework.Locator base;
+
+        this := @this: CH.ifa.draw.standard.OffsetLocator;
+        base := @parameter0: CH.ifa.draw.framework.Locator;
+        specialinvoke this.<CH.ifa.draw.standard.OffsetLocator: void <init>()>();
+        this.<CH.ifa.draw.standard.OffsetLocator: CH.ifa.draw.framework.Locator fBase> = base;
+        return;
+    }
+
+    public void <init>(CH.ifa.draw.framework.Locator, int, int)
+    {
+        CH.ifa.draw.standard.OffsetLocator this;
+        CH.ifa.draw.framework.Locator base;
+        int offsetX, offsetY;
+
+        this := @this: CH.ifa.draw.standard.OffsetLocator;
+        base := @parameter0: CH.ifa.draw.framework.Locator;
+        offsetX := @parameter1: int;
+        offsetY := @parameter2: int;
+        specialinvoke this.<CH.ifa.draw.standard.OffsetLocator: void <init>(CH.ifa.draw.framework.Locator)>(base);
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetX> = offsetX;
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetY> = offsetY;
+        return;
+    }
+
+    public java.awt.Point locate(CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.standard.OffsetLocator this;
+        CH.ifa.draw.framework.Figure owner;
+        java.awt.Point p, temp$1;
+        CH.ifa.draw.framework.Locator temp$0;
+        int temp$2, temp$3, temp$4, temp$5, temp$6, temp$7;
+
+        this := @this: CH.ifa.draw.standard.OffsetLocator;
+        owner := @parameter0: CH.ifa.draw.framework.Figure;
+        temp$0 = this.<CH.ifa.draw.standard.OffsetLocator: CH.ifa.draw.framework.Locator fBase>;
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Locator: java.awt.Point locate(CH.ifa.draw.framework.Figure)>(owner);
+        p = temp$1;
+        temp$2 = p.<java.awt.Point: int x>;
+        temp$3 = this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetX>;
+        temp$4 = temp$2 + temp$3;
+        p.<java.awt.Point: int x> = temp$4;
+        temp$5 = p.<java.awt.Point: int y>;
+        temp$6 = this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetY>;
+        temp$7 = temp$5 + temp$6;
+        p.<java.awt.Point: int y> = temp$7;
+        return p;
+    }
+
+    public void moveBy(int, int)
+    {
+        CH.ifa.draw.standard.OffsetLocator this;
+        int dx, dy, temp$0, temp$1, temp$2, temp$3;
+
+        this := @this: CH.ifa.draw.standard.OffsetLocator;
+        dx := @parameter0: int;
+        dy := @parameter1: int;
+        temp$0 = this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetX>;
+        temp$1 = temp$0 + dx;
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetX> = temp$1;
+        temp$2 = this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetY>;
+        temp$3 = temp$2 + dy;
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetY> = temp$3;
+        return;
+    }
+
+    public void write(CH.ifa.draw.util.StorableOutput)
+    {
+        CH.ifa.draw.standard.OffsetLocator this;
+        CH.ifa.draw.util.StorableOutput dw;
+        int temp$0, temp$1;
+        CH.ifa.draw.framework.Locator temp$2;
+
+        this := @this: CH.ifa.draw.standard.OffsetLocator;
+        dw := @parameter0: CH.ifa.draw.util.StorableOutput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void write(CH.ifa.draw.util.StorableOutput)>(dw);
+        temp$0 = this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetX>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$0);
+        temp$1 = this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetY>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeInt(int)>(temp$1);
+        temp$2 = this.<CH.ifa.draw.standard.OffsetLocator: CH.ifa.draw.framework.Locator fBase>;
+        virtualinvoke dw.<CH.ifa.draw.util.StorableOutput: void writeStorable(CH.ifa.draw.util.Storable)>(temp$2);
+        return;
+    }
+
+    public void read(CH.ifa.draw.util.StorableInput) throws java.io.IOException
+    {
+        CH.ifa.draw.standard.OffsetLocator this;
+        CH.ifa.draw.util.StorableInput dr;
+        int temp$0, temp$1;
+        CH.ifa.draw.util.Storable temp$2;
+        CH.ifa.draw.framework.Locator temp$3;
+
+        this := @this: CH.ifa.draw.standard.OffsetLocator;
+        dr := @parameter0: CH.ifa.draw.util.StorableInput;
+        specialinvoke this.<CH.ifa.draw.standard.AbstractLocator: void read(CH.ifa.draw.util.StorableInput)>(dr);
+        temp$0 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetX> = temp$0;
+        temp$1 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: int readInt()>();
+        this.<CH.ifa.draw.standard.OffsetLocator: int fOffsetY> = temp$1;
+        temp$2 = virtualinvoke dr.<CH.ifa.draw.util.StorableInput: CH.ifa.draw.util.Storable readStorable()>();
+        temp$3 = (CH.ifa.draw.framework.Locator) temp$2;
+        this.<CH.ifa.draw.standard.OffsetLocator: CH.ifa.draw.framework.Locator fBase> = temp$3;
+        return;
+    }
+}

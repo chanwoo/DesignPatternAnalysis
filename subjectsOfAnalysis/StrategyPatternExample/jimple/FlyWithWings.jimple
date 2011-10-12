@@ -1,0 +1,23 @@
+public class FlyWithWings extends java.lang.Object implements FlyBehavior
+{
+
+    public void fly()
+    {
+        FlyWithWings this;
+        java.io.PrintStream temp$0;
+
+        this := @this: FlyWithWings;
+        temp$0 = <java.lang.System: java.io.PrintStream out>;
+        virtualinvoke temp$0.<java.io.PrintStream: void println(java.lang.String)>("I\'m flying!!");
+        return;
+    }
+
+    public void <init>()
+    {
+        FlyWithWings this;
+
+        this := @this: FlyWithWings;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+}

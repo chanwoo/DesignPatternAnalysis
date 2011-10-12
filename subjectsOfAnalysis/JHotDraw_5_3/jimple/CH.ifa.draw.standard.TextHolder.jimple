@@ -1,0 +1,19 @@
+public interface  CH.ifa.draw.standard.TextHolder extends java.lang.Object
+{
+
+    public abstract java.awt.Rectangle textDisplayBox();
+
+    public abstract java.lang.String getText();
+
+    public abstract void setText(java.lang.String);
+
+    public abstract boolean acceptsTyping();
+
+    public abstract int overlayColumns();
+
+    public abstract void connect(CH.ifa.draw.framework.Figure);
+
+    public abstract void disconnect(CH.ifa.draw.framework.Figure);
+
+    public abstract java.awt.Font getFont();
+}

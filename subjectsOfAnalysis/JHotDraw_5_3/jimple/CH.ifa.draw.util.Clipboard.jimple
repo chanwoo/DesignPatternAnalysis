@@ -1,0 +1,53 @@
+public class CH.ifa.draw.util.Clipboard extends java.lang.Object
+{
+    static CH.ifa.draw.util.Clipboard fgClipboard;
+    private java.lang.Object fContents;
+
+    static void <clinit>()
+    {
+        CH.ifa.draw.util.Clipboard temp$0;
+
+        temp$0 = new CH.ifa.draw.util.Clipboard;
+        specialinvoke temp$0.<CH.ifa.draw.util.Clipboard: void <init>()>();
+        <CH.ifa.draw.util.Clipboard: CH.ifa.draw.util.Clipboard fgClipboard> = temp$0;
+        return;
+    }
+
+    public static CH.ifa.draw.util.Clipboard getClipboard()
+    {
+        CH.ifa.draw.util.Clipboard temp$0;
+
+        temp$0 = <CH.ifa.draw.util.Clipboard: CH.ifa.draw.util.Clipboard fgClipboard>;
+        return temp$0;
+    }
+
+    private void <init>()
+    {
+        CH.ifa.draw.util.Clipboard this;
+
+        this := @this: CH.ifa.draw.util.Clipboard;
+        specialinvoke this.<java.lang.Object: void <init>()>();
+        return;
+    }
+
+    public void setContents(java.lang.Object)
+    {
+        CH.ifa.draw.util.Clipboard this;
+        java.lang.Object contents;
+
+        this := @this: CH.ifa.draw.util.Clipboard;
+        contents := @parameter0: java.lang.Object;
+        this.<CH.ifa.draw.util.Clipboard: java.lang.Object fContents> = contents;
+        return;
+    }
+
+    public java.lang.Object getContents()
+    {
+        CH.ifa.draw.util.Clipboard this;
+        java.lang.Object temp$0;
+
+        this := @this: CH.ifa.draw.util.Clipboard;
+        temp$0 = this.<CH.ifa.draw.util.Clipboard: java.lang.Object fContents>;
+        return temp$0;
+    }
+}

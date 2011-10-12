@@ -1,0 +1,119 @@
+public static class CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity extends CH.ifa.draw.util.UndoableAdapter
+{
+    private double myRotationAngle;
+
+    public void <init>(CH.ifa.draw.framework.DrawingView)
+    {
+        CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity this;
+        CH.ifa.draw.framework.DrawingView newView;
+
+        this := @this: CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity;
+        newView := @parameter0: CH.ifa.draw.framework.DrawingView;
+        specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: void <init>(CH.ifa.draw.framework.DrawingView)>(newView);
+        virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: void setUndoable(boolean)>(1);
+        virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: void setRedoable(boolean)>(1);
+        return;
+    }
+
+    public boolean undo()
+    {
+        CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity this;
+        boolean temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity;
+        temp$0 = specialinvoke this.<CH.ifa.draw.util.UndoableAdapter: boolean undo()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: boolean resetRotationAngle()>();
+        return temp$2;
+    }
+
+    public boolean redo()
+    {
+        CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity this;
+        boolean temp$0, temp$1, temp$2;
+
+        this := @this: CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: boolean isRedoable()>();
+        if temp$0 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$1 = 0;
+        return temp$1;
+
+     label1:
+        nop;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: boolean resetRotationAngle()>();
+        return temp$2;
+    }
+
+    protected boolean resetRotationAngle()
+    {
+        CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity this;
+        CH.ifa.draw.framework.FigureEnumeration fe, temp$0;
+        boolean temp$1, temp$2, temp$6;
+        CH.ifa.draw.contrib.TriangleFigure figure;
+        CH.ifa.draw.framework.Figure temp$3;
+        double backupAngle, temp$4, temp$5;
+
+        this := @this: CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity;
+        temp$0 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: CH.ifa.draw.framework.FigureEnumeration getAffectedFigures()>();
+        fe = temp$0;
+        temp$1 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: boolean hasMoreElements()>();
+        if temp$1 == 0 goto label0;
+
+        goto label1;
+
+     label0:
+        nop;
+        temp$2 = 0;
+        return temp$2;
+
+     label1:
+        nop;
+        temp$3 = interfaceinvoke fe.<CH.ifa.draw.framework.FigureEnumeration: CH.ifa.draw.framework.Figure nextFigure()>();
+        figure = (CH.ifa.draw.contrib.TriangleFigure) temp$3;
+        temp$4 = virtualinvoke figure.<CH.ifa.draw.contrib.TriangleFigure: double getRotationAngle()>();
+        backupAngle = temp$4;
+        virtualinvoke figure.<CH.ifa.draw.contrib.TriangleFigure: void willChange()>();
+        temp$5 = virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: double getRotationAngle()>();
+        virtualinvoke figure.<CH.ifa.draw.contrib.TriangleFigure: void rotate(double)>(temp$5);
+        virtualinvoke figure.<CH.ifa.draw.contrib.TriangleFigure: void changed()>();
+        virtualinvoke this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: void setRotationAngle(double)>(backupAngle);
+        temp$6 = 1;
+        return temp$6;
+    }
+
+    protected void setRotationAngle(double)
+    {
+        CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity this;
+        double newRotationAngle;
+
+        this := @this: CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity;
+        newRotationAngle := @parameter0: double;
+        this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: double myRotationAngle> = newRotationAngle;
+        return;
+    }
+
+    public double getRotationAngle()
+    {
+        CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity this;
+        double temp$0;
+
+        this := @this: CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity;
+        temp$0 = this.<CH.ifa.draw.contrib.TriangleRotationHandle$UndoActivity: double myRotationAngle>;
+        return temp$0;
+    }
+}

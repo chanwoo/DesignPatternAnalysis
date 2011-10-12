@@ -1,0 +1,114 @@
+public class CH.ifa.draw.figures.ConnectedTextTool extends CH.ifa.draw.figures.TextTool
+{
+    private boolean fConnected;
+
+    public void <init>(CH.ifa.draw.framework.DrawingEditor, CH.ifa.draw.framework.Figure)
+    {
+        CH.ifa.draw.figures.ConnectedTextTool this;
+        CH.ifa.draw.framework.DrawingEditor editor;
+        CH.ifa.draw.framework.Figure prototype;
+        boolean temp$0;
+
+        this := @this: CH.ifa.draw.figures.ConnectedTextTool;
+        editor := @parameter0: CH.ifa.draw.framework.DrawingEditor;
+        prototype := @parameter1: CH.ifa.draw.framework.Figure;
+        specialinvoke this.<CH.ifa.draw.figures.TextTool: void <init>(CH.ifa.draw.framework.DrawingEditor,CH.ifa.draw.framework.Figure)>(editor, prototype);
+        temp$0 = 0;
+        this.<CH.ifa.draw.figures.ConnectedTextTool: boolean fConnected> = temp$0;
+        return;
+    }
+
+    public void mouseDown(java.awt.event.MouseEvent, int, int)
+    {
+        CH.ifa.draw.figures.ConnectedTextTool this;
+        java.awt.event.MouseEvent e;
+        int x, y;
+        CH.ifa.draw.framework.Figure pressedFigure, temp$1;
+        CH.ifa.draw.framework.Drawing temp$0;
+        CH.ifa.draw.standard.TextHolder textHolder, temp$2;
+        boolean temp$3, temp$6;
+        CH.ifa.draw.util.Undoable temp$4;
+        CH.ifa.draw.figures.ConnectedTextTool$UndoActivity temp$5;
+
+        this := @this: CH.ifa.draw.figures.ConnectedTextTool;
+        e := @parameter0: java.awt.event.MouseEvent;
+        x := @parameter1: int;
+        y := @parameter2: int;
+        specialinvoke this.<CH.ifa.draw.figures.TextTool: void mouseDown(java.awt.event.MouseEvent,int,int)>(e, x, y);
+        temp$0 = virtualinvoke this.<CH.ifa.draw.figures.ConnectedTextTool: CH.ifa.draw.framework.Drawing drawing()>();
+        temp$1 = interfaceinvoke temp$0.<CH.ifa.draw.framework.Drawing: CH.ifa.draw.framework.Figure findFigureInside(int,int)>(x, y);
+        pressedFigure = temp$1;
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.ConnectedTextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        textHolder = temp$2;
+        temp$3 = this.<CH.ifa.draw.figures.ConnectedTextTool: boolean fConnected>;
+        if temp$3 == 0 goto label0;
+
+        goto label4;
+
+     label0:
+        nop;
+        if pressedFigure != null goto label1;
+
+        goto label4;
+
+        goto label1;
+
+     label1:
+        nop;
+        if textHolder != null goto label2;
+
+        goto label4;
+
+        goto label2;
+
+     label2:
+        nop;
+        if pressedFigure != textHolder goto label3;
+
+        goto label4;
+
+        goto label3;
+
+     label3:
+        nop;
+        interfaceinvoke textHolder.<CH.ifa.draw.standard.TextHolder: void connect(CH.ifa.draw.framework.Figure)>(pressedFigure);
+        temp$4 = virtualinvoke this.<CH.ifa.draw.figures.ConnectedTextTool: CH.ifa.draw.util.Undoable getUndoActivity()>();
+        temp$5 = (CH.ifa.draw.figures.ConnectedTextTool$UndoActivity) temp$4;
+        virtualinvoke temp$5.<CH.ifa.draw.figures.ConnectedTextTool$UndoActivity: void setConnectedFigure(CH.ifa.draw.framework.Figure)>(pressedFigure);
+        temp$6 = 1;
+        this.<CH.ifa.draw.figures.ConnectedTextTool: boolean fConnected> = temp$6;
+
+     label4:
+        nop;
+        return;
+    }
+
+    public void activate()
+    {
+        CH.ifa.draw.figures.ConnectedTextTool this;
+        boolean temp$0;
+
+        this := @this: CH.ifa.draw.figures.ConnectedTextTool;
+        specialinvoke this.<CH.ifa.draw.figures.TextTool: void activate()>();
+        temp$0 = 0;
+        this.<CH.ifa.draw.figures.ConnectedTextTool: boolean fConnected> = temp$0;
+        return;
+    }
+
+    protected CH.ifa.draw.util.Undoable createUndoActivity()
+    {
+        CH.ifa.draw.figures.ConnectedTextTool this;
+        CH.ifa.draw.figures.ConnectedTextTool$UndoActivity temp$0;
+        CH.ifa.draw.framework.DrawingView temp$1;
+        CH.ifa.draw.standard.TextHolder temp$2;
+        java.lang.String temp$3;
+
+        this := @this: CH.ifa.draw.figures.ConnectedTextTool;
+        temp$0 = new CH.ifa.draw.figures.ConnectedTextTool$UndoActivity;
+        temp$1 = virtualinvoke this.<CH.ifa.draw.figures.ConnectedTextTool: CH.ifa.draw.framework.DrawingView view()>();
+        temp$2 = virtualinvoke this.<CH.ifa.draw.figures.ConnectedTextTool: CH.ifa.draw.standard.TextHolder getTypingTarget()>();
+        temp$3 = interfaceinvoke temp$2.<CH.ifa.draw.standard.TextHolder: java.lang.String getText()>();
+        specialinvoke temp$0.<CH.ifa.draw.figures.ConnectedTextTool$UndoActivity: void <init>(CH.ifa.draw.framework.DrawingView,java.lang.String)>(temp$1, temp$3);
+        return temp$0;
+    }
+}
