@@ -25,9 +25,9 @@ public class CallGraphTXTCreater extends BodyTransformer {
 	public static final String CALL_GRAPH_FILE_NAME = "call_graph.txt";
 
 	public CallGraphTXTCreater(AbstractProject project) {
-		String fileName = CALL_GRAPH_FILE_NAME;
+		String fileName1 = CALL_GRAPH_FILE_NAME;
 		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
-				fileName);
+				fileName1);
 	}
 
 	private List<Unit> getUnits(SootMethod aMethod) {
