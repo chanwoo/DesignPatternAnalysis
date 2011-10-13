@@ -21,7 +21,7 @@ public class CallGraphXMLCreater extends BodyTransformer {
 	private String callGraphPath;
 
 	public CallGraphXMLCreater(AbstractProject project) {
-		String fileName = project.getProjectName() + "_call_graph.txt";
+		String fileName = CallGraphTXTCreater.CALL_GRAPH_FILE_NAME;
 		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
 				fileName);
 
