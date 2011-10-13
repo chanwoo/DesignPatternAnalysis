@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.graph;
 
 import java.util.ArrayList;
 

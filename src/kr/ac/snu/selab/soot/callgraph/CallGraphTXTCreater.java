@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.callgraph;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import kr.ac.snu.selab.soot.MyUtil;
-import kr.ac.snu.selab.soot.projects.AbstractProject;
+import kr.ac.snu.selab.soot.core.AbstractProject;
+import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Scene;

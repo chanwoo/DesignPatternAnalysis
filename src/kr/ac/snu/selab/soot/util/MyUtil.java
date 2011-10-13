@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot;
+package kr.ac.snu.selab.soot.util;
 
 import java.io.File;
 import java.io.FileWriter;

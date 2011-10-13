@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot;
+package kr.ac.snu.selab.soot.core;
 
 public class InvalidAnalyzerException extends Exception {
 

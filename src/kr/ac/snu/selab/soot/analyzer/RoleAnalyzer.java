@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kr.ac.snu.selab.soot.Analysis;
-import kr.ac.snu.selab.soot.AnalysisResult;
-import kr.ac.snu.selab.soot.MyUtil;
-import kr.ac.snu.selab.soot.projects.AbstractProject;
+import kr.ac.snu.selab.soot.core.AbstractProject;
+import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Hierarchy;

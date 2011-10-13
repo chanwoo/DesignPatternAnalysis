@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot.projects;
+package kr.ac.snu.selab.soot.core;
 
 public class ProjectFileNotFoundException extends Exception {
 

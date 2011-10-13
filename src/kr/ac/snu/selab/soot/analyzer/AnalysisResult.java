@@ -1,13 +1,14 @@
-package kr.ac.snu.selab.soot;
+package kr.ac.snu.selab.soot.analyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import kr.ac.snu.selab.soot.analyzer.MyGraph;
-import kr.ac.snu.selab.soot.analyzer.MyNode;
-import kr.ac.snu.selab.soot.analyzer.MyPath;
+import kr.ac.snu.selab.soot.graph.MyNode;
+import kr.ac.snu.selab.soot.graph.MyPath;
+import kr.ac.snu.selab.soot.util.MyUtil;
+
 
 import soot.SootClass;
 

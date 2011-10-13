@@ -3,7 +3,9 @@ package kr.ac.snu.selab.soot.analyzer;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.ac.snu.selab.soot.MyUtil;
+import kr.ac.snu.selab.soot.graph.MyNode;
+import kr.ac.snu.selab.soot.util.MyUtil;
+
 import soot.SootMethod;
 import soot.Unit;
 

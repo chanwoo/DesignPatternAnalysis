@@ -1,6 +1,7 @@
 package kr.ac.snu.selab.soot.analyzer;
 
-import kr.ac.snu.selab.soot.MyUtil;
+import kr.ac.snu.selab.soot.graph.MyNode;
+import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.SootField;
 
 public class MyField extends MyNode {

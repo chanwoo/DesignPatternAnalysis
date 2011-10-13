@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import kr.ac.snu.selab.soot.projects.AbstractProject;
-import kr.ac.snu.selab.soot.projects.ProjectFileNotFoundException;
-import kr.ac.snu.selab.soot.projects.ProjectManager;
+import kr.ac.snu.selab.soot.core.AbstractProject;
+import kr.ac.snu.selab.soot.core.AnalyzerRunner;
+import kr.ac.snu.selab.soot.core.InvalidAnalyzerException;
+import kr.ac.snu.selab.soot.core.ProjectFileNotFoundException;
+import kr.ac.snu.selab.soot.core.ProjectManager;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;

@@ -1,9 +1,10 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.graph;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.MyUtil;
+import kr.ac.snu.selab.soot.util.MyUtil;
+
 
 public class MyGraph {
 	public HashMap<String, HashSet<MyNode>> sourceMap;

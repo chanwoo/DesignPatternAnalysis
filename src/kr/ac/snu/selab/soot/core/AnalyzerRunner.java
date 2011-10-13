@@ -1,10 +1,9 @@
-package kr.ac.snu.selab.soot;
+package kr.ac.snu.selab.soot.core;
 
-import kr.ac.snu.selab.soot.analyzer.CallGraphTXTCreater;
-import kr.ac.snu.selab.soot.analyzer.CallGraphXMLCreater;
 import kr.ac.snu.selab.soot.analyzer.CodeAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.RoleAnalyzer;
-import kr.ac.snu.selab.soot.projects.AbstractProject;
+import kr.ac.snu.selab.soot.callgraph.CallGraphTXTCreater;
+import kr.ac.snu.selab.soot.callgraph.CallGraphXMLCreater;
 import soot.BodyTransformer;
 import soot.PackManager;
 import soot.Transform;

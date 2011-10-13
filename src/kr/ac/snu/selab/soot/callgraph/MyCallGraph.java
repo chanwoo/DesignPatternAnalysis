@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot;
+package kr.ac.snu.selab.soot.callgraph;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import kr.ac.snu.selab.soot.util.MyUtil;
 
 import soot.Body;
 import soot.SootClass;

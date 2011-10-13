@@ -1,9 +1,8 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.graph;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 public abstract class MyGraphPathCollector {
 	protected HashMap<String, ArrayList<MyPath>> pathsMap;
@@ -22,8 +21,7 @@ public abstract class MyGraphPathCollector {
 	}
 
 	public ArrayList<MyPath> run() {
-		System.out.println("path collecting start: "
-				+ startNode.toString());
+		System.out.println("path collecting start: " + startNode.toString());
 		long tick1 = System.currentTimeMillis();
 
 		pathsMap.clear();

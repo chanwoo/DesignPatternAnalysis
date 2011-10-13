@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.graph;
 
 public abstract class MyNode {
 	public abstract String toString();
