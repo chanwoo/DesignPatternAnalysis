@@ -4,6 +4,7 @@ src/project.xml
 ###############
 bin/
 sootOutput/
+logs/
 
 # Compiled source #
 ###################
