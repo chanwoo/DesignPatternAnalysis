@@ -39,6 +39,7 @@ public class CallGraphTXTCreater extends BodyTransformer {
 		return unitList;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected void internalTransform(Body arg0, String arg1, Map arg2) {
 		if (touch) {
