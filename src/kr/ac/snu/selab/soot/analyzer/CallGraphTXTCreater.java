@@ -22,9 +22,10 @@ public class CallGraphTXTCreater extends BodyTransformer {
 
 	private static boolean touch = false;
 	private String callGraphPath;
+	public static final String CALL_GRAPH_FILE_NAME = "call_graph.txt";
 
 	public CallGraphTXTCreater(AbstractProject project) {
-		String fileName = project.getProjectName() + "_call_graph.txt";
+		String fileName = CALL_GRAPH_FILE_NAME;
 		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
 				fileName);
 	}
