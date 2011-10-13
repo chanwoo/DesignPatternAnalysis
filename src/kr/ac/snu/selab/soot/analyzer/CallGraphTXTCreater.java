@@ -5,10 +5,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.ac.snu.selab.soot.MyUtil;
+import kr.ac.snu.selab.soot.projects.AbstractProject;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Scene;
@@ -22,8 +23,10 @@ public class CallGraphTXTCreater extends BodyTransformer {
 	private static boolean touch = false;
 	private String callGraphPath;
 
-	public CallGraphTXTCreater(String callGraphPath) {
-		this.callGraphPath = callGraphPath;
+	public CallGraphTXTCreater(AbstractProject project) {
+		String fileName = project.getProjectName() + "_call_graph.txt";
+		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
+				fileName);
 	}
 
 	private List<Unit> getUnits(SootMethod aMethod) {
@@ -43,7 +46,7 @@ public class CallGraphTXTCreater extends BodyTransformer {
 		touch = true;
 		List<SootClass> classList = new ArrayList<SootClass>();
 		classList.addAll(Scene.v().getApplicationClasses());
-		
+
 		PrintWriter writer = null;
 		try {
 			File outputFile = new File(callGraphPath);
@@ -56,10 +59,11 @@ public class CallGraphTXTCreater extends BodyTransformer {
 				for (SootMethod aMethod : aClass.getMethods()) {
 					for (Unit aUnit : getUnits(aMethod)) {
 						if (aUnit instanceof JInvokeStmt) {
-							JInvokeStmt jInvokeStatement = (JInvokeStmt)aUnit;
+							JInvokeStmt jInvokeStatement = (JInvokeStmt) aUnit;
 							writer.print(aMethod.toString());
 							writer.print("\t");
-							writer.println(jInvokeStatement.getInvokeExpr().getMethod().toString());
+							writer.println(jInvokeStatement.getInvokeExpr()
+									.getMethod().toString());
 						}
 					}
 				}

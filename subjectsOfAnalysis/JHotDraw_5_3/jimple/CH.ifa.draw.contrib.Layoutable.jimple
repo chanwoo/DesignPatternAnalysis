@@ -1,9 +1,0 @@
-public interface  CH.ifa.draw.contrib.Layoutable extends java.lang.Object implements CH.ifa.draw.framework.Figure
-{
-
-    public abstract void layout();
-
-    public abstract void setLayouter(CH.ifa.draw.contrib.Layouter);
-
-    public abstract CH.ifa.draw.contrib.Layouter getLayouter();
-}

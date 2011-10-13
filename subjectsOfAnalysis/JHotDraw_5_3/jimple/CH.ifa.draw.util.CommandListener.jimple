@@ -1,9 +1,0 @@
-public interface  CH.ifa.draw.util.CommandListener extends java.lang.Object implements java.util.EventListener
-{
-
-    public abstract void commandExecuted(java.util.EventObject);
-
-    public abstract void commandExecutable(java.util.EventObject);
-
-    public abstract void commandNotExecutable(java.util.EventObject);
-}

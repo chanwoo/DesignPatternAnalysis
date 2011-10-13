@@ -1,5 +1,7 @@
 package kr.ac.snu.selab.soot.projects;
 
+import java.io.File;
+
 public abstract class AbstractProject {
 	private String projectName;
 
@@ -17,11 +19,5 @@ public abstract class AbstractProject {
 
 	public abstract String getSourceDirectory();
 
-	public abstract String getCallGraphPath();
-
-	public abstract String getCallGraphXMLPath();
-
-	public abstract String getOutputPath();
-
-	public abstract String getCodeAnalysisOutputPath();
+	public abstract File getOutputDirectory();
 }

@@ -22,7 +22,7 @@ sootOutput/
 *.dmg
 *.gz
 *.iso
-*.jar
+#*.jar
 *.rar
 *.tar
 *.zip
@@ -45,4 +45,11 @@ Thumbs.db
 .classpath
 .project
 .settings
+
+# Application setting files #
+#########################
 src/projects.xml
+
+# Output folders #
+#########################
+subjectsOfAnalysis/*/output/

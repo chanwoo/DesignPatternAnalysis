@@ -26,4 +26,13 @@ public class MyUtil {
 			ex.printStackTrace();
 		}
 	}
+
+	public static String getPath(String parentPath, String name) {
+		return getPath(new File(parentPath), name);
+	}
+
+	public static String getPath(File parent, String name) {
+		File file = new File(parent, name);
+		return file.getAbsolutePath();
+	}
 }

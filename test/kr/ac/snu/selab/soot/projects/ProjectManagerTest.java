@@ -34,10 +34,6 @@ public class ProjectManagerTest {
 		assertEquals("SRC", project.getSourceDirectory());
 		assertEquals("CP1:CP2", project.getClassPath());
 		assertEquals("JIMPLE", project.getJimpleDirectory());
-		assertEquals("OUTPUT_XML", project.getOutputPath());
-		assertEquals("CALLGRAPH_TXT", project.getCallGraphPath());
-		assertEquals("CALLGRAPH_XML", project.getCallGraphXMLPath());
-		assertEquals("CODE_ANALYSIS", project.getCodeAnalysisOutputPath());
 	}
 
 	@Test
@@ -50,16 +46,8 @@ public class ProjectManagerTest {
 		assertEquals("ProjectB", project.getProjectName());
 		assertEquals("ROOT/ProjectB/src", project.getSourceDirectory());
 		assertEquals("CP1:CP2:ROOT/ProjectB/src", project.getClassPath());
-		assertEquals("ROOT/ProjectB/jimple", project.getJimpleDirectory());
-		assertEquals("ROOT/ProjectB/output/ProjectB_analysis.xml",
-				project.getOutputPath());
-		assertEquals("ROOT/ProjectB/callgraph/ProjectB_callgraph.txt",
-				project.getCallGraphPath());
-		assertEquals("ROOT/ProjectB/callgraph/ProjectB_callgraph.xml",
-				project.getCallGraphXMLPath());
-		assertEquals(
-				"ROOT/ProjectB/code_analysis_output/ProjectB_code_analysis.xml",
-				project.getCodeAnalysisOutputPath());
+		assertEquals("ROOT/ProjectB/output/jimple",
+				project.getJimpleDirectory());
 	}
 
 	@Test
@@ -96,39 +84,25 @@ public class ProjectManagerTest {
 			writer.println("<?xml version=\"1.0\"?>");
 			writer.println("<projects>");
 			writer.println("<project name=\"ProjectA\">");
-			writer.println("<project_root>PROJECT_ROOT</project_root>");
-			writer.println("<sources>");
-			writer.println("<path>SRC</path>");
-			writer.println("</sources>");
+			writer.println("<project_root path=\"PROJECT_ROOT\" />");
+			writer.println("<source path=\"SRC\" />");
+			writer.println("<output path=\"OUTPUT\" />");
+			writer.println("<jimple path=\"JIMPLE\" />");
 			writer.println("<classpaths>");
 			writer.println("<path>CP1</path>");
 			writer.println("<path>CP2</path>");
 			writer.println("</classpaths>");
-			writer.println("<output>");
-			writer.println("<jimple>JIMPLE</jimple>");
-			writer.println("<output_xml>OUTPUT_XML</output_xml>");
-			writer.println("<call_graph>CALLGRAPH_TXT</call_graph>");
-			writer.println("<call_graph_xml>CALLGRAPH_XML</call_graph_xml>");
-			writer.println("<code_ana_output_xml>CODE_ANALYSIS</code_ana_output_xml>");
-			writer.println("</output>");
 			writer.println("</project>");
 			writer.println("<project name=\"ProjectB\">");
-			writer.println("<project_root>ROOT/${PROJECT_NAME}</project_root>");
-			writer.println("<sources>");
-			writer.println("<path>${PROJECT_ROOT}/src</path>");
-			writer.println("</sources>");
+			writer.println("<project_root path=\"ROOT/${PROJECT_NAME}\" />");
+			writer.println("<source path=\"${PROJECT_ROOT}/src\" />");
+			writer.println("<output path=\"${PROJECT_ROOT}/output\" />");
+			writer.println("<jimple path=\"${OUTPUT_PATH}/jimple\" />");
 			writer.println("<classpaths>");
 			writer.println("<path>CP1</path>");
 			writer.println("<path>CP2</path>");
-			writer.println("<path>${SRC_PATHS}</path>");
+			writer.println("<path>${SRC_PATH}</path>");
 			writer.println("</classpaths>");
-			writer.println("<output>");
-			writer.println("<jimple>${PROJECT_ROOT}/jimple</jimple>");
-			writer.println("<output_xml>${PROJECT_ROOT}/output/${PROJECT_NAME}_analysis.xml</output_xml>");
-			writer.println("<call_graph>${PROJECT_ROOT}/callgraph/${PROJECT_NAME}_callgraph.txt</call_graph>");
-			writer.println("<call_graph_xml>${PROJECT_ROOT}/callgraph/${PROJECT_NAME}_callgraph.xml</call_graph_xml>");
-			writer.println("<code_ana_output_xml>${PROJECT_ROOT}/code_analysis_output/${PROJECT_NAME}_code_analysis.xml</code_ana_output_xml>");
-			writer.println("</output>");
 			writer.println("</project>");
 			writer.println("</projects>");
 

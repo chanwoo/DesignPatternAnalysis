@@ -1,0 +1,18 @@
+[11:06:35][ERROR](Main.java:15) - HELLO2
+[11:07:18][ERROR](Main.java:15) - HELLO2
+[11:13:12][ERROR](Main.java:26) - org.apache.commons.cli.UnrecognizedOptionException: Unrecognized option: -t
+[11:15:13][ERROR](Main.java:27) - org.apache.commons.cli.UnrecognizedOptionException: Unrecognized option: -t
+[11:15:53][ERROR](Main.java:28) - org.apache.commons.cli.UnrecognizedOptionException: Unrecognized option: -t
+[11:26:22][ERROR](Main.java:37) - org.apache.commons.cli.MissingOptionException: Missing required option: logfile
+[11:34:45][ERROR](Main.java:50) - org.apache.commons.cli.UnrecognizedOptionException: Unrecognized option: -t
+[11:35:05][ERROR](Main.java:50) - org.apache.commons.cli.UnrecognizedOptionException: Unrecognized option: -t
+[11:35:27][ERROR](Main.java:50) - org.apache.commons.cli.UnrecognizedOptionException: Unrecognized option: -t
+[11:56:15][ERROR](Main.java:49) - kr.ac.snu.selab.soot.InvalidAnalyzerException: Can not find proper analyzer: x
+[11:57:04][ERROR](Main.java:49) - kr.ac.snu.selab.soot.InvalidAnalyzerException: Can not find proper analyzer: x
+[11:57:16][ERROR](Main.java:49) - kr.ac.snu.selab.soot.InvalidAnalyzerException: Can not find proper analyzer: x
+[11:57:32][ERROR](Main.java:49) - kr.ac.snu.selab.soot.InvalidAnalyzerException: Can not find proper analyzer: x
+[11:57:49][ERROR](Main.java:49) - kr.ac.snu.selab.soot.InvalidAnalyzerException: Can not find proper analyzer: x
+[11:58:15][ERROR](Main.java:49) - kr.ac.snu.selab.soot.InvalidAnalyzerException: Can not find proper analyzer: x
+[12:22:55][ERROR](Main.java:39) - Can not find project information: StrategyPatternExample
+[12:23:46][ERROR](Main.java:39) - Can not find project information: StrategyPatternExample
+[12:29:27][ERROR](Main.java:40) - Can not find project information: StrategyPatternExample

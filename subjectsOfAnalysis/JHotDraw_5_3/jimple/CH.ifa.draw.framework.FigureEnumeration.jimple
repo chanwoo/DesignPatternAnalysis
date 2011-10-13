@@ -1,5 +1,0 @@
-public interface  CH.ifa.draw.framework.FigureEnumeration extends java.lang.Object implements java.util.Enumeration
-{
-
-    public abstract CH.ifa.draw.framework.Figure nextFigure();
-}

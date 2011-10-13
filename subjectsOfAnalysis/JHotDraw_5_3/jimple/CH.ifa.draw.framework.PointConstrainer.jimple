@@ -1,9 +1,0 @@
-public interface  CH.ifa.draw.framework.PointConstrainer extends java.lang.Object
-{
-
-    public abstract java.awt.Point constrainPoint(java.awt.Point);
-
-    public abstract int getStepX();
-
-    public abstract int getStepY();
-}

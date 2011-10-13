@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.ac.snu.selab.soot.MyUtil;
-
+import kr.ac.snu.selab.soot.projects.AbstractProject;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Scene;
@@ -29,8 +29,10 @@ public class CodeAnalyzer extends BodyTransformer {
 	private static boolean touch = false;
 	private String codeAnalysisOutputPath;
 
-	public CodeAnalyzer(String aCodeAnalysisOutputPath) {
-		this.codeAnalysisOutputPath = aCodeAnalysisOutputPath;
+	public CodeAnalyzer(AbstractProject project) {
+		this.codeAnalysisOutputPath = MyUtil.getPath(
+				project.getOutputDirectory(), project.getProjectName()
+						+ "_code.xml");
 	}
 
 	private List<Unit> getUnits(SootMethod aMethod) {
@@ -69,7 +71,7 @@ public class CodeAnalyzer extends BodyTransformer {
 		writer.print("</MethodList>");
 		writer.print("</Class>");
 	}
-	
+
 	private void writeMethod(SootMethod aMethod, PrintWriter writer) {
 		writer.print("<Method>");
 		writer.print("<ToString>");
@@ -93,7 +95,7 @@ public class CodeAnalyzer extends BodyTransformer {
 		writer.print("</UnitList>");
 		writer.print("</Method>");
 	}
-	
+
 	private void writeUnit(Unit aUnit, PrintWriter writer) {
 		writer.print("<Unit>");
 		writer.print("<ToString>");
@@ -114,7 +116,8 @@ public class CodeAnalyzer extends BodyTransformer {
 			writer.print(MyUtil.removeBracket(valueBox.toString()));
 			writer.print("</ToString>");
 			writer.print("<Type>");
-			writer.print(MyUtil.removeBracket(valueBox.getValue().getType().toString()));
+			writer.print(MyUtil.removeBracket(valueBox.getValue().getType()
+					.toString()));
 			writer.print("</Type>");
 			writer.print(String.format("</DefBox%d>", i));
 			i = i + 1;
@@ -126,14 +129,16 @@ public class CodeAnalyzer extends BodyTransformer {
 			writer.print(MyUtil.removeBracket(valueBox.toString()));
 			writer.print("</ToString>");
 			writer.print("<Type>");
-			writer.print(MyUtil.removeBracket(valueBox.getValue().getType().toString()));
+			writer.print(MyUtil.removeBracket(valueBox.getValue().getType()
+					.toString()));
 			writer.print("</Type>");
 			writer.print(String.format("</UseBox%d>", i));
 			i = i + 1;
 		}
 		if (aUnit instanceof JInvokeStmt) {
-			JInvokeStmt jInvokeStatement = (JInvokeStmt)aUnit;
-			SootMethod invokeMethod = jInvokeStatement.getInvokeExpr().getMethod();
+			JInvokeStmt jInvokeStatement = (JInvokeStmt) aUnit;
+			SootMethod invokeMethod = jInvokeStatement.getInvokeExpr()
+					.getMethod();
 			writer.print("<InvokeMethod>");
 			writer.print(MyUtil.removeBracket(invokeMethod.toString()));
 			writer.print("</InvokeMethod>");
@@ -146,7 +151,7 @@ public class CodeAnalyzer extends BodyTransformer {
 			writer.print("</ArgumentList>");
 		}
 		if (aUnit instanceof JIdentityStmt) {
-			JIdentityStmt jIdentityStatement = (JIdentityStmt)aUnit;
+			JIdentityStmt jIdentityStatement = (JIdentityStmt) aUnit;
 			Value leftOp = jIdentityStatement.getLeftOp();
 			Value rightOp = jIdentityStatement.getRightOp();
 			writer.print("<LeftOp>");
@@ -157,7 +162,7 @@ public class CodeAnalyzer extends BodyTransformer {
 			writer.print("</RightOp>");
 		}
 		if (aUnit instanceof JAssignStmt) {
-			JAssignStmt jAssignStatement = (JAssignStmt)aUnit;
+			JAssignStmt jAssignStatement = (JAssignStmt) aUnit;
 			Value leftOp = jAssignStatement.getLeftOp();
 			Value rightOp = jAssignStatement.getRightOp();
 			writer.print("<LeftOp>");
@@ -166,10 +171,11 @@ public class CodeAnalyzer extends BodyTransformer {
 			writer.print("<RightOp>");
 			writer.print(MyUtil.removeBracket(rightOp.toString()));
 			writer.print("</RightOp>");
-			
+
 			if (jAssignStatement.containsInvokeExpr()) {
 				writer.print("<InvokeExpr>");
-				writer.print(MyUtil.removeBracket(jAssignStatement.getInvokeExpr().getMethod().toString()));
+				writer.print(MyUtil.removeBracket(jAssignStatement
+						.getInvokeExpr().getMethod().toString()));
 				writer.print("</InvokeExpr>");
 			}
 		}
@@ -192,7 +198,8 @@ public class CodeAnalyzer extends BodyTransformer {
 			if (!dir.exists()) {
 				dir.mkdirs();
 			}
-			PrintWriter writer = new PrintWriter(new FileWriter(codeAnalysisOutputPath));
+			PrintWriter writer = new PrintWriter(new FileWriter(
+					codeAnalysisOutputPath));
 			writer.print("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			writer.print("<ClassList>");
 			for (SootClass aClass : classList) {

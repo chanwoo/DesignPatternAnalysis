@@ -1,5 +1,0 @@
-public interface  CH.ifa.draw.framework.FigureSelectionListener extends java.lang.Object
-{
-
-    public abstract void figureSelectionChanged(CH.ifa.draw.framework.DrawingView);
-}

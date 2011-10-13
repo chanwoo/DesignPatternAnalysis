@@ -1,5 +1,0 @@
-public interface  CH.ifa.draw.framework.Painter extends java.lang.Object implements java.io.Serializable
-{
-
-    public abstract void draw(java.awt.Graphics, CH.ifa.draw.framework.DrawingView);
-}

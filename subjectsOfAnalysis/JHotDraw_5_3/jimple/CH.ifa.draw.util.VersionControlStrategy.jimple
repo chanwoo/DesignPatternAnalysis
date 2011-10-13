@@ -1,5 +1,0 @@
-public interface  CH.ifa.draw.util.VersionControlStrategy extends java.lang.Object
-{
-
-    public abstract void assertCompatibleVersion();
-}

@@ -82,21 +82,24 @@ public class ProjectManager {
 		nodeList = projectElement.getElementsByTagName("project_root");
 		assert (nodeList != null);
 		assert (nodeList.getLength() > 0);
-
 		node = nodeList.item(0);
 		assert (node.getNodeType() == Node.ELEMENT_NODE);
 		element = (Element) node;
-		text = element.getTextContent();
+		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
 		project.projectRoot = replace(text, project);
 
-		nodeList = projectElement.getElementsByTagName("sources");
+		nodeList = projectElement.getElementsByTagName("source");
 		assert (nodeList != null);
 		assert (nodeList.getLength() > 0);
 		node = nodeList.item(0);
 		assert (node.getNodeType() == Node.ELEMENT_NODE);
-		parseSources((Element) node, project);
+		element = (Element) node;
+		text = element.getAttribute("path");
+		assert (text != null);
+		text = text.trim();
+		project.sourcePath = replace(text, project);
 
 		nodeList = projectElement.getElementsByTagName("classpaths");
 		assert (nodeList != null);
@@ -110,37 +113,24 @@ public class ProjectManager {
 		assert (nodeList.getLength() > 0);
 		node = nodeList.item(0);
 		assert (node.getNodeType() == Node.ELEMENT_NODE);
-		parseOutput((Element) node, project);
+		element = (Element) node;
+		text = element.getAttribute("path");
+		assert (text != null);
+		text = text.trim();
+		project.setOutputPath(replace(text, project));
+
+		nodeList = projectElement.getElementsByTagName("jimple");
+		assert (nodeList != null);
+		assert (nodeList.getLength() > 0);
+		node = nodeList.item(0);
+		assert (node.getNodeType() == Node.ELEMENT_NODE);
+		element = (Element) node;
+		text = element.getAttribute("path");
+		assert (text != null);
+		text = text.trim();
+		project.setOutputJimplePath(replace(text, project));
 
 		return project;
-	}
-
-	private void parseSources(Element parent, Project project) {
-		NodeList nodeList = null;
-		Node node = null;
-		Element element = null;
-		String text = null;
-
-		nodeList = parent.getElementsByTagName("path");
-		assert (nodeList != null);
-		int length = nodeList.getLength();
-		assert (length > 0);
-
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < length; i++) {
-			node = nodeList.item(i);
-			assert (node.getNodeType() == Node.ELEMENT_NODE);
-			element = (Element) node;
-			text = element.getTextContent();
-			assert (text != null);
-			text = text.trim();
-			buffer.append(replace(text, project));
-			if (i < length - 1)
-				buffer.append(File.pathSeparator);
-		}
-
-		String path = buffer.toString();
-		project.setSourcePath(path);
 	}
 
 	private void parseClassPath(Element parent, Project project) {
@@ -170,90 +160,32 @@ public class ProjectManager {
 		project.setClassPath(buffer.toString());
 	}
 
-	private void parseOutput(Element parent, Project project) {
-		NodeList nodeList = null;
-		Node node = null;
-		Element element = null;
-		String text = null;
-
-		nodeList = parent.getElementsByTagName("jimple");
-		assert (nodeList != null);
-		assert (nodeList.getLength() > 0);
-		node = nodeList.item(0);
-		assert (node.getNodeType() == Node.ELEMENT_NODE);
-		element = (Element) node;
-		text = element.getTextContent();
-		assert (text != null);
-		text = text.trim();
-		project.setOutputJimplePath(replace(text, project));
-
-		nodeList = parent.getElementsByTagName("output_xml");
-		assert (nodeList != null);
-		assert (nodeList.getLength() > 0);
-		node = nodeList.item(0);
-		assert (node.getNodeType() == Node.ELEMENT_NODE);
-		element = (Element) node;
-		text = element.getTextContent();
-		assert (text != null);
-		text = text.trim();
-		project.setOutputXMLPath(replace(text, project));
-
-		nodeList = parent.getElementsByTagName("call_graph");
-		assert (nodeList != null);
-		assert (nodeList.getLength() > 0);
-		node = nodeList.item(0);
-		assert (node.getNodeType() == Node.ELEMENT_NODE);
-		element = (Element) node;
-		text = element.getTextContent();
-		assert (text != null);
-		text = text.trim();
-		project.setOutputCallGraphPath(replace(text, project));
-
-		nodeList = parent.getElementsByTagName("call_graph_xml");
-		assert (nodeList != null);
-		assert (nodeList.getLength() > 0);
-		node = nodeList.item(0);
-		assert (node.getNodeType() == Node.ELEMENT_NODE);
-		element = (Element) node;
-		text = element.getTextContent();
-		assert (text != null);
-		text = text.trim();
-		project.setOutputCallGraphXMLPath(replace(text, project));
-
-		nodeList = parent.getElementsByTagName("code_ana_output_xml");
-		assert (nodeList != null);
-		assert (nodeList.getLength() > 0);
-		node = nodeList.item(0);
-		assert (node.getNodeType() == Node.ELEMENT_NODE);
-		element = (Element) node;
-		text = element.getTextContent();
-		assert (text != null);
-		text = text.trim();
-		project.setOutputCodeAnalysisOutputPath(replace(text, project));
-	}
-
 	private static String replace(String text, Project project) {
 		return text
 				.replaceAll("\\$\\{PROJECT_NAME\\}", project.getProjectName())
 				.replaceAll("\\$\\{PROJECT_ROOT\\}", project.projectRoot)
-				.replaceAll("\\$\\{SRC_PATHS\\}", project.sourcePath);
+				.replaceAll("\\$\\{SRC_PATH\\}", project.sourcePath)
+				.replaceAll("\\$\\{OUTPUT_PATH\\}", project.outputPath);
 	}
 
 	private static class Project extends AbstractProject {
 
 		private String sourcePath;
+		private File outputFile;
+		private String outputPath;
 		private String classPath;
 
 		private String outputJimplePath;
-		private String outputXMLPath;
-		private String outputCallGraphPath;
-		private String outputCallGraphXMLPath;
-		private String outputCodeAnalysisOutputPath;
 
 		private String projectRoot;
 
 		public Project(String aProjectName) {
 			super(aProjectName);
+		}
+
+		public void setOutputPath(String path) {
+			this.outputPath = path;
+			this.outputFile = new File(outputPath);
 		}
 
 		public String getClassPath() {
@@ -268,24 +200,9 @@ public class ProjectManager {
 			return sourcePath;
 		}
 
-		public String getCallGraphPath() {
-			return outputCallGraphPath;
-		}
-
-		public String getCallGraphXMLPath() {
-			return outputCallGraphXMLPath;
-		}
-
-		public String getOutputPath() {
-			return outputXMLPath;
-		}
-
-		public String getCodeAnalysisOutputPath() {
-			return outputCodeAnalysisOutputPath;
-		}
-
-		public void setSourcePath(String sourcePath) {
-			this.sourcePath = sourcePath;
+		@Override
+		public File getOutputDirectory() {
+			return outputFile;
 		}
 
 		public void setClassPath(String classPath) {
@@ -294,23 +211,6 @@ public class ProjectManager {
 
 		public void setOutputJimplePath(String outputJimplePath) {
 			this.outputJimplePath = outputJimplePath;
-		}
-
-		public void setOutputXMLPath(String outputXMLPath) {
-			this.outputXMLPath = outputXMLPath;
-		}
-
-		public void setOutputCallGraphPath(String outputCallGraphPath) {
-			this.outputCallGraphPath = outputCallGraphPath;
-		}
-
-		public void setOutputCallGraphXMLPath(String outputCallGraphXMLPath) {
-			this.outputCallGraphXMLPath = outputCallGraphXMLPath;
-		}
-
-		public void setOutputCodeAnalysisOutputPath(
-				String outputCodeAnalysisOutputPath) {
-			this.outputCodeAnalysisOutputPath = outputCodeAnalysisOutputPath;
 		}
 	}
 }
