@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.util.MyUtil;
 
 import soot.Body;
@@ -25,22 +24,15 @@ public class MyCallGraph {
 
 	private HashMap<String, HashSet<SootMethod>> sourceToTargetSetMap;
 	private HashMap<String, HashSet<SootMethod>> targetToSourceSetMap;
-	
-	private HashMap<String, HashSet<MyNode>> sourceToTargetSetMapOfMyNode;
-	private HashMap<String, HashSet<MyNode>> targetToSourceSetMapOfMyNode;
 
 	public MyCallGraph() {
 		sourceToTargetSetMap = new HashMap<String, HashSet<SootMethod>>();
-		targetToSourceSetMap = new HashMap<String, HashSet<SootMethod>>();
-		sourceToTargetSetMapOfMyNode = new HashMap<String, HashSet<MyNode>>();
-		targetToSourceSetMapOfMyNode = new HashMap<String, HashSet<MyNode>>();
+		targetToSourceSetMap = new HashMap<String, HashSet<SootMethod>>();		
 	}
 	
 	public MyCallGraph(List<SootClass> aClassList, HashMap<String, SootMethod> methodMap) {
 		sourceToTargetSetMap = new HashMap<String, HashSet<SootMethod>>();
 		targetToSourceSetMap = new HashMap<String, HashSet<SootMethod>>();
-		sourceToTargetSetMapOfMyNode = new HashMap<String, HashSet<MyNode>>();
-		targetToSourceSetMapOfMyNode = new HashMap<String, HashSet<MyNode>>();
 		
 		for (SootClass aClass : aClassList) {
 			for (SootMethod aMethod : aClass.getMethods()) {
@@ -133,10 +125,6 @@ public class MyCallGraph {
 		}
 	}
 	
-	public HashSet<MyNode> sourceNodes(MyNode aNode) {
-		
-	}
-	
 	public HashSet<SootMethod> edgesOutOf(SootMethod aMethod) {
 		String key = aMethod.toString();
 		if (sourceToTargetSetMap.containsKey(key)) {
@@ -155,13 +143,10 @@ public class MyCallGraph {
 		if (!targetToSourceSetMap.containsKey(target)) {
 			HashSet<SootMethod> sourceSet = new HashSet<SootMethod>();
 			targetToSourceSetMap.put(target, sourceSet);
-			HashSet<MyNode> sourceSetOfMyNode = new HashSet<MyNode>();
-			targetToSourceSetMapOfMyNode.put(target, sourceSetOfMyNode);
 		}
 		
 		HashSet<SootMethod> sourceSet = targetToSourceSetMap.get(target);
 		sourceSet.add(methodMap.get(source));
-		HashSet<MyNode> sourceSetOfMyNode = targetToSourceSetMapOfMyNode.get
 		
 		if (!sourceToTargetSetMap.containsKey(source)) {
 			HashSet<SootMethod> targetSet = new HashSet<SootMethod>();

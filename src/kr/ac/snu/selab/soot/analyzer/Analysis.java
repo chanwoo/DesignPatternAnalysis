@@ -470,21 +470,6 @@ public class Analysis {
 		return graph;
 	}
 	
-	private boolean isThisMethodTriggeredByClassOfType(SootMethod aMethod, SootClass aType) {
-		boolean result = false;
-		MyGraphPathCollector pathCollector = new MyGraphPathCollector(
-				aNode, referenceFlowGraph) {
-			@Override
-			protected boolean isGoal(MyNode aNode) {
-				boolean result = false;
-				result = aNode.isCreator() && (graph.sourceNodes(aNode)).isEmpty();
-				return result;
-			}
-		};
-		List<MyPath> pathList = pathCollector.run();
-		return result;
-	}
-	
 	public AnalysisResult analyzeOverType(SootClass aType) {
 		AnalysisResult anAnalysisResult = new AnalysisResult();
 		List<MethodAnalysisResult> methodAnalysisResultList = new ArrayList<MethodAnalysisResult>();
