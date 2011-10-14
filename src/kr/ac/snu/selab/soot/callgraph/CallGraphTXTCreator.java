@@ -18,13 +18,13 @@ import soot.SootMethod;
 import soot.Unit;
 import soot.jimple.internal.JInvokeStmt;
 
-public class CallGraphTXTCreater extends BodyTransformer {
+public class CallGraphTXTCreator extends BodyTransformer {
 
 	private static boolean touch = false;
 	private String callGraphPath;
 	public static final String CALL_GRAPH_FILE_NAME = "call_graph.txt";
 
-	public CallGraphTXTCreater(AbstractProject project) {
+	public CallGraphTXTCreator(AbstractProject project) {
 		String fileName2 = CALL_GRAPH_FILE_NAME;
 		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
 				fileName2);

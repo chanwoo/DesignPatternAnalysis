@@ -14,13 +14,13 @@ import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
 
-public class CallGraphXMLCreater extends BodyTransformer {
+public class CallGraphXMLCreator extends BodyTransformer {
 	private static boolean touch = false;
 	private String outputPath;
 	private String callGraphPath;
 
-	public CallGraphXMLCreater(AbstractProject project) {
-		String fileName = CallGraphTXTCreater.CALL_GRAPH_FILE_NAME;
+	public CallGraphXMLCreator(AbstractProject project) {
+		String fileName = CallGraphTXTCreator.CALL_GRAPH_FILE_NAME;
 		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
 				fileName);
 

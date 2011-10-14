@@ -59,28 +59,6 @@ public class CallGraph extends MyGraph {
 		}
 	}
 
-	// public void addEdge(String source, String target,
-	// Map<String, SootMethod> methodMap) {
-	// if (!methodMap.containsKey(source) || !methodMap.containsKey(target))
-	// return;
-	//
-	// if (!sourceMap.containsKey(target)) {
-	// HashSet<MyNode> sourceSet = new HashSet<MyNode>();
-	// sourceMap.put(target, sourceSet);
-	// }
-	//
-	// HashSet<MyNode> sourceSet = sourceMap.get(target);
-	// sourceSet.add(new MyMethod(methodMap.get(source)));
-	//
-	// if (!targetMap.containsKey(source)) {
-	// HashSet<MyNode> targetSet = new HashSet<MyNode>();
-	// targetMap.put(source, targetSet);
-	// }
-	//
-	// HashSet<MyNode> targetSet = targetMap.get(source);
-	// targetSet.add(new MyMethod(methodMap.get(target)));
-	// }
-
 	public void addEdge(String source, String target,
 			Map<String, SootMethod> methodMap) {
 		if (!methodMap.containsKey(source) || !methodMap.containsKey(target))

@@ -2,8 +2,8 @@ package kr.ac.snu.selab.soot.core;
 
 import kr.ac.snu.selab.soot.analyzer.CodeAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.RoleAnalyzer;
-import kr.ac.snu.selab.soot.callgraph.CallGraphTXTCreater;
-import kr.ac.snu.selab.soot.callgraph.CallGraphXMLCreater;
+import kr.ac.snu.selab.soot.callgraph.CallGraphTXTCreator;
+import kr.ac.snu.selab.soot.callgraph.CallGraphXMLCreator;
 import soot.BodyTransformer;
 import soot.PackManager;
 import soot.Transform;
@@ -20,10 +20,10 @@ public class AnalyzerRunner {
 			bodyTransformer = new RoleAnalyzer(project);
 		} else if (analyzer.equalsIgnoreCase("ct")
 				|| analyzer.equalsIgnoreCase("CallGraphTXTCreater")) {
-			bodyTransformer = new CallGraphTXTCreater(project);
+			bodyTransformer = new CallGraphTXTCreator(project);
 		} else if (analyzer.equalsIgnoreCase("cx")
 				|| analyzer.equalsIgnoreCase("CallGraphXMLCreater")) {
-			bodyTransformer = new CallGraphXMLCreater(project);
+			bodyTransformer = new CallGraphXMLCreator(project);
 		} else if (analyzer.equalsIgnoreCase("c")
 				|| analyzer.equalsIgnoreCase("Code")
 				|| analyzer.equalsIgnoreCase("CodeAnalyzer")) {
