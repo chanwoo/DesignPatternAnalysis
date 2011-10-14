@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
 import kr.ac.snu.selab.soot.graph.MyGraph;
 import kr.ac.snu.selab.soot.graph.MyGraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.MyPath;
+import kr.ac.snu.selab.soot.graph.TriggerPathCollector;
 import soot.Body;
 import soot.Hierarchy;
 import soot.SootClass;
@@ -125,7 +127,7 @@ public class Analysis {
 		boolean result = false;
 		if (aUnit instanceof JInvokeStmt) {
 			JInvokeStmt statement = (JInvokeStmt) aUnit;
-			
+
 			ValueBox receiver = (ValueBox) (statement.getUseBoxes().get(0));
 			if (!receiver.getValue().toString().equals("this")) {
 				String key = receiver.getValue().getType().toString();
@@ -145,7 +147,7 @@ public class Analysis {
 		return result;
 	}
 
-	private boolean isClassOfSubType(SootClass aClass, SootClass aType) {
+	public boolean isClassOfSubType(SootClass aClass, SootClass aType) {
 		boolean result = false;
 		if (aType.isInterface() && !(aClass.isInterface())) {
 			List<SootClass> implementerList = hierarchy
@@ -321,12 +323,12 @@ public class Analysis {
 		}
 
 		HashSet<SootMethod> callerSet = new HashSet<SootMethod>();
-		for (MyNode aNode : callGraph.sourceNodes(new MyMethod(aMethod))) {			
-			callerSet.add(((MyMethod)aNode).getMethod());
+		for (MyNode aNode : callGraph.sourceNodes(new MyMethod(aMethod))) {
+			callerSet.add(((MyMethod) aNode).getMethod());
 		}
 		HashSet<SootMethod> calleeSet = new HashSet<SootMethod>();
-		for (MyNode aNode : callGraph.targetNodes(new MyMethod(aMethod))) {			
-			calleeSet.add(((MyMethod)aNode).getMethod());
+		for (MyNode aNode : callGraph.targetNodes(new MyMethod(aMethod))) {
+			calleeSet.add(((MyMethod) aNode).getMethod());
 		}
 
 		if (doesThisMethodParameterOfSubtype(aMethod, aType)) {
@@ -475,12 +477,12 @@ public class Analysis {
 		}
 		return graph;
 	}
-	
+
 	public AnalysisResult analyzeOverType(SootClass aType) {
 		AnalysisResult anAnalysisResult = new AnalysisResult();
 		List<MethodAnalysisResult> methodAnalysisResultList = new ArrayList<MethodAnalysisResult>();
 		HashMap<String, MyNode> nodeMap = new HashMap<String, MyNode>();
-		
+
 		for (SootClass aClass : classList) {
 			for (SootField aField : aClass.getFields()) {
 				nodeMap.put(aField.toString(), new MyField(aField));
@@ -517,7 +519,8 @@ public class Analysis {
 				@Override
 				protected boolean isGoal(MyNode aNode) {
 					boolean result = false;
-					result = aNode.isCreator(); // && (graph.sourceNodes(aNode)).isEmpty();
+					result = aNode.isCreator(); // &&
+												// (graph.sourceNodes(aNode)).isEmpty();
 					return result;
 				}
 			};
@@ -525,6 +528,21 @@ public class Analysis {
 			if (!pathList.isEmpty()) {
 				anAnalysisResult.referenceFlowPathMap.put(aNode.toString(),
 						pathList);
+			}
+		}
+
+		for (Entry<String, List<MyPath>> anEntry : anAnalysisResult.referenceFlowPathMap
+				.entrySet()) {
+			for (MyPath aPath : anEntry.getValue()) {
+				MyNode creator = aPath.last();
+				TriggerPathCollector triggerPathCollector = new TriggerPathCollector(
+						creator, callGraph, aType, this);
+				List<MyPath> triggerPathList = triggerPathCollector.run();
+				
+				if (!triggerPathList.isEmpty()) {
+					anAnalysisResult.creatorTriggerPathMap.put(aPath,
+							triggerPathList);
+				}
 			}
 		}
 
@@ -538,9 +556,9 @@ public class Analysis {
 		// String graphXML = "<GraphList>";
 
 		for (SootClass aType : abstractTypeList) {
-		//	if (aType.toString().equals("CH.ifa.draw.framework.Tool")) {
-				analysisResultList.add(analyzeOverType(aType));
-		//	}
+			// if (aType.toString().equals("CH.ifa.draw.framework.Tool")) {
+			analysisResultList.add(analyzeOverType(aType));
+			// }
 		}
 
 		// graphXML = graphXML + "</GraphList>";

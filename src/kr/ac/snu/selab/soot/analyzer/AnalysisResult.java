@@ -18,6 +18,7 @@ public class AnalysisResult {
 	List<MyNode> creatorList;
 	Map<String, List<MyPath>> referenceFlowPathMap; // String := MyNode.toString() where MyNode is caller
 //	List<Store> storeList;
+	Map<MyPath, List<MyPath>> creatorTriggerPathMap; // key := referenceFlowPath, value := triggerPath 
 	
 	public String getAbstractTypeName() {
 		String result = "";
@@ -33,6 +34,7 @@ public class AnalysisResult {
 		creatorList = new ArrayList<MyNode>();
 		referenceFlowPathMap = new HashMap<String, List<MyPath>>();
 //		storeList = new ArrayList<Store>();
+		creatorTriggerPathMap = new HashMap<MyPath, List<MyPath>>();
 	}
 	
 //	public AnalysisResult(SootClass anAbstractType, List<Caller> aCallerList,
@@ -58,15 +60,29 @@ public class AnalysisResult {
 		for (MyNode aNode : callerList) {
 			String key = aNode.toString();
 			if (referenceFlowPathMap.containsKey(key)) {
+				String patternName = null;
 				result = result + "<ReferenceFlowPerCaller>";
 				result = result + "<Caller>";
 				result = result + aNode.toXML();
 				result = result + "</Caller>";
-				result = result + "<PathList>";
+				result = result + "<PathSetList>";
 				for (MyPath aPath : referenceFlowPathMap.get(key)) {
+					result = result + "<PathSet>";
 					result = result + aPath.toXML();
+					if (creatorTriggerPathMap.containsKey(aPath)) {
+						patternName = "State";
+						result = result + "<TriggerPathList>";
+						for (MyPath aTriggerPath : creatorTriggerPathMap.get(aPath)) {
+							result = result + aTriggerPath.toXML();
+						}
+						result = result + "</TriggerPathList>";
+					}
+					result = result + "</PathSet>";
 				}
-				result = result + "</PathList>";
+				result = result + "</PathSetList>";
+				if (patternName != null) {
+					result = result + "<Pattern>" + patternName + "</Pattern>";
+				}
 				result = result + "</ReferenceFlowPerCaller>";
 			}
 		}
