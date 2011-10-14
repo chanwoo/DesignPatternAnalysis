@@ -24,6 +24,10 @@ public class MyMethod extends MyNode {
 		createStatementList = new ArrayList<Unit>();
 	}
 	
+	public SootMethod getMethod() {
+		return methodObject;
+	}
+	
 	public boolean equals(Object anObject) {
 		return methodObject.equals(anObject);
 	}

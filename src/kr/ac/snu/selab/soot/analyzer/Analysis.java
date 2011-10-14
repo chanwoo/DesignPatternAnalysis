@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import kr.ac.snu.selab.soot.callgraph.MyCallGraph;
+import kr.ac.snu.selab.soot.callgraph.CallGraph;
 import kr.ac.snu.selab.soot.graph.MyGraph;
 import kr.ac.snu.selab.soot.graph.MyGraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
@@ -23,14 +23,14 @@ import soot.jimple.internal.JInvokeStmt;
 
 public class Analysis {
 	private List<SootClass> classList;
-	private MyCallGraph callGraph;
+	private CallGraph callGraph;
 	private HashMap<String, SootClass> classMap;
 	private HashMap<String, SootMethod> methodMap;
 	private HashMap<String, SootField> fieldMap;
 	private Hierarchy hierarchy;
 
 	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy,
-			MyCallGraph aGraph) {
+			CallGraph aGraph) {
 		classList = new ArrayList<SootClass>();
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
@@ -66,7 +66,7 @@ public class Analysis {
 				methodMap.put(aMethod.toString(), aMethod);
 			}
 		}
-		callGraph = new MyCallGraph(classList, methodMap);
+		callGraph = new CallGraph(classList, methodMap);
 		hierarchy = aHierarchy;
 	}
 
@@ -320,15 +320,21 @@ public class Analysis {
 			}
 		}
 
-		HashSet<SootMethod> callerSet = callGraph.edgesInto(aMethod);
-		HashSet<SootMethod> calleeSet = callGraph.edgesOutOf(aMethod);
+		HashSet<SootMethod> callerSet = new HashSet<SootMethod>();
+		for (MyNode aNode : callGraph.sourceNodes(new MyMethod(aMethod))) {			
+			callerSet.add(((MyMethod)aNode).getMethod());
+		}
+		HashSet<SootMethod> calleeSet = new HashSet<SootMethod>();
+		for (MyNode aNode : callGraph.targetNodes(new MyMethod(aMethod))) {			
+			calleeSet.add(((MyMethod)aNode).getMethod());
+		}
 
 		if (doesThisMethodParameterOfSubtype(aMethod, aType)) {
 			for (SootMethod callerMethod : callerSet) {
 				MyNode method = nodeMap.get(callerMethod.toString());
 				if (method != null) {
 					result.sourceNodes.add(method);
-//					result.targetNodes.add(method); // can make cycle
+					result.targetNodes.add(method); // can make cycle
 				}
 			}
 		}
@@ -348,7 +354,7 @@ public class Analysis {
 
 				if (method != null) {
 					result.targetNodes.add(method);
-//					result.sourceNodes.add(method); // can make cycle
+					result.sourceNodes.add(method); // can make cycle
 				}
 			}
 		}
@@ -511,7 +517,7 @@ public class Analysis {
 				@Override
 				protected boolean isGoal(MyNode aNode) {
 					boolean result = false;
-					result = aNode.isCreator() && (graph.sourceNodes(aNode)).isEmpty();
+					result = aNode.isCreator(); // && (graph.sourceNodes(aNode)).isEmpty();
 					return result;
 				}
 			};

@@ -46,7 +46,7 @@ public class CallGraphXMLCreater extends BodyTransformer {
 			}
 		}
 
-		MyCallGraph cg = new MyCallGraph();
+		CallGraph cg = new CallGraph();
 		cg = cg.load(callGraphPath, methodMap);
 		MyUtil.stringToFile(cg.toXML(), outputPath);
 	}

@@ -9,4 +9,5 @@ public abstract class MyNode {
 	public abstract void setIsCreator(boolean value);
 	public abstract void setIsCaller(boolean value);
 	public abstract void setIsStore(boolean value);
+	public abstract boolean equals(Object anObject);
 }
