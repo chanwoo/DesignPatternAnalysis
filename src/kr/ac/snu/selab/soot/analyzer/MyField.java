@@ -6,6 +6,7 @@ import soot.SootField;
 
 public class MyField extends MyNode {
 	SootField fieldObject;
+	private boolean isStore;
 	
 	public boolean equals(Object anObject) {
 		return fieldObject.equals(anObject);
@@ -17,6 +18,7 @@ public class MyField extends MyNode {
 	
 	public MyField(SootField aField) {
 		fieldObject = aField;
+		isStore = false;
 	}
 
 	@Override
@@ -32,9 +34,9 @@ public class MyField extends MyNode {
 		result = result + "<ToString>";
 		result = result + MyUtil.removeBracket(toString());
 		result = result + "</ToString>";
-		result = result + "<Role>";
-		result = result + role();
-		result = result + "</Role>";
+		if (isStore()) {
+			result = result + role();
+		}
 		result = result + "</Field>";
 		return result;
 	}
@@ -47,8 +49,26 @@ public class MyField extends MyNode {
 		return false;
 	}
 	
+	public boolean isStore() {
+		return isStore;
+	}
+	
+	public void setIsStore(boolean value) {
+		isStore = value;
+	}
+	
+	public void setIsCreator(boolean value) {
+		
+	}
+	
+	public void setIsCaller(boolean value) {
+		
+	}
+	
 	public String role() {
-		return "";
+		String result = "";
+		result = result + "<Role>Store</Role>";			
+		return result;
 	}
 
 }

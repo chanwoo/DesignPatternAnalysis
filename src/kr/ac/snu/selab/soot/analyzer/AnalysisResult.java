@@ -54,17 +54,23 @@ public class AnalysisResult {
 			result = result + aNode.toXML();
 		}
 		result = result + "</CallerList>";
-		result = result + "<ReferenceFlowPathList>";
+		result = result + "<ReferenceFlowList>";
 		for (MyNode aNode : callerList) {
 			String key = aNode.toString();
 			if (referenceFlowPathMap.containsKey(key)) {
+				result = result + "<ReferenceFlowPerCaller>";
+				result = result + "<Caller>";
 				result = result + aNode.toXML();
+				result = result + "</Caller>";
+				result = result + "<PathList>";
 				for (MyPath aPath : referenceFlowPathMap.get(key)) {
 					result = result + aPath.toXML();
 				}
+				result = result + "</PathList>";
+				result = result + "</ReferenceFlowPerCaller>";
 			}
 		}
-		result = result + "</ReferenceFlowPathList>";
+		result = result + "</ReferenceFlowList>";
 		result = result + "<CreatorList>";
 		for (MyNode aNode : creatorList) {
 			result = result + aNode.toXML();

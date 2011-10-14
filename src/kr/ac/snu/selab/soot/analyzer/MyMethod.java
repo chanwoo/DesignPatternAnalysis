@@ -62,10 +62,18 @@ public class MyMethod extends MyNode {
 	
 	public boolean isCreator() {
 		return isCreator;
-	}
+	}	
 	
 	public void setIsCreator(boolean b) {
 		isCreator = b;
+	}
+	
+	public boolean isStore() {
+		return false;
+	}
+	
+	public void setIsStore(boolean value) {
+		
 	}
 	
 	public void addCallStatement(Unit aUnit) {

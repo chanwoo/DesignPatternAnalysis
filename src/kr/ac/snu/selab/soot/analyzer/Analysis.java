@@ -125,16 +125,19 @@ public class Analysis {
 		boolean result = false;
 		if (aUnit instanceof JInvokeStmt) {
 			JInvokeStmt statement = (JInvokeStmt) aUnit;
+			
 			ValueBox receiver = (ValueBox) (statement.getUseBoxes().get(0));
-			String key = receiver.getValue().getType().toString();
-			SootClass receiverClass = null;
-			if (classMap.containsKey(key)) {
-				receiverClass = classMap.get(key);
-			}
-			if (receiverClass != null) {
-				if (receiverClass instanceof SootClass) {
-					if (receiverClass.equals(aType)) {
-						result = true;
+			if (!receiver.getValue().toString().equals("this")) {
+				String key = receiver.getValue().getType().toString();
+				SootClass receiverClass = null;
+				if (classMap.containsKey(key)) {
+					receiverClass = classMap.get(key);
+				}
+				if (receiverClass != null) {
+					if (receiverClass instanceof SootClass) {
+						if (receiverClass.equals(aType)) {
+							result = true;
+						}
 					}
 				}
 			}
@@ -325,7 +328,7 @@ public class Analysis {
 				MyNode method = nodeMap.get(callerMethod.toString());
 				if (method != null) {
 					result.sourceNodes.add(method);
-					result.targetNodes.add(method); // can make cycle
+//					result.targetNodes.add(method); // can make cycle
 				}
 			}
 		}
@@ -345,7 +348,7 @@ public class Analysis {
 
 				if (method != null) {
 					result.targetNodes.add(method);
-					result.sourceNodes.add(method); // can make cycle
+//					result.sourceNodes.add(method); // can make cycle
 				}
 			}
 		}
@@ -375,6 +378,7 @@ public class Analysis {
 		List<String> readFieldStringList = getReadFieldStringListByThisMethod(aMethod);
 		for (String readFieldString : readFieldStringList) {
 			if (nodeMap.containsKey(readFieldString)) {
+				nodeMap.get(readFieldString).setIsStore(true);
 				result.sourceNodes.add(nodeMap.get(readFieldString));
 			} else {
 				for (SootField aSuperClassField : superClassFieldListOfAbstractType) {
@@ -382,6 +386,7 @@ public class Analysis {
 					if (fieldKey.contains(readFieldString.replaceFirst("<.*:",
 							""))) {
 						if (nodeMap.containsKey(fieldKey)) {
+							nodeMap.get(fieldKey).setIsStore(true);
 							result.sourceNodes.add(nodeMap.get(fieldKey));
 						}
 					}
@@ -392,6 +397,7 @@ public class Analysis {
 		List<String> writtenFieldStringList = getWrittenFieldStringListByThisMethod(aMethod);
 		for (String writtenFieldString : writtenFieldStringList) {
 			if (nodeMap.containsKey(writtenFieldString)) {
+				nodeMap.get(writtenFieldString).setIsStore(true);
 				result.targetNodes.add(nodeMap.get(writtenFieldString));
 			} else {
 				for (SootField aSuperClassField : superClassFieldListOfAbstractType) {
@@ -399,6 +405,7 @@ public class Analysis {
 					if (fieldKey.contains(writtenFieldString.replaceFirst(
 							"<.*:", ""))) {
 						if (nodeMap.containsKey(fieldKey)) {
+							nodeMap.get(fieldKey).setIsStore(true);
 							result.targetNodes.add(nodeMap.get(fieldKey));
 						}
 					}
@@ -462,63 +469,72 @@ public class Analysis {
 		}
 		return graph;
 	}
+	
+	public AnalysisResult analyzeOverType(SootClass aType) {
+		AnalysisResult anAnalysisResult = new AnalysisResult();
+		List<MethodAnalysisResult> methodAnalysisResultList = new ArrayList<MethodAnalysisResult>();
+		HashMap<String, MyNode> nodeMap = new HashMap<String, MyNode>();
+		
+		for (SootClass aClass : classList) {
+			for (SootField aField : aClass.getFields()) {
+				nodeMap.put(aField.toString(), new MyField(aField));
+			}
+			for (SootMethod aMethod : aClass.getMethods()) {
+				nodeMap.put(aMethod.toString(), new MyMethod(aMethod));
+			}
+		}
 
-	public List<AnalysisResult> getAnalysisResultList() {
+		anAnalysisResult.abstractType = aType;
+		for (SootClass aClass : classList) {
+			for (SootMethod aMethod : aClass.getMethods()) {
+				methodAnalysisResultList.add(analyzeMethodOverType(aMethod,
+						aType, nodeMap));
+			}
+		}
+
+		for (MethodAnalysisResult aResult : methodAnalysisResultList) {
+			MyNode node = aResult.self;
+			if (node.isCaller()) {
+				anAnalysisResult.callerList.add(node);
+			}
+			if (node.isCreator()) {
+				anAnalysisResult.creatorList.add(node);
+			}
+		}
+
+		MyGraph referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
+		// graphXML = graphXML + referenceFlowGraph.toXML();
+
+		for (MyNode aNode : anAnalysisResult.callerList) {
+			MyGraphPathCollector pathCollector = new MyGraphPathCollector(
+					aNode, referenceFlowGraph) {
+				@Override
+				protected boolean isGoal(MyNode aNode) {
+					boolean result = false;
+					result = aNode.isCreator() && (graph.sourceNodes(aNode)).isEmpty();
+					return result;
+				}
+			};
+			List<MyPath> pathList = pathCollector.run();
+			if (!pathList.isEmpty()) {
+				anAnalysisResult.referenceFlowPathMap.put(aNode.toString(),
+						pathList);
+			}
+		}
+
+		return anAnalysisResult;
+	}
+
+	public List<AnalysisResult> analyzeOverAllAbstractTypes() {
 		List<AnalysisResult> analysisResultList = new ArrayList<AnalysisResult>();
 		List<SootClass> abstractTypeList = getAbstractTypeClassList();
 
 		// String graphXML = "<GraphList>";
 
 		for (SootClass aType : abstractTypeList) {
-			AnalysisResult anAnalysisResult = new AnalysisResult();
-			List<MethodAnalysisResult> methodAnalysisResultList = new ArrayList<MethodAnalysisResult>();
-			HashMap<String, MyNode> nodeMap = new HashMap<String, MyNode>();
-			for (SootClass aClass : classList) {
-				for (SootField aField : aClass.getFields()) {
-					nodeMap.put(aField.toString(), new MyField(aField));
-				}
-				for (SootMethod aMethod : aClass.getMethods()) {
-					nodeMap.put(aMethod.toString(), new MyMethod(aMethod));
-				}
-			}
-
-			anAnalysisResult.abstractType = aType;
-			for (SootClass aClass : classList) {
-				for (SootMethod aMethod : aClass.getMethods()) {
-					methodAnalysisResultList.add(analyzeMethodOverType(aMethod,
-							aType, nodeMap));
-				}
-			}
-
-			for (MethodAnalysisResult aResult : methodAnalysisResultList) {
-				MyNode node = aResult.self;
-				if (node.isCaller()) {
-					anAnalysisResult.callerList.add(node);
-				}
-				if (node.isCreator()) {
-					anAnalysisResult.creatorList.add(node);
-				}
-			}
-
-			MyGraph referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
-			// graphXML = graphXML + referenceFlowGraph.toXML();
-
-			for (MyNode aNode : anAnalysisResult.callerList) {
-				MyGraphPathCollector pathCollector = new MyGraphPathCollector(
-						aNode, referenceFlowGraph) {
-					@Override
-					protected boolean isGoal(MyNode aNode) {
-						return aNode.isCreator();
-					}
-				};
-				List<MyPath> pathList = pathCollector.run();
-				if (!pathList.isEmpty()) {
-					anAnalysisResult.referenceFlowPathMap.put(aNode.toString(),
-							pathList);
-				}
-			}
-
-			analysisResultList.add(anAnalysisResult);
+		//	if (aType.toString().equals("CH.ifa.draw.framework.Tool")) {
+				analysisResultList.add(analyzeOverType(aType));
+		//	}
 		}
 
 		// graphXML = graphXML + "</GraphList>";

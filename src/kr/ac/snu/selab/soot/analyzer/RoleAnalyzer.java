@@ -35,7 +35,7 @@ public class RoleAnalyzer extends BodyTransformer {
 
 		Map<String, Integer> analysisFileNameMap = new HashMap<String, Integer>();
 
-		for (AnalysisResult anAnalysisResult : analysis.getAnalysisResultList()) {
+		for (AnalysisResult anAnalysisResult : analysis.analyzeOverAllAbstractTypes()) {
 			String fileName = anAnalysisResult.getAbstractTypeName();
 			if (!analysisFileNameMap.containsKey(fileName)) {
 				analysisFileNameMap.put(fileName, 0);
