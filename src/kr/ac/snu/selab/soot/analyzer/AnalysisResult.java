@@ -45,6 +45,10 @@ public class AnalysisResult {
 //		storeList = aStoreList;
 //	}
 	
+	public boolean hasDesignPattern() {
+		return !creatorTriggerPathMap.isEmpty();
+	}
+	
 	public String toXML() {
 		String result = "";
 		result = result + "<AnalysisResult>";

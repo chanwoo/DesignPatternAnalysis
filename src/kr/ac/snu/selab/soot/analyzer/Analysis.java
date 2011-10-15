@@ -513,9 +513,9 @@ public class Analysis {
 		MyGraph referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 		// graphXML = graphXML + referenceFlowGraph.toXML();
 
-		for (MyNode aNode : anAnalysisResult.callerList) {
+		for (MyNode callerNode : anAnalysisResult.callerList) {
 			MyGraphPathCollector pathCollector = new MyGraphPathCollector(
-					aNode, referenceFlowGraph) {
+					callerNode, referenceFlowGraph) {
 				@Override
 				protected boolean isGoal(MyNode aNode) {
 					boolean result = false;
@@ -525,9 +525,24 @@ public class Analysis {
 				}
 			};
 			List<MyPath> pathList = pathCollector.run();
-			if (!pathList.isEmpty()) {
-				anAnalysisResult.referenceFlowPathMap.put(aNode.toString(),
-						pathList);
+
+			List<MyPath> pathIncludeStoreList = new ArrayList<MyPath>();
+			for (MyPath aPath : pathList) {
+				boolean doesPathIncludeStore = false;
+				for (MyNode aNode : aPath.nodeList) {
+					if (aNode.isStore()) {
+						doesPathIncludeStore = true;
+						break;
+					}
+				}
+				if (doesPathIncludeStore) {
+					pathIncludeStoreList.add(aPath);
+				}
+			}
+
+			if (!pathIncludeStoreList.isEmpty()) {
+				anAnalysisResult.referenceFlowPathMap.put(
+						callerNode.toString(), pathIncludeStoreList);
 			}
 		}
 
@@ -538,7 +553,7 @@ public class Analysis {
 				TriggerPathCollector triggerPathCollector = new TriggerPathCollector(
 						creator, callGraph, aType, this);
 				List<MyPath> triggerPathList = triggerPathCollector.run();
-				
+
 				if (!triggerPathList.isEmpty()) {
 					anAnalysisResult.creatorTriggerPathMap.put(aPath,
 							triggerPathList);
@@ -556,9 +571,9 @@ public class Analysis {
 		// String graphXML = "<GraphList>";
 
 		for (SootClass aType : abstractTypeList) {
-			// if (aType.toString().equals("CH.ifa.draw.framework.Tool")) {
-			analysisResultList.add(analyzeOverType(aType));
-			// }
+			if (!aType.toString().equals("CH.ifa.draw.framework.Figure")) {
+				analysisResultList.add(analyzeOverType(aType));
+			}
 		}
 
 		// graphXML = graphXML + "</GraphList>";
