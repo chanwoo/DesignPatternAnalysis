@@ -1,7 +1,6 @@
 package kr.ac.snu.selab.soot.core;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
@@ -15,8 +14,6 @@ import org.w3c.dom.NodeList;
 
 public class ProjectManager {
 
-	public static final String PROJECT_FILE_NAME = "projects.xml";
-
 	private static ProjectManager instance = null;
 
 	public static ProjectManager getInstance() {
@@ -26,21 +23,29 @@ public class ProjectManager {
 	}
 
 	private HashMap<String, AbstractProject> map;
+	private HashMap<String, String> abvMap;
 
 	private ProjectManager() {
 		map = new HashMap<String, AbstractProject>();
+		abvMap = new HashMap<String, String>();
 	}
 
 	public AbstractProject getProject(String projectName) {
-		return map.get(projectName);
+		String key = null;
+		if (abvMap.containsKey(projectName)) {
+			key = abvMap.get(projectName);
+		} else {
+			key = projectName;
+		}
+		return map.get(key);
 	}
 
-	public void loadProejcts() throws ProjectFileNotFoundException {
+	public void loadProjects(InputStream is)
+			throws ProjectFileParseException {
 		map.clear();
-		InputStream is = null;
-		is = ClassLoader.getSystemResourceAsStream(PROJECT_FILE_NAME);
+		abvMap.clear();
 		if (is == null) {
-			throw new ProjectFileNotFoundException();
+			throw new ProjectFileParseException();
 		}
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
@@ -54,25 +59,21 @@ public class ProjectManager {
 
 				Node nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					AbstractProject project = parseProject((Element) nNode);
+					Project project = parseProject((Element) nNode);
 					map.put(project.getProjectName(), project);
+					abvMap.put(project.projectNameAbv, project.getProjectName());
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (is != null)
-				try {
-					is.close();
-				} catch (IOException e) {
-				}
+			throw new ProjectFileParseException(e);
 		}
 	}
 
-	private AbstractProject parseProject(Element projectElement) {
+	private Project parseProject(Element projectElement) {
 
 		String projectName = projectElement.getAttribute("name");
-		Project project = new Project(projectName);
+		String projectNameAbv = projectElement.getAttribute("abv");
+		Project project = new Project(projectName, projectNameAbv);
 
 		NodeList nodeList = null;
 		Node node = null;
@@ -178,9 +179,11 @@ public class ProjectManager {
 		private String outputJimplePath;
 
 		private String projectRoot;
+		private String projectNameAbv;
 
-		public Project(String aProjectName) {
+		public Project(String aProjectName, String aProjectNameAbv) {
 			super(aProjectName);
+			this.projectNameAbv = aProjectNameAbv;
 		}
 
 		public void setOutputPath(String path) {
