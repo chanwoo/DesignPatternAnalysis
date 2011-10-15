@@ -214,7 +214,10 @@ public class Analysis {
 			if (rightSideString.startsWith("this.")) {
 				rightSideString = rightSideString.substring(5);
 			}
-			result = rightSideString;
+			//Only field variable
+			if (rightSideString.startsWith("<")) {
+				result = rightSideString;
+			}
 		}
 		return result;
 	}
@@ -238,7 +241,10 @@ public class Analysis {
 			if (leftSideString.startsWith("this.")) {
 				leftSideString = leftSideString.substring(5);
 			}
-			result = leftSideString;
+			//Only field variable
+			if (leftSideString.startsWith("<")) {
+				result = leftSideString;
+			}
 		}
 		return result;
 	}
@@ -336,7 +342,7 @@ public class Analysis {
 				MyNode method = nodeMap.get(callerMethod.toString());
 				if (method != null) {
 					result.sourceNodes.add(method);
-					result.targetNodes.add(method); // can make cycle
+//					result.targetNodes.add(method); // can make cycle
 				}
 			}
 		}
@@ -356,7 +362,7 @@ public class Analysis {
 
 				if (method != null) {
 					result.targetNodes.add(method);
-					result.sourceNodes.add(method); // can make cycle
+//					result.sourceNodes.add(method); // can make cycle
 				}
 			}
 		}
@@ -485,7 +491,10 @@ public class Analysis {
 
 		for (SootClass aClass : classList) {
 			for (SootField aField : aClass.getFields()) {
-				nodeMap.put(aField.toString(), new MyField(aField));
+				//We only consider fields of the abstract type.
+				if (aField.getType().toString().equals(aType.toString())) {
+					nodeMap.put(aField.toString(), new MyField(aField));
+				}
 			}
 			for (SootMethod aMethod : aClass.getMethods()) {
 				nodeMap.put(aMethod.toString(), new MyMethod(aMethod));
@@ -571,7 +580,7 @@ public class Analysis {
 		// String graphXML = "<GraphList>";
 
 		for (SootClass aType : abstractTypeList) {
-			if (!aType.toString().equals("CH.ifa.draw.framework.Figure")) {
+			if (!aType.toString().equals("org.jhotdraw.framework.Figure")) {
 				analysisResultList.add(analyzeOverType(aType));
 			}
 		}
