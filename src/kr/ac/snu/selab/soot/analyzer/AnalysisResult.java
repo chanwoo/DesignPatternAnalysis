@@ -46,7 +46,8 @@ public class AnalysisResult {
 //	}
 	
 	public boolean hasDesignPattern() {
-		return !creatorTriggerPathMap.isEmpty();
+		return true;
+		//return !creatorTriggerPathMap.isEmpty();
 	}
 	
 	public String toXML() {
