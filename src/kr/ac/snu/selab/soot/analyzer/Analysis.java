@@ -24,7 +24,7 @@ import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
 public class Analysis {
-	private List<SootClass> classList;
+	protected List<SootClass> classList;
 	private CallGraph callGraph;
 	private HashMap<String, SootClass> classMap;
 	private HashMap<String, SootMethod> methodMap;
@@ -214,7 +214,7 @@ public class Analysis {
 			if (rightSideString.startsWith("this.")) {
 				rightSideString = rightSideString.substring(5);
 			}
-			//Only field variable
+			// Only field variable
 			if (rightSideString.startsWith("<")) {
 				result = rightSideString;
 			}
@@ -241,7 +241,7 @@ public class Analysis {
 			if (leftSideString.startsWith("this.")) {
 				leftSideString = leftSideString.substring(5);
 			}
-			//Only field variable
+			// Only field variable
 			if (leftSideString.startsWith("<")) {
 				result = leftSideString;
 			}
@@ -363,6 +363,18 @@ public class Analysis {
 				if (method != null) {
 					result.targetNodes.add(method);
 //					result.sourceNodes.add(method); // can make cycle
+				}
+			}
+			// new ConcreteClass() should have return type of ConcreteClass
+			// But temp0 = new ConcreteClass
+			// temp0.<init> 
+			// has void return type
+			// So it needs special care for creator method
+			if (isClassOfSubType(calleeMethod.getDeclaringClass(), aType)
+					&& calleeMethod.getName().equals("<init>")) {
+				MyNode method = nodeMap.get(calleeMethod.toString());
+				if (method != null) {
+					result.sourceNodes.add(method);
 				}
 			}
 		}
@@ -491,7 +503,7 @@ public class Analysis {
 
 		for (SootClass aClass : classList) {
 			for (SootField aField : aClass.getFields()) {
-				//We only consider fields of the abstract type.
+				// We only consider fields of the abstract type.
 				if (aField.getType().toString().equals(aType.toString())) {
 					nodeMap.put(aField.toString(), new MyField(aField));
 				}
@@ -528,8 +540,11 @@ public class Analysis {
 				@Override
 				protected boolean isGoal(MyNode aNode) {
 					boolean result = false;
-					result = aNode.isCreator(); // &&
-												// (graph.sourceNodes(aNode)).isEmpty();
+					if (graph.sourceNodes(aNode).isEmpty() || hitSet.contains(aNode.toString())) {
+						result = true;
+					}
+					// result = aNode.isCreator(); // &&
+					// (graph.sourceNodes(aNode)).isEmpty();
 					return result;
 				}
 			};
@@ -555,20 +570,21 @@ public class Analysis {
 			}
 		}
 
-		for (Entry<String, List<MyPath>> anEntry : anAnalysisResult.referenceFlowPathMap
-				.entrySet()) {
-			for (MyPath aPath : anEntry.getValue()) {
-				MyNode creator = aPath.last();
-				TriggerPathCollector triggerPathCollector = new TriggerPathCollector(
-						creator, callGraph, aType, this);
-				List<MyPath> triggerPathList = triggerPathCollector.run();
-
-				if (!triggerPathList.isEmpty()) {
-					anAnalysisResult.creatorTriggerPathMap.put(aPath,
-							triggerPathList);
-				}
-			}
-		}
+		// for (Entry<String, List<MyPath>> anEntry :
+		// anAnalysisResult.referenceFlowPathMap
+		// .entrySet()) {
+		// for (MyPath aPath : anEntry.getValue()) {
+		// MyNode creator = aPath.last();
+		// TriggerPathCollector triggerPathCollector = new TriggerPathCollector(
+		// creator, callGraph, aType, this);
+		// List<MyPath> triggerPathList = triggerPathCollector.run();
+		//
+		// if (!triggerPathList.isEmpty()) {
+		// anAnalysisResult.creatorTriggerPathMap.put(aPath,
+		// triggerPathList);
+		// }
+		// }
+		// }
 
 		return anAnalysisResult;
 	}

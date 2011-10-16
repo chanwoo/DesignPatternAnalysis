@@ -71,23 +71,28 @@ public abstract class MyGraphPathCollector {
 
 		HashSet<MyNode> sources = graph.sourceNodes(aNode);
 		for (MyNode node : sources) {
-			if (node == null)
-				continue;
-
 			if (output.size() >= PATH_SET_SIZE_LIMIT) {
 				// For performance
 				break;
 			}
 
-			ArrayList<MyPath> pathSet = new ArrayList<MyPath>();
-			int result = findPaths(node, graph, pathSet);
-			if (result == CYCLE)
+			if (node == null)
 				continue;
 
-			for (MyPath p : pathSet) {
-				MyPath p1 = p.copy();
-				p1.addTop(aNode);
-				output.add(p1);
+			ArrayList<MyPath> pathSet = new ArrayList<MyPath>();
+			int result = findPaths(node, graph, pathSet);
+			if (result == CYCLE) {
+				continue;
+//				for (MyPath p : pathSet) {
+//					MyPath p1 = p.copy();
+//					output.add(p1);
+//				}
+			} else {
+				for (MyPath p : pathSet) {
+					MyPath p1 = p.copy();
+					p1.addTop(aNode);
+					output.add(p1);
+				}
 			}
 		}
 

@@ -1,6 +1,7 @@
 package kr.ac.snu.selab.soot.core;
 
 import kr.ac.snu.selab.soot.analyzer.CodeAnalyzer;
+import kr.ac.snu.selab.soot.analyzer.PathFromCallerAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.RoleAnalyzer;
 import kr.ac.snu.selab.soot.callgraph.CallGraphTXTCreator;
 import kr.ac.snu.selab.soot.callgraph.CallGraphXMLCreator;
@@ -28,6 +29,9 @@ public class AnalyzerRunner {
 				|| analyzer.equalsIgnoreCase("Code")
 				|| analyzer.equalsIgnoreCase("CodeAnalyzer")) {
 			bodyTransformer = new CodeAnalyzer(project);
+		} else if (analyzer.equalsIgnoreCase("pfc")
+				|| analyzer.equalsIgnoreCase("PathFromCaller")) {
+			bodyTransformer = new PathFromCallerAnalyzer(project);
 		} else {
 			throw new InvalidAnalyzerException("Can not find proper analyzer: "
 					+ analyzer);

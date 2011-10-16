@@ -149,6 +149,12 @@ public class CodeAnalyzer extends BodyTransformer {
 				writer.print("</Argument>");
 			}
 			writer.print("</ArgumentList>");
+			writer.print("<ReturnType>");
+			writer.print(MyUtil.removeBracket(invokeMethod.getReturnType().toString()));
+			writer.print("</ReturnType>");
+			writer.print("<MethodName>");
+			writer.print(MyUtil.removeBracket(invokeMethod.getName()));
+			writer.print("</MethodName>");
 		}
 		if (aUnit instanceof JIdentityStmt) {
 			JIdentityStmt jIdentityStatement = (JIdentityStmt) aUnit;
