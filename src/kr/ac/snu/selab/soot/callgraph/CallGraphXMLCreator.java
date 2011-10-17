@@ -17,16 +17,16 @@ import soot.SootMethod;
 public class CallGraphXMLCreator extends BodyTransformer {
 	private static boolean touch = false;
 	private String outputPath;
-	private String callGraphPath;
+	private String callGraphTXTPath;
 
 	public CallGraphXMLCreator(AbstractProject project) {
-		String fileName = CallGraphTXTCreator.CALL_GRAPH_FILE_NAME;
-		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
+		String fileName = CallGraphTXTCreator.CALL_GRAPH_TXT_FILE_NAME;
+		this.callGraphTXTPath = MyUtil.getPath(project.getOutputDirectory(),
 				fileName);
 
-		File parent = new File(project.getOutputDirectory(), "call_graph_xml");
+		File parent = project.getOutputDirectory();
 		parent.mkdirs();
-		this.outputPath = MyUtil.getPath(parent, "call_graph.xml");
+		this.outputPath = MyUtil.getPath(parent, project.getProjectName() + "_callgraph.xml");
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class CallGraphXMLCreator extends BodyTransformer {
 		}
 
 		CallGraph cg = new CallGraph();
-		cg = cg.load(callGraphPath, methodMap);
+		cg = cg.load(callGraphTXTPath, methodMap);
 		MyUtil.stringToFile(cg.toXML(), outputPath);
 	}
 

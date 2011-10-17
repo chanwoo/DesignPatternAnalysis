@@ -16,6 +16,7 @@ import kr.ac.snu.selab.soot.graph.MyGraph;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.Body;
+import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.Unit;
@@ -28,9 +29,25 @@ public class CallGraph extends MyGraph {
 	}
 
 	public CallGraph(List<SootClass> aClassList,
-			HashMap<String, SootMethod> methodMap) {
+			HashMap<String, SootMethod> methodMap, Hierarchy aHierarchy) {
 		targetMap = new HashMap<String, HashSet<MyNode>>();
 		sourceMap = new HashMap<String, HashSet<MyNode>>();
+
+		Map<String, MyNode> nodeMap = new HashMap<String, MyNode>();
+		for (Entry<String, SootMethod> anEntry : methodMap.entrySet()) {
+			nodeMap.put(anEntry.getKey(), new MyMethod(anEntry.getValue()));
+		}
+
+		// This is a map that has keys of (class, subsignature of method) pair.
+		Map<Map<SootClass, String>, SootMethod> methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>();
+
+		for (SootClass aClass : aClassList) {
+			for (SootMethod aMethod : aClass.getMethods()) {
+				Map<SootClass, String> key = new HashMap<SootClass, String>();
+				key.put(aClass, aMethod.getSubSignature());
+				methodMapBySubSignature.put(key, aMethod);
+			}
+		}
 
 		for (SootClass aClass : aClassList) {
 			for (SootMethod aMethod : aClass.getMethods()) {
@@ -42,16 +59,48 @@ public class CallGraph extends MyGraph {
 				for (Unit aUnit : unitList) {
 					if (aUnit instanceof JInvokeStmt) {
 						JInvokeStmt jInvokeStatement = (JInvokeStmt) aUnit;
-						addEdge(aMethod.toString(), jInvokeStatement
-								.getInvokeExpr().getMethod().toString(),
-								methodMap);
+						SootMethod invokedMethod = jInvokeStatement
+								.getInvokeExpr().getMethod();
+						SootClass receiverClass = invokedMethod
+								.getDeclaringClass();
+						if (aClassList.contains(receiverClass)) {
+							addEdge(aMethod.toString(),
+									invokedMethod.toString(), nodeMap);
+							// If there is a call to abstract type class, its
+							// subclass' methods should be added to a call
+							// graph.
+							List<SootMethod> overrideMethodList = getOverrideMethodsOf(
+									invokedMethod, aHierarchy,
+									methodMapBySubSignature);
+							for (SootMethod overrideMethod : overrideMethodList) {
+								addEdge(aMethod.toString(),
+										overrideMethod.toString(), nodeMap);
+							}
+						}
 					}
 					if (aUnit instanceof JAssignStmt) {
 						JAssignStmt jAssignStatement = (JAssignStmt) aUnit;
 						if (jAssignStatement.containsInvokeExpr()) {
-							addEdge(aMethod.toString(), jAssignStatement
-									.getInvokeExpr().getMethod().toString(),
-									methodMap);
+							SootMethod invokedMethod = jAssignStatement
+									.getInvokeExpr().getMethod();
+							SootClass receiverClass = invokedMethod
+									.getDeclaringClass();
+							if (aClassList.contains(receiverClass)) {
+								addEdge(aMethod.toString(),
+										invokedMethod.toString(), nodeMap);
+
+								// If there is a call to abstract type class,
+								// its
+								// subclass' methods should be added to a call
+								// graph.
+								List<SootMethod> overrideMethodList = getOverrideMethodsOf(
+										invokedMethod, aHierarchy,
+										methodMapBySubSignature);
+								for (SootMethod overrideMethod : overrideMethodList) {
+									addEdge(aMethod.toString(),
+											overrideMethod.toString(), nodeMap);
+								}
+							}
 						}
 					}
 				}
@@ -59,9 +108,38 @@ public class CallGraph extends MyGraph {
 		}
 	}
 
+	private List<SootClass> getSubTypeClassOf(SootClass aType,
+			Hierarchy aHierarchy) {
+		if (aType.isInterface()) {
+			return aHierarchy.getImplementersOf(aType);
+		} else {
+			return aHierarchy.getSubclassesOf(aType);
+		}
+	}
+
+	public List<SootMethod> getOverrideMethodsOf(SootMethod aMethod,
+			Hierarchy aHierarchy,
+			Map<Map<SootClass, String>, SootMethod> aMethodMapBySubSignature) {
+		List<SootMethod> result = new ArrayList<SootMethod>();
+		SootClass receiverType = aMethod.getDeclaringClass();
+		List<SootClass> subTypeClassList = getSubTypeClassOf(receiverType,
+				aHierarchy);
+		if (!subTypeClassList.isEmpty()) {
+			for (SootClass aClass : subTypeClassList) {
+				Map<SootClass, String> key = new HashMap<SootClass, String>();
+				key.put(aClass, aMethod.getSubSignature());
+				SootMethod overrideMethod = aMethodMapBySubSignature.get(key);
+				if (overrideMethod != null) {
+					result.add(overrideMethod);
+				}
+			}
+		}
+		return result;
+	}
+
 	public void addEdge(String source, String target,
-			Map<String, SootMethod> methodMap) {
-		if (!methodMap.containsKey(source) || !methodMap.containsKey(target))
+			Map<String, MyNode> nodeMap) {
+		if (!nodeMap.containsKey(source) || !nodeMap.containsKey(target))
 			return;
 
 		if (!sourceMap.containsKey(target)) {
@@ -70,7 +148,7 @@ public class CallGraph extends MyGraph {
 		}
 
 		HashSet<MyNode> sourceSet = sourceMap.get(target);
-		sourceSet.add(new MyMethod(methodMap.get(source)));
+		sourceSet.add(nodeMap.get(source));
 
 		if (!targetMap.containsKey(source)) {
 			HashSet<MyNode> targetSet = new HashSet<MyNode>();
@@ -78,12 +156,16 @@ public class CallGraph extends MyGraph {
 		}
 
 		HashSet<MyNode> targetSet = targetMap.get(source);
-		targetSet.add(new MyMethod(methodMap.get(target)));
+		targetSet.add(nodeMap.get(target));
 	}
 
 	public CallGraph load(String filePath, Map<String, SootMethod> methodMap) {
 		CallGraph g = new CallGraph();
 		BufferedReader reader = null;
+		Map<String, MyNode> nodeMap = new HashMap<String, MyNode>();
+		for (Entry<String, SootMethod> anEntry : methodMap.entrySet()) {
+			nodeMap.put(anEntry.getKey(), new MyMethod(anEntry.getValue()));
+		}
 		try {
 			reader = new BufferedReader(new FileReader(filePath));
 			String line = null;
@@ -92,7 +174,7 @@ public class CallGraph extends MyGraph {
 				if (tokens == null || tokens.length != 2)
 					continue;
 
-				g.addEdge(tokens[0], tokens[1], methodMap);
+				g.addEdge(tokens[0], tokens[1], nodeMap);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -68,8 +68,9 @@ public class Analysis {
 				methodMap.put(aMethod.toString(), aMethod);
 			}
 		}
-		callGraph = new CallGraph(classList, methodMap);
 		hierarchy = aHierarchy;
+		callGraph = new CallGraph(classList, methodMap, aHierarchy);
+		
 	}
 
 	private List<Unit> getUnits(SootMethod aMethod) {
@@ -128,9 +129,34 @@ public class Analysis {
 		if (aUnit instanceof JInvokeStmt) {
 			JInvokeStmt statement = (JInvokeStmt) aUnit;
 
-			ValueBox receiver = (ValueBox) (statement.getUseBoxes().get(0));
-			if (!receiver.getValue().toString().equals("this")) {
-				String key = receiver.getValue().getType().toString();
+			SootClass receiver = statement.getInvokeExpr().getMethod()
+					.getDeclaringClass();
+			String key = receiver.toString();
+			SootClass receiverClass = null;
+			if (classMap.containsKey(key)) {
+				receiverClass = classMap.get(key);
+			}
+			if (receiverClass != null) {
+				if (receiverClass instanceof SootClass) {
+					if (receiverClass.equals(aType)) {
+						result = true;
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	public boolean isAssignmentStatementHasInvocationOfReceiverType(Unit aUnit,
+			SootClass aType) {
+		boolean result = false;
+		if (aUnit instanceof JAssignStmt) {
+			JAssignStmt statement = (JAssignStmt) aUnit;
+
+			if (statement.containsInvokeExpr()) {
+				SootClass receiver = statement.getInvokeExpr().getMethod()
+						.getDeclaringClass();
+				String key = receiver.toString();
 				SootClass receiverClass = null;
 				if (classMap.containsKey(key)) {
 					receiverClass = classMap.get(key);
@@ -325,6 +351,9 @@ public class Analysis {
 			if (isInvokeStatementOfReceiverType(aUnit, aType)) {
 				result.self.setIsCaller(true);
 				result.self.addCallStatement(aUnit);
+			} else if (isAssignmentStatementHasInvocationOfReceiverType(aUnit, aType)) {
+				result.self.setIsCaller(true);
+				result.self.addCallStatement(aUnit);
 			}
 		}
 
@@ -342,7 +371,7 @@ public class Analysis {
 				MyNode method = nodeMap.get(callerMethod.toString());
 				if (method != null) {
 					result.sourceNodes.add(method);
-//					result.targetNodes.add(method); // can make cycle
+					// result.targetNodes.add(method); // can make cycle
 				}
 			}
 		}
@@ -362,12 +391,12 @@ public class Analysis {
 
 				if (method != null) {
 					result.targetNodes.add(method);
-//					result.sourceNodes.add(method); // can make cycle
+					// result.sourceNodes.add(method); // can make cycle
 				}
 			}
 			// new ConcreteClass() should have return type of ConcreteClass
 			// But temp0 = new ConcreteClass
-			// temp0.<init> 
+			// temp0.<init>
 			// has void return type
 			// So it needs special care for creator method
 			if (isClassOfSubType(calleeMethod.getDeclaringClass(), aType)
@@ -540,7 +569,8 @@ public class Analysis {
 				@Override
 				protected boolean isGoal(MyNode aNode) {
 					boolean result = false;
-					if (graph.sourceNodes(aNode).isEmpty() || hitSet.contains(aNode.toString())) {
+					if (graph.sourceNodes(aNode).isEmpty()
+							|| hitSet.contains(aNode.toString())) {
 						result = true;
 					}
 					// result = aNode.isCreator(); // &&

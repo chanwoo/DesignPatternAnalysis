@@ -52,6 +52,12 @@ public class CodeAnalyzer extends BodyTransformer {
 		writer.print("<FieldList>");
 		for (SootField aField : aClass.getFields()) {
 			writer.print("<Field>");
+			writer.print("<Signature>");
+			writer.print(MyUtil.removeBracket(aField.getSignature()));
+			writer.print("</Signature>");
+			writer.print("<SubSignature>");
+			writer.print(MyUtil.removeBracket(aField.getSubSignature()));
+			writer.print("</SubSignature>");
 			writer.print("<ToString>");
 			writer.print(MyUtil.removeBracket(aField.toString()));
 			writer.print("</ToString>");
@@ -74,6 +80,12 @@ public class CodeAnalyzer extends BodyTransformer {
 
 	private void writeMethod(SootMethod aMethod, PrintWriter writer) {
 		writer.print("<Method>");
+		writer.print("<Signature>");
+		writer.print(MyUtil.removeBracket(aMethod.getSignature()));
+		writer.print("</Signature>");
+		writer.print("<SubSignature>");
+		writer.print(MyUtil.removeBracket(aMethod.getSubSignature()));
+		writer.print("</SubSignature>");
 		writer.print("<ToString>");
 		writer.print(MyUtil.removeBracket(aMethod.toString()));
 		writer.print("</ToString>");
@@ -139,22 +151,9 @@ public class CodeAnalyzer extends BodyTransformer {
 			JInvokeStmt jInvokeStatement = (JInvokeStmt) aUnit;
 			SootMethod invokeMethod = jInvokeStatement.getInvokeExpr()
 					.getMethod();
-			writer.print("<InvokeMethod>");
-			writer.print(MyUtil.removeBracket(invokeMethod.toString()));
-			writer.print("</InvokeMethod>");
-			writer.print("<ArgumentList>");
-			for (Object invokeExpr : jInvokeStatement.getInvokeExpr().getArgs()) {
-				writer.print("<Argument>");
-				writer.print(MyUtil.removeBracket(invokeExpr.toString()));
-				writer.print("</Argument>");
-			}
-			writer.print("</ArgumentList>");
-			writer.print("<ReturnType>");
-			writer.print(MyUtil.removeBracket(invokeMethod.getReturnType().toString()));
-			writer.print("</ReturnType>");
-			writer.print("<MethodName>");
-			writer.print(MyUtil.removeBracket(invokeMethod.getName()));
-			writer.print("</MethodName>");
+			writer.print("<InvokedMethod>");
+			writeMethod(invokeMethod, writer);
+			writer.print("</InvokedMethod>");
 		}
 		if (aUnit instanceof JIdentityStmt) {
 			JIdentityStmt jIdentityStatement = (JIdentityStmt) aUnit;
@@ -179,10 +178,9 @@ public class CodeAnalyzer extends BodyTransformer {
 			writer.print("</RightOp>");
 
 			if (jAssignStatement.containsInvokeExpr()) {
-				writer.print("<InvokeExpr>");
-				writer.print(MyUtil.removeBracket(jAssignStatement
-						.getInvokeExpr().getMethod().toString()));
-				writer.print("</InvokeExpr>");
+				writer.print("<InvokedMethod>");
+				writeMethod(jAssignStatement.getInvokeExpr().getMethod(), writer);
+				writer.print("</InvokedMethod>");
 			}
 		}
 		writer.print("</Unit>");
