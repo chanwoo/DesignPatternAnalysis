@@ -3,14 +3,10 @@ package kr.ac.snu.selab.soot.analyzer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graph.MyPath;
+import kr.ac.snu.selab.soot.graphx.Path;
 import kr.ac.snu.selab.soot.util.MyUtil;
-
-
-import soot.SootClass;
 
 public class PathFromCallerAnalysisResult extends AnalysisResult {
 	
@@ -26,7 +22,7 @@ public class PathFromCallerAnalysisResult extends AnalysisResult {
 		abstractType = null;
 		callerList = new ArrayList<MyNode>();
 		creatorList = new ArrayList<MyNode>();
-		referenceFlowPathMap = new HashMap<String, List<MyPath>>();
+		referenceFlowPathMap = new HashMap<String, List<Path<MyNode>>>();
 //		storeList = new ArrayList<Store>();
 //		creatorTriggerPathMap = new HashMap<MyPath, List<MyPath>>();
 	}
@@ -65,7 +61,7 @@ public class PathFromCallerAnalysisResult extends AnalysisResult {
 				result = result + aNode.toXML();
 				result = result + "</Caller>";
 				result = result + "<PathList>";
-				for (MyPath aPath : referenceFlowPathMap.get(key)) {
+				for (Path<MyNode> aPath : referenceFlowPathMap.get(key)) {
 					result = result + aPath.toXML();
 				}
 				result = result + "</PathList>";

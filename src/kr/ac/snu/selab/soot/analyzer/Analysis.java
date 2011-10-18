@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
-import kr.ac.snu.selab.soot.graph.MyGraph;
-import kr.ac.snu.selab.soot.graph.MyGraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graph.MyPath;
-import kr.ac.snu.selab.soot.graph.TriggerPathCollector;
+import kr.ac.snu.selab.soot.graphx.Graph;
+import kr.ac.snu.selab.soot.graphx.GraphPathCollector;
+import kr.ac.snu.selab.soot.graphx.Path;
 import soot.Body;
 import soot.Hierarchy;
 import soot.SootClass;
@@ -19,7 +17,6 @@ import soot.SootField;
 import soot.SootMethod;
 import soot.Type;
 import soot.Unit;
-import soot.ValueBox;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
@@ -70,7 +67,7 @@ public class Analysis {
 		}
 		hierarchy = aHierarchy;
 		callGraph = new CallGraph(classList, methodMap, aHierarchy);
-		
+
 	}
 
 	private List<Unit> getUnits(SootMethod aMethod) {
@@ -351,7 +348,8 @@ public class Analysis {
 			if (isInvokeStatementOfReceiverType(aUnit, aType)) {
 				result.self.setIsCaller(true);
 				result.self.addCallStatement(aUnit);
-			} else if (isAssignmentStatementHasInvocationOfReceiverType(aUnit, aType)) {
+			} else if (isAssignmentStatementHasInvocationOfReceiverType(aUnit,
+					aType)) {
 				result.self.setIsCaller(true);
 				result.self.addCallStatement(aUnit);
 			}
@@ -359,11 +357,11 @@ public class Analysis {
 
 		HashSet<SootMethod> callerSet = new HashSet<SootMethod>();
 		for (MyNode aNode : callGraph.sourceNodes(new MyMethod(aMethod))) {
-			callerSet.add(((MyMethod) aNode).getMethod());
+			callerSet.add(((MyMethod) aNode).getElement());
 		}
 		HashSet<SootMethod> calleeSet = new HashSet<SootMethod>();
 		for (MyNode aNode : callGraph.targetNodes(new MyMethod(aMethod))) {
-			calleeSet.add(((MyMethod) aNode).getMethod());
+			calleeSet.add(((MyMethod) aNode).getElement());
 		}
 
 		if (doesThisMethodParameterOfSubtype(aMethod, aType)) {
@@ -471,9 +469,9 @@ public class Analysis {
 		return result;
 	}
 
-	public MyGraph getGraphFromMethodAnalysisResultList(
+	public Graph<MyNode> getGraphFromMethodAnalysisResultList(
 			List<MethodAnalysisResult> resultList) {
-		MyGraph graph = new MyGraph();
+		Graph<MyNode> graph = new Graph<MyNode>();
 		HashMap<String, HashSet<MyNode>> sourceMap = graph.sourceMap;
 		HashMap<String, HashSet<MyNode>> targetMap = graph.targetMap;
 
@@ -560,11 +558,11 @@ public class Analysis {
 			}
 		}
 
-		MyGraph referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
+		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 		// graphXML = graphXML + referenceFlowGraph.toXML();
 
 		for (MyNode callerNode : anAnalysisResult.callerList) {
-			MyGraphPathCollector pathCollector = new MyGraphPathCollector(
+			GraphPathCollector<MyNode> pathCollector = new GraphPathCollector<MyNode>(
 					callerNode, referenceFlowGraph) {
 				@Override
 				protected boolean isGoal(MyNode aNode) {
@@ -578,10 +576,10 @@ public class Analysis {
 					return result;
 				}
 			};
-			List<MyPath> pathList = pathCollector.run();
+			List<Path<MyNode>> pathList = pathCollector.run();
 
-			List<MyPath> pathIncludeStoreList = new ArrayList<MyPath>();
-			for (MyPath aPath : pathList) {
+			List<Path<MyNode>> pathIncludeStoreList = new ArrayList<Path<MyNode>>();
+			for (Path<MyNode> aPath : pathList) {
 				boolean doesPathIncludeStore = false;
 				for (MyNode aNode : aPath.nodeList) {
 					if (aNode.isStore()) {

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import kr.ac.snu.selab.soot.callgraph.CallGraph;
-import kr.ac.snu.selab.soot.graph.MyGraph;
-import kr.ac.snu.selab.soot.graph.MyGraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graph.MyPath;
+import kr.ac.snu.selab.soot.graphx.Graph;
+import kr.ac.snu.selab.soot.graphx.GraphPathCollector;
+import kr.ac.snu.selab.soot.graphx.Path;
 import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootField;
@@ -55,11 +54,11 @@ public class PathFromCallerAnalysis extends Analysis {
 			}
 		}
 
-		MyGraph referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
+		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 		// graphXML = graphXML + referenceFlowGraph.toXML();
 
 		for (MyNode callerNode : anAnalysisResult.callerList) {
-			MyGraphPathCollector pathCollector = new MyGraphPathCollector(
+			GraphPathCollector<MyNode> pathCollector = new GraphPathCollector<MyNode>(
 					callerNode, referenceFlowGraph) {
 				@Override
 				protected boolean isGoal(MyNode aNode) {
@@ -73,7 +72,7 @@ public class PathFromCallerAnalysis extends Analysis {
 					return result;
 				}
 			};
-			List<MyPath> pathList = pathCollector.run();
+			List<Path<MyNode>> pathList = pathCollector.run();
 
 //			List<MyPath> pathIncludeStoreList = new ArrayList<MyPath>();
 //			for (MyPath aPath : pathList) {

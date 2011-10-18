@@ -12,8 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import kr.ac.snu.selab.soot.analyzer.MyMethod;
-import kr.ac.snu.selab.soot.graph.MyGraph;
-import kr.ac.snu.selab.soot.graph.MyNode;
+import kr.ac.snu.selab.soot.graphx.Graph;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.Body;
 import soot.Hierarchy;
@@ -23,17 +22,17 @@ import soot.Unit;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
-public class CallGraph extends MyGraph {
+public class CallGraph extends Graph<MyMethod> {
 	public CallGraph() {
 		super();
 	}
 
 	public CallGraph(List<SootClass> aClassList,
 			HashMap<String, SootMethod> methodMap, Hierarchy aHierarchy) {
-		targetMap = new HashMap<String, HashSet<MyNode>>();
-		sourceMap = new HashMap<String, HashSet<MyNode>>();
+		targetMap = new HashMap<String, HashSet<MyMethod>>();
+		sourceMap = new HashMap<String, HashSet<MyMethod>>();
 
-		Map<String, MyNode> nodeMap = new HashMap<String, MyNode>();
+		Map<String, MyMethod> nodeMap = new HashMap<String, MyMethod>();
 		for (Entry<String, SootMethod> anEntry : methodMap.entrySet()) {
 			nodeMap.put(anEntry.getKey(), new MyMethod(anEntry.getValue()));
 		}
@@ -138,31 +137,31 @@ public class CallGraph extends MyGraph {
 	}
 
 	public void addEdge(String source, String target,
-			Map<String, MyNode> nodeMap) {
+			Map<String, MyMethod> nodeMap) {
 		if (!nodeMap.containsKey(source) || !nodeMap.containsKey(target))
 			return;
 
 		if (!sourceMap.containsKey(target)) {
-			HashSet<MyNode> sourceSet = new HashSet<MyNode>();
+			HashSet<MyMethod> sourceSet = new HashSet<MyMethod>();
 			sourceMap.put(target, sourceSet);
 		}
 
-		HashSet<MyNode> sourceSet = sourceMap.get(target);
+		HashSet<MyMethod> sourceSet = sourceMap.get(target);
 		sourceSet.add(nodeMap.get(source));
 
 		if (!targetMap.containsKey(source)) {
-			HashSet<MyNode> targetSet = new HashSet<MyNode>();
+			HashSet<MyMethod> targetSet = new HashSet<MyMethod>();
 			targetMap.put(source, targetSet);
 		}
 
-		HashSet<MyNode> targetSet = targetMap.get(source);
+		HashSet<MyMethod> targetSet = targetMap.get(source);
 		targetSet.add(nodeMap.get(target));
 	}
 
 	public CallGraph load(String filePath, Map<String, SootMethod> methodMap) {
 		CallGraph g = new CallGraph();
 		BufferedReader reader = null;
-		Map<String, MyNode> nodeMap = new HashMap<String, MyNode>();
+		Map<String, MyMethod> nodeMap = new HashMap<String, MyMethod>();
 		for (Entry<String, SootMethod> anEntry : methodMap.entrySet()) {
 			nodeMap.put(anEntry.getKey(), new MyMethod(anEntry.getValue()));
 		}
@@ -194,12 +193,12 @@ public class CallGraph extends MyGraph {
 		String result = "";
 		result = result + "<CallGraph>";
 		result = result + "<SourceToTargetSetList>";
-		for (Entry<String, HashSet<MyNode>> anEntry : targetMap.entrySet()) {
+		for (Entry<String, HashSet<MyMethod>> anEntry : targetMap.entrySet()) {
 			result = result + "<SourceToTargetSet>";
 			result = result + "<Source>"
 					+ MyUtil.removeBracket(anEntry.getKey()) + "</Source>";
 			result = result + "<TargetSet>";
-			for (MyNode aNode : anEntry.getValue()) {
+			for (MyMethod aNode : anEntry.getValue()) {
 				result = result + "<Target>"
 						+ MyUtil.removeBracket(aNode.toString()) + "</Target>";
 			}
@@ -208,12 +207,12 @@ public class CallGraph extends MyGraph {
 		}
 		result = result + "</SourceToTargetSetList>";
 		result = result + "<TargetToSourceSetList>";
-		for (Entry<String, HashSet<MyNode>> anEntry : sourceMap.entrySet()) {
+		for (Entry<String, HashSet<MyMethod>> anEntry : sourceMap.entrySet()) {
 			result = result + "<TargetToSourceSet>";
 			result = result + "<Target>"
 					+ MyUtil.removeBracket(anEntry.getKey()) + "</Target>";
 			result = result + "<SourceSet>";
-			for (MyNode aNode : anEntry.getValue()) {
+			for (MyMethod aNode : anEntry.getValue()) {
 				result = result + "<Source>"
 						+ MyUtil.removeBracket(aNode.toString()) + "</Source>";
 			}

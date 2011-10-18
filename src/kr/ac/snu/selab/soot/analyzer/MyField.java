@@ -4,27 +4,12 @@ import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.SootField;
 
-public class MyField extends MyNode {
-	SootField fieldObject;
+public class MyField extends MyNode<SootField> {
 	private boolean isStore;
-	
-	public boolean equals(Object anObject) {
-		return fieldObject.equals(anObject);
-	}
-	
-	public int hashcode() {
-		return fieldObject.hashCode();
-	}
-	
-	public MyField(SootField aField) {
-		fieldObject = aField;
-		isStore = false;
-	}
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return fieldObject.toString();
+	public MyField(SootField aField) {
+		super(aField);
+		isStore = false;
 	}
 
 	@Override
@@ -40,34 +25,34 @@ public class MyField extends MyNode {
 		result = result + "</Field>";
 		return result;
 	}
-	
+
 	public boolean isCreator() {
 		return false;
 	}
-	
+
 	public boolean isCaller() {
 		return false;
 	}
-	
+
 	public boolean isStore() {
 		return isStore;
 	}
-	
+
 	public void setIsStore(boolean value) {
 		isStore = value;
 	}
-	
+
 	public void setIsCreator(boolean value) {
-		
+
 	}
-	
+
 	public void setIsCaller(boolean value) {
-		
+
 	}
-	
+
 	public String role() {
 		String result = "";
-		result = result + "<Role>Store</Role>";			
+		result = result + "<Role>Store</Role>";
 		return result;
 	}
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graph.MyPath;
+import kr.ac.snu.selab.soot.graphx.Path;
 import kr.ac.snu.selab.soot.util.MyUtil;
 
 
@@ -16,9 +16,9 @@ public class AnalysisResult {
 	SootClass abstractType;
 	List<MyNode> callerList;
 	List<MyNode> creatorList;
-	Map<String, List<MyPath>> referenceFlowPathMap; // String := MyNode.toString() where MyNode is caller
+	Map<String, List<Path<MyNode>>> referenceFlowPathMap; // String := MyNode.toString() where MyNode is caller
 //	List<Store> storeList;
-	Map<MyPath, List<MyPath>> creatorTriggerPathMap; // key := referenceFlowPath, value := triggerPath 
+	Map<Path<MyNode>, List<Path<MyNode>>> creatorTriggerPathMap; // key := referenceFlowPath, value := triggerPath 
 	
 	public String getAbstractTypeName() {
 		String result = "";
@@ -36,9 +36,9 @@ public class AnalysisResult {
 		abstractType = null;
 		callerList = new ArrayList<MyNode>();
 		creatorList = new ArrayList<MyNode>();
-		referenceFlowPathMap = new HashMap<String, List<MyPath>>();
+		referenceFlowPathMap = new HashMap<String, List<Path<MyNode>>>();
 //		storeList = new ArrayList<Store>();
-		creatorTriggerPathMap = new HashMap<MyPath, List<MyPath>>();
+		creatorTriggerPathMap = new HashMap<Path<MyNode>, List<Path<MyNode>>>();
 	}
 	
 //	public AnalysisResult(SootClass anAbstractType, List<Caller> aCallerList,
@@ -75,13 +75,13 @@ public class AnalysisResult {
 				result = result + aNode.toXML();
 				result = result + "</Caller>";
 				result = result + "<PathSetList>";
-				for (MyPath aPath : referenceFlowPathMap.get(key)) {
+				for (Path<MyNode> aPath : referenceFlowPathMap.get(key)) {
 					result = result + "<PathSet>";
 					result = result + aPath.toXML();
 					if (creatorTriggerPathMap.containsKey(aPath)) {
 						patternName = "State";
 						result = result + "<TriggerPathList>";
-						for (MyPath aTriggerPath : creatorTriggerPathMap.get(aPath)) {
+						for (Path<MyNode> aTriggerPath : creatorTriggerPathMap.get(aPath)) {
 							result = result + aTriggerPath.toXML();
 						}
 						result = result + "</TriggerPathList>";

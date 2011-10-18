@@ -9,37 +9,18 @@ import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.SootMethod;
 import soot.Unit;
 
-public class MyMethod extends MyNode {
-	SootMethod methodObject;
+public class MyMethod extends MyNode<SootMethod> {
 	boolean isCaller;
 	boolean isCreator;
 	List<Unit> callStatementList;
 	List<Unit> createStatementList;
-	
+
 	public MyMethod(SootMethod aMethod) {
-		methodObject = aMethod;
+		super(aMethod);
 		isCaller = false;
 		isCreator = false;
 		callStatementList = new ArrayList<Unit>();
 		createStatementList = new ArrayList<Unit>();
-	}
-	
-	public SootMethod getMethod() {
-		return methodObject;
-	}
-	
-	public boolean equals(Object anObject) {
-		return methodObject.equals(anObject);
-	}
-	
-	public int hashcode() {
-		return methodObject.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return methodObject.toString();
 	}
 
 	@Override
@@ -55,39 +36,39 @@ public class MyMethod extends MyNode {
 		result = result + "</Method>";
 		return result;
 	}
-	
+
 	public boolean isCaller() {
 		return isCaller;
 	}
-	
+
 	public void setIsCaller(boolean b) {
 		isCaller = b;
 	}
-	
+
 	public boolean isCreator() {
 		return isCreator;
-	}	
-	
+	}
+
 	public void setIsCreator(boolean b) {
 		isCreator = b;
 	}
-	
+
 	public boolean isStore() {
 		return false;
 	}
-	
+
 	public void setIsStore(boolean value) {
-		
+
 	}
-	
+
 	public void addCallStatement(Unit aUnit) {
 		callStatementList.add(aUnit);
 	}
-	
+
 	public void addCreateStatement(Unit aUnit) {
 		createStatementList.add(aUnit);
 	}
-	
+
 	public String role() {
 		String result = "";
 		if (isCaller()) {
@@ -95,7 +76,8 @@ public class MyMethod extends MyNode {
 			result = result + "<CallStatementList>";
 			for (Unit callStatement : callStatementList) {
 				result = result + "<CallStatement>";
-				result = result + MyUtil.removeBracket(callStatement.toString());
+				result = result
+						+ MyUtil.removeBracket(callStatement.toString());
 				result = result + "</CallStatement>";
 			}
 			result = result + "</CallStatementList>";
@@ -105,7 +87,8 @@ public class MyMethod extends MyNode {
 			result = result + "<CreateStatementList>";
 			for (Unit createStatement : createStatementList) {
 				result = result + "<CreateStatement>";
-				result = result + MyUtil.removeBracket(createStatement.toString());
+				result = result
+						+ MyUtil.removeBracket(createStatement.toString());
 				result = result + "</CreateStatement>";
 			}
 			result = result + "</CreateStatementList>";

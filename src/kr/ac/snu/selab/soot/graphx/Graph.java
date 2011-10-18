@@ -6,8 +6,8 @@ import java.util.HashSet;
 import kr.ac.snu.selab.soot.util.MyUtil;
 
 public class Graph<N extends Node<?>> {
-	protected HashMap<String, HashSet<N>> sourceMap;
-	protected HashMap<String, HashSet<N>> targetMap;
+	public HashMap<String, HashSet<N>> sourceMap;
+	public HashMap<String, HashSet<N>> targetMap;
 
 	public Graph() {
 		sourceMap = new HashMap<String, HashSet<N>>();
