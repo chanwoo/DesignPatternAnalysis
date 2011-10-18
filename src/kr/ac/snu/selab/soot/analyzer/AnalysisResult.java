@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graphx.Path;
+import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.MyUtil;
 
 

@@ -1,6 +1,5 @@
 package kr.ac.snu.selab.soot.graph;
 
-import kr.ac.snu.selab.soot.graphx.Node;
 
 public abstract class MyNode extends Node {
 	public MyNode(Object element) {

@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
+import kr.ac.snu.selab.soot.graph.Graph;
+import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graphx.Graph;
-import kr.ac.snu.selab.soot.graphx.GraphPathCollector;
-import kr.ac.snu.selab.soot.graphx.Path;
+import kr.ac.snu.selab.soot.graph.Path;
 import soot.Body;
 import soot.Hierarchy;
 import soot.SootClass;

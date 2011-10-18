@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import kr.ac.snu.selab.soot.analyzer.MyMethod;
+import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graphx.Graph;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.Body;
 import soot.Hierarchy;

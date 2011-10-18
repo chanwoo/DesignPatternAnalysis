@@ -1,13 +1,13 @@
-package kr.ac.snu.selab.soot.core.graphx;
+package kr.ac.snu.selab.soot.core.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import kr.ac.snu.selab.soot.graphx.Graph;
-import kr.ac.snu.selab.soot.graphx.GraphPathCollector;
-import kr.ac.snu.selab.soot.graphx.Node;
-import kr.ac.snu.selab.soot.graphx.Path;
+import kr.ac.snu.selab.soot.graph.Graph;
+import kr.ac.snu.selab.soot.graph.GraphPathCollector;
+import kr.ac.snu.selab.soot.graph.Node;
+import kr.ac.snu.selab.soot.graph.Path;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

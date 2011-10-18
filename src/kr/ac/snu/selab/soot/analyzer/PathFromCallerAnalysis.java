@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import kr.ac.snu.selab.soot.graph.AllPathCollector;
+import kr.ac.snu.selab.soot.graph.Graph;
+import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graphx.AllPathCollector;
-import kr.ac.snu.selab.soot.graphx.Graph;
-import kr.ac.snu.selab.soot.graphx.GraphPathCollector;
-import kr.ac.snu.selab.soot.graphx.Path;
+import kr.ac.snu.selab.soot.graph.Path;
 import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootField;

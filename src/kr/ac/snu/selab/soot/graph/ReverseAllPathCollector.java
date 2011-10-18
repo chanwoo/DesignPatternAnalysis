@@ -1,8 +1,7 @@
-package kr.ac.snu.selab.soot.graphx;
+package kr.ac.snu.selab.soot.graph;
 
 import java.util.Set;
 
-import kr.ac.snu.selab.soot.graph.MyNode;
 
 public class ReverseAllPathCollector<N extends Node> extends
 		AllPathCollector<N> {

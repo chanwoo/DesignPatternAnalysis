@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.graphx.Path;
+import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.MyUtil;
 
 public class PathFromCallerAnalysisResult extends AnalysisResult {

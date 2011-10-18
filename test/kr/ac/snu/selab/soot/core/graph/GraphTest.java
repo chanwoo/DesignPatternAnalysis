@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot.core.graphx;
+package kr.ac.snu.selab.soot.core.graph;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
