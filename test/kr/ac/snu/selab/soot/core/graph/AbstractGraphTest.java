@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import kr.ac.snu.selab.soot.graph.Graph;
-import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.Node;
 import kr.ac.snu.selab.soot.graph.Path;
 
@@ -16,7 +15,7 @@ public abstract class AbstractGraphTest {
 	protected StringGraph graph;
 
 	protected void setUp() {
-		Logger.getLogger(GraphPathCollector.class).setLevel(Level.OFF);
+		Logger.getLogger("kr.ac.snu.selab").setLevel(Level.OFF);
 		graph = new StringGraph();
 		initializeGraph();
 	}

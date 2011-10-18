@@ -5,10 +5,18 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ProjectManagerFailTest {
 	private ProjectManager manager;
+
+	@Before
+	public void silent() {
+		Logger.getLogger("kr.ac.snu.selab").setLevel(Level.OFF);
+	}
 
 	@Test
 	public void rootElementParseErrorTest() {
