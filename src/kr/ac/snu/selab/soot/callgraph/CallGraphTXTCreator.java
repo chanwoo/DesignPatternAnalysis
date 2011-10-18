@@ -118,13 +118,16 @@ public class CallGraphTXTCreator extends BodyTransformer {
 								// its
 								// subclass' methods should be added to a call
 								// graph.
-								List<SootMethod> overrideMethodList = getOverrideMethodsOf(
-										invokedMethod, hierarchy,
-										methodMapBySubSignature);
-								for (SootMethod overrideMethod : overrideMethodList) {
-									writer.print(aMethod.toString());
-									writer.print("\t");
-									writer.println(overrideMethod.toString());
+								if (!invokedMethod.getName().equals("<init>")) {
+									List<SootMethod> overrideMethodList = getOverrideMethodsOf(
+											invokedMethod, hierarchy,
+											methodMapBySubSignature);
+									for (SootMethod overrideMethod : overrideMethodList) {
+										writer.print(aMethod.toString());
+										writer.print("\t");
+										writer.println(overrideMethod
+												.toString());
+									}
 								}
 							}
 						}
@@ -146,14 +149,17 @@ public class CallGraphTXTCreator extends BodyTransformer {
 									// subclass' methods should be added to a
 									// call
 									// graph.
-									List<SootMethod> overrideMethodList = getOverrideMethodsOf(
-											invokedMethod, hierarchy,
-											methodMapBySubSignature);
-									for (SootMethod overrideMethod : overrideMethodList) {
-										writer.print(aMethod.toString());
-										writer.print("\t");
-										writer.println(overrideMethod
-												.toString());
+									if (!invokedMethod.getName().equals(
+											"<init>")) {
+										List<SootMethod> overrideMethodList = getOverrideMethodsOf(
+												invokedMethod, hierarchy,
+												methodMapBySubSignature);
+										for (SootMethod overrideMethod : overrideMethodList) {
+											writer.print(aMethod.toString());
+											writer.print("\t");
+											writer.println(overrideMethod
+													.toString());
+										}
 									}
 								}
 							}

@@ -69,12 +69,14 @@ public class CallGraph extends Graph<MyNode> {
 							// If there is a call to abstract type class, its
 							// subclass' methods should be added to a call
 							// graph.
-							List<SootMethod> overrideMethodList = getOverrideMethodsOf(
-									invokedMethod, aHierarchy,
-									methodMapBySubSignature);
-							for (SootMethod overrideMethod : overrideMethodList) {
-								addEdge(aMethod.toString(),
-										overrideMethod.toString(), nodeMap);
+							if (!invokedMethod.getName().equals("<init>")) {
+								List<SootMethod> overrideMethodList = getOverrideMethodsOf(
+										invokedMethod, aHierarchy,
+										methodMapBySubSignature);
+								for (SootMethod overrideMethod : overrideMethodList) {
+									addEdge(aMethod.toString(),
+											overrideMethod.toString(), nodeMap);
+								}
 							}
 						}
 					}
@@ -93,12 +95,15 @@ public class CallGraph extends Graph<MyNode> {
 								// its
 								// subclass' methods should be added to a call
 								// graph.
-								List<SootMethod> overrideMethodList = getOverrideMethodsOf(
-										invokedMethod, aHierarchy,
-										methodMapBySubSignature);
-								for (SootMethod overrideMethod : overrideMethodList) {
-									addEdge(aMethod.toString(),
-											overrideMethod.toString(), nodeMap);
+								if (!invokedMethod.getName().equals("<init>")) {
+									List<SootMethod> overrideMethodList = getOverrideMethodsOf(
+											invokedMethod, aHierarchy,
+											methodMapBySubSignature);
+									for (SootMethod overrideMethod : overrideMethodList) {
+										addEdge(aMethod.toString(),
+												overrideMethod.toString(),
+												nodeMap);
+									}
 								}
 							}
 						}

@@ -80,6 +80,9 @@ public class CodeAnalyzer extends BodyTransformer {
 
 	private void writeMethod(SootMethod aMethod, PrintWriter writer) {
 		writer.print("<Method>");
+		writer.print("<Name>");
+		writer.print(MyUtil.removeBracket(aMethod.getName()));
+		writer.print("</Name>");
 		writer.print("<Signature>");
 		writer.print(MyUtil.removeBracket(aMethod.getSignature()));
 		writer.print("</Signature>");
