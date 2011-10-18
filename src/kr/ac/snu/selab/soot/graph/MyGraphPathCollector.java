@@ -3,12 +3,14 @@ package kr.ac.snu.selab.soot.graph;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public abstract class MyGraphPathCollector {
 	protected HashMap<String, ArrayList<MyPath>> pathsMap;
 	protected HashSet<String> hitSet;
 	protected MyNode startNode;
 	protected MyGraph graph;
+	protected boolean isForwardSearch;
 
 	private static final int PATH_SET_SIZE_LIMIT = 100;
 
@@ -18,6 +20,17 @@ public abstract class MyGraphPathCollector {
 
 		this.startNode = aStartNode;
 		this.graph = aGraph;
+		this.isForwardSearch = false;
+	}
+
+	public MyGraphPathCollector(MyNode aStartNode, MyGraph aGraph,
+			boolean anIsForwardSearch) {
+		pathsMap = new HashMap<String, ArrayList<MyPath>>();
+		hitSet = new HashSet<String>();
+
+		this.startNode = aStartNode;
+		this.graph = aGraph;
+		this.isForwardSearch = anIsForwardSearch;
 	}
 
 	public ArrayList<MyPath> run() {
@@ -68,9 +81,15 @@ public abstract class MyGraphPathCollector {
 		} else {
 			hitSet.add(nodeKey);
 		}
-
-		HashSet<MyNode> sources = graph.sourceNodes(aNode);
-		for (MyNode node : sources) {
+		
+		Set<MyNode> nextNodes = new HashSet<MyNode>();
+		if (!isForwardSearch) {
+			nextNodes = graph.sourceNodes(aNode);
+		} else if (isForwardSearch){
+			nextNodes = graph.targetNodes(aNode);
+		}
+		
+		for (MyNode node : nextNodes) {
 			if (output.size() >= PATH_SET_SIZE_LIMIT) {
 				// For performance
 				break;
@@ -83,10 +102,10 @@ public abstract class MyGraphPathCollector {
 			int result = findPaths(node, graph, pathSet);
 			if (result == CYCLE) {
 				continue;
-//				for (MyPath p : pathSet) {
-//					MyPath p1 = p.copy();
-//					output.add(p1);
-//				}
+				// for (MyPath p : pathSet) {
+				// MyPath p1 = p.copy();
+				// output.add(p1);
+				// }
 			} else {
 				for (MyPath p : pathSet) {
 					MyPath p1 = p.copy();
