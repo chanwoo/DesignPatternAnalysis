@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 import org.apache.log4j.Logger;
 
-public abstract class GraphPathCollector<N extends Node<?>> {
+public abstract class GraphPathCollector<N extends Node> {
 	private static Logger log = Logger.getLogger(GraphPathCollector.class);
 
 	protected HashMap<String, ArrayList<Path<N>>> pathsMap;
@@ -77,13 +77,7 @@ public abstract class GraphPathCollector<N extends Node<?>> {
 			hitSet.add(nodeKey);
 		}
 
-		HashSet<N> nextNodes = null;
-		if (isForwardSearch()) {
-			nextNodes = graph.targetNodes(aNode);
-		} else {
-			nextNodes = graph.sourceNodes(aNode);
-		}
-
+		HashSet<N> nextNodes = getChildren(aNode);
 		for (N node : nextNodes) {
 			if (output.size() >= PATH_SET_SIZE_LIMIT) {
 				// For performance
@@ -108,6 +102,14 @@ public abstract class GraphPathCollector<N extends Node<?>> {
 
 		pathsMap.put(nodeKey, output);
 		return DONE;
+	}
+
+	protected HashSet<N> getChildren(N aNode) {
+		if (isForwardSearch()) {
+			return graph.targetNodes(aNode);
+		} else {
+			return graph.sourceNodes(aNode);
+		}
 	}
 
 	protected abstract boolean isGoal(N aNode);

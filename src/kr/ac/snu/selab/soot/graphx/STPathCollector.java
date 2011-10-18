@@ -1,6 +1,6 @@
 package kr.ac.snu.selab.soot.graphx;
 
-public class STPathCollector<N extends Node<?>> extends GraphPathCollector<N> {
+public class STPathCollector<N extends Node> extends GraphPathCollector<N> {
 	private N endNode;
 
 	public STPathCollector(N aStartNode, N aEndNode, Graph<N> aGraph) {

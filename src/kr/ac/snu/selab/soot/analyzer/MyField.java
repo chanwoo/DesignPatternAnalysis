@@ -4,7 +4,7 @@ import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.SootField;
 
-public class MyField extends MyNode<SootField> {
+public class MyField extends MyNode {
 	private boolean isStore;
 
 	public MyField(SootField aField) {

@@ -2,9 +2,14 @@ package kr.ac.snu.selab.soot.graph;
 
 import kr.ac.snu.selab.soot.graphx.Node;
 
-public abstract class MyNode<T> extends Node<T> {
-	public MyNode(T element) {
+public abstract class MyNode extends Node {
+	public MyNode(Object element) {
 		super(element);
+	}
+
+	@Override
+	public String toString() {
+		return element.toString();
 	}
 
 	public abstract String toXML();
@@ -20,20 +25,4 @@ public abstract class MyNode<T> extends Node<T> {
 	public abstract void setIsCaller(boolean value);
 
 	public abstract void setIsStore(boolean value);
-
-	public boolean equals(Object anObject) {
-		if (anObject.getClass() != getClass())
-			return false;
-		MyNode compare = (MyNode) anObject;
-		return element.equals(compare.element);
-	}
-
-	public int hashcode() {
-		return element.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return element.toString();
-	}
 }

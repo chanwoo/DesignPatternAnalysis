@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 import kr.ac.snu.selab.soot.util.MyUtil;
 
-public class Graph<N extends Node<?>> {
+public class Graph<N extends Node> {
 	public HashMap<String, HashSet<N>> sourceMap;
 	public HashMap<String, HashSet<N>> targetMap;
 

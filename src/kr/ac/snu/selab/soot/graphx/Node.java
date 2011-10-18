@@ -1,17 +1,15 @@
 package kr.ac.snu.selab.soot.graphx;
 
-public abstract class Node<T> {
-	protected T element;
+public abstract class Node {
+	protected Object element;
 
-	public Node(T element) {
+	public Node(Object element) {
 		this.element = element;
 	}
 
-	public T getElement() {
+	public Object getElement() {
 		return element;
 	}
-
-	public abstract String toXML();
 
 	public String key() {
 		return element.toString();
@@ -27,8 +25,9 @@ public abstract class Node<T> {
 		if (anObject.getClass() != getClass())
 			return false;
 
-		@SuppressWarnings("unchecked")
-		Node<T> compare = (Node<T>) anObject;
+		Node compare = (Node) anObject;
 		return (element.equals(compare.element));
 	}
+	
+	public abstract String toXML();
 }

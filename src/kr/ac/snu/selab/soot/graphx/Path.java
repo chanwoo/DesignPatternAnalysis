@@ -2,7 +2,7 @@ package kr.ac.snu.selab.soot.graphx;
 
 import java.util.ArrayList;
 
-public class Path<N extends Node<?>> {
+public class Path<N extends Node> {
 	public ArrayList<N> nodeList;
 
 	public Path() {

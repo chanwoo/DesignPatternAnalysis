@@ -6,15 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graphx.AllPathCollector;
 import kr.ac.snu.selab.soot.graphx.Graph;
 import kr.ac.snu.selab.soot.graphx.GraphPathCollector;
 import kr.ac.snu.selab.soot.graphx.Path;
 import kr.ac.snu.selab.soot.graphx.ReverseAllPathCollector;
-import kr.ac.snu.selab.soot.graphx.TriggeringPathCollector;
+
+import org.apache.log4j.Logger;
+
 import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootField;
@@ -63,7 +63,7 @@ public class StatePatternAnalysis extends Analysis {
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 		Logger logger = Logger.getLogger(StatePatternAnalysis.class);
 		logger.debug(referenceFlowGraph.toXML());
-		
+
 		for (MyNode callerNode : anAnalysisResult.callerList) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
 					callerNode, referenceFlowGraph);
@@ -90,10 +90,11 @@ public class StatePatternAnalysis extends Analysis {
 			}
 			destinationSet.remove(callerNode);
 
-			GraphPathCollector<MyNode> pathCollector = new ReverseAllPathCollector(
+			GraphPathCollector<MyNode> pathCollector = new ReverseAllPathCollector<MyNode>(
 					callerNode, callGraph, destinationSet);
-//			GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
-//					callerNode, callGraph, destinationSet);
+			// GraphPathCollector<MyNode> pathCollector = new
+			// TriggeringPathCollector(
+			// callerNode, callGraph, destinationSet);
 			List<Path<MyNode>> pathList = pathCollector.run();
 			Set<Path<MyNode>> pathSet = new HashSet<Path<MyNode>>();
 			pathSet.addAll(pathList);

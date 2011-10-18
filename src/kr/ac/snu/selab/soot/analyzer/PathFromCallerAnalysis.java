@@ -61,7 +61,6 @@ public class PathFromCallerAnalysis extends Analysis {
 		for (MyNode callerNode : anAnalysisResult.callerList) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
 					callerNode, referenceFlowGraph);
-			@SuppressWarnings("rawtypes")
 			List<Path<MyNode>> pathList = pathCollector.run();
 
 //			List<MyPath> pathIncludeStoreList = new ArrayList<MyPath>();

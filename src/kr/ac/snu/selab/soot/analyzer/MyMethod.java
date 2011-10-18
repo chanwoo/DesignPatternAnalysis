@@ -9,7 +9,7 @@ import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.SootMethod;
 import soot.Unit;
 
-public class MyMethod extends MyNode<SootMethod> {
+public class MyMethod extends MyNode {
 	boolean isCaller;
 	boolean isCreator;
 	List<Unit> callStatementList;

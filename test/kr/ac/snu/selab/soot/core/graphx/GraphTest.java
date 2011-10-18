@@ -6,19 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.graphx.Graph;
-import kr.ac.snu.selab.soot.graphx.Node;
-
 import org.junit.Before;
 import org.junit.Test;
 
-public class GraphTest {
-	private StringGraph graph;
-
+public class GraphTest extends AbstractGraphTest {
 	@Before
 	public void setUp() {
-		graph = new StringGraph();
-		graph.initialize();
+		super.setUp();
 	}
 
 	@Test
@@ -31,49 +25,37 @@ public class GraphTest {
 		assertFalse(nodes.contains(new StringNode("d")));
 	}
 
-	private static class StringGraph extends Graph<StringNode> {
-		private void initialize() {
-			StringNode nodeA = new StringNode("a");
-			StringNode nodeB = new StringNode("b");
-			StringNode nodeC = new StringNode("c");
-			StringNode nodeD = new StringNode("d");
+	@Override
+	protected void initializeGraph() {
+		StringNode nodeA = new StringNode("a");
+		StringNode nodeB = new StringNode("b");
+		StringNode nodeC = new StringNode("c");
+		StringNode nodeD = new StringNode("d");
 
-			// a <- b
-			// a <- c
-			HashSet<StringNode> map = new HashSet<StringNode>();
-			map.add(nodeB);
-			map.add(nodeC);
-			super.sourceMap.put(nodeA.getElement(), map);
+		// a <- b
+		// a <- c
+		HashSet<StringNode> map = new HashSet<StringNode>();
+		map.add(nodeB);
+		map.add(nodeC);
+		graph.sourceMap.put(nodeA.key(), map);
 
-			// b <- c
-			// b <- d
-			map = new HashSet<StringNode>();
-			map.add(nodeC);
-			map.add(nodeD);
-			super.sourceMap.put(nodeB.getElement(), map);
+		// b <- c
+		// b <- d
+		map = new HashSet<StringNode>();
+		map.add(nodeC);
+		map.add(nodeD);
+		graph.sourceMap.put(nodeB.key(), map);
 
-			// c <- d
-			map = new HashSet<StringNode>();
-			map.add(nodeD);
-			super.sourceMap.put(nodeC.getElement(), map);
+		// c <- d
+		map = new HashSet<StringNode>();
+		map.add(nodeD);
+		graph.sourceMap.put(nodeC.key(), map);
 
-			// d <- a
-			// d <- b
-			map = new HashSet<StringNode>();
-			map.add(nodeA);
-			map.add(nodeB);
-			super.sourceMap.put(nodeD.getElement(), map);
-		}
-	}
-
-	private static class StringNode extends Node<String> {
-		StringNode(String text) {
-			super(text);
-		}
-
-		@Override
-		public String toXML() {
-			return element;
-		}
+		// d <- a
+		// d <- b
+		map = new HashSet<StringNode>();
+		map.add(nodeA);
+		map.add(nodeB);
+		graph.sourceMap.put(nodeD.key(), map);
 	}
 }

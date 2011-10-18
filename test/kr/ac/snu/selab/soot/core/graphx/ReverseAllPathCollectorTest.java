@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.graphx.AllPathCollector;
 import kr.ac.snu.selab.soot.graphx.Path;
+import kr.ac.snu.selab.soot.graphx.ReverseAllPathCollector;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class AllPathCollectorTest extends AbstractGraphTest {
+public class ReverseAllPathCollectorTest extends AbstractGraphTest {
 
 	@Before
 	public void setUp() {
@@ -20,8 +20,8 @@ public class AllPathCollectorTest extends AbstractGraphTest {
 
 	@Test
 	public void test1() {
-		AllPathCollector<StringNode> collector = new AllPathCollector<StringNode>(
-				new StringNode("f"), graph);
+		ReverseAllPathCollector<StringNode> collector = new ReverseAllPathCollector<StringNode>(
+				new StringNode("f"), graph, null);
 		ArrayList<Path<StringNode>> paths = collector.run();
 		assertEquals(1, paths.size());
 		assertEquals("f;g;", pathString(paths.get(0)));
@@ -29,8 +29,8 @@ public class AllPathCollectorTest extends AbstractGraphTest {
 
 	@Test
 	public void test2() {
-		AllPathCollector<StringNode> collector = new AllPathCollector<StringNode>(
-				new StringNode("b"), graph);
+		ReverseAllPathCollector<StringNode> collector = new ReverseAllPathCollector<StringNode>(
+				new StringNode("b"), graph, null);
 		ArrayList<Path<StringNode>> paths = collector.run();
 		assertEquals(2, paths.size());
 
@@ -41,8 +41,8 @@ public class AllPathCollectorTest extends AbstractGraphTest {
 
 	@Test
 	public void test3() {
-		AllPathCollector<StringNode> collector = new AllPathCollector<StringNode>(
-				new StringNode("h"), graph);
+		ReverseAllPathCollector<StringNode> collector = new ReverseAllPathCollector<StringNode>(
+				new StringNode("h"), graph, null);
 		ArrayList<Path<StringNode>> paths = collector.run();
 		assertEquals(1, paths.size());
 
@@ -71,39 +71,39 @@ public class AllPathCollectorTest extends AbstractGraphTest {
 		sources = new HashSet<StringNode>();
 		sources.add(nodeB);
 		sources.add(nodeH);
-		graph.sourceMap.put(nodeA.key(), sources);
+		graph.targetMap.put(nodeA.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeC);
-		graph.sourceMap.put(nodeB.key(), sources);
+		graph.targetMap.put(nodeB.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeD);
-		graph.sourceMap.put(nodeC.key(), sources);
+		graph.targetMap.put(nodeC.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeE);
 		sources.add(nodeF);
-		graph.sourceMap.put(nodeD.key(), sources);
+		graph.targetMap.put(nodeD.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeC);
-		graph.sourceMap.put(nodeE.key(), sources);
+		graph.targetMap.put(nodeE.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeG);
-		graph.sourceMap.put(nodeF.key(), sources);
+		graph.targetMap.put(nodeF.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeI);
-		graph.sourceMap.put(nodeH.key(), sources);
+		graph.targetMap.put(nodeH.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeJ);
-		graph.sourceMap.put(nodeI.key(), sources);
+		graph.targetMap.put(nodeI.key(), sources);
 
 		sources = new HashSet<StringNode>();
 		sources.add(nodeI);
-		graph.sourceMap.put(nodeJ.key(), sources);
+		graph.targetMap.put(nodeJ.key(), sources);
 	}
 }

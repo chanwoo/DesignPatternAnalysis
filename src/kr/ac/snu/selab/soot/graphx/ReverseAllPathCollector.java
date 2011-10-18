@@ -4,25 +4,14 @@ import java.util.Set;
 
 import kr.ac.snu.selab.soot.graph.MyNode;
 
-public class ReverseAllPathCollector extends AllPathCollector<MyNode> {
-	protected boolean isForwardSearch() {
-		return true;
-	}
-
-	public ReverseAllPathCollector(MyNode aStartNode, Graph<MyNode> aGraph,
+public class ReverseAllPathCollector<N extends Node> extends
+		AllPathCollector<N> {
+	public ReverseAllPathCollector(N aStartNode, Graph<N> aGraph,
 			Set<MyNode> aDummySet) {
 		super(aStartNode, aGraph);
 	}
 
-	@Override
-	protected boolean isGoal(MyNode aNode) {
-		boolean result = false;
-		if (graph.targetNodes(aNode).isEmpty()
-				|| hitSet.contains(aNode.toString())) {
-			result = true;
-		}
-		// result = aNode.isCreator(); // &&
-		// (graph.sourceNodes(aNode)).isEmpty();
-		return result;
+	protected boolean isForwardSearch() {
+		return true;
 	}
 }
