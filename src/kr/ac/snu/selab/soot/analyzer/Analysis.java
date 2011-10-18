@@ -22,7 +22,7 @@ import soot.jimple.internal.JInvokeStmt;
 
 public class Analysis {
 	protected List<SootClass> classList;
-	private CallGraph callGraph;
+	protected CallGraph callGraph;
 	private HashMap<String, SootClass> classMap;
 	private HashMap<String, SootMethod> methodMap;
 	private HashMap<String, SootField> fieldMap;

@@ -24,6 +24,10 @@ public abstract class GraphPathCollector<N extends Node<?>> {
 		this.graph = aGraph;
 	}
 
+	protected boolean isForwardSearch() {
+		return false;
+	}
+
 	public ArrayList<Path<N>> run() {
 		log.debug("path collecting start: " + startNode.toString());
 		long tick1 = System.currentTimeMillis();
@@ -73,8 +77,14 @@ public abstract class GraphPathCollector<N extends Node<?>> {
 			hitSet.add(nodeKey);
 		}
 
-		HashSet<N> sources = graph.sourceNodes(aNode);
-		for (N node : sources) {
+		HashSet<N> nextNodes = null;
+		if (isForwardSearch()) {
+			nextNodes = graph.targetNodes(aNode);
+		} else {
+			nextNodes = graph.sourceNodes(aNode);
+		}
+
+		for (N node : nextNodes) {
 			if (output.size() >= PATH_SET_SIZE_LIMIT) {
 				// For performance
 				break;

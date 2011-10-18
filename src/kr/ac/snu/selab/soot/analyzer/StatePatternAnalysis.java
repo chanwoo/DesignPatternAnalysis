@@ -2,26 +2,31 @@ package kr.ac.snu.selab.soot.analyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
 
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graphx.AllPathCollector;
 import kr.ac.snu.selab.soot.graphx.Graph;
 import kr.ac.snu.selab.soot.graphx.GraphPathCollector;
 import kr.ac.snu.selab.soot.graphx.Path;
+import kr.ac.snu.selab.soot.graphx.ReverseAllPathCollector;
+import kr.ac.snu.selab.soot.graphx.TriggeringPathCollector;
 import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
 
-public class PathFromCallerAnalysis extends Analysis {
-	public PathFromCallerAnalysis(List<SootClass> aClassList,
-			Hierarchy aHierarchy) {
+public class StatePatternAnalysis extends Analysis {
+	public StatePatternAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
 		super(aClassList, aHierarchy);
 	}
 
 	public AnalysisResult analyzeOverType(SootClass aType) {
-		AnalysisResult anAnalysisResult = new PathFromCallerAnalysisResult();
+		AnalysisResult anAnalysisResult = new StatePatternAnalysisResult();
 		List<MethodAnalysisResult> methodAnalysisResultList = new ArrayList<MethodAnalysisResult>();
 		HashMap<String, MyNode> nodeMap = new HashMap<String, MyNode>();
 
@@ -56,49 +61,48 @@ public class PathFromCallerAnalysis extends Analysis {
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
-		// graphXML = graphXML + referenceFlowGraph.toXML();
-
+		Logger logger = Logger.getLogger(StatePatternAnalysis.class);
+		logger.debug(referenceFlowGraph.toXML());
+		
 		for (MyNode callerNode : anAnalysisResult.callerList) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
 					callerNode, referenceFlowGraph);
-			@SuppressWarnings("rawtypes")
-			List<Path<MyNode>> pathList = pathCollector.run();
 
-//			List<MyPath> pathIncludeStoreList = new ArrayList<MyPath>();
-//			for (MyPath aPath : pathList) {
-//				boolean doesPathIncludeStore = false;
-//				for (MyNode aNode : aPath.nodeList) {
-//					if (aNode.isStore()) {
-//						doesPathIncludeStore = true;
-//						break;
-//					}
-//				}
-//				if (doesPathIncludeStore) {
-//					pathIncludeStoreList.add(aPath);
-//				}
-//			}
+			List<Path<MyNode>> pathList = pathCollector.run();
 
 			if (!pathList.isEmpty()) {
 				anAnalysisResult.referenceFlowPathMap.put(
 						callerNode.toString(), pathList);
 			}
 		}
+		// Check whether a call chain from caller meets an object flow graph to
+		// the caller
+		for (MyNode callerNode : anAnalysisResult.callerList) {
+			String callerKey = callerNode.toString();
+			if (!anAnalysisResult.referenceFlowPathMap.containsKey(callerKey))
+				continue;
 
-		// for (Entry<String, List<MyPath>> anEntry :
-		// anAnalysisResult.referenceFlowPathMap
-		// .entrySet()) {
-		// for (MyPath aPath : anEntry.getValue()) {
-		// MyNode creator = aPath.last();
-		// TriggerPathCollector triggerPathCollector = new TriggerPathCollector(
-		// creator, callGraph, aType, this);
-		// List<MyPath> triggerPathList = triggerPathCollector.run();
-		//
-		// if (!triggerPathList.isEmpty()) {
-		// anAnalysisResult.creatorTriggerPathMap.put(aPath,
-		// triggerPathList);
-		// }
-		// }
-		// }
+			Set<MyNode> destinationSet = new HashSet<MyNode>();
+			List<Path<MyNode>> referenceFlowPathList = anAnalysisResult.referenceFlowPathMap
+					.get(callerKey);
+			for (Path<MyNode> aPath : referenceFlowPathList) {
+				destinationSet.addAll(aPath.nodeList);
+			}
+			destinationSet.remove(callerNode);
+
+			GraphPathCollector<MyNode> pathCollector = new ReverseAllPathCollector(
+					callerNode, callGraph, destinationSet);
+//			GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
+//					callerNode, callGraph, destinationSet);
+			List<Path<MyNode>> pathList = pathCollector.run();
+			Set<Path<MyNode>> pathSet = new HashSet<Path<MyNode>>();
+			pathSet.addAll(pathList);
+
+			if (!pathList.isEmpty()) {
+				((StatePatternAnalysisResult) anAnalysisResult).triggeringPathMap
+						.put(callerKey, pathSet);
+			}
+		}
 
 		return anAnalysisResult;
 	}

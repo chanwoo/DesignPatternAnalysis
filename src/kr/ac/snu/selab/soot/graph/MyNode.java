@@ -22,7 +22,10 @@ public abstract class MyNode<T> extends Node<T> {
 	public abstract void setIsStore(boolean value);
 
 	public boolean equals(Object anObject) {
-		return element.equals(anObject);
+		if (anObject.getClass() != getClass())
+			return false;
+		MyNode compare = (MyNode) anObject;
+		return element.equals(compare.element);
 	}
 
 	public int hashcode() {
