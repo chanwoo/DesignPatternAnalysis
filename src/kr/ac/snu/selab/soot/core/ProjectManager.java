@@ -7,12 +7,17 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 public class ProjectManager {
+	private static Logger log = Logger.getLogger(ProjectManager.class);
 
 	private static ProjectManager instance = null;
 
@@ -40,8 +45,7 @@ public class ProjectManager {
 		return map.get(key);
 	}
 
-	public void loadProjects(InputStream is)
-			throws ProjectFileParseException {
+	public void loadProjects(InputStream is) throws ProjectFileParseException {
 		map.clear();
 		abvMap.clear();
 		if (is == null) {
@@ -51,6 +55,22 @@ public class ProjectManager {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			dBuilder.setErrorHandler(new ErrorHandler() {
+				@Override
+				public void error(SAXParseException e) throws SAXException {
+					log.error(e.getMessage(), e);
+				}
+
+				@Override
+				public void fatalError(SAXParseException e) throws SAXException {
+					log.fatal(e.getMessage(), e);
+				}
+
+				@Override
+				public void warning(SAXParseException e) throws SAXException {
+					log.warn(e.getMessage(), e);
+				}
+			});
 			Document doc = dBuilder.parse(is);
 			doc.getDocumentElement().normalize();
 
