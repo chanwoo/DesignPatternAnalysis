@@ -357,11 +357,11 @@ public class Analysis {
 
 		HashSet<SootMethod> callerSet = new HashSet<SootMethod>();
 		for (MyNode aNode : callGraph.sourceNodes(new MyMethod(aMethod))) {
-			callerSet.add((SootMethod) ((MyMethod) aNode).getElement());
+			callerSet.add(((MyMethod) aNode).getMethod());
 		}
 		HashSet<SootMethod> calleeSet = new HashSet<SootMethod>();
 		for (MyNode aNode : callGraph.targetNodes(new MyMethod(aMethod))) {
-			calleeSet.add((SootMethod) ((MyMethod) aNode).getElement());
+			calleeSet.add(((MyMethod) aNode).getMethod());
 		}
 
 		if (doesThisMethodParameterOfSubtype(aMethod, aType)) {

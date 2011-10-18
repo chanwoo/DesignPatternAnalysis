@@ -23,6 +23,10 @@ public class MyMethod extends MyNode {
 		createStatementList = new ArrayList<Unit>();
 	}
 
+	public SootMethod getMethod() {
+		return (SootMethod) element;
+	}
+
 	@Override
 	public String toXML() {
 		String result = "";
