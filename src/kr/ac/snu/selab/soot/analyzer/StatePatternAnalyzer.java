@@ -34,22 +34,7 @@ public class StatePatternAnalyzer extends BodyTransformer {
 		classList.addAll(Scene.v().getApplicationClasses());
 		StatePatternAnalysis analysis = new StatePatternAnalysis(classList, hierarchy);
 
-		Map<String, Integer> analysisFileNameMap = new HashMap<String, Integer>();
-
-		for (AnalysisResult anAnalysisResult : analysis
-				.analyzeOverAllAbstractTypes()) {
-			String fileName = "StatePatternAnalysis_" + anAnalysisResult.getAbstractTypeName();
-			if (!analysisFileNameMap.containsKey(fileName)) {
-				analysisFileNameMap.put(fileName, 0);
-			} else {
-				int number = analysisFileNameMap.get(fileName) + 1;
-				fileName = fileName + String.format("%d", number);
-			}
-
-			String outputPath = MyUtil.getPath(outputDirectory, fileName
-					+ ".xml");
-			MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
-		}
+		analysis.writeAnalysisResultOverAllAbstractTypes(outputDirectory);
 	}
 
 }

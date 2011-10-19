@@ -33,7 +33,7 @@ public class AnalyzerRunner {
 		} else if (analyzer.equalsIgnoreCase("pfc")
 				|| analyzer.equalsIgnoreCase("PathFromCaller")) {
 			bodyTransformer = new PathFromCallerAnalyzer(project);
-		} else if (analyzer.equalsIgnoreCase("s")
+		} else if (analyzer.equalsIgnoreCase("sta")
 				|| analyzer.equalsIgnoreCase("State")) {
 			bodyTransformer = new StatePatternAnalyzer(project);
 		} else {

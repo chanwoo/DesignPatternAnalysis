@@ -31,7 +31,7 @@ public class StatePatternAnalysisResult extends AnalysisResult {
 
 	public String toXML() {
 		String result = "";
-		result = result + "<AnalysisResult>";
+		result = result + "<StatePatternAnalysisResult>";
 		result = result + "<AbstractType>";
 		result = result + MyUtil.removeBracket(getAbstractTypeName());
 		result = result + "</AbstractType>";
@@ -40,19 +40,19 @@ public class StatePatternAnalysisResult extends AnalysisResult {
 			result = result + aNode.toXML();
 		}
 		result = result + "</CallerList>";
-		result = result + "<ObjectFlowPathSet>";
+		result = result + "<PatternAnalysisList>";
 		for (MyNode aNode : callerList) {
 			String key = aNode.toString();
 			if (referenceFlowPathMap.containsKey(key)) {
 				// String patternName = null;
-				result = result + "<ObjectFlowPathPerCaller>";
+				result = result + "<AnalysisPerCaller>";
 				result = result + "<Caller>";
 				result = result + aNode.toXML();
 				result = result + "</Caller>";
-				result = result + "<Hit>";
+				result = result + "<DesignPattern>";
 				result = result
-						+ ((triggeringPathMap.size() < 1) ? "no hit" : "hit");
-				result = result + "</Hit>";
+						+ ((triggeringPathMap.size() < 1) ? "Strategy" : "State");
+				result = result + "</DesignPattern>";
 				if (triggeringPathMap.containsKey(key)) {
 					result = result + "<TriggerPathList>";
 					for (Path<MyNode> aPath : triggeringPathMap.get(key)) {
@@ -60,15 +60,15 @@ public class StatePatternAnalysisResult extends AnalysisResult {
 					}
 					result = result + "</TriggerPathList>";
 				}
-				result = result + "<PathList>";
+				result = result + "<ObjectFlowPathList>";
 				for (Path<MyNode> aPath : referenceFlowPathMap.get(key)) {
 					result = result + aPath.toXML();
 				}
-				result = result + "</PathList>";
-				result = result + "</ObjectFlowPathPerCaller>";
+				result = result + "</ObjectFlowPathList>";
+				result = result + "</AnalysisPerCaller>";
 			}
 		}
-		result = result + "</ObjectFlowPathSet>";
+		result = result + "</PatternAnalysisList>";
 		// result = result + "<CreatorList>";
 		// for (MyNode aNode : creatorList) {
 		// result = result + aNode.toXML();
@@ -79,7 +79,7 @@ public class StatePatternAnalysisResult extends AnalysisResult {
 		// result = result + aStore.toXML();
 		// }
 		// result = result + "</StoreList>";
-		result = result + "</AnalysisResult>";
+		result = result + "</StatePatternAnalysisResult>";
 		return result;
 	}
 

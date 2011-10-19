@@ -11,7 +11,8 @@ import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
-import kr.ac.snu.selab.soot.graph.ReverseAllPathCollector;
+import kr.ac.snu.selab.soot.graph.TriggeringPathCollector;
+import kr.ac.snu.selab.soot.util.MyUtil;
 
 import org.apache.log4j.Logger;
 
@@ -21,6 +22,9 @@ import soot.SootField;
 import soot.SootMethod;
 
 public class StatePatternAnalysis extends Analysis {
+	
+	private static Logger logger = Logger.getLogger(StatePatternAnalysis.class);
+	
 	public StatePatternAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
 		super(aClassList, aHierarchy);
 	}
@@ -61,7 +65,6 @@ public class StatePatternAnalysis extends Analysis {
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
-		Logger logger = Logger.getLogger(StatePatternAnalysis.class);
 		logger.debug(referenceFlowGraph.toXML());
 
 		for (MyNode callerNode : anAnalysisResult.callerList) {
@@ -69,10 +72,24 @@ public class StatePatternAnalysis extends Analysis {
 					callerNode, referenceFlowGraph);
 
 			List<Path<MyNode>> pathList = pathCollector.run();
+			
+			List<Path<MyNode>> pathIncludeStoreList = new ArrayList<Path<MyNode>>();
+			for (Path<MyNode> aPath : pathList) {
+				boolean doesPathIncludeStore = false;
+				for (MyNode aNode : aPath.nodeList) {
+					if (aNode.isStore()) {
+						doesPathIncludeStore = true;
+						break;
+					}
+				}
+				if (doesPathIncludeStore) {
+					pathIncludeStoreList.add(aPath);
+				}
+			}
 
-			if (!pathList.isEmpty()) {
+			if (!pathIncludeStoreList.isEmpty()) {
 				anAnalysisResult.referenceFlowPathMap.put(
-						callerNode.toString(), pathList);
+						callerNode.toString(), pathIncludeStoreList);
 			}
 		}
 		// Check whether a call chain from caller meets an object flow graph to
@@ -90,11 +107,10 @@ public class StatePatternAnalysis extends Analysis {
 			}
 			destinationSet.remove(callerNode);
 
-			GraphPathCollector<MyNode> pathCollector = new ReverseAllPathCollector<MyNode>(
+//			GraphPathCollector<MyNode> pathCollector = new ReverseAllPathCollector<MyNode>(
+//					callerNode, callGraph, destinationSet);
+			GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
 					callerNode, callGraph, destinationSet);
-			// GraphPathCollector<MyNode> pathCollector = new
-			// TriggeringPathCollector(
-			// callerNode, callGraph, destinationSet);
 			List<Path<MyNode>> pathList = pathCollector.run();
 			Set<Path<MyNode>> pathSet = new HashSet<Path<MyNode>>();
 			pathSet.addAll(pathList);
@@ -108,22 +124,32 @@ public class StatePatternAnalysis extends Analysis {
 		return anAnalysisResult;
 	}
 
-	public List<AnalysisResult> analyzeOverAllAbstractTypes() {
-		List<AnalysisResult> analysisResultList = new ArrayList<AnalysisResult>();
+	public void writeAnalysisResultOverAllAbstractTypes(String outputDirectory) {
 		List<SootClass> abstractTypeList = getAbstractTypeClassList();
 
 		// String graphXML = "<GraphList>";
 
 		for (SootClass aType : abstractTypeList) {
-			if (!aType.toString().equals("org.jhotdraw.framework.Figure")) {
-				analysisResultList.add(analyzeOverType(aType));
+			StatePatternAnalysisResult anAnalysisResult = null;
+			if (!(aType.toString().equals("org.jhotdraw.framework.Figure") ||
+					aType.toString().equals("org.jhotdraw.framework.ConnectionFigure") ||
+					aType.toString().equals("org.jhotdraw.framework.Connector"))) {
+				anAnalysisResult = (StatePatternAnalysisResult)(analyzeOverType(aType));
 			}
+			if (anAnalysisResult == null)
+				continue;
+			
+			if (((StatePatternAnalysisResult)anAnalysisResult).triggeringPathMap.isEmpty())
+				continue;
+			String fileName = "StatePatternAnalysis_" + anAnalysisResult.getAbstractTypeName();
+			String outputPath = MyUtil.getPath(outputDirectory, fileName
+					+ ".xml");
+			MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
 		}
 
 		// graphXML = graphXML + "</GraphList>";
 		// MyUtil.stringToFile(graphXML,
 		// "/Users/chanwoo/Documents/workspace/StatePatternExample2/output/StatePatternExample2_ReferenceFlowGraph.xml");
 
-		return analysisResultList;
 	}
 }
