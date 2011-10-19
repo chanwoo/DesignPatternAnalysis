@@ -1,13 +1,10 @@
 package kr.ac.snu.selab.soot.analyzer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import kr.ac.snu.selab.soot.core.AbstractProject;
-import kr.ac.snu.selab.soot.util.MyUtil;
-import kr.ac.snu.selab.soot.util.XMLWriter;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Hierarchy;
@@ -34,31 +31,10 @@ public class StatePatternAnalyzer extends BodyTransformer {
 		Hierarchy hierarchy = Scene.v().getActiveHierarchy();
 		List<SootClass> classList = new ArrayList<SootClass>();
 		classList.addAll(Scene.v().getApplicationClasses());
-		StatePatternAnalysis analysis = new StatePatternAnalysis(classList, hierarchy);
+		StatePatternAnalysis analysis = new StatePatternAnalysis(classList,
+				hierarchy);
 
-		Map<String, Integer> analysisFileNameMap = new HashMap<String, Integer>();
-
-		for (AnalysisResult anAnalysisResult : analysis
-				.analyzeOverAllAbstractTypes()) {
-			String fileName = "StatePatternAnalysis_" + anAnalysisResult.getAbstractTypeName();
-			if (!analysisFileNameMap.containsKey(fileName)) {
-				analysisFileNameMap.put(fileName, 0);
-			} else {
-				int number = analysisFileNameMap.get(fileName) + 1;
-				fileName = fileName + String.format("%d", number);
-			}
-
-			String outputPath = MyUtil.getPath(outputDirectory, fileName
-					+ ".xml");
-			MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
-
-			String outputPath1 = MyUtil.getPath(outputDirectory, fileName
-					+ "1.xml");
-			XMLWriter writer = new XMLWriter();
-			writer.open(outputPath1);
-			anAnalysisResult.writeXML(writer);
-			writer.close();
-		}
+		analysis.writeAnalysisResultOverAllAbstractTypes(outputDirectory);
 	}
 
 }
