@@ -66,7 +66,6 @@ public class StatePatternAnalysis extends Analysis {
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
-		logger.debug(referenceFlowGraph.toXML());
 
 		for (MyNode callerNode : anAnalysisResult.callerList) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
@@ -145,18 +144,22 @@ public class StatePatternAnalysis extends Analysis {
 			if (((StatePatternAnalysisResult) anAnalysisResult).triggeringPathMap
 					.isEmpty())
 				continue;
+			
+			logger.debug("Writing output....");
 			String fileName = "StatePatternAnalysis_"
 					+ anAnalysisResult.getAbstractTypeName();
-			String outputPath = MyUtil.getPath(outputDirectory, fileName
-					+ ".xml");
-			MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
+//			String outputPath = MyUtil.getPath(outputDirectory, fileName
+//					+ ".xml");
+//			MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
 
 			String outputPath1 = MyUtil.getPath(outputDirectory, fileName
-					+ "1.xml");
+					+ ".xml");
 			XMLWriter writer = new XMLWriter();
 			writer.open(outputPath1);
 			anAnalysisResult.writeXML(writer);
 			writer.close();
+			
+			logger.debug("Writing output finished....");
 		}
 
 		// graphXML = graphXML + "</GraphList>";
