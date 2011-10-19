@@ -108,7 +108,9 @@ public class Main {
 		String analyzerDescription = "Analyzer\n\tPredefined anlayzers:\n"
 				+ "\t\t\tr: Role analyzer" + "\t\t\tc: Code analyzer"
 				+ "\t\t\tct: Call graph text creater"
-				+ "\t\t\tcx: Call graph xml creater";
+				+ "\t\t\tcx: Call graph xml creater"
+				+ "\t\t\tpfc: Path from caller"
+				+ "\t\t\ts: State pattern recovery";
 		Option analyzer = OptionBuilder.withArgName("r|c|ct|cx").hasArg()
 				.withDescription(analyzerDescription).withLongOpt("analyzer")
 				.create("a");

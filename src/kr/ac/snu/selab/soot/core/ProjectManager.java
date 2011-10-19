@@ -109,7 +109,7 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.projectRoot = replace(text, project);
+		project.projectRoot = replaceKeywords(text, project);
 
 		nodeList = projectElement.getElementsByTagName("source");
 		assert (nodeList != null);
@@ -120,7 +120,7 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.sourcePath = replace(text, project);
+		project.sourcePath = replaceKeywords(text, project);
 
 		nodeList = projectElement.getElementsByTagName("classpaths");
 		assert (nodeList != null);
@@ -138,7 +138,7 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.setOutputPath(replace(text, project));
+		project.setOutputPath(replaceKeywords(text, project));
 
 		nodeList = projectElement.getElementsByTagName("jimple");
 		assert (nodeList != null);
@@ -149,7 +149,7 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.setOutputJimplePath(replace(text, project));
+		project.setOutputJimplePath(replaceKeywords(text, project));
 
 		return project;
 	}
@@ -173,7 +173,7 @@ public class ProjectManager {
 			text = element.getTextContent();
 			assert (text != null);
 			text = text.trim();
-			buffer.append(replace(text, project));
+			buffer.append(replaceKeywords(text, project));
 			if (i < length - 1)
 				buffer.append(File.pathSeparator);
 		}
@@ -181,12 +181,21 @@ public class ProjectManager {
 		project.setClassPath(buffer.toString());
 	}
 
-	private static String replace(String text, Project project) {
-		return text
-				.replaceAll("\\$\\{PROJECT_NAME\\}", project.getProjectName())
-				.replaceAll("\\$\\{PROJECT_ROOT\\}", project.projectRoot)
-				.replaceAll("\\$\\{SRC_PATH\\}", project.sourcePath)
-				.replaceAll("\\$\\{OUTPUT_PATH\\}", project.outputPath);
+	private static String replaceKeywords(String text, Project project) {
+		text = replaceText(text, "\\$\\{PROJECT_NAME\\}",
+				project.getProjectName());
+		text = replaceText(text, "\\$\\{PROJECT_ROOT\\}", project.projectRoot);
+		text = replaceText(text, "\\$\\{SRC_PATH\\}", project.sourcePath);
+		text = replaceText(text, "\\$\\{OUTPUT_PATH\\}", project.outputPath);
+		return text;
+	}
+
+	private static String replaceText(String text, String pattern, String to) {
+		if (to != null) {
+			to = to.replaceAll("\\\\", "\\\\\\\\");
+			text = text.replaceAll(pattern, to);
+		}
+		return text;
 	}
 
 	private static class Project extends AbstractProject {
