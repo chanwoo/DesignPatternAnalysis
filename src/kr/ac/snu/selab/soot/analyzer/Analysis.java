@@ -300,6 +300,7 @@ public class Analysis {
 	}
 
 	private List<String> getParameterTypeStringList(SootMethod aMethod) {
+		@SuppressWarnings("unchecked")
 		List<Type> parameterTypeList = aMethod.getParameterTypes();
 		List<String> parameterTypeStringList = new ArrayList<String>();
 		for (Type aParameterType : parameterTypeList) {

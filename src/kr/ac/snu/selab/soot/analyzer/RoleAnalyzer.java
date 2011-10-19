@@ -21,6 +21,7 @@ public class RoleAnalyzer extends BodyTransformer {
 		outputDirectory = project.getOutputDirectory().getAbsolutePath();
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected void internalTransform(Body b, String phaseName, Map options) {
 		if (touch)

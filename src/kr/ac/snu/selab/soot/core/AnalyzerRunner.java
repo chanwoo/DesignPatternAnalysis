@@ -12,8 +12,8 @@ import soot.Transform;
 
 public class AnalyzerRunner {
 
-	public static void run(AbstractProject project, String analyzer)
-			throws InvalidAnalyzerException {
+	public static void run(AbstractProject project, String analyzer,
+			boolean noJimpleOutput) throws InvalidAnalyzerException {
 
 		BodyTransformer bodyTransformer = null;
 
@@ -44,8 +44,9 @@ public class AnalyzerRunner {
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.Experiment", bodyTransformer));
 
-		final String[] arguments = { "-cp", project.getClassPath(), "-f", "J",
-				"-d", project.getJimpleDirectory(), "--process-dir",
+		final String[] arguments = { "-cp", project.getClassPath(), "-f",
+				(noJimpleOutput) ? "n" : "J", "-d",
+				project.getJimpleDirectory(), "--process-dir",
 				project.getSourceDirectory() };
 		soot.Main.main(arguments);
 	}

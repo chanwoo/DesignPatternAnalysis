@@ -95,8 +95,10 @@ public class Main {
 		}
 
 		String analyzer = optionMap.get("analyzer");
+		boolean noJimpleOutput = Boolean.parseBoolean(optionMap
+				.get("no_jimple"));
 		try {
-			AnalyzerRunner.run(project, analyzer);
+			AnalyzerRunner.run(project, analyzer, noJimpleOutput);
 		} catch (InvalidAnalyzerException e) {
 			log.error(e);
 			System.err.println("ERROR: " + e.getMessage());
@@ -111,17 +113,21 @@ public class Main {
 				+ "\t\t\tcx: Call graph xml creater"
 				+ "\t\t\tpfc: Path from caller"
 				+ "\t\t\ts: State pattern recovery";
-		Option analyzer = OptionBuilder.withArgName("r|c|ct|cx").hasArg()
-				.withDescription(analyzerDescription).withLongOpt("analyzer")
-				.create("a");
+		Option analyzer = OptionBuilder.withArgName("r|c|ct|cx|pfc|ts")
+				.hasArg().withDescription(analyzerDescription)
+				.withLongOpt("analyzer").create("a");
 		Option projectFilePath = OptionBuilder.hasArg()
-				.withDescription("Project file").withLongOpt("pfile")
-				.create("pf");
+				.withArgName("project file").withDescription("Project file")
+				.withLongOpt("pfile").create("pf");
+		Option noJimpleOutput = OptionBuilder
+				.withDescription("Do not generate jimple files")
+				.withLongOpt("no-jimple").create("nj");
 
 		Options options = new Options();
 
 		options.addOption(analyzer);
 		options.addOption(projectFilePath);
+		options.addOption(noJimpleOutput);
 
 		CommandLine cmd = null;
 		try {
@@ -154,6 +160,12 @@ public class Main {
 			map.put("project_file", cmd.getOptionValue("pf"));
 		} else {
 			map.put("project_file", null);
+		}
+
+		if (cmd.hasOption("nj")) {
+			map.put("no_jimple", "true");
+		} else {
+			map.put("no_jimple", "false");
 		}
 
 		return map;

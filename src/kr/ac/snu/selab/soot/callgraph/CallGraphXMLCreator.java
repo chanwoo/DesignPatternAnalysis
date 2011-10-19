@@ -29,9 +29,9 @@ public class CallGraphXMLCreator extends BodyTransformer {
 		this.outputPath = MyUtil.getPath(parent, project.getProjectName() + "_callgraph.xml");
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected void internalTransform(Body b, String phaseName, Map options) {
-		// TODO Auto-generated method stub
 		if (touch)
 			return;
 		touch = true;
