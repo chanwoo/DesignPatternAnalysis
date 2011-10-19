@@ -182,7 +182,8 @@ public class CodeAnalyzer extends BodyTransformer {
 
 			if (jAssignStatement.containsInvokeExpr()) {
 				writer.print("<InvokedMethod>");
-				writeMethod(jAssignStatement.getInvokeExpr().getMethod(), writer);
+				writeMethod(jAssignStatement.getInvokeExpr().getMethod(),
+						writer);
 				writer.print("</InvokedMethod>");
 			}
 		}

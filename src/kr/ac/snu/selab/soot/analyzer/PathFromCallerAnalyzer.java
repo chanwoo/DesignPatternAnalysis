@@ -7,6 +7,7 @@ import java.util.Map;
 
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.util.MyUtil;
+import kr.ac.snu.selab.soot.util.XMLWriter;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Hierarchy;
@@ -49,6 +50,13 @@ public class PathFromCallerAnalyzer extends BodyTransformer {
 			String outputPath = MyUtil.getPath(outputDirectory, fileName
 					+ ".xml");
 			MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
+
+			String outputPath1 = MyUtil.getPath(outputDirectory, fileName
+					+ "1.xml");
+			XMLWriter writer = new XMLWriter();
+			writer.open(outputPath1);
+			anAnalysisResult.writeXML(writer);
+			writer.close();
 		}
 	}
 

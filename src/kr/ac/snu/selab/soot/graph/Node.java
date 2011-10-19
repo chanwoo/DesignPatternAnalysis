@@ -1,5 +1,7 @@
 package kr.ac.snu.selab.soot.graph;
 
+import kr.ac.snu.selab.soot.util.XMLWriter;
+
 public abstract class Node {
 	protected Object element;
 
@@ -30,4 +32,6 @@ public abstract class Node {
 	}
 	
 	public abstract String toXML();
+	
+	public abstract void writeXML(XMLWriter writer);
 }

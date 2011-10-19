@@ -1,8 +1,16 @@
 package kr.ac.snu.selab.soot.graph;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import kr.ac.snu.selab.soot.util.XMLWriter;
+
+import org.apache.log4j.Logger;
+
 public class Path<N extends Node> {
+
+	private static Logger log = Logger.getLogger(Path.class);
+
 	public ArrayList<N> nodeList;
 
 	public Path() {
@@ -46,5 +54,17 @@ public class Path<N extends Node> {
 
 	public int length() {
 		return nodeList.size();
+	}
+
+	public void writeXML(XMLWriter writer) {
+		try {
+			writer.startElement("Path");
+			for (N aNode : nodeList) {
+				aNode.writeXML(writer);
+			}
+			writer.endElement();
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 }

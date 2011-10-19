@@ -1,5 +1,6 @@
 package kr.ac.snu.selab.soot.analyzer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.MyUtil;
+import kr.ac.snu.selab.soot.util.XMLWriter;
 
 public class StatePatternAnalysisResult extends AnalysisResult {
 	Map<String, Set<Path<MyNode>>> triggeringPathMap;
@@ -81,6 +83,60 @@ public class StatePatternAnalysisResult extends AnalysisResult {
 		// result = result + "</StoreList>";
 		result = result + "</AnalysisResult>";
 		return result;
+	}
+
+	public void writeXML(XMLWriter writer) {
+		try {
+			writer.startElement("AnalysisResult");
+			writer.simpleElement("AbstractType", abstractType.toString());
+			writer.startElement("CallerList");
+			for (MyNode aNode : callerList) {
+				aNode.writeXML(writer);
+			}
+			writer.endElement();
+
+			writer.startElement("ObjectFlowPathSet");
+			for (MyNode aNode : callerList) {
+				String key = aNode.toString();
+				if (referenceFlowPathMap.containsKey(key)) {
+					writer.startElement("ObjectFlowPathPerCaller");
+
+					writer.startElement("Caller");
+					aNode.writeXML(writer);
+					writer.endElement();
+
+					writer.startElement("Hit");
+					if (triggeringPathMap.size() < 1){
+						writer.pcData("no hit");
+					}else{
+						writer.pcData("hit");
+					}
+					writer.endElement();
+					
+
+					if (triggeringPathMap.containsKey(key)) {
+						writer.startElement("TriggerPathList");
+						for (Path<MyNode> aPath : triggeringPathMap.get(key)) {
+							aPath.writeXML(writer);
+						}
+						writer.endElement();
+					}
+					
+					writer.startElement("PathList");
+					for (Path<MyNode> aPath : referenceFlowPathMap.get(key)) {
+						aPath.writeXML(writer);
+					}
+					writer.endElement();
+					
+					writer.endElement();
+				}
+			}
+			writer.endElement();
+
+			writer.endElement();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

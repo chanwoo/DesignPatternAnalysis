@@ -7,6 +7,7 @@ import java.util.Comparator;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.Node;
 import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.util.XMLWriter;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -70,6 +71,10 @@ public abstract class AbstractGraphTest {
 		@Override
 		public String toXML() {
 			return (String) element;
+		}
+
+		@Override
+		public void writeXML(XMLWriter writer) {
 		}
 	}
 }

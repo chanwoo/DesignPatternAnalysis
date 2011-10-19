@@ -1,5 +1,7 @@
 package kr.ac.snu.selab.soot.graph;
 
+import kr.ac.snu.selab.soot.util.XMLWriter;
+
 
 public abstract class MyNode extends Node {
 	public MyNode(Object element) {
@@ -24,4 +26,6 @@ public abstract class MyNode extends Node {
 	public abstract void setIsCaller(boolean value);
 
 	public abstract void setIsStore(boolean value);
+	
+	public void writeXML(XMLWriter writer){}
 }
