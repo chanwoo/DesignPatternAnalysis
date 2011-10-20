@@ -5,12 +5,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
 
 public class ProjectManagerTest {
 	private ProjectManager manager;
+
+	private static final String SEPARATOR = File.pathSeparator;
 
 	@Test
 	public void projectInformationTest() throws ProjectFileParseException {
@@ -19,7 +22,7 @@ public class ProjectManagerTest {
 
 		assertEquals("ProjectA", project.getProjectName());
 		assertEquals("SRC", project.getSourceDirectory());
-		assertEquals("CP1:CP2", project.getClassPath());
+		assertEquals("CP1" + SEPARATOR + "CP2", project.getClassPath());
 		assertEquals("JIMPLE", project.getJimpleDirectory());
 	}
 
@@ -30,7 +33,8 @@ public class ProjectManagerTest {
 
 		assertEquals("ProjectB", project.getProjectName());
 		assertEquals("ROOT/ProjectB/src", project.getSourceDirectory());
-		assertEquals("CP1:CP2:ROOT/ProjectB/src", project.getClassPath());
+		assertEquals("CP1" + SEPARATOR + "CP2" + SEPARATOR
+				+ "ROOT/ProjectB/src", project.getClassPath());
 		assertEquals("ROOT/ProjectB/output/jimple",
 				project.getJimpleDirectory());
 	}

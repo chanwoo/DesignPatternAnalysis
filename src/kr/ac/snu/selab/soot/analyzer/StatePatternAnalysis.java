@@ -11,7 +11,7 @@ import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
-import kr.ac.snu.selab.soot.graph.TriggeringPathCollector;
+import kr.ac.snu.selab.soot.graph.HitPathCollector;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
@@ -107,9 +107,6 @@ public class StatePatternAnalysis extends Analysis {
 			}
 			destinationSet.remove(callerNode);
 
-			// GraphPathCollector<MyNode> pathCollector = new
-			// ReverseAllPathCollector<MyNode>(
-			// callerNode, callGraph, destinationSet);
 			GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
 					callerNode, callGraph, destinationSet);
 			List<Path<MyNode>> pathList = pathCollector.run();
@@ -144,13 +141,13 @@ public class StatePatternAnalysis extends Analysis {
 			if (((StatePatternAnalysisResult) anAnalysisResult).triggeringPathMap
 					.isEmpty())
 				continue;
-			
+
 			logger.debug("Writing output....");
 			String fileName = "StatePatternAnalysis_"
 					+ anAnalysisResult.getAbstractTypeName();
-//			String outputPath = MyUtil.getPath(outputDirectory, fileName
-//					+ ".xml");
-//			MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
+			// String outputPath = MyUtil.getPath(outputDirectory, fileName
+			// + ".xml");
+			// MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
 
 			String outputPath1 = MyUtil.getPath(outputDirectory, fileName
 					+ ".xml");
@@ -158,7 +155,7 @@ public class StatePatternAnalysis extends Analysis {
 			writer.open(outputPath1);
 			anAnalysisResult.writeXML(writer);
 			writer.close();
-			
+
 			logger.debug("Writing output finished....");
 		}
 
@@ -166,5 +163,12 @@ public class StatePatternAnalysis extends Analysis {
 		// MyUtil.stringToFile(graphXML,
 		// "/Users/chanwoo/Documents/workspace/StatePatternExample2/output/StatePatternExample2_ReferenceFlowGraph.xml");
 
+	}
+
+	private class TriggeringPathCollector extends HitPathCollector<MyNode> {
+		public TriggeringPathCollector(MyNode aStartNode, Graph<MyNode> aGraph,
+				Set<MyNode> aDestinationSet) {
+			super(aStartNode, aGraph, aDestinationSet);
+		}
 	}
 }
