@@ -541,7 +541,7 @@ public class Analysis {
 			}
 		}
 
-		anAnalysisResult.abstractType = aType;
+		anAnalysisResult.setAbstractType(aType);
 		for (SootClass aClass : classList) {
 			for (SootMethod aMethod : aClass.getMethods()) {
 				methodAnalysisResultList.add(analyzeMethodOverType(aMethod,

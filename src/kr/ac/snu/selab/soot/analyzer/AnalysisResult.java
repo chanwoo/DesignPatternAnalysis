@@ -8,20 +8,19 @@ import java.util.Map;
 
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
-import kr.ac.snu.selab.soot.util.MyUtil;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 import soot.SootClass;
 
 public class AnalysisResult {
-	SootClass abstractType;
-	List<MyNode> callerList;
-	List<MyNode> creatorList;
-	Map<String, List<Path<MyNode>>> referenceFlowPathMap; // String :=
+	protected SootClass abstractType;
+	protected List<MyNode> callerList;
+	protected List<MyNode> creatorList;
+	protected Map<String, List<Path<MyNode>>> referenceFlowPathMap; // String :=
 															// MyNode.toString()
 															// where MyNode is
 															// caller
 	// List<Store> storeList;
-	Map<Path<MyNode>, List<Path<MyNode>>> creatorTriggerPathMap; // key :=
+	protected Map<Path<MyNode>, List<Path<MyNode>>> creatorTriggerPathMap; // key :=
 																	// referenceFlowPath,
 																	// value :=
 																	// triggerPath
@@ -58,63 +57,6 @@ public class AnalysisResult {
 	public boolean hasDesignPattern() {
 		return true;
 		// return !creatorTriggerPathMap.isEmpty();
-	}
-
-	public String toXML() {
-		String result = "";
-		result = result + "<AnalysisResult>";
-		result = result + "<AbstractType>";
-		result = result + MyUtil.removeBracket(abstractType.toString());
-		result = result + "</AbstractType>";
-		result = result + "<CallerList>";
-		for (MyNode aNode : callerList) {
-			result = result + aNode.toXML();
-		}
-		result = result + "</CallerList>";
-		result = result + "<ReferenceFlowList>";
-		for (MyNode aNode : callerList) {
-			String key = aNode.toString();
-			if (referenceFlowPathMap.containsKey(key)) {
-				String patternName = null;
-				result = result + "<ReferenceFlowPerCaller>";
-				result = result + "<Caller>";
-				result = result + aNode.toXML();
-				result = result + "</Caller>";
-				result = result + "<PathSetList>";
-				for (Path<MyNode> aPath : referenceFlowPathMap.get(key)) {
-					result = result + "<PathSet>";
-					result = result + aPath.toXML();
-					if (creatorTriggerPathMap.containsKey(aPath)) {
-						patternName = "State";
-						result = result + "<TriggerPathList>";
-						for (Path<MyNode> aTriggerPath : creatorTriggerPathMap
-								.get(aPath)) {
-							result = result + aTriggerPath.toXML();
-						}
-						result = result + "</TriggerPathList>";
-					}
-					result = result + "</PathSet>";
-				}
-				result = result + "</PathSetList>";
-				if (patternName != null) {
-					result = result + "<Pattern>" + patternName + "</Pattern>";
-				}
-				result = result + "</ReferenceFlowPerCaller>";
-			}
-		}
-		result = result + "</ReferenceFlowList>";
-		result = result + "<CreatorList>";
-		for (MyNode aNode : creatorList) {
-			result = result + aNode.toXML();
-		}
-		result = result + "</CreatorList>";
-		// result = result + "<StoreList>";
-		// for (Store aStore : storeList) {
-		// result = result + aStore.toXML();
-		// }
-		// result = result + "</StoreList>";
-		result = result + "</AnalysisResult>";
-		return result;
 	}
 
 	public void writeXML(XMLWriter writer) {
@@ -180,5 +122,17 @@ public class AnalysisResult {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public List<MyNode> getCallerList() {
+		return callerList;
+	}
+	
+	public List<MyNode> getCreatorList() {
+		return creatorList;
+	}
+	
+	public Map<String, List<Path<MyNode>>> getReferenceFlowPathMap() {
+		return referenceFlowPathMap;
 	}
 }

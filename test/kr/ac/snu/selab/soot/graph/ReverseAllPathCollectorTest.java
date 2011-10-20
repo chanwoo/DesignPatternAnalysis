@@ -1,12 +1,9 @@
-package kr.ac.snu.selab.soot.core.graph;
+package kr.ac.snu.selab.soot.graph;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import kr.ac.snu.selab.soot.graph.Path;
-import kr.ac.snu.selab.soot.graph.ReverseAllPathCollector;
 
 import org.junit.Before;
 import org.junit.Test;

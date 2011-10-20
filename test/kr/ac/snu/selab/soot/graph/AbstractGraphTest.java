@@ -1,12 +1,9 @@
-package kr.ac.snu.selab.soot.core.graph;
+package kr.ac.snu.selab.soot.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import kr.ac.snu.selab.soot.graph.Graph;
-import kr.ac.snu.selab.soot.graph.Node;
-import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
 import org.apache.log4j.Level;
@@ -69,12 +66,12 @@ public abstract class AbstractGraphTest {
 		}
 
 		@Override
-		public String toXML() {
-			return (String) element;
+		public void writeXML(XMLWriter writer) {
 		}
 
 		@Override
-		public void writeXML(XMLWriter writer) {
+		public String toXML() {
+			return "";
 		}
 	}
 }

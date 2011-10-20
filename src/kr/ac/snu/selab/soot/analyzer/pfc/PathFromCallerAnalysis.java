@@ -1,9 +1,14 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.analyzer.pfc;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import kr.ac.snu.selab.soot.analyzer.Analysis;
+import kr.ac.snu.selab.soot.analyzer.AnalysisResult;
+import kr.ac.snu.selab.soot.analyzer.MethodAnalysisResult;
+import kr.ac.snu.selab.soot.analyzer.MyField;
+import kr.ac.snu.selab.soot.analyzer.MyMethod;
 import kr.ac.snu.selab.soot.graph.AllPathCollector;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
@@ -46,39 +51,39 @@ public class PathFromCallerAnalysis extends Analysis {
 		}
 
 		for (MethodAnalysisResult aResult : methodAnalysisResultList) {
-			MyNode node = aResult.self;
+			MyNode node = aResult.getSelf();
 			if (node.isCaller()) {
-				anAnalysisResult.callerList.add(node);
+				anAnalysisResult.getCallerList().add(node);
 			}
 			if (node.isCreator()) {
-				anAnalysisResult.creatorList.add(node);
+				anAnalysisResult.getCreatorList().add(node);
 			}
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 		// graphXML = graphXML + referenceFlowGraph.toXML();
 
-		for (MyNode callerNode : anAnalysisResult.callerList) {
+		for (MyNode callerNode : anAnalysisResult.getCallerList()) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
 					callerNode, referenceFlowGraph);
 			List<Path<MyNode>> pathList = pathCollector.run();
 
-//			List<MyPath> pathIncludeStoreList = new ArrayList<MyPath>();
-//			for (MyPath aPath : pathList) {
-//				boolean doesPathIncludeStore = false;
-//				for (MyNode aNode : aPath.nodeList) {
-//					if (aNode.isStore()) {
-//						doesPathIncludeStore = true;
-//						break;
-//					}
-//				}
-//				if (doesPathIncludeStore) {
-//					pathIncludeStoreList.add(aPath);
-//				}
-//			}
+			// List<MyPath> pathIncludeStoreList = new ArrayList<MyPath>();
+			// for (MyPath aPath : pathList) {
+			// boolean doesPathIncludeStore = false;
+			// for (MyNode aNode : aPath.nodeList) {
+			// if (aNode.isStore()) {
+			// doesPathIncludeStore = true;
+			// break;
+			// }
+			// }
+			// if (doesPathIncludeStore) {
+			// pathIncludeStoreList.add(aPath);
+			// }
+			// }
 
 			if (!pathList.isEmpty()) {
-				anAnalysisResult.referenceFlowPathMap.put(
+				anAnalysisResult.getReferenceFlowPathMap().put(
 						callerNode.toString(), pathList);
 			}
 		}
@@ -100,24 +105,5 @@ public class PathFromCallerAnalysis extends Analysis {
 		// }
 
 		return anAnalysisResult;
-	}
-
-	public List<AnalysisResult> analyzeOverAllAbstractTypes() {
-		List<AnalysisResult> analysisResultList = new ArrayList<AnalysisResult>();
-		List<SootClass> abstractTypeList = getAbstractTypeClassList();
-
-		// String graphXML = "<GraphList>";
-
-		for (SootClass aType : abstractTypeList) {
-			if (!aType.toString().equals("org.jhotdraw.framework.Figure")) {
-				analysisResultList.add(analyzeOverType(aType));
-			}
-		}
-
-		// graphXML = graphXML + "</GraphList>";
-		// MyUtil.stringToFile(graphXML,
-		// "/Users/chanwoo/Documents/workspace/StatePatternExample2/output/StatePatternExample2_ReferenceFlowGraph.xml");
-
-		return analysisResultList;
 	}
 }

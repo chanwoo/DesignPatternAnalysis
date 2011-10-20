@@ -1,9 +1,6 @@
-package kr.ac.snu.selab.soot.core.graph;
+package kr.ac.snu.selab.soot.graph;
 
 import java.util.HashSet;
-
-import kr.ac.snu.selab.soot.graph.AllPathCollector;
-import kr.ac.snu.selab.soot.graph.Graph;
 
 import org.junit.Before;
 import org.junit.Test;

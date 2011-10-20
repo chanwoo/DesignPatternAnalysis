@@ -1,38 +1,25 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.analyzer.role;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
+import kr.ac.snu.selab.soot.analyzer.Analysis;
+import kr.ac.snu.selab.soot.analyzer.AnalysisResult;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import kr.ac.snu.selab.soot.util.XMLWriter;
-import soot.Body;
-import soot.BodyTransformer;
 import soot.Hierarchy;
-import soot.Scene;
 import soot.SootClass;
 
-public class RoleAnalyzer extends BodyTransformer {
-	private static boolean touch = false;
-	private String outputDirectory;
-
+public class RoleAnalyzer extends AbstractAnalyzer {
 	public RoleAnalyzer(AbstractProject project) {
-		outputDirectory = project.getOutputDirectory().getAbsolutePath();
+		super(project);
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	protected void internalTransform(Body b, String phaseName, Map options) {
-		if (touch)
-			return;
-
-		touch = true;
-
-		Hierarchy hierarchy = Scene.v().getActiveHierarchy();
-		List<SootClass> classList = new ArrayList<SootClass>();
-		classList.addAll(Scene.v().getApplicationClasses());
+	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
 		Analysis analysis = new Analysis(classList, hierarchy);
 
 		Map<String, Integer> analysisFileNameMap = new HashMap<String, Integer>();
@@ -50,16 +37,12 @@ public class RoleAnalyzer extends BodyTransformer {
 
 				String outputPath = MyUtil.getPath(outputDirectory, fileName
 						+ ".xml");
-				MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
-
-				String outputPath1 = MyUtil.getPath(outputDirectory, fileName
-						+ "1.xml");
-				XMLWriter writer = new XMLWriter();
-				writer.open(outputPath1);
+				XMLWriter writer = new XMLWriter(outputPath);
 				anAnalysisResult.writeXML(writer);
 				writer.close();
 			}
 		}
+
 	}
 
 }

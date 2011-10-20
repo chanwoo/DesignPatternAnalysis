@@ -15,7 +15,7 @@ public class XMLWriter {
 
 	private Writer writer;
 
-	public void open(String filePath) {
+	public XMLWriter(String filePath) {
 		try {
 			open(new FileWriter(filePath));
 		} catch (IOException e) {
@@ -23,7 +23,11 @@ public class XMLWriter {
 		}
 	}
 
-	public void open(Writer w) {
+	public XMLWriter(Writer writer) {
+		open(writer);
+	}
+
+	private void open(Writer w) {
 		this.writer = w;
 
 		try {

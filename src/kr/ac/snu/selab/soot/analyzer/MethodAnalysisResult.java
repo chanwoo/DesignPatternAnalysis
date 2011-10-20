@@ -16,4 +16,8 @@ public class MethodAnalysisResult {
 		sourceNodes = new HashSet<MyNode>();
 		targetNodes = new HashSet<MyNode>();
 	}
+	
+	public MyMethod getSelf() {
+		return self;
+	}
 }

@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot.analyzer;
+package kr.ac.snu.selab.soot.analyzer.sta;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,12 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import kr.ac.snu.selab.soot.analyzer.Analysis;
+import kr.ac.snu.selab.soot.analyzer.AnalysisResult;
+import kr.ac.snu.selab.soot.analyzer.MethodAnalysisResult;
+import kr.ac.snu.selab.soot.analyzer.MyField;
+import kr.ac.snu.selab.soot.analyzer.MyMethod;
 import kr.ac.snu.selab.soot.graph.AllPathCollector;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
+import kr.ac.snu.selab.soot.graph.HitPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
-import kr.ac.snu.selab.soot.graph.HitPathCollector;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
@@ -56,18 +61,18 @@ public class StatePatternAnalysis extends Analysis {
 		}
 
 		for (MethodAnalysisResult aResult : methodAnalysisResultList) {
-			MyNode node = aResult.self;
+			MyNode node = aResult.getSelf();
 			if (node.isCaller()) {
-				anAnalysisResult.callerList.add(node);
+				anAnalysisResult.getCallerList().add(node);
 			}
 			if (node.isCreator()) {
-				anAnalysisResult.creatorList.add(node);
+				anAnalysisResult.getCreatorList().add(node);
 			}
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 
-		for (MyNode callerNode : anAnalysisResult.callerList) {
+		for (MyNode callerNode : anAnalysisResult.getCallerList()) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
 					callerNode, referenceFlowGraph);
 
@@ -88,20 +93,21 @@ public class StatePatternAnalysis extends Analysis {
 			}
 
 			if (!pathIncludeStoreList.isEmpty()) {
-				anAnalysisResult.referenceFlowPathMap.put(
+				anAnalysisResult.getReferenceFlowPathMap().put(
 						callerNode.toString(), pathIncludeStoreList);
 			}
 		}
 		// Check whether a call chain from caller meets an object flow graph to
 		// the caller
-		for (MyNode callerNode : anAnalysisResult.callerList) {
+		for (MyNode callerNode : anAnalysisResult.getCallerList()) {
 			String callerKey = callerNode.toString();
-			if (!anAnalysisResult.referenceFlowPathMap.containsKey(callerKey))
+			if (!anAnalysisResult.getReferenceFlowPathMap().containsKey(
+					callerKey))
 				continue;
 
 			Set<MyNode> destinationSet = new HashSet<MyNode>();
-			List<Path<MyNode>> referenceFlowPathList = anAnalysisResult.referenceFlowPathMap
-					.get(callerKey);
+			List<Path<MyNode>> referenceFlowPathList = anAnalysisResult
+					.getReferenceFlowPathMap().get(callerKey);
 			for (Path<MyNode> aPath : referenceFlowPathList) {
 				destinationSet.addAll(aPath.nodeList);
 			}
@@ -140,14 +146,10 @@ public class StatePatternAnalysis extends Analysis {
 			logger.debug("Writing output....");
 			String fileName = "StatePatternAnalysis_"
 					+ anAnalysisResult.getAbstractTypeName();
-			// String outputPath = MyUtil.getPath(outputDirectory, fileName
-			// + ".xml");
-			// MyUtil.stringToFile(anAnalysisResult.toXML(), outputPath);
 
-			String outputPath1 = MyUtil.getPath(outputDirectory, fileName
+			String outputPath = MyUtil.getPath(outputDirectory, fileName
 					+ ".xml");
-			XMLWriter writer = new XMLWriter();
-			writer.open(outputPath1);
+			XMLWriter writer = new XMLWriter(outputPath);
 			anAnalysisResult.writeXML(writer);
 			writer.close();
 
