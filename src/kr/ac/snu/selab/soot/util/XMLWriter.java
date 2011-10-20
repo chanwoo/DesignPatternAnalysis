@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-import org.jdom.output.XMLOutputter;
+import org.znerd.xmlenc.LineBreak;
+import org.znerd.xmlenc.XMLOutputter;
 
 public class XMLWriter {
 	private static Logger log = Logger.getLogger(XMLWriter.class);
