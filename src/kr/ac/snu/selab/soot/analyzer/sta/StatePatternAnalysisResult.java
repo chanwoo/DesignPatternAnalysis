@@ -1,9 +1,7 @@
 package kr.ac.snu.selab.soot.analyzer.sta;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,24 +11,22 @@ import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
 public class StatePatternAnalysisResult extends AnalysisResult {
-	Map<String, Set<Path<MyNode>>> triggeringPathMap;
-
-	public String getAbstractTypeName() {
-		String result = "";
-		if (abstractType != null) {
-			result = abstractType.toString();
-		}
-		return result;
-	}
+	private Map<String, Set<Path<MyNode>>> triggeringPathMap;
 
 	public StatePatternAnalysisResult() {
-		abstractType = null;
-		callerList = new ArrayList<MyNode>();
-		creatorList = new ArrayList<MyNode>();
-		referenceFlowPathMap = new HashMap<String, List<Path<MyNode>>>();
+		super();
 		triggeringPathMap = new HashMap<String, Set<Path<MyNode>>>();
 	}
 
+	void putTriggeringPath(String key, Set<Path<MyNode>> pathSet) {
+		triggeringPathMap.put(key, pathSet);
+	}
+
+	boolean isTriggeringPathMapEmpty() {
+		return triggeringPathMap.isEmpty();
+	}
+
+	@Override
 	public void writeXML(XMLWriter writer) {
 		try {
 			writer.startElement("StatePatternAnalysisResult");
@@ -83,5 +79,4 @@ public class StatePatternAnalysisResult extends AnalysisResult {
 			e.printStackTrace();
 		}
 	}
-
 }

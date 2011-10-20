@@ -12,30 +12,18 @@ import kr.ac.snu.selab.soot.util.XMLWriter;
 import soot.SootClass;
 
 public class AnalysisResult {
-	protected SootClass abstractType;
+	private SootClass abstractType;
 	protected List<MyNode> callerList;
 	protected List<MyNode> creatorList;
-	protected Map<String, List<Path<MyNode>>> referenceFlowPathMap; // String :=
-															// MyNode.toString()
-															// where MyNode is
-															// caller
-	// List<Store> storeList;
-	protected Map<Path<MyNode>, List<Path<MyNode>>> creatorTriggerPathMap; // key :=
-																	// referenceFlowPath,
-																	// value :=
-																	// triggerPath
 
-	public String getAbstractTypeName() {
-		String result = "";
-		if (abstractType != null) {
-			result = abstractType.toString();
-		}
-		return result;
-	}
+	// String := MyNode.toString()
+	// where MyNode is caller
+	protected Map<String, List<Path<MyNode>>> referenceFlowPathMap;
 
-	public void setAbstractType(SootClass aType) {
-		abstractType = aType;
-	}
+	// FIXME: Maybe, this field is useless!!!
+	// key := referenceFlowPath,
+	// value := triggerPath
+	private Map<Path<MyNode>, List<Path<MyNode>>> creatorTriggerPathMap;
 
 	public AnalysisResult() {
 		abstractType = null;
@@ -44,6 +32,17 @@ public class AnalysisResult {
 		referenceFlowPathMap = new HashMap<String, List<Path<MyNode>>>();
 		// storeList = new ArrayList<Store>();
 		creatorTriggerPathMap = new HashMap<Path<MyNode>, List<Path<MyNode>>>();
+	}
+
+	public String getAbstractTypeName() {
+		if (abstractType == null) {
+			return "";
+		}
+		return abstractType.toString();
+	}
+
+	public void setAbstractType(SootClass aType) {
+		abstractType = aType;
 	}
 
 	// public AnalysisResult(SootClass anAbstractType, List<Caller> aCallerList,
@@ -84,7 +83,7 @@ public class AnalysisResult {
 					for (Path<MyNode> aPath : referenceFlowPathMap.get(key)) {
 						writer.startElement("PathSet");
 						aPath.writeXML(writer);
-						
+
 						if (creatorTriggerPathMap.containsKey(aPath)) {
 							patternName = "State";
 							writer.startElement("TriggerPathList");
@@ -123,16 +122,32 @@ public class AnalysisResult {
 			e.printStackTrace();
 		}
 	}
-	
-	public List<MyNode> getCallerList() {
+
+	public Iterable<MyNode> getCallers() {
 		return callerList;
 	}
-	
-	public List<MyNode> getCreatorList() {
+
+	public void addCaller(MyNode node) {
+		callerList.add(node);
+	}
+
+	public Iterable<MyNode> getCreators() {
 		return creatorList;
 	}
-	
-	public Map<String, List<Path<MyNode>>> getReferenceFlowPathMap() {
-		return referenceFlowPathMap;
+
+	public void addCreator(MyNode node) {
+		creatorList.add(node);
+	}
+
+	public void putReferenceFlowPath(String key, List<Path<MyNode>> pathList) {
+		referenceFlowPathMap.put(key, pathList);
+	}
+
+	public Iterable<Path<MyNode>> getReferenceFlowPaths(String key) {
+		return referenceFlowPathMap.get(key);
+	}
+
+	public boolean containsReferenceFlowPath(String key) {
+		return referenceFlowPathMap.containsKey(key);
 	}
 }

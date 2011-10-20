@@ -337,22 +337,22 @@ public class Analysis {
 		MethodAnalysisResult result = new MethodAnalysisResult();
 		String aNodeKey = aMethod.toString();
 		if (nodeMap.containsKey(aNodeKey)) {
-			result.self = (MyMethod) nodeMap.get(aNodeKey);
+			result.setMethod((MyMethod) nodeMap.get(aNodeKey));
 		}
-		result.abstractType = aType;
+		result.setAbstractType(aType);
 
 		for (Unit aUnit : getUnits(aMethod)) {
 			if (isInstanceCreationStatementOfSubType(aUnit, aType)) {
-				result.self.setIsCreator(true);
-				result.self.addCreateStatement(aUnit);
+				result.getMethod().setIsCreator(true);
+				result.getMethod().addCreateStatement(aUnit);
 			}
 			if (isInvokeStatementOfReceiverType(aUnit, aType)) {
-				result.self.setIsCaller(true);
-				result.self.addCallStatement(aUnit);
+				result.getMethod().setIsCaller(true);
+				result.getMethod().addCallStatement(aUnit);
 			} else if (isAssignmentStatementHasInvocationOfReceiverType(aUnit,
 					aType)) {
-				result.self.setIsCaller(true);
-				result.self.addCallStatement(aUnit);
+				result.getMethod().setIsCaller(true);
+				result.getMethod().addCallStatement(aUnit);
 			}
 		}
 
@@ -369,7 +369,7 @@ public class Analysis {
 			for (SootMethod callerMethod : callerSet) {
 				MyNode method = nodeMap.get(callerMethod.toString());
 				if (method != null) {
-					result.sourceNodes.add(method);
+					result.addSourceNode(method);
 					// result.targetNodes.add(method); // can make cycle
 				}
 			}
@@ -379,7 +379,7 @@ public class Analysis {
 			for (SootMethod callerMethod : callerSet) {
 				MyNode method = nodeMap.get(callerMethod.toString());
 				if (method != null) {
-					result.targetNodes.add(method);
+					result.addTargetNode(method);
 				}
 			}
 		}
@@ -389,7 +389,7 @@ public class Analysis {
 				MyNode method = nodeMap.get(calleeMethod.toString());
 
 				if (method != null) {
-					result.targetNodes.add(method);
+					result.addTargetNode(method);
 					// result.sourceNodes.add(method); // can make cycle
 				}
 			}
@@ -402,7 +402,7 @@ public class Analysis {
 					&& calleeMethod.getName().equals("<init>")) {
 				MyNode method = nodeMap.get(calleeMethod.toString());
 				if (method != null) {
-					result.sourceNodes.add(method);
+					result.addSourceNode(method);
 				}
 			}
 		}
@@ -411,7 +411,7 @@ public class Analysis {
 			if (doesThisMethodReturnObjectOfSubtype(calleeMethod, aType)) {
 				MyNode method = nodeMap.get(calleeMethod.toString());
 				if (method != null) {
-					result.sourceNodes.add(method);
+					result.addSourceNode(method);
 				}
 			}
 		}
@@ -433,7 +433,7 @@ public class Analysis {
 		for (String readFieldString : readFieldStringList) {
 			if (nodeMap.containsKey(readFieldString)) {
 				nodeMap.get(readFieldString).setIsStore(true);
-				result.sourceNodes.add(nodeMap.get(readFieldString));
+				result.addSourceNode(nodeMap.get(readFieldString));
 			} else {
 				for (SootField aSuperClassField : superClassFieldListOfAbstractType) {
 					String fieldKey = aSuperClassField.toString();
@@ -441,7 +441,7 @@ public class Analysis {
 							""))) {
 						if (nodeMap.containsKey(fieldKey)) {
 							nodeMap.get(fieldKey).setIsStore(true);
-							result.sourceNodes.add(nodeMap.get(fieldKey));
+							result.addSourceNode(nodeMap.get(fieldKey));
 						}
 					}
 				}
@@ -452,7 +452,7 @@ public class Analysis {
 		for (String writtenFieldString : writtenFieldStringList) {
 			if (nodeMap.containsKey(writtenFieldString)) {
 				nodeMap.get(writtenFieldString).setIsStore(true);
-				result.targetNodes.add(nodeMap.get(writtenFieldString));
+				result.addTargetNode(nodeMap.get(writtenFieldString));
 			} else {
 				for (SootField aSuperClassField : superClassFieldListOfAbstractType) {
 					String fieldKey = aSuperClassField.toString();
@@ -460,7 +460,7 @@ public class Analysis {
 							"<.*:", ""))) {
 						if (nodeMap.containsKey(fieldKey)) {
 							nodeMap.get(fieldKey).setIsStore(true);
-							result.targetNodes.add(nodeMap.get(fieldKey));
+							result.addTargetNode(nodeMap.get(fieldKey));
 						}
 					}
 				}
@@ -473,13 +473,13 @@ public class Analysis {
 	public Graph<MyNode> getGraphFromMethodAnalysisResultList(
 			List<MethodAnalysisResult> resultList) {
 		Graph<MyNode> graph = new Graph<MyNode>();
-		HashMap<String, HashSet<MyNode>> sourceMap = graph.sourceMap;
-		HashMap<String, HashSet<MyNode>> targetMap = graph.targetMap;
+		HashMap<String, HashSet<MyNode>> sourceMap = graph.getSourceMap();
+		HashMap<String, HashSet<MyNode>> targetMap = graph.getTargetMap();
 
 		for (MethodAnalysisResult result : resultList) {
-			MyNode selfNode = result.self;
+			MyNode selfNode = result.getMethod();
 
-			for (MyNode sourceNode : result.sourceNodes) {
+			for (MyNode sourceNode : result.getSourceNodes()) {
 				// add mapping information to targetMap
 				String key = sourceNode.toString();
 				if (targetMap.containsKey(key)) {
@@ -500,7 +500,7 @@ public class Analysis {
 				}
 			}
 
-			for (MyNode targetNode : result.targetNodes) {
+			for (MyNode targetNode : result.getTargetNodes()) {
 				// add mapping information to sourceMap
 				String key = targetNode.toString();
 				if (sourceMap.containsKey(key)) {
@@ -550,19 +550,19 @@ public class Analysis {
 		}
 
 		for (MethodAnalysisResult aResult : methodAnalysisResultList) {
-			MyNode node = aResult.self;
+			MyNode node = aResult.getMethod();
 			if (node.isCaller()) {
-				anAnalysisResult.callerList.add(node);
+				anAnalysisResult.addCaller(node);
 			}
 			if (node.isCreator()) {
-				anAnalysisResult.creatorList.add(node);
+				anAnalysisResult.addCreator(node);
 			}
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 		// graphXML = graphXML + referenceFlowGraph.toXML();
 
-		for (MyNode callerNode : anAnalysisResult.callerList) {
+		for (MyNode callerNode : anAnalysisResult.getCallers()) {
 			GraphPathCollector<MyNode> pathCollector = new GraphPathCollector<MyNode>(
 					callerNode, referenceFlowGraph) {
 				@Override
@@ -582,7 +582,7 @@ public class Analysis {
 			List<Path<MyNode>> pathIncludeStoreList = new ArrayList<Path<MyNode>>();
 			for (Path<MyNode> aPath : pathList) {
 				boolean doesPathIncludeStore = false;
-				for (MyNode aNode : aPath.nodeList) {
+				for (MyNode aNode : aPath.getNodeList()) {
 					if (aNode.isStore()) {
 						doesPathIncludeStore = true;
 						break;
@@ -594,8 +594,8 @@ public class Analysis {
 			}
 
 			if (!pathIncludeStoreList.isEmpty()) {
-				anAnalysisResult.referenceFlowPathMap.put(
-						callerNode.toString(), pathIncludeStoreList);
+				anAnalysisResult.putReferenceFlowPath(callerNode.key(),
+						pathIncludeStoreList);
 			}
 		}
 

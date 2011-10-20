@@ -1,4 +1,8 @@
-package kr.ac.snu.selab.soot.graph;
+package kr.ac.snu.selab.soot.graph.collectors;
+
+import kr.ac.snu.selab.soot.graph.Graph;
+import kr.ac.snu.selab.soot.graph.GraphPathCollector;
+import kr.ac.snu.selab.soot.graph.Node;
 
 public class AllPathCollector<N extends Node> extends GraphPathCollector<N> {
 	public AllPathCollector(N aStartNode, Graph<N> aGraph) {
@@ -12,6 +16,5 @@ public class AllPathCollector<N extends Node> extends GraphPathCollector<N> {
 			result = true;
 		}
 		return result;
-
 	}
 }

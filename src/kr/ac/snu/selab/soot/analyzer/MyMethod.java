@@ -16,10 +16,10 @@ public class MyMethod extends MyNode {
 
 	private static Logger log = Logger.getLogger(MyMethod.class);
 
-	boolean isCaller;
-	boolean isCreator;
-	List<Unit> callStatementList;
-	List<Unit> createStatementList;
+	private boolean isCaller;
+	private boolean isCreator;
+	private List<Unit> callStatementList;
+	private List<Unit> createStatementList;
 
 	public MyMethod(SootMethod aMethod) {
 		super(aMethod);

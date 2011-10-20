@@ -11,12 +11,12 @@ import kr.ac.snu.selab.soot.analyzer.AnalysisResult;
 import kr.ac.snu.selab.soot.analyzer.MethodAnalysisResult;
 import kr.ac.snu.selab.soot.analyzer.MyField;
 import kr.ac.snu.selab.soot.analyzer.MyMethod;
-import kr.ac.snu.selab.soot.graph.AllPathCollector;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
-import kr.ac.snu.selab.soot.graph.HitPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.graph.collectors.AllPathCollector;
+import kr.ac.snu.selab.soot.graph.collectors.HitPathCollector;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
@@ -63,16 +63,16 @@ public class StatePatternAnalysis extends Analysis {
 		for (MethodAnalysisResult aResult : methodAnalysisResultList) {
 			MyNode node = aResult.getSelf();
 			if (node.isCaller()) {
-				anAnalysisResult.getCallerList().add(node);
+				anAnalysisResult.addCaller(node);
 			}
 			if (node.isCreator()) {
-				anAnalysisResult.getCreatorList().add(node);
+				anAnalysisResult.addCreator(node);
 			}
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 
-		for (MyNode callerNode : anAnalysisResult.getCallerList()) {
+		for (MyNode callerNode : anAnalysisResult.getCallers()) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
 					callerNode, referenceFlowGraph);
 
@@ -81,7 +81,7 @@ public class StatePatternAnalysis extends Analysis {
 			List<Path<MyNode>> pathIncludeStoreList = new ArrayList<Path<MyNode>>();
 			for (Path<MyNode> aPath : pathList) {
 				boolean doesPathIncludeStore = false;
-				for (MyNode aNode : aPath.nodeList) {
+				for (MyNode aNode : aPath.getNodeList()) {
 					if (aNode.isStore()) {
 						doesPathIncludeStore = true;
 						break;
@@ -93,23 +93,22 @@ public class StatePatternAnalysis extends Analysis {
 			}
 
 			if (!pathIncludeStoreList.isEmpty()) {
-				anAnalysisResult.getReferenceFlowPathMap().put(
-						callerNode.toString(), pathIncludeStoreList);
+				anAnalysisResult.putReferenceFlowPath(callerNode.key(),
+						pathIncludeStoreList);
 			}
 		}
 		// Check whether a call chain from caller meets an object flow graph to
 		// the caller
-		for (MyNode callerNode : anAnalysisResult.getCallerList()) {
+		for (MyNode callerNode : anAnalysisResult.getCallers()) {
 			String callerKey = callerNode.toString();
-			if (!anAnalysisResult.getReferenceFlowPathMap().containsKey(
-					callerKey))
+			if (!anAnalysisResult.containsReferenceFlowPath(callerKey))
 				continue;
 
 			Set<MyNode> destinationSet = new HashSet<MyNode>();
-			List<Path<MyNode>> referenceFlowPathList = anAnalysisResult
-					.getReferenceFlowPathMap().get(callerKey);
+			Iterable<Path<MyNode>> referenceFlowPathList = anAnalysisResult
+					.getReferenceFlowPaths(callerKey);
 			for (Path<MyNode> aPath : referenceFlowPathList) {
-				destinationSet.addAll(aPath.nodeList);
+				destinationSet.addAll(aPath.getNodeList());
 			}
 			destinationSet.remove(callerNode);
 
@@ -120,8 +119,8 @@ public class StatePatternAnalysis extends Analysis {
 			pathSet.addAll(pathList);
 
 			if (!pathList.isEmpty()) {
-				((StatePatternAnalysisResult) anAnalysisResult).triggeringPathMap
-						.put(callerKey, pathSet);
+				((StatePatternAnalysisResult) anAnalysisResult)
+						.putTriggeringPath(callerKey, pathSet);
 			}
 		}
 
@@ -139,8 +138,8 @@ public class StatePatternAnalysis extends Analysis {
 			if (anAnalysisResult == null)
 				continue;
 
-			if (((StatePatternAnalysisResult) anAnalysisResult).triggeringPathMap
-					.isEmpty())
+			if (((StatePatternAnalysisResult) anAnalysisResult)
+					.isTriggeringPathMapEmpty())
 				continue;
 
 			logger.debug("Writing output....");

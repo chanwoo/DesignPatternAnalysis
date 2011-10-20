@@ -9,11 +9,11 @@ import kr.ac.snu.selab.soot.analyzer.AnalysisResult;
 import kr.ac.snu.selab.soot.analyzer.MethodAnalysisResult;
 import kr.ac.snu.selab.soot.analyzer.MyField;
 import kr.ac.snu.selab.soot.analyzer.MyMethod;
-import kr.ac.snu.selab.soot.graph.AllPathCollector;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.graph.collectors.AllPathCollector;
 import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootField;
@@ -53,17 +53,17 @@ public class PathFromCallerAnalysis extends Analysis {
 		for (MethodAnalysisResult aResult : methodAnalysisResultList) {
 			MyNode node = aResult.getSelf();
 			if (node.isCaller()) {
-				anAnalysisResult.getCallerList().add(node);
+				anAnalysisResult.addCaller(node);
 			}
 			if (node.isCreator()) {
-				anAnalysisResult.getCreatorList().add(node);
+				anAnalysisResult.addCreator(node);
 			}
 		}
 
 		Graph<MyNode> referenceFlowGraph = getGraphFromMethodAnalysisResultList(methodAnalysisResultList);
 		// graphXML = graphXML + referenceFlowGraph.toXML();
 
-		for (MyNode callerNode : anAnalysisResult.getCallerList()) {
+		for (MyNode callerNode : anAnalysisResult.getCallers()) {
 			GraphPathCollector<MyNode> pathCollector = new AllPathCollector<MyNode>(
 					callerNode, referenceFlowGraph);
 			List<Path<MyNode>> pathList = pathCollector.run();
@@ -83,8 +83,8 @@ public class PathFromCallerAnalysis extends Analysis {
 			// }
 
 			if (!pathList.isEmpty()) {
-				anAnalysisResult.getReferenceFlowPathMap().put(
-						callerNode.toString(), pathList);
+				anAnalysisResult.putReferenceFlowPath(callerNode.key(),
+						pathList);
 			}
 		}
 
