@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
 import kr.ac.snu.selab.soot.graph.Graph;
@@ -27,6 +29,7 @@ public class Analysis {
 	private HashMap<String, SootMethod> methodMap;
 	private HashMap<String, SootField> fieldMap;
 	private Hierarchy hierarchy;
+	private Map<Map<SootClass, String>, SootMethod> methodMapBySubSignature;
 
 	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy,
 			CallGraph aGraph) {
@@ -34,6 +37,7 @@ public class Analysis {
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
 		fieldMap = new HashMap<String, SootField>();
+		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>(); // This is a map that has keys of (class, subsignature of method) pair.
 
 		classList = aClassList;
 		for (SootClass aClass : classList) {
@@ -43,8 +47,11 @@ public class Analysis {
 			}
 			for (SootMethod aMethod : aClass.getMethods()) {
 				methodMap.put(aMethod.toString(), aMethod);
+				Map<SootClass, String> key = new HashMap<SootClass, String>();
+				key.put(aClass, aMethod.getSubSignature());
+				methodMapBySubSignature.put(key, aMethod);
 			}
-		}
+		}		
 		callGraph = aGraph;
 		hierarchy = aHierarchy;
 	}
@@ -54,6 +61,7 @@ public class Analysis {
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
 		fieldMap = new HashMap<String, SootField>();
+		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>();
 
 		classList = aClassList;
 		for (SootClass aClass : classList) {
@@ -63,6 +71,9 @@ public class Analysis {
 			}
 			for (SootMethod aMethod : aClass.getMethods()) {
 				methodMap.put(aMethod.toString(), aMethod);
+				Map<SootClass, String> key = new HashMap<SootClass, String>();
+				key.put(aClass, aMethod.getSubSignature());
+				methodMapBySubSignature.put(key, aMethod);
 			}
 		}
 		hierarchy = aHierarchy;
@@ -92,6 +103,31 @@ public class Analysis {
 		for (SootClass aClass : classList) {
 			if (isAbstractTypeClass(aClass)) {
 				result.add(aClass);
+			}
+		}
+		return result;
+	}
+	
+	private List<SootClass> getSubTypeClassOf(SootClass aType) {
+		if (aType.isInterface()) {
+			return hierarchy.getImplementersOf(aType);
+		} else {
+			return hierarchy.getSubclassesOf(aType);
+		}
+	}
+	
+	public List<SootMethod> getOverrideMethodsOf(SootMethod aMethod) {
+		List<SootMethod> result = new ArrayList<SootMethod>();
+		SootClass receiverType = aMethod.getDeclaringClass();
+		List<SootClass> subTypeClassList = getSubTypeClassOf(receiverType);
+		if (!subTypeClassList.isEmpty()) {
+			for (SootClass aClass : subTypeClassList) {
+				Map<SootClass, String> key = new HashMap<SootClass, String>();
+				key.put(aClass, aMethod.getSubSignature());
+				SootMethod overrideMethod = methodMapBySubSignature.get(key);
+				if (overrideMethod != null) {
+					result.add(overrideMethod);
+				}
 			}
 		}
 		return result;
@@ -281,6 +317,20 @@ public class Analysis {
 			}
 		}
 		return fieldStringList;
+	}
+	
+	public boolean isInjectorMethodOfField(SootMethod aMethod, SootField aField) {
+		boolean result = false;
+		Set<String> writtenFieldStringSet = new HashSet<String>();
+		writtenFieldStringSet.addAll(getWrittenFieldStringListByThisMethod(aMethod));
+		
+		for (String fieldString : writtenFieldStringSet) {
+			if (aField.toString().equals(fieldString)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
 	}
 
 	private String getReturnTypeString(SootMethod aMethod) {

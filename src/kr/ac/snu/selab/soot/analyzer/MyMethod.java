@@ -21,6 +21,10 @@ public class MyMethod extends MyNode {
 	boolean isCreator;
 	List<Unit> callStatementList;
 	List<Unit> createStatementList;
+	
+	public List<Unit> getCallStatementList () {
+		return callStatementList;
+	}
 
 	public MyMethod(SootMethod aMethod) {
 		super(aMethod);
