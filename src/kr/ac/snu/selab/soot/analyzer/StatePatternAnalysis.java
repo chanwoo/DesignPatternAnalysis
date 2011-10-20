@@ -129,12 +129,7 @@ public class StatePatternAnalysis extends Analysis {
 
 		for (SootClass aType : abstractTypeList) {
 			StatePatternAnalysisResult anAnalysisResult = null;
-			if (!(aType.toString().equals("org.jhotdraw.framework.Figure")
-					|| aType.toString().equals(
-							"org.jhotdraw.framework.ConnectionFigure") || aType
-					.toString().equals("org.jhotdraw.framework.Connector"))) {
-				anAnalysisResult = (StatePatternAnalysisResult) (analyzeOverType(aType));
-			}
+			anAnalysisResult = (StatePatternAnalysisResult) (analyzeOverType(aType));
 			if (anAnalysisResult == null)
 				continue;
 
