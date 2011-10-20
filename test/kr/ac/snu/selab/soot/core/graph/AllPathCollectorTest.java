@@ -66,44 +66,30 @@ public class AllPathCollectorTest extends AbstractGraphTest {
 		// a <- b <- c <- d <- e <- c (Cycle)
 		// d <- f <- g
 		// a <- h <- i <- j <- i
-		HashSet<StringNode> sources = null;
+		push(nodeA, nodeB, nodeH);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeB);
-		sources.add(nodeH);
-		graph.sourceMap.put(nodeA.key(), sources);
+		push(nodeB, nodeC);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeC);
-		graph.sourceMap.put(nodeB.key(), sources);
+		push(nodeC, nodeD);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeD);
-		graph.sourceMap.put(nodeC.key(), sources);
+		push(nodeD, nodeE, nodeF);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeE);
-		sources.add(nodeF);
-		graph.sourceMap.put(nodeD.key(), sources);
+		push(nodeE, nodeC);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeC);
-		graph.sourceMap.put(nodeE.key(), sources);
+		push(nodeF, nodeG);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeG);
-		graph.sourceMap.put(nodeF.key(), sources);
+		push(nodeH, nodeI);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeI);
-		graph.sourceMap.put(nodeH.key(), sources);
+		push(nodeI, nodeJ);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeJ);
-		graph.sourceMap.put(nodeI.key(), sources);
+		push(nodeJ, nodeI);
+	}
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeI);
-		graph.sourceMap.put(nodeJ.key(), sources);
+	private void push(StringNode target, StringNode... sources) {
+		HashSet<StringNode> nodes = new HashSet<StringNode>();
+		for (StringNode source : sources) {
+			nodes.add(source);
+		}
+		graph.sourceMap.put(target.key(), nodes);
 	}
 }

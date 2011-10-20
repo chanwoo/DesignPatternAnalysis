@@ -63,47 +63,33 @@ public class ReverseAllPathCollectorTest extends AbstractGraphTest {
 		StringNode nodeI = new StringNode("i");
 		StringNode nodeJ = new StringNode("j");
 
-		// a <- b <- c <- d <- e <- c (Cycle)
-		// d <- f <- g
-		// a <- h <- i <- j <- i
-		HashSet<StringNode> sources = null;
+		// a -> b -> c -> d -> e -> c (Cycle)
+		// d -> f -> g
+		// a -> h -> i -> j -> i
+		push(nodeA, nodeB, nodeH);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeB);
-		sources.add(nodeH);
-		graph.targetMap.put(nodeA.key(), sources);
+		push(nodeB, nodeC);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeC);
-		graph.targetMap.put(nodeB.key(), sources);
+		push(nodeC, nodeD);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeD);
-		graph.targetMap.put(nodeC.key(), sources);
+		push(nodeD, nodeE, nodeF);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeE);
-		sources.add(nodeF);
-		graph.targetMap.put(nodeD.key(), sources);
+		push(nodeE, nodeC);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeC);
-		graph.targetMap.put(nodeE.key(), sources);
+		push(nodeF, nodeG);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeG);
-		graph.targetMap.put(nodeF.key(), sources);
+		push(nodeH, nodeI);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeI);
-		graph.targetMap.put(nodeH.key(), sources);
+		push(nodeI, nodeJ);
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeJ);
-		graph.targetMap.put(nodeI.key(), sources);
+		push(nodeJ, nodeI);
+	}
 
-		sources = new HashSet<StringNode>();
-		sources.add(nodeI);
-		graph.targetMap.put(nodeJ.key(), sources);
+	private void push(StringNode src, StringNode... targets) {
+		HashSet<StringNode> nodes = new HashSet<StringNode>();
+		for (StringNode target : targets) {
+			nodes.add(target);
+		}
+		graph.targetMap.put(src.key(), nodes);
 	}
 }

@@ -49,28 +49,25 @@ public class STPathCollectorTest extends AbstractGraphTest {
 
 		// a -> b
 		// a -> c
-		HashSet<StringNode> map = new HashSet<StringNode>();
-		map.add(nodeB);
-		map.add(nodeC);
-		graph.sourceMap.put(nodeA.key(), map);
+		push(nodeA, nodeB, nodeC);
 
 		// b -> c
 		// b -> d
-		map = new HashSet<StringNode>();
-		map.add(nodeC);
-		map.add(nodeD);
-		graph.sourceMap.put(nodeB.key(), map);
+		push(nodeB, nodeC, nodeD);
 
 		// c -> d
-		map = new HashSet<StringNode>();
-		map.add(nodeD);
-		graph.sourceMap.put(nodeC.key(), map);
+		push(nodeC, nodeD);
 
 		// d -> a
 		// d -> b
-		map = new HashSet<StringNode>();
-		map.add(nodeA);
-		map.add(nodeB);
-		graph.sourceMap.put(nodeD.key(), map);
+		push(nodeD, nodeA, nodeB);
+	}
+
+	private void push(StringNode target, StringNode... sources) {
+		HashSet<StringNode> nodes = new HashSet<StringNode>();
+		for (StringNode source : sources) {
+			nodes.add(source);
+		}
+		graph.sourceMap.put(target.key(), nodes);
 	}
 }
