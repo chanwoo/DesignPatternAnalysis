@@ -26,6 +26,9 @@ import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
+import soot.Unit;
+import soot.jimple.internal.JAssignStmt;
+import soot.jimple.internal.JInvokeStmt;
 
 public class StatePatternAnalysis extends Analysis {
 
@@ -34,6 +37,17 @@ public class StatePatternAnalysis extends Analysis {
 	public StatePatternAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
 		super(aClassList, aHierarchy);
 	}
+
+	// private boolean isCreatorMethodOfType(SootMethod aMethod, SootClass
+	// aType) {
+	// SootClass receiverType = aMethod.getDeclaringClass();
+	// if (aMethod.getName().equals("<init>")
+	// && isClassOfSubType(receiverType, aType)) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
 
 	public AnalysisResult analyzeOverType(SootClass aType) {
 		AnalysisResult anAnalysisResult = new StatePatternAnalysisResult();
@@ -104,21 +118,99 @@ public class StatePatternAnalysis extends Analysis {
 			if (!anAnalysisResult.containsReferenceFlowPath(callerKey))
 				continue;
 
-			Set<MyNode> destinationSet = new HashSet<MyNode>();
+			Set<MyNode> allNodeOfPathSet = new HashSet<MyNode>();
 			Iterable<Path<MyNode>> referenceFlowPathList = anAnalysisResult
 					.getReferenceFlowPaths(callerKey);
 			for (Path<MyNode> aPath : referenceFlowPathList) {
-				destinationSet.addAll(aPath.getNodeList());
+				allNodeOfPathSet.addAll(aPath.getNodeList());
 			}
-			destinationSet.remove(callerNode);
 
-			GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
-					callerNode, callGraph, destinationSet);
-			List<Path<MyNode>> pathList = pathCollector.run();
+			// Only collecting injectors
+			allNodeOfPathSet.remove(callerNode);
+
+			Set<MyNode> injectorSet = new HashSet<MyNode>();
+			MyField storeNearestFromCaller = null;
+			for (MyNode aNode : allNodeOfPathSet) {
+				if (aNode instanceof MyField) {
+					storeNearestFromCaller = (MyField) aNode;
+					break;
+				}
+			}
+
+			if (storeNearestFromCaller != null) {
+				for (MyNode aNode : allNodeOfPathSet) {
+					if (aNode instanceof MyField) {
+						continue;
+					}
+
+					SootMethod injectorCandidateMethod = null;
+					if (aNode instanceof MyMethod) {
+						injectorCandidateMethod = (SootMethod) ((MyMethod) aNode)
+								.getElement();
+					}
+					if (injectorCandidateMethod != null) {
+						if (isInjectorMethodOfField(injectorCandidateMethod,
+								(SootField) (storeNearestFromCaller
+										.getElement()))) {
+							injectorSet.add(aNode);
+						}
+					}
+				}
+			}
+
+			Set<MyNode> startNodeSet = new HashSet<MyNode>();
+			for (Unit aUnit : ((MyMethod) callerNode).getCallStatementList()) {
+				Set<SootMethod> invokedMethodSet = new HashSet<SootMethod>();
+				if (aUnit instanceof JInvokeStmt) {
+					SootMethod invokedMethod = ((JInvokeStmt) aUnit)
+							.getInvokeExpr().getMethod();
+					invokedMethodSet.add(invokedMethod);
+					// If there is a call to abstract type class, its
+					// subclass' methods should be added to a call
+					// graph.
+					if (!invokedMethod.getName().equals("<init>")) {
+						List<SootMethod> overrideMethodList = getOverrideMethodsOf(invokedMethod);
+						for (SootMethod overrideMethod : overrideMethodList) {
+							invokedMethodSet.add(overrideMethod);
+						}
+					}
+
+				} else if (aUnit instanceof JAssignStmt) {
+					if (((JAssignStmt) aUnit).containsInvokeExpr()) {
+						SootMethod invokedMethod = ((JAssignStmt) aUnit)
+								.getInvokeExpr().getMethod();
+						invokedMethodSet.add(invokedMethod);
+						// If there is a call to abstract type class, its
+						// subclass' methods should be added to a call
+						// graph.
+						if (!invokedMethod.getName().equals("<init>")) {
+							List<SootMethod> overrideMethodList = getOverrideMethodsOf(invokedMethod);
+							for (SootMethod overrideMethod : overrideMethodList) {
+								invokedMethodSet.add(overrideMethod);
+							}
+						}
+					}
+				}
+
+				if (!invokedMethodSet.isEmpty()) {
+					for (SootMethod invokedMethod : invokedMethodSet) {
+						startNodeSet.add(nodeMap.get(invokedMethod.toString()));
+					}
+				}
+			}
+
 			Set<Path<MyNode>> pathSet = new HashSet<Path<MyNode>>();
-			pathSet.addAll(pathList);
+			for (MyNode aStartNode : startNodeSet) {
+				if (!injectorSet.isEmpty()) {
+					GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
+							aStartNode, callGraph, injectorSet);
+					List<Path<MyNode>> pathList = pathCollector.run();
 
-			if (!pathList.isEmpty()) {
+					pathSet.addAll(pathList);
+				}
+			}
+
+			if (!pathSet.isEmpty()) {
 				((StatePatternAnalysisResult) anAnalysisResult)
 						.putTriggeringPath(callerKey, pathSet);
 			}

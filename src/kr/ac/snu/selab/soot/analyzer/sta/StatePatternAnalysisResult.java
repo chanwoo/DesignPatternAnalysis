@@ -31,16 +31,16 @@ public class StatePatternAnalysisResult extends AnalysisResult {
 		try {
 			writer.startElement("StatePatternAnalysisResult");
 			writer.simpleElement("AbstractType", getAbstractTypeName());
-			writer.startElement("CallerList");
-			for (MyNode aNode : callerList) {
-				aNode.writeXML(writer);
-			}
-			writer.endElement();
+//			writer.startElement("CallerList");
+//			for (MyNode aNode : callerList) {
+//				aNode.writeXML(writer);
+//			}
+//			writer.endElement();
 
 			writer.startElement("PatternAnalysisList");
 			for (MyNode aNode : callerList) {
 				String key = aNode.toString();
-				if (referenceFlowPathMap.containsKey(key)) {
+				if (triggeringPathMap.containsKey(key)) {
 					writer.startElement("AnalysisPerCaller");
 
 					writer.startElement("Caller");
