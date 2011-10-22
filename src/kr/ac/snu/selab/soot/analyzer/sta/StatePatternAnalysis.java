@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import kr.ac.snu.selab.soot.analyzer.Analysis;
@@ -16,7 +17,6 @@ import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.graph.collectors.AllPathCollector;
-import kr.ac.snu.selab.soot.graph.collectors.HitPathCollector;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
@@ -27,11 +27,12 @@ import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
 import soot.Unit;
+import soot.Value;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
 public class StatePatternAnalysis extends Analysis {
-	
+
 	private static Logger logger = Logger.getLogger(StatePatternAnalysis.class);
 
 	public StatePatternAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
@@ -48,6 +49,65 @@ public class StatePatternAnalysis extends Analysis {
 	// return false;
 	// }
 	// }
+	
+	public Map<String, String> getWrittenFieldInformationOfThisStatement(Unit aUnit,
+			SootClass aType) {
+		Map<String, String> result = new HashMap<String, String>();
+		if (aUnit instanceof JAssignStmt) {
+			JAssignStmt assignStmt = (JAssignStmt) aUnit;
+			Value rightOp = assignStmt.getRightOp();
+			SootClass rightOpType = null;
+			String rightOpTypeKey = rightOp.getType().toString();
+			if (!(rightOpTypeKey.startsWith("null"))) {
+				if (classMap.containsKey(rightOpTypeKey)) {
+					rightOpType = classMap.get(rightOpTypeKey);
+
+					if ((rightOpType != null)
+							&& isClassOfSubType(rightOpType, aType)) {
+						String leftSideString = assignStmt.getLeftOp()
+								.toString();
+						if (leftSideString.startsWith("this.")) {
+							leftSideString = leftSideString.substring(5);
+						}
+						// Only field variable
+						if (leftSideString.startsWith("<")) {
+							result.put(leftSideString, rightOp.toString());
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	public List<String> getWrittenFieldStringListByThisMethod(
+			SootMethod aMethod, SootClass aType) {
+		List<String> fieldStringList = new ArrayList<String>();
+		Map<String, String> assignmentMap = new HashMap<String, String>();
+		
+		for (Unit aUnit : getUnits(aMethod)) {
+			if (aUnit instanceof JAssignStmt) {
+				assignmentMap.put(((JAssignStmt) aUnit).getLeftOp().toString(),
+						((JAssignStmt) aUnit).getRightOp().toString());
+			}
+		}
+		
+		for (Unit aUnit : getUnits(aMethod)) {
+			Map<String, String> writtenFieldStringInformation = getWrittenFieldInformationOfThisStatement(aUnit,
+					aType);
+			if (!writtenFieldStringInformation.isEmpty()) {
+				String writtenValue = writtenFieldStringInformation.values().iterator().next();
+				if (assignmentMap.containsKey(writtenValue)) {
+					if (!assignmentMap.get(writtenValue).equals("null")) {
+						fieldStringList.add(writtenFieldStringInformation.keySet().iterator().next());
+					}
+				} else if (writtenValue != "null") {
+					fieldStringList.add(writtenFieldStringInformation.keySet().iterator().next());
+				}
+			}
+		}
+		return fieldStringList;
+	}
 
 	public AnalysisResult analyzeOverType(SootClass aType) {
 		AnalysisResult anAnalysisResult = new StatePatternAnalysisResult();
@@ -107,8 +167,13 @@ public class StatePatternAnalysis extends Analysis {
 			}
 
 			if (!pathIncludeStoreList.isEmpty()) {
-				anAnalysisResult.putReferenceFlowPath(callerNode.key(),
-						pathIncludeStoreList);
+				if (pathIncludeStoreList.size() > 3) {
+					anAnalysisResult.putReferenceFlowPath(callerNode.key(),
+							pathIncludeStoreList.subList(0, 2));
+				} else {
+					anAnalysisResult.putReferenceFlowPath(callerNode.key(),
+							pathIncludeStoreList);
+				}
 			}
 		}
 		// Check whether a call chain from caller meets an object flow graph to
@@ -118,42 +183,25 @@ public class StatePatternAnalysis extends Analysis {
 			if (!anAnalysisResult.containsReferenceFlowPath(callerKey))
 				continue;
 
-			Set<MyNode> allNodeOfPathSet = new HashSet<MyNode>();
+			// Only collecting injectors
+			Set<MyNode> injectorSet = new HashSet<MyNode>();
 			Iterable<Path<MyNode>> referenceFlowPathList = anAnalysisResult
 					.getReferenceFlowPaths(callerKey);
 			for (Path<MyNode> aPath : referenceFlowPathList) {
-				allNodeOfPathSet.addAll(aPath.getNodeList());
-			}
-
-			// Only collecting injectors
-			allNodeOfPathSet.remove(callerNode);
-
-			Set<MyNode> injectorSet = new HashSet<MyNode>();
-			MyField storeNearestFromCaller = null;
-			for (MyNode aNode : allNodeOfPathSet) {
-				if (aNode instanceof MyField) {
-					storeNearestFromCaller = (MyField) aNode;
-					break;
-				}
-			}
-
-			if (storeNearestFromCaller != null) {
-				for (MyNode aNode : allNodeOfPathSet) {
-					if (aNode instanceof MyField) {
-						continue;
-					}
-
-					SootMethod injectorCandidateMethod = null;
-					if (aNode instanceof MyMethod) {
-						injectorCandidateMethod = (SootMethod) ((MyMethod) aNode)
-								.getElement();
-					}
-					if ((injectorCandidateMethod != null) && (!injectorCandidateMethod.getName().equals("<init>"))) {
-						if (isInjectorMethodOfField(injectorCandidateMethod,
-								(SootField) (storeNearestFromCaller
-										.getElement()))) {
-							injectorSet.add(aNode);
-						}
+				boolean isNextNodeInjector = false;
+				for (MyNode aNode : aPath.getNodeList()) {
+					if ((isNextNodeInjector == true)
+							&& !(((SootMethod) (aNode.getElement())).getName()
+									.equals("<init>"))) {
+//						aNode.setIsInjector(true);
+						injectorSet.add(aNode);
+						break;
+					} else if ((isNextNodeInjector == true)
+							&& (((SootMethod) (aNode.getElement())).getName()
+									.equals("<init>"))) {
+						break;
+					} else if (aNode instanceof MyField) {
+						isNextNodeInjector = true;
 					}
 				}
 			}
@@ -168,7 +216,8 @@ public class StatePatternAnalysis extends Analysis {
 					// If there is a call to abstract type class, its
 					// subclass' methods should be added to a call
 					// graph.
-					if (!invokedMethod.getName().equals("<init>")) {
+					if (!((JInvokeStmt) aUnit).getInvokeExpr().toString()
+							.startsWith("specialinvoke")) {
 						List<SootMethod> overrideMethodList = getOverrideMethodsOf(invokedMethod);
 						for (SootMethod overrideMethod : overrideMethodList) {
 							invokedMethodSet.add(overrideMethod);
@@ -183,7 +232,8 @@ public class StatePatternAnalysis extends Analysis {
 						// If there is a call to abstract type class, its
 						// subclass' methods should be added to a call
 						// graph.
-						if (!invokedMethod.getName().equals("<init>")) {
+						if (!((JAssignStmt) aUnit).getInvokeExpr().toString()
+								.startsWith("specialinvoke")) {
 							List<SootMethod> overrideMethodList = getOverrideMethodsOf(invokedMethod);
 							for (SootMethod overrideMethod : overrideMethodList) {
 								invokedMethodSet.add(overrideMethod);
@@ -205,8 +255,11 @@ public class StatePatternAnalysis extends Analysis {
 					GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
 							aStartNode, callGraph, injectorSet);
 					List<Path<MyNode>> pathList = pathCollector.run();
-					
-					pathSet.addAll(pathList);
+					if (pathList.size() > 3) {
+						pathSet.addAll(pathList.subList(0, 2));
+					} else {
+						pathSet.addAll(pathList);
+					}
 				}
 			}
 
@@ -253,12 +306,13 @@ public class StatePatternAnalysis extends Analysis {
 
 	}
 
-	private class TriggeringPathCollector extends kr.ac.snu.selab.soot.graph.collectors.TriggeringPathCollector<MyNode> {
+	private class TriggeringPathCollector
+			extends
+			kr.ac.snu.selab.soot.graph.collectors.TriggeringPathCollector<MyNode> {
 		public TriggeringPathCollector(MyNode aStartNode, Graph<MyNode> aGraph,
 				Set<MyNode> aDestinationSet) {
 			super(aStartNode, aGraph, aDestinationSet);
 		}
-		
-		
+
 	}
 }

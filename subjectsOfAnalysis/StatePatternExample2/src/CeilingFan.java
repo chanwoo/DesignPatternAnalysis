@@ -28,5 +28,10 @@ public class CeilingFan {
 	public String addString(String a, String b) {
 		return a + b;
 	}
+	
+	private void testNull() {
+		Object a;
+		a = null;
+	}
 
 }

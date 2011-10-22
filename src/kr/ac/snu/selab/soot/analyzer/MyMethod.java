@@ -103,6 +103,9 @@ public class MyMethod extends MyNode {
 				}
 				writer.endElement();
 			}
+			if (isInjector()) {
+				writer.simpleElement("Role", "Injector");
+			}
 			writer.endElement();
 			writer.endElement();
 		} catch (IOException e) {

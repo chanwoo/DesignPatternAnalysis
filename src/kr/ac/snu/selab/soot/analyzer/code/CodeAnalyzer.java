@@ -155,11 +155,9 @@ public class CodeAnalyzer extends AbstractAnalyzer {
 			SootMethod invokeMethod = jInvokeStatement.getInvokeExpr()
 					.getMethod();
 			writer.print("<InvokeExpr>");
-			writer.print(jInvokeStatement.getInvokeExpr().toString().replaceAll("<|>", "|"));
+			writer.print(MyUtil.removeBracket(jInvokeStatement.getInvokeExpr()
+					.toString()));
 			writer.print("</InvokeExpr>");
-			writer.print("<InvokedMethod>");
-			writeMethod(invokeMethod, writer);
-			writer.print("</InvokedMethod>");
 		}
 		if (aUnit instanceof JIdentityStmt) {
 			JIdentityStmt jIdentityStatement = (JIdentityStmt) aUnit;
@@ -182,15 +180,15 @@ public class CodeAnalyzer extends AbstractAnalyzer {
 			writer.print("<RightOp>");
 			writer.print(MyUtil.removeBracket(rightOp.toString()));
 			writer.print("</RightOp>");
+			writer.print("<RightOpType>");
+			writer.print(MyUtil.removeBracket(rightOp.getType().toString()));
+			writer.print("</RightOpType>");
 
 			if (jAssignStatement.containsInvokeExpr()) {
 				writer.print("<InvokeExpr>");
-				writer.print(jAssignStatement.getInvokeExpr().toString().replaceAll("<|>", "|"));
+				writer.print(MyUtil.removeBracket(jAssignStatement.getInvokeExpr().toString()
+						));
 				writer.print("</InvokeExpr>");
-				writer.print("<InvokedMethod>");
-				writeMethod(jAssignStatement.getInvokeExpr().getMethod(),
-						writer);
-				writer.print("</InvokedMethod>");
 			}
 		}
 		writer.print("</Unit>");
@@ -216,7 +214,10 @@ public class CodeAnalyzer extends AbstractAnalyzer {
 			writer.print("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
 			writer.print("<ClassList>");
 			for (SootClass aClass : classList) {
-				writeClass(aClass, writer);
+				if (aClass.getName().equals(
+						"org.jhotdraw.standard.SingleFigureEnumerator")) {
+					writeClass(aClass, writer);
+				}
 			}
 			writer.print("</ClassList>");
 			writer.close();

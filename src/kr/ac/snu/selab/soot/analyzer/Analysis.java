@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
 import kr.ac.snu.selab.soot.graph.Graph;
@@ -19,13 +18,14 @@ import soot.SootField;
 import soot.SootMethod;
 import soot.Type;
 import soot.Unit;
+import soot.Value;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
 public class Analysis {
 	protected List<SootClass> classList;
 	protected CallGraph callGraph;
-	private HashMap<String, SootClass> classMap;
+	protected HashMap<String, SootClass> classMap;
 	private HashMap<String, SootMethod> methodMap;
 	private HashMap<String, SootField> fieldMap;
 	private Hierarchy hierarchy;
@@ -37,7 +37,19 @@ public class Analysis {
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
 		fieldMap = new HashMap<String, SootField>();
-		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>(); // This is a map that has keys of (class, subsignature of method) pair.
+		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>(); // This
+																						// is
+																						// a
+																						// map
+																						// that
+																						// has
+																						// keys
+																						// of
+																						// (class,
+																						// subsignature
+																						// of
+																						// method)
+																						// pair.
 
 		classList = aClassList;
 		for (SootClass aClass : classList) {
@@ -51,7 +63,7 @@ public class Analysis {
 				key.put(aClass, aMethod.getSubSignature());
 				methodMapBySubSignature.put(key, aMethod);
 			}
-		}		
+		}
 		callGraph = aGraph;
 		hierarchy = aHierarchy;
 	}
@@ -81,7 +93,7 @@ public class Analysis {
 
 	}
 
-	private List<Unit> getUnits(SootMethod aMethod) {
+	protected List<Unit> getUnits(SootMethod aMethod) {
 		List<Unit> unitList = new ArrayList<Unit>();
 		if (aMethod.hasActiveBody()) {
 			Body body = aMethod.getActiveBody();
@@ -107,7 +119,7 @@ public class Analysis {
 		}
 		return result;
 	}
-	
+
 	private List<SootClass> getSubTypeClassOf(SootClass aType) {
 		if (aType.isInterface()) {
 			return hierarchy.getImplementersOf(aType);
@@ -115,7 +127,7 @@ public class Analysis {
 			return hierarchy.getSubclassesOf(aType);
 		}
 	}
-	
+
 	public List<SootMethod> getOverrideMethodsOf(SootMethod aMethod) {
 		List<SootMethod> result = new ArrayList<SootMethod>();
 		SootClass receiverType = aMethod.getDeclaringClass();
@@ -292,46 +304,63 @@ public class Analysis {
 		return fieldStringList;
 	}
 
-	public String getWrittenFieldStringByThisStatement(Unit aUnit) {
+	public String getWrittenFieldStringByThisStatement(Unit aUnit,
+			SootClass aType) {
 		String result = null;
 		if (aUnit instanceof JAssignStmt) {
 			JAssignStmt assignStmt = (JAssignStmt) aUnit;
-			String leftSideString = assignStmt.getLeftOp().toString();
-			if (leftSideString.startsWith("this.")) {
-				leftSideString = leftSideString.substring(5);
-			}
-			// Only field variable
-			if (leftSideString.startsWith("<")) {
-				result = leftSideString;
+			Value rightOp = assignStmt.getRightOp();
+			SootClass rightOpType = null;
+			String rightOpTypeKey = rightOp.getType().toString();
+			if (!(rightOpTypeKey.startsWith("null"))) {
+				if (classMap.containsKey(rightOpTypeKey)) {
+					rightOpType = classMap.get(rightOpTypeKey);
+
+					if ((rightOpType != null)
+							&& isClassOfSubType(rightOpType, aType)) {
+						String leftSideString = assignStmt.getLeftOp()
+								.toString();
+						if (leftSideString.startsWith("this.")) {
+							leftSideString = leftSideString.substring(5);
+						}
+						// Only field variable
+						if (leftSideString.startsWith("<")) {
+							result = leftSideString;
+						}
+					}
+				}
 			}
 		}
 		return result;
 	}
 
-	public List<String> getWrittenFieldStringListByThisMethod(SootMethod aMethod) {
+	public List<String> getWrittenFieldStringListByThisMethod(
+			SootMethod aMethod, SootClass aType) {
 		List<String> fieldStringList = new ArrayList<String>();
 		for (Unit aUnit : getUnits(aMethod)) {
-			String fieldString = getWrittenFieldStringByThisStatement(aUnit);
+			String fieldString = getWrittenFieldStringByThisStatement(aUnit,
+					aType);
 			if (fieldString != null) {
 				fieldStringList.add(fieldString);
 			}
 		}
 		return fieldStringList;
 	}
-	
-	public boolean isInjectorMethodOfField(SootMethod aMethod, SootField aField) {
-		boolean result = false;
-		Set<String> writtenFieldStringSet = new HashSet<String>();
-		writtenFieldStringSet.addAll(getWrittenFieldStringListByThisMethod(aMethod));
-		
-		for (String fieldString : writtenFieldStringSet) {
-			if (aField.toString().equals(fieldString)) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
+
+	// public boolean isInjectorMethodOfField(SootMethod aMethod, SootField
+	// aField) {
+	// boolean result = false;
+	// Set<String> writtenFieldStringSet = new HashSet<String>();
+	// writtenFieldStringSet.addAll(getWrittenFieldStringListByThisMethod(aMethod));
+	//
+	// for (String fieldString : writtenFieldStringSet) {
+	// if (aField.toString().equals(fieldString)) {
+	// result = true;
+	// break;
+	// }
+	// }
+	// return result;
+	// }
 
 	private String getReturnTypeString(SootMethod aMethod) {
 		Type returnType = aMethod.getReturnType();
@@ -498,7 +527,8 @@ public class Analysis {
 			}
 		}
 
-		List<String> writtenFieldStringList = getWrittenFieldStringListByThisMethod(aMethod);
+		List<String> writtenFieldStringList = getWrittenFieldStringListByThisMethod(
+				aMethod, aType);
 		for (String writtenFieldString : writtenFieldStringList) {
 			if (nodeMap.containsKey(writtenFieldString)) {
 				nodeMap.get(writtenFieldString).setIsStore(true);
