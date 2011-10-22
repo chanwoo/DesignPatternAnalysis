@@ -33,13 +33,10 @@ public class MyMethod extends MyNode {
 		return (SootMethod) element;
 	}
 
-<<<<<<< HEAD
 	public List<Unit> getCallStatementList() {
 		return callStatementList;
 	}
 
-=======
->>>>>>> 7b9c6c5ee9c64d854ed8f01026433ea53edb9278
 	public boolean isCaller() {
 		return isCaller;
 	}
