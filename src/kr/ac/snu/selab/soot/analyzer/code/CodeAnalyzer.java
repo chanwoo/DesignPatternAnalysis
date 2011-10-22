@@ -154,6 +154,9 @@ public class CodeAnalyzer extends AbstractAnalyzer {
 			JInvokeStmt jInvokeStatement = (JInvokeStmt) aUnit;
 			SootMethod invokeMethod = jInvokeStatement.getInvokeExpr()
 					.getMethod();
+			writer.print("<InvokeExpr>");
+			writer.print(jInvokeStatement.getInvokeExpr().toString().replaceAll("<|>", "|"));
+			writer.print("</InvokeExpr>");
 			writer.print("<InvokedMethod>");
 			writeMethod(invokeMethod, writer);
 			writer.print("</InvokedMethod>");
@@ -181,6 +184,9 @@ public class CodeAnalyzer extends AbstractAnalyzer {
 			writer.print("</RightOp>");
 
 			if (jAssignStatement.containsInvokeExpr()) {
+				writer.print("<InvokeExpr>");
+				writer.print(jAssignStatement.getInvokeExpr().toString().replaceAll("<|>", "|"));
+				writer.print("</InvokeExpr>");
 				writer.print("<InvokedMethod>");
 				writeMethod(jAssignStatement.getInvokeExpr().getMethod(),
 						writer);

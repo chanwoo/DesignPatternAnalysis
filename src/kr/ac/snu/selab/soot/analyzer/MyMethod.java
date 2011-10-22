@@ -18,6 +18,7 @@ public class MyMethod extends MyNode {
 
 	private boolean isCaller;
 	private boolean isCreator;
+	private boolean isInjector;
 	private List<Unit> callStatementList;
 	private List<Unit> createStatementList;
 
@@ -25,6 +26,7 @@ public class MyMethod extends MyNode {
 		super(aMethod);
 		isCaller = false;
 		isCreator = false;
+		isInjector = false;
 		callStatementList = new ArrayList<Unit>();
 		createStatementList = new ArrayList<Unit>();
 	}
@@ -59,6 +61,14 @@ public class MyMethod extends MyNode {
 
 	public void setIsStore(boolean value) {
 
+	}
+	
+	public boolean isInjector() {
+		return isInjector;
+	}
+	
+	public void setIsInjector(boolean value) {
+		isInjector = value;
 	}
 
 	public void addCallStatement(Unit aUnit) {

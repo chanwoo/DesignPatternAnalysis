@@ -27,6 +27,10 @@ public class MyField extends MyNode {
 	public boolean isCaller() {
 		return false;
 	}
+	
+	public boolean isInjector() {
+		return false;
+	}
 
 	public boolean isStore() {
 		return isStore;
@@ -42,6 +46,10 @@ public class MyField extends MyNode {
 
 	public void setIsCaller(boolean value) {
 
+	}
+	
+	public void setIsInjector(boolean value) {
+		
 	}
 
 	@Override

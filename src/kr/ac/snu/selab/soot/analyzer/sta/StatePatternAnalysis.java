@@ -205,7 +205,7 @@ public class StatePatternAnalysis extends Analysis {
 					GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
 							aStartNode, callGraph, injectorSet);
 					List<Path<MyNode>> pathList = pathCollector.run();
-
+					
 					pathSet.addAll(pathList);
 				}
 			}
@@ -253,10 +253,12 @@ public class StatePatternAnalysis extends Analysis {
 
 	}
 
-	private class TriggeringPathCollector extends HitPathCollector<MyNode> {
+	private class TriggeringPathCollector extends kr.ac.snu.selab.soot.graph.collectors.TriggeringPathCollector<MyNode> {
 		public TriggeringPathCollector(MyNode aStartNode, Graph<MyNode> aGraph,
 				Set<MyNode> aDestinationSet) {
 			super(aStartNode, aGraph, aDestinationSet);
 		}
+		
+		
 	}
 }

@@ -49,10 +49,10 @@ public abstract class GraphPathCollector<N extends Node> {
 		return paths;
 	}
 
-	private static final int DONE = 0;
-	private static final int CYCLE = 1;
+	protected static final int DONE = 0;
+	protected static final int CYCLE = 1;
 
-	private int findPaths(N aNode, Graph<N> graph, ArrayList<Path<N>> output,
+	protected int findPaths(N aNode, Graph<N> graph, ArrayList<Path<N>> output,
 			final int pathThreshold) {
 		if (aNode == null)
 			return DONE;

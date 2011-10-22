@@ -67,8 +67,8 @@ public class CallGraph extends Graph<MyNode> {
 									invokedMethod.toString(), nodeMap);
 							// If there is a call to abstract type class, its
 							// subclass' methods should be added to a call
-							// graph.
-							if (!invokedMethod.getName().equals("<init>")) {
+							// graph except it is a call of super class.
+							if (!jInvokeStatement.getInvokeExpr().toString().startsWith("specialinvoke")) {
 								List<SootMethod> overrideMethodList = getOverrideMethodsOf(
 										invokedMethod, aHierarchy,
 										methodMapBySubSignature);
@@ -93,8 +93,8 @@ public class CallGraph extends Graph<MyNode> {
 								// If there is a call to abstract type class,
 								// its
 								// subclass' methods should be added to a call
-								// graph.
-								if (!invokedMethod.getName().equals("<init>")) {
+								// graph except it is a call of super class.
+								if (!jAssignStatement.getInvokeExpr().toString().startsWith("specialinvoke")) {
 									List<SootMethod> overrideMethodList = getOverrideMethodsOf(
 											invokedMethod, aHierarchy,
 											methodMapBySubSignature);

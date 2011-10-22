@@ -28,12 +28,16 @@ public abstract class MyNode extends Node {
 	public abstract boolean isCaller();
 
 	public abstract boolean isStore();
+	
+	public abstract boolean isInjector();
 
 	public abstract void setIsCreator(boolean value);
 
 	public abstract void setIsCaller(boolean value);
 
 	public abstract void setIsStore(boolean value);
+	
+	public abstract void setIsInjector(boolean value);
 
 	public void writeXML(XMLWriter writer) {
 	}
