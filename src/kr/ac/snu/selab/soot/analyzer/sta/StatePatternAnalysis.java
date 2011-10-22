@@ -31,7 +31,7 @@ import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
 public class StatePatternAnalysis extends Analysis {
-
+	
 	private static Logger logger = Logger.getLogger(StatePatternAnalysis.class);
 
 	public StatePatternAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
@@ -148,7 +148,7 @@ public class StatePatternAnalysis extends Analysis {
 						injectorCandidateMethod = (SootMethod) ((MyMethod) aNode)
 								.getElement();
 					}
-					if (injectorCandidateMethod != null) {
+					if ((injectorCandidateMethod != null) && (!injectorCandidateMethod.getName().equals("<init>"))) {
 						if (isInjectorMethodOfField(injectorCandidateMethod,
 								(SootField) (storeNearestFromCaller
 										.getElement()))) {
