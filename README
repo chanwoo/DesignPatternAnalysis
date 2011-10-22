@@ -6,5 +6,5 @@ usage: java class kr.ac.snu.selab.soot.Main [OPTIONS] project
                              ct: Call graph text creater
                              cx: Call graph xml creater
                              pfc: Path from caller
-                             s: State pattern recovery
+                             sta: State pattern recovery
  -pf,--pfile <arg>           Project file

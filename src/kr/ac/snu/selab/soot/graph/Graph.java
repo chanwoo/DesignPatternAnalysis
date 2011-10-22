@@ -6,8 +6,8 @@ import java.util.HashSet;
 import kr.ac.snu.selab.soot.util.MyUtil;
 
 public class Graph<N extends Node> {
-	public HashMap<String, HashSet<N>> sourceMap;
-	public HashMap<String, HashSet<N>> targetMap;
+	protected HashMap<String, HashSet<N>> sourceMap;
+	protected HashMap<String, HashSet<N>> targetMap;
 
 	public Graph() {
 		sourceMap = new HashMap<String, HashSet<N>>();
@@ -30,6 +30,14 @@ public class Graph<N extends Node> {
 			result = targetMap.get(key);
 		}
 		return result;
+	}
+
+	public HashMap<String, HashSet<N>> getSourceMap() {
+		return sourceMap;
+	}
+
+	public HashMap<String, HashSet<N>> getTargetMap() {
+		return targetMap;
 	}
 
 	public String toXML() {

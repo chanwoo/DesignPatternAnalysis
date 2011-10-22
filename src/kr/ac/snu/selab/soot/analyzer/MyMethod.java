@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import kr.ac.snu.selab.soot.graph.MyNode;
-import kr.ac.snu.selab.soot.util.MyUtil;
 import kr.ac.snu.selab.soot.util.XMLWriter;
+
+import org.apache.log4j.Logger;
 
 import soot.SootMethod;
 import soot.Unit;
@@ -17,14 +16,10 @@ public class MyMethod extends MyNode {
 
 	private static Logger log = Logger.getLogger(MyMethod.class);
 
-	boolean isCaller;
-	boolean isCreator;
-	List<Unit> callStatementList;
-	List<Unit> createStatementList;
-	
-	public List<Unit> getCallStatementList () {
-		return callStatementList;
-	}
+	private boolean isCaller;
+	private boolean isCreator;
+	private List<Unit> callStatementList;
+	private List<Unit> createStatementList;
 
 	public MyMethod(SootMethod aMethod) {
 		super(aMethod);
@@ -38,18 +33,8 @@ public class MyMethod extends MyNode {
 		return (SootMethod) element;
 	}
 
-	@Override
-	public String toXML() {
-		String result = "";
-		result = result + "<Method>";
-		result = result + "<ToString>";
-		result = result + MyUtil.removeBracket(toString());
-		result = result + "</ToString>";
-		result = result + "<RoleList>";
-		result = result + role();
-		result = result + "</RoleList>";
-		result = result + "</Method>";
-		return result;
+	public List<Unit> getCallStatementList() {
+		return callStatementList;
 	}
 
 	public boolean isCaller() {
@@ -82,33 +67,6 @@ public class MyMethod extends MyNode {
 
 	public void addCreateStatement(Unit aUnit) {
 		createStatementList.add(aUnit);
-	}
-
-	public String role() {
-		String result = "";
-		if (isCaller()) {
-			result = result + "<Role>Caller</Role>";
-			result = result + "<CallStatementList>";
-			for (Unit callStatement : callStatementList) {
-				result = result + "<CallStatement>";
-				result = result
-						+ MyUtil.removeBracket(callStatement.toString());
-				result = result + "</CallStatement>";
-			}
-			result = result + "</CallStatementList>";
-		}
-		if (isCreator()) {
-			result = result + "<Role>Creator</Role>";
-			result = result + "<CreateStatementList>";
-			for (Unit createStatement : createStatementList) {
-				result = result + "<CreateStatement>";
-				result = result
-						+ MyUtil.removeBracket(createStatement.toString());
-				result = result + "</CreateStatement>";
-			}
-			result = result + "</CreateStatementList>";
-		}
-		return result;
 	}
 
 	@Override

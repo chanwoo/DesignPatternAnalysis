@@ -30,8 +30,7 @@ public class CallGraph extends Graph<MyNode> {
 
 	public CallGraph(List<SootClass> aClassList,
 			HashMap<String, SootMethod> methodMap, Hierarchy aHierarchy) {
-		targetMap = new HashMap<String, HashSet<MyNode>>();
-		sourceMap = new HashMap<String, HashSet<MyNode>>();
+		super();
 
 		Map<String, MyNode> nodeMap = new HashMap<String, MyNode>();
 		for (Entry<String, SootMethod> anEntry : methodMap.entrySet()) {

@@ -49,7 +49,7 @@ public class ProjectManager {
 		map.clear();
 		abvMap.clear();
 		if (is == null) {
-			throw new ProjectFileParseException();
+			throw new ProjectFileParseException("Unable to read project file: unknown error!!");
 		}
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory

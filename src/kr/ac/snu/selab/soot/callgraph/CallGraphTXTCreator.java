@@ -9,28 +9,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.Body;
-import soot.BodyTransformer;
 import soot.Hierarchy;
-import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.Unit;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
-public class CallGraphTXTCreator extends BodyTransformer {
+public class CallGraphTXTCreator extends AbstractAnalyzer {
 
-	private static boolean touch = false;
 	private String callGraphPath;
 	public static final String CALL_GRAPH_TXT_FILE_NAME = "callgraph.txt";
 
 	public CallGraphTXTCreator(AbstractProject project) {
-		String fileName2 = CALL_GRAPH_TXT_FILE_NAME;
-		this.callGraphPath = MyUtil.getPath(project.getOutputDirectory(),
-				fileName2);
+		super(project);
 	}
 
 	private List<Unit> getUnits(SootMethod aMethod) {
@@ -71,16 +67,14 @@ public class CallGraphTXTCreator extends BodyTransformer {
 		return result;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	protected void internalTransform(Body arg0, String arg1, Map arg2) {
-		if (touch) {
-			return;
-		}
-		touch = true;
-		List<SootClass> classList = new ArrayList<SootClass>();
-		classList.addAll(Scene.v().getApplicationClasses());
-		Hierarchy hierarchy = Scene.v().getActiveHierarchy();
+	protected void preAnalysis() {
+		String fileName2 = CALL_GRAPH_TXT_FILE_NAME;
+		callGraphPath = MyUtil.getPath(project.getOutputDirectory(), fileName2);
+	}
+
+	@Override
+	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
 		// This is a map that has keys of (class, subsignature of method) pair.
 		Map<Map<SootClass, String>, SootMethod> methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>();
 
@@ -115,9 +109,8 @@ public class CallGraphTXTCreator extends BodyTransformer {
 								writer.println(invokedMethod.toString());
 
 								// If there is a call to abstract type class,
-								// its
-								// subclass' methods should be added to a call
-								// graph.
+								// its subclass' methods should be added to a
+								// call graph.
 								if (!invokedMethod.getName().equals("<init>")) {
 									List<SootMethod> overrideMethodList = getOverrideMethodsOf(
 											invokedMethod, hierarchy,
@@ -144,11 +137,8 @@ public class CallGraphTXTCreator extends BodyTransformer {
 									writer.println(invokedMethod.toString());
 
 									// If there is a call to abstract type
-									// class,
-									// its
-									// subclass' methods should be added to a
-									// call
-									// graph.
+									// class, its subclass' methods should be
+									// added to a call graph.
 									if (!invokedMethod.getName().equals(
 											"<init>")) {
 										List<SootMethod> overrideMethodList = getOverrideMethodsOf(

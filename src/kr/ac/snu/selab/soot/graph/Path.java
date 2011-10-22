@@ -1,7 +1,9 @@
 package kr.ac.snu.selab.soot.graph;
 
+import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
@@ -11,7 +13,7 @@ public class Path<N extends Node> {
 
 	private static Logger log = Logger.getLogger(Path.class);
 
-	public ArrayList<N> nodeList;
+	private ArrayList<N> nodeList;
 
 	public Path() {
 		nodeList = new ArrayList<N>();
@@ -43,17 +45,20 @@ public class Path<N extends Node> {
 		return nodeList.isEmpty();
 	}
 
-	public String toXML() {
-		String result = "<Path>";
-		for (N aNode : nodeList) {
-			result = result + aNode.toXML();
-		}
-		result = result + "</Path>";
-		return result;
+	public List<N> getNodeList() {
+		return nodeList;
 	}
 
 	public int length() {
 		return nodeList.size();
+	}
+
+	public String toXML() {
+		CharArrayWriter writer = new CharArrayWriter();
+		XMLWriter w = new XMLWriter(writer);
+		writeXML(w);
+		w.close();
+		return writer.toString();
 	}
 
 	public void writeXML(XMLWriter writer) {
