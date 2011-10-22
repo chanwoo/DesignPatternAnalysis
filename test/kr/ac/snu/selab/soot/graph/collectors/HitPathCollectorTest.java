@@ -1,11 +1,11 @@
-package kr.ac.snu.selab.soot.core.graph;
+package kr.ac.snu.selab.soot.graph.collectors;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.graph.HitPathCollector;
+import kr.ac.snu.selab.soot.graph.AbstractGraphTest;
 import kr.ac.snu.selab.soot.graph.Path;
 
 import org.junit.Before;
@@ -113,6 +113,6 @@ public class HitPathCollectorTest extends AbstractGraphTest {
 		for (StringNode target : targets) {
 			nodes.add(target);
 		}
-		graph.targetMap.put(src.key(), nodes);
+		graph.getTargetMap().put(src.key(), nodes);
 	}
 }
