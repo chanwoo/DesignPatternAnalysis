@@ -1,4 +1,4 @@
-package kr.ac.snu.selab.soot.analyzer.code;
+package kr.ac.snu.selab.soot.analyzer;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,15 +6,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.util.MyUtil;
-
-import org.apache.log4j.Logger;
-
 import soot.Body;
-import soot.Hierarchy;
+import soot.BodyTransformer;
+import soot.Scene;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
@@ -26,13 +24,15 @@ import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JIdentityStmt;
 import soot.jimple.internal.JInvokeStmt;
 
-public class CodeAnalyzer extends AbstractAnalyzer {
-	private static Logger log = Logger.getLogger(CodeAnalyzer.class);
+public class CodeAnalyzer extends BodyTransformer {
 
+	private static boolean touch = false;
 	private String codeAnalysisOutputPath;
 
 	public CodeAnalyzer(AbstractProject project) {
-		super(project);
+		this.codeAnalysisOutputPath = MyUtil.getPath(
+				project.getOutputDirectory(), project.getProjectName()
+						+ "_code.xml");
 	}
 
 	private List<Unit> getUnits(SootMethod aMethod) {
@@ -190,15 +190,16 @@ public class CodeAnalyzer extends AbstractAnalyzer {
 		writer.print("</Unit>");
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	protected void preAnalysis() {
-		this.codeAnalysisOutputPath = MyUtil.getPath(
-				project.getOutputDirectory(), project.getProjectName()
-						+ "_code.xml");
-	}
+	protected void internalTransform(Body arg0, String arg1, Map arg2) {
+		if (touch)
+			return;
 
-	@Override
-	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
+		touch = true;
+		List<SootClass> classList = new ArrayList<SootClass>();
+		classList.addAll(Scene.v().getApplicationClasses());
+
 		try {
 			File outputFile = new File(codeAnalysisOutputPath);
 			File dir = outputFile.getParentFile();
@@ -215,8 +216,7 @@ public class CodeAnalyzer extends AbstractAnalyzer {
 			writer.print("</ClassList>");
 			writer.close();
 		} catch (IOException ex) {
-			log.error(ex.getMessage(), ex);
+			ex.printStackTrace();
 		}
-
 	}
 }

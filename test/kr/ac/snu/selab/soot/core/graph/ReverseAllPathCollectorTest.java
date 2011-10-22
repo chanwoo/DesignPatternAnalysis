@@ -1,12 +1,12 @@
-package kr.ac.snu.selab.soot.graph.collectors;
+package kr.ac.snu.selab.soot.core.graph;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.graph.AbstractGraphTest;
 import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.graph.ReverseAllPathCollector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class ReverseAllPathCollectorTest extends AbstractGraphTest {
 	@Test
 	public void test1() {
 		ReverseAllPathCollector<StringNode> collector = new ReverseAllPathCollector<StringNode>(
-				new StringNode("f"), graph);
+				new StringNode("f"), graph, null);
 		ArrayList<Path<StringNode>> paths = collector.run();
 		assertEquals(1, paths.size());
 		assertEquals("f;g;", pathString(paths.get(0)));
@@ -30,7 +30,7 @@ public class ReverseAllPathCollectorTest extends AbstractGraphTest {
 	@Test
 	public void test2() {
 		ReverseAllPathCollector<StringNode> collector = new ReverseAllPathCollector<StringNode>(
-				new StringNode("b"), graph);
+				new StringNode("b"), graph, null);
 		ArrayList<Path<StringNode>> paths = collector.run();
 		assertEquals(2, paths.size());
 
@@ -42,7 +42,7 @@ public class ReverseAllPathCollectorTest extends AbstractGraphTest {
 	@Test
 	public void test3() {
 		ReverseAllPathCollector<StringNode> collector = new ReverseAllPathCollector<StringNode>(
-				new StringNode("h"), graph);
+				new StringNode("h"), graph, null);
 		ArrayList<Path<StringNode>> paths = collector.run();
 		assertEquals(1, paths.size());
 
@@ -90,6 +90,6 @@ public class ReverseAllPathCollectorTest extends AbstractGraphTest {
 		for (StringNode target : targets) {
 			nodes.add(target);
 		}
-		graph.getTargetMap().put(src.key(), nodes);
+		graph.targetMap.put(src.key(), nodes);
 	}
 }

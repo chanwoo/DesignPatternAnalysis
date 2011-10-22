@@ -1,12 +1,12 @@
-package kr.ac.snu.selab.soot.graph.collectors;
+package kr.ac.snu.selab.soot.core.graph;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.graph.AbstractGraphTest;
 import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.graph.STPathCollector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,6 +68,6 @@ public class STPathCollectorTest extends AbstractGraphTest {
 		for (StringNode source : sources) {
 			nodes.add(source);
 		}
-		graph.getSourceMap().put(target.key(), nodes);
+		graph.sourceMap.put(target.key(), nodes);
 	}
 }

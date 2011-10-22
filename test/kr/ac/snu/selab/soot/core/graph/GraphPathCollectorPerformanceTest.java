@@ -1,31 +1,22 @@
-package kr.ac.snu.selab.soot.graph;
+package kr.ac.snu.selab.soot.core.graph;
 
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.graph.collectors.AllPathCollector;
+import kr.ac.snu.selab.soot.graph.AllPathCollector;
+import kr.ac.snu.selab.soot.graph.Graph;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.junit.Before;
+import org.junit.Test;
 
 public class GraphPathCollectorPerformanceTest extends AbstractGraphTest {
-
-	public static void main(String[] args) {
-		GraphPathCollectorPerformanceTest t = new GraphPathCollectorPerformanceTest();
-		t.setUp();
-		t.testWeakCollector();
-
-		t.setUp();
-		t.testToughCollector();
-	}
 
 	private StringNode nodeR = new StringNode("R");
 	private StringNode nodeF = new StringNode("F");
 
 	private static final int COUNT = 15;
 
+	@Before
 	public void setUp() {
-		Logger.getLogger("kr.ac.snu.selab").setLevel(Level.OFF);
-
 		System.gc();
 		try {
 			Thread.sleep(1000L);
@@ -34,12 +25,13 @@ public class GraphPathCollectorPerformanceTest extends AbstractGraphTest {
 		printResult("Setup Start", 0L, 0L);
 
 		long tick1 = System.currentTimeMillis();
-		graph = new StringGraph();
-		initializeGraph();
+		super.setUp();
 		long tick2 = System.currentTimeMillis();
+
 		printResult("Setup Finished", tick1, tick2);
 	}
 
+	@Test
 	public void testWeakCollector() {
 		printResult("Weak Start", 0L, 0L);
 
@@ -52,6 +44,7 @@ public class GraphPathCollectorPerformanceTest extends AbstractGraphTest {
 		printResult("Weak Finished", tick1, tick2);
 	}
 
+	@Test
 	public void testToughCollector() {
 		printResult("Tough Start", 0L, 0L);
 
@@ -79,6 +72,7 @@ public class GraphPathCollectorPerformanceTest extends AbstractGraphTest {
 				freeRate, heapFreeSize, heapSize, heapMaxSize);
 	}
 
+	@Override
 	protected void initializeGraph() {
 
 		int key = 0;

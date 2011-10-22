@@ -1,10 +1,12 @@
-package kr.ac.snu.selab.soot.graph;
+package kr.ac.snu.selab.soot.core.graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
+import kr.ac.snu.selab.soot.graph.Graph;
+import kr.ac.snu.selab.soot.graph.Node;
+import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
 import org.apache.log4j.Level;
@@ -23,8 +25,8 @@ public abstract class AbstractGraphTest {
 		Collections.sort(paths, new Comparator<Path<StringNode>>() {
 			@Override
 			public int compare(Path<StringNode> path1, Path<StringNode> path2) {
-				List<StringNode> list1 = path1.getNodeList();
-				List<StringNode> list2 = path2.getNodeList();
+				ArrayList<StringNode> list1 = path1.nodeList;
+				ArrayList<StringNode> list2 = path2.nodeList;
 				int length1 = path1.length();
 				int length2 = path1.length();
 				int min = Math.min(length1, length2);
@@ -49,7 +51,7 @@ public abstract class AbstractGraphTest {
 
 	protected static String pathString(Path<StringNode> path) {
 		StringBuffer buffer = new StringBuffer();
-		for (StringNode node : path.getNodeList()) {
+		for (StringNode node : path.nodeList) {
 			buffer.append(node.getElement());
 			buffer.append(";");
 		}
@@ -62,17 +64,17 @@ public abstract class AbstractGraphTest {
 	}
 
 	protected static class StringNode extends Node {
-		public StringNode(String text) {
+		StringNode(String text) {
 			super(text);
 		}
 
 		@Override
-		public void writeXML(XMLWriter writer) {
+		public String toXML() {
+			return (String) element;
 		}
 
 		@Override
-		public String toXML() {
-			return "";
+		public void writeXML(XMLWriter writer) {
 		}
 	}
 }
