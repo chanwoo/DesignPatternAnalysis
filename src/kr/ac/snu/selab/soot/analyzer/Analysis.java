@@ -312,12 +312,12 @@ public class Analysis {
 			Value rightOp = assignStmt.getRightOp();
 			SootClass rightOpType = null;
 			String rightOpTypeKey = rightOp.getType().toString();
-			if (!(rightOpTypeKey.startsWith("null"))) {
+//			if (!(rightOpTypeKey.startsWith("null"))) {
 				if (classMap.containsKey(rightOpTypeKey)) {
 					rightOpType = classMap.get(rightOpTypeKey);
 
-					if ((rightOpType != null)
-							&& isClassOfSubType(rightOpType, aType)) {
+//					if ((rightOpType != null)
+//							&& isClassOfSubType(rightOpType, aType)) {
 						String leftSideString = assignStmt.getLeftOp()
 								.toString();
 						if (leftSideString.startsWith("this.")) {
@@ -327,9 +327,9 @@ public class Analysis {
 						if (leftSideString.startsWith("<")) {
 							result = leftSideString;
 						}
-					}
+//					}
 				}
-			}
+//			}
 		}
 		return result;
 	}

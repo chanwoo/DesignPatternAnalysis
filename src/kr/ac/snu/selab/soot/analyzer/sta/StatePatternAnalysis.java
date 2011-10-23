@@ -49,9 +49,9 @@ public class StatePatternAnalysis extends Analysis {
 	// return false;
 	// }
 	// }
-	
-	public Map<String, String> getWrittenFieldInformationOfThisStatement(Unit aUnit,
-			SootClass aType) {
+
+	public Map<String, String> getWrittenFieldInformationOfThisStatement(
+			Unit aUnit, SootClass aType) {
 		Map<String, String> result = new HashMap<String, String>();
 		if (aUnit instanceof JAssignStmt) {
 			JAssignStmt assignStmt = (JAssignStmt) aUnit;
@@ -84,25 +84,28 @@ public class StatePatternAnalysis extends Analysis {
 			SootMethod aMethod, SootClass aType) {
 		List<String> fieldStringList = new ArrayList<String>();
 		Map<String, String> assignmentMap = new HashMap<String, String>();
-		
+
 		for (Unit aUnit : getUnits(aMethod)) {
 			if (aUnit instanceof JAssignStmt) {
 				assignmentMap.put(((JAssignStmt) aUnit).getLeftOp().toString(),
 						((JAssignStmt) aUnit).getRightOp().toString());
 			}
 		}
-		
+
 		for (Unit aUnit : getUnits(aMethod)) {
-			Map<String, String> writtenFieldStringInformation = getWrittenFieldInformationOfThisStatement(aUnit,
-					aType);
+			Map<String, String> writtenFieldStringInformation = getWrittenFieldInformationOfThisStatement(
+					aUnit, aType);
 			if (!writtenFieldStringInformation.isEmpty()) {
-				String writtenValue = writtenFieldStringInformation.values().iterator().next();
+				String writtenValue = writtenFieldStringInformation.values()
+						.iterator().next();
 				if (assignmentMap.containsKey(writtenValue)) {
 					if (!assignmentMap.get(writtenValue).equals("null")) {
-						fieldStringList.add(writtenFieldStringInformation.keySet().iterator().next());
+						fieldStringList.add(writtenFieldStringInformation
+								.keySet().iterator().next());
 					}
 				} else if (writtenValue != "null") {
-					fieldStringList.add(writtenFieldStringInformation.keySet().iterator().next());
+					fieldStringList.add(writtenFieldStringInformation.keySet()
+							.iterator().next());
 				}
 			}
 		}
@@ -167,15 +170,45 @@ public class StatePatternAnalysis extends Analysis {
 			}
 
 			if (!pathIncludeStoreList.isEmpty()) {
-				if (pathIncludeStoreList.size() > 3) {
+				if (pathIncludeStoreList.size() > 10) {
 					anAnalysisResult.putReferenceFlowPath(callerNode.key(),
-							pathIncludeStoreList.subList(0, 2));
+							pathIncludeStoreList.subList(0, 9));
 				} else {
 					anAnalysisResult.putReferenceFlowPath(callerNode.key(),
 							pathIncludeStoreList);
 				}
 			}
 		}
+
+		// Identify Layers
+		for (MyNode callerNode : anAnalysisResult.getCallers()) {
+			String callerKey = callerNode.toString();
+			if (!anAnalysisResult.containsReferenceFlowPath(callerKey))
+				continue;
+
+			Iterable<Path<MyNode>> referenceFlowPathList = anAnalysisResult
+					.getReferenceFlowPaths(callerKey);
+			for (Path<MyNode> aPath : referenceFlowPathList) {
+				Set<MyNode> tempSet = new HashSet<MyNode>();
+				for (MyNode aNode : aPath.getNodeList()) {
+					if (!aNode.isStore()) {
+						tempSet.add(aNode);
+					} else {
+						if (!tempSet.isEmpty()) {
+							((StatePatternAnalysisResult) anAnalysisResult)
+									.putReusableNodeSet(tempSet);
+							tempSet.clear();
+							((StatePatternAnalysisResult) anAnalysisResult)
+									.putReusableNode(aNode);
+						}
+					}
+				}
+				if (!tempSet.isEmpty()) {
+					((StatePatternAnalysisResult)anAnalysisResult).putExntensionNodeSet(tempSet);
+				}
+			}
+		}
+
 		// Check whether a call chain from caller meets an object flow graph to
 		// the caller
 		for (MyNode callerNode : anAnalysisResult.getCallers()) {
@@ -193,7 +226,7 @@ public class StatePatternAnalysis extends Analysis {
 					if ((isNextNodeInjector == true)
 							&& !(((SootMethod) (aNode.getElement())).getName()
 									.equals("<init>"))) {
-//						aNode.setIsInjector(true);
+						// aNode.setIsInjector(true);
 						injectorSet.add(aNode);
 						break;
 					} else if ((isNextNodeInjector == true)
@@ -255,8 +288,8 @@ public class StatePatternAnalysis extends Analysis {
 					GraphPathCollector<MyNode> pathCollector = new TriggeringPathCollector(
 							aStartNode, callGraph, injectorSet);
 					List<Path<MyNode>> pathList = pathCollector.run();
-					if (pathList.size() > 3) {
-						pathSet.addAll(pathList.subList(0, 2));
+					if (pathList.size() > 10) {
+						pathSet.addAll(pathList.subList(0, 9));
 					} else {
 						pathSet.addAll(pathList);
 					}
