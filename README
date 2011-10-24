@@ -1,5 +1,5 @@
-usage: java class kr.ac.snu.selab.soot.Main [OPTIONS] project
- -a,--analyzer <r|c|ct|cx>   Analyzer
+usage: java kr.ac.snu.selab.soot.Main [OPTIONS] project
+ -a,--analyzer <r|c|ct|cx|pfc|sta>   Analyzer
                              Predefined anlayzers:
                              r: Role analyzer
                              c: Code analyzer
