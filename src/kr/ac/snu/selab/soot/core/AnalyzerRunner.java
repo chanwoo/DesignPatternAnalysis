@@ -2,6 +2,7 @@ package kr.ac.snu.selab.soot.core;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.code.CodeAnalyzer;
+import kr.ac.snu.selab.soot.analyzer.decNcor.DecNCorAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.pfc.PathFromCallerAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.role.RoleAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.sta.StatePatternAnalyzer;
@@ -37,6 +38,9 @@ public class AnalyzerRunner {
 		} else if (analyzerName.equalsIgnoreCase("sta")
 				|| analyzerName.equalsIgnoreCase("State")) {
 			analyzer = new StatePatternAnalyzer(project);
+		} else if (analyzerName.equalsIgnoreCase("decncor")
+				|| analyzerName.equalsIgnoreCase("DecoratorAndCor")) {
+			analyzer = new DecNCorAnalyzer(project);
 		} else {
 			throw new InvalidAnalyzerException("Can not find proper analyzer: "
 					+ analyzerName);

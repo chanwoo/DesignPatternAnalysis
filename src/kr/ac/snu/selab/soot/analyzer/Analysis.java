@@ -28,7 +28,7 @@ public class Analysis {
 	protected HashMap<String, SootClass> classMap;
 	private HashMap<String, SootMethod> methodMap;
 	private HashMap<String, SootField> fieldMap;
-	private Hierarchy hierarchy;
+	protected Hierarchy hierarchy;
 	private Map<Map<SootClass, String>, SootMethod> methodMapBySubSignature;
 
 	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy,
@@ -102,7 +102,7 @@ public class Analysis {
 		return unitList;
 	}
 
-	private boolean isAbstractTypeClass(SootClass aClass) {
+	protected boolean isAbstractTypeClass(SootClass aClass) {
 		boolean result = false;
 		if (aClass.isInterface() || aClass.isAbstract()) {
 			result = true;
@@ -231,6 +231,22 @@ public class Analysis {
 			}
 		} else if (!(aType.isInterface()) && !(aClass.isInterface())) {
 			result = hierarchy.isClassSubclassOfIncluding(aClass, aType);
+		}
+		return result;
+	}
+	
+	public boolean isClassOfSubTypeExcluding(SootClass aClass, SootClass aType) {
+		boolean result = false;
+		if (aType.isInterface() && !(aClass.isInterface())) {
+			List<SootClass> implementerList = hierarchy
+					.getImplementersOf(aType);
+			result = implementerList.contains(aClass);
+		} else if (aType.isInterface() && aClass.isInterface()) {
+			if (hierarchy.isInterfaceSubinterfaceOf(aClass, aType)) {
+				result = true;
+			}
+		} else if (!(aType.isInterface()) && !(aClass.isInterface())) {
+			result = hierarchy.isClassSubclassOf(aClass, aType);
 		}
 		return result;
 	}
