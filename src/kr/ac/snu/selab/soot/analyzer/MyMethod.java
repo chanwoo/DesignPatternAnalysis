@@ -38,6 +38,10 @@ public class MyMethod extends MyNode {
 	public List<Unit> getCallStatementList() {
 		return callStatementList;
 	}
+	
+	public List<Unit> getCreateStatementList() {
+		return callStatementList;
+	}
 
 	public boolean isCaller() {
 		return isCaller;

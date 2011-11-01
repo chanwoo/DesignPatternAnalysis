@@ -114,6 +114,16 @@ public class DecNCorAnalysis extends Analysis {
 			}
 		}
 
+		// List<MyNode> creatorList = new ArrayList<MyNode>();
+		// // for (MyNode aNode : aPath.getNodeList()) {
+		// // if (aNode.isCreator()) {
+		// // creatorList.add(aNode);
+		// // }
+		// // }
+		// for (MyNode aNode : anAnalysisResult.getCreators()) {
+		// creatorList.add(aNode);
+		// }
+
 		// check whether the caller's call is recursive
 		for (MyNode callerNode : anAnalysisResult.getCallers()) {
 			SootMethod callerMethod = (SootMethod) (callerNode.getElement());
@@ -138,6 +148,7 @@ public class DecNCorAnalysis extends Analysis {
 
 					for (Path<MyNode> aPath : anAnalysisResult
 							.getReferenceFlowPaths(callerNode.key())) {
+
 						for (MyNode aNode : aPath.getNodeList()) {
 							if (aNode.isStore()) {
 								SootField storeField = (SootField) (((MyField) aNode)
@@ -147,13 +158,43 @@ public class DecNCorAnalysis extends Analysis {
 								SootClass storeType = classMap.get(storeField
 										.getType().toString());
 								if (storeClass.equals(callerClass)) {
-									if (isClassOfSubTypeExcluding(storeClass,
-											storeType)) {
-										((DecNCorAnalysisResult) anAnalysisResult)
-												.setIsDecorator(true);
-										((DecNCorAnalysisResult) anAnalysisResult)
-												.setStoreClassName(storeClass
-														.toString());
+									if (isClassOfDirectSubTypeExcluding(
+											storeClass, storeType)) {
+										if (getNumberOfDirectSubClasses(storeType) >= 2) {
+											if (getNumberOfDirectSubClasses(storeClass) >= 2) {
+												// check if any concrete
+												// decorator has
+												// been created
+												// boolean
+												// anyCreatedClassOfStoreClass =
+												// false;
+												//
+												// for (MyNode creatorNode :
+												// creatorList) {
+												// List<Unit>
+												// createStatementList =
+												// ((MyMethod) creatorNode)
+												// .getCreateStatementList();
+												// if
+												// (anyCreatedClassSubTypeExcluding(
+												// createStatementList,
+												// storeClass)) {
+												// anyCreatedClassOfStoreClass =
+												// true;
+												// break;
+												// }
+												// }
+												// if
+												// (anyCreatedClassOfStoreClass)
+												// {
+												((DecNCorAnalysisResult) anAnalysisResult)
+														.setIsDecorator(true);
+												((DecNCorAnalysisResult) anAnalysisResult)
+														.setStoreClassName(storeClass
+																.toString());
+												// }
+											}
+										}
 									} else if (storeClass.equals(storeType)) {
 										((DecNCorAnalysisResult) anAnalysisResult)
 												.setIsCor(true);
@@ -171,6 +212,53 @@ public class DecNCorAnalysis extends Analysis {
 		}
 
 		return anAnalysisResult;
+	}
+
+	private int getNumberOfDirectSubClasses(SootClass aClass) {
+		if (aClass.isInterface()) {
+			return hierarchy.getDirectImplementersOf(aClass).size();
+		} else {
+			return hierarchy.getDirectSubclassesOf(aClass).size();
+		}
+	}
+
+	private boolean isClassOfDirectSubTypeExcluding(SootClass aClass,
+			SootClass aType) {
+		boolean result = false;
+		if (aType.isInterface() && !(aClass.isInterface())) {
+			List<SootClass> directImplementerList = hierarchy
+					.getDirectImplementersOf(aType);
+			result = directImplementerList.contains(aClass);
+		} else if (aType.isInterface() && aClass.isInterface()) {
+			if (hierarchy.isInterfaceDirectSubinterfaceOf(aClass, aType)) {
+				result = true;
+			}
+		} else if (!(aType.isInterface()) && !(aClass.isInterface())) {
+			List<SootClass> directSubclassList = hierarchy
+					.getDirectSubclassesOf(aType);
+			result = directSubclassList.contains(aClass);
+		}
+		return result;
+	}
+
+	private boolean anyCreatedClassSubTypeExcluding(
+			List<Unit> createStatementList, SootClass aType) {
+		boolean result = false;
+		for (Unit aUnit : createStatementList) {
+			if (aUnit instanceof JAssignStmt) {
+				// remove "new " from "new ClassName"
+				String className = ((JAssignStmt) aUnit).getRightOp()
+						.toString().substring(4);
+				SootClass createdClass = classMap.get(className);
+				if (createdClass != null) {
+					if (isClassOfSubTypeExcluding(createdClass, aType)) {
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 	public void writeAnalysisResultOverAllAbstractTypes(String outputDirectory) {
