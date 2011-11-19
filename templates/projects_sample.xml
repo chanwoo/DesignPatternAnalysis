@@ -1,5 +1,20 @@
 <?xml version="1.0" ?>
 <projects>
+	<project name="ApacheCommonChain" abv="chain">
+		<project_root path="/Users/dolicoli/Documents/workspace/eclipse/DesignPatternAnalysis/subjectsOfAnalysis/${PROJECT_NAME}" />
+		<source path="${PROJECT_ROOT}/src" />
+		<output path="${PROJECT_ROOT}/output" />
+		<jimple path="${OUTPUT_PATH}/jimple" />
+		<include_package name="org.apache.commons.chain" />
+		<classpaths>
+			<path>/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar</path>
+			<path>/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jce.jar</path>
+			<path>${PROJECT_ROOT}/lib/commons-collections-3.2.1.jar</path>
+			<path>${PROJECT_ROOT}/lib/commons-logging-1.1.1.jar</path>
+			<path>${PROJECT_ROOT}/lib/commons-digester-1.8.jar</path>
+			<path>${SRC_PATH}</path>
+		</classpaths>
+	</project>
 	<project name="JHotDraw60b1" abv="jhd6">
 		<project_root path="/Users/dolicoli/Documents/workspace/eclipse/DesignPatternAnalysis/subjectsOfAnalysis/${PROJECT_NAME}" />
 		<source path="${PROJECT_ROOT}/src" />

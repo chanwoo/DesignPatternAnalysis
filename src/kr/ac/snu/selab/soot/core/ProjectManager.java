@@ -49,7 +49,8 @@ public class ProjectManager {
 		map.clear();
 		abvMap.clear();
 		if (is == null) {
-			throw new ProjectFileParseException("Unable to read project file: unknown error!!");
+			throw new ProjectFileParseException(
+					"Unable to read project file: unknown error!!");
 		}
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
@@ -151,6 +152,17 @@ public class ProjectManager {
 		text = text.trim();
 		project.setOutputJimplePath(replaceKeywords(text, project));
 
+		nodeList = projectElement.getElementsByTagName("include_package");
+		if (nodeList != null && nodeList.getLength() > 0) {
+			node = nodeList.item(0);
+			assert (node.getNodeType() == Node.ELEMENT_NODE);
+			element = (Element) node;
+			text = element.getAttribute("name");
+			assert (text != null);
+			text = text.trim();
+			project.setIncludePackage(text);
+		}
+
 		return project;
 	}
 
@@ -209,10 +221,12 @@ public class ProjectManager {
 
 		private String projectRoot;
 		private String projectNameAbv;
+		private String includePackage;
 
 		public Project(String aProjectName, String aProjectNameAbv) {
 			super(aProjectName);
 			this.projectNameAbv = aProjectNameAbv;
+			this.includePackage = null;
 		}
 
 		public void setOutputPath(String path) {
@@ -243,6 +257,15 @@ public class ProjectManager {
 
 		public void setOutputJimplePath(String outputJimplePath) {
 			this.outputJimplePath = outputJimplePath;
+		}
+
+		@Override
+		public String getIncludePackage() {
+			return includePackage;
+		}
+
+		public void setIncludePackage(String pkg) {
+			this.includePackage = pkg;
 		}
 	}
 }

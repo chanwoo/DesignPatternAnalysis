@@ -20,4 +20,8 @@ public abstract class AbstractProject {
 	public abstract String getSourceDirectory();
 
 	public abstract File getOutputDirectory();
+
+	public String getIncludePackage() {
+		return null;
+	}
 }

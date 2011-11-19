@@ -49,10 +49,19 @@ public class AnalyzerRunner {
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.Experiment", analyzer));
 
-		final String[] arguments = { "-cp", project.getClassPath(), "-f",
-				(noJimpleOutput) ? "n" : "J", "-d",
-				project.getJimpleDirectory(), "--process-dir",
-				project.getSourceDirectory() };
-		soot.Main.main(arguments);
+		String includePackage = project.getIncludePackage();
+		if (includePackage == null || includePackage.equals("")) {
+			final String[] arguments = { "-cp", project.getClassPath(), "-f",
+					(noJimpleOutput) ? "n" : "J", "-d",
+					project.getJimpleDirectory(), "--process-dir",
+					project.getSourceDirectory() };
+			soot.Main.main(arguments);
+		} else {
+			final String[] arguments = { "-cp", project.getClassPath(), "-f",
+					(noJimpleOutput) ? "n" : "J", "-d",
+					project.getJimpleDirectory(), "--process-dir",
+					project.getSourceDirectory(), "-i", includePackage };
+			soot.Main.main(arguments);
+		}
 	}
 }
