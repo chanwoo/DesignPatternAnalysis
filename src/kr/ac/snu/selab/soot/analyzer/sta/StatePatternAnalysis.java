@@ -23,6 +23,7 @@ import kr.ac.snu.selab.soot.util.XMLWriter;
 import org.apache.log4j.Logger;
 
 import soot.Hierarchy;
+import soot.Local;
 import soot.PointsToAnalysis;
 import soot.PointsToSet;
 import soot.Scene;
@@ -127,11 +128,10 @@ public class StatePatternAnalysis extends Analysis {
 				if (aField.getType().toString().equals(aType.toString())) {
 					nodeMap.put(aField.toString(), new MyField(aField));
 				}
-
-				sampleMethodToSparkUsage(aField);
 			}
 			for (SootMethod aMethod : aClass.getMethods()) {
 				nodeMap.put(aMethod.toString(), new MyMethod(aMethod));
+				sampleMethodToSparkUsage(aMethod);
 			}
 		}
 
@@ -356,18 +356,54 @@ public class StatePatternAnalysis extends Analysis {
 
 	}
 
-	private void sampleMethodToSparkUsage(SootField aField) {
+	// XXX: Remove It !!!
+	private void sampleMethodToSparkUsage(SootMethod aMethod) {
+		logger.debug("###### Method : " + aMethod.toString() + "#######");
+
 		PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
-		PointsToSet ros = pta.reachingObjects(aField);
 
-		logger.debug("Is Empty?" + ros.isEmpty());
+		List<Unit> stmts = getUnits(aMethod);
 
+		List<Local> valueList = new ArrayList<Local>();
+
+		for (Unit stmt : stmts) {
+			if (stmt instanceof JAssignStmt) {
+				Value v = ((JAssignStmt) stmt).leftBox.getValue();
+				if (v instanceof Local) {
+					valueList.add((Local) v);
+				}
+			}
+		}
+
+		for (int i = 0; i < valueList.size(); i++) {
+			for (int j = 0; j < valueList.size(); j++) {
+				if (i == j)
+					continue;
+
+				PointsToSet ros1 = pta.reachingObjects(valueList.get(i));
+				PointsToSet ros2 = pta.reachingObjects(valueList.get(j));
+				boolean hasIntersection = ros1.hasNonEmptyIntersection(ros2);
+
+				logger.debug("value1: " + valueList.get(i));
+				logger.debug("value2: " + valueList.get(j));
+				logger.debug("hasIntersection?: " + hasIntersection);
+				
+//				sampleMethodAnalyze(valueList.get(i), ros1);
+//				sampleMethodAnalyze(valueList.get(j), ros2);
+			}
+		}
+
+		logger.debug("#######################################");
+	}
+
+	// XXX: Remove It !!!
+	private void sampleMethodAnalyze(Object src, PointsToSet ros) {
+		logger.debug("**** From: " + src.toString() + " -> ");
 		Set<Type> types = ros.possibleTypes();
-		logger.debug("Is Empty?" + types.isEmpty());
-
 		logger.debug("Type size: " + types.size());
 		for (Type t : types) {
 			logger.debug("Type: " + t.toString());
 		}
+		logger.debug("**********");
 	}
 }
