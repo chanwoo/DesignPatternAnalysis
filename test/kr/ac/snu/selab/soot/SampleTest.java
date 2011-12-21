@@ -64,7 +64,7 @@ public class SampleTest {
 
 	@Test
 	public void doNothing() {
-		assertEquals(7, targetClassCount);
+		assertEquals(0, targetClassCount);
 		logger.debug("hello from SampleTest");
 		
 	}
