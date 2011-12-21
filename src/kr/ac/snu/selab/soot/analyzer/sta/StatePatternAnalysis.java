@@ -387,9 +387,9 @@ public class StatePatternAnalysis extends Analysis {
 				logger.debug("value1: " + valueList.get(i));
 				logger.debug("value2: " + valueList.get(j));
 				logger.debug("hasIntersection?: " + hasIntersection);
-				
-//				sampleMethodAnalyze(valueList.get(i), ros1);
-//				sampleMethodAnalyze(valueList.get(j), ros2);
+
+				// sampleMethodAnalyze(valueList.get(i), ros1);
+				// sampleMethodAnalyze(valueList.get(j), ros2);
 			}
 		}
 
