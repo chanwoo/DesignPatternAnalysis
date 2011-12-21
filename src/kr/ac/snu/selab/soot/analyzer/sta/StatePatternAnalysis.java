@@ -23,9 +23,13 @@ import kr.ac.snu.selab.soot.util.XMLWriter;
 import org.apache.log4j.Logger;
 
 import soot.Hierarchy;
+import soot.PointsToAnalysis;
+import soot.PointsToSet;
+import soot.Scene;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
+import soot.Type;
 import soot.Unit;
 import soot.Value;
 import soot.jimple.internal.JAssignStmt;
@@ -123,6 +127,8 @@ public class StatePatternAnalysis extends Analysis {
 				if (aField.getType().toString().equals(aType.toString())) {
 					nodeMap.put(aField.toString(), new MyField(aField));
 				}
+
+				sampleMethodToSparkUsage(aField);
 			}
 			for (SootMethod aMethod : aClass.getMethods()) {
 				nodeMap.put(aMethod.toString(), new MyMethod(aMethod));
@@ -204,7 +210,8 @@ public class StatePatternAnalysis extends Analysis {
 					}
 				}
 				if (!tempSet.isEmpty()) {
-					((StatePatternAnalysisResult)anAnalysisResult).putExntensionNodeSet(tempSet);
+					((StatePatternAnalysisResult) anAnalysisResult)
+							.putExntensionNodeSet(tempSet);
 				}
 			}
 		}
@@ -347,5 +354,20 @@ public class StatePatternAnalysis extends Analysis {
 			super(aStartNode, aGraph, aDestinationSet);
 		}
 
+	}
+
+	private void sampleMethodToSparkUsage(SootField aField) {
+		PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
+		PointsToSet ros = pta.reachingObjects(aField);
+
+		logger.debug("Is Empty?" + ros.isEmpty());
+
+		Set<Type> types = ros.possibleTypes();
+		logger.debug("Is Empty?" + types.isEmpty());
+
+		logger.debug("Type size: " + types.size());
+		for (Type t : types) {
+			logger.debug("Type: " + t.toString());
+		}
 	}
 }
