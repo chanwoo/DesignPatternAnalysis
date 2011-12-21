@@ -13,6 +13,7 @@ import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +23,8 @@ import soot.SootClass;
 import soot.Transform;
 
 public class SampleTest {
+	
+	private static Logger logger = Logger.getLogger(SampleTest.class);
 
 	private static final String PROJECTS_NAME = "StatePatternExample";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
@@ -62,6 +65,8 @@ public class SampleTest {
 	@Test
 	public void doNothing() {
 		assertEquals(7, targetClassCount);
+		logger.debug("hello from SampleTest");
+		
 	}
 
 	private class TestRunner extends AbstractAnalyzer {

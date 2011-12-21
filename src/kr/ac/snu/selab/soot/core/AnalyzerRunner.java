@@ -55,7 +55,7 @@ public class AnalyzerRunner {
 					(noJimpleOutput) ? "n" : "J", "-d",
 					project.getJimpleDirectory(), "--process-dir",
 					project.getSourceDirectory(), "-w", "-p", "cg.spark",
-					"verbose:true,on-fly-cg:true", };
+					"verbose:true,on-fly-cg:true", "-p", "jb", "use-original-names:true"};
 			soot.Main.main(arguments);
 		} else {
 			final String[] arguments = { "-cp", project.getClassPath(), "-f",

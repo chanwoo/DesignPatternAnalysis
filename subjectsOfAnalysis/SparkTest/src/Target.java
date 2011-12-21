@@ -11,6 +11,10 @@ public class Target {
 		methodC(fieldValue);
 		fieldB = fieldValue;
 		InterfaceType result = methodA();
+		
+		InterfaceType a = new ConcreteInterfaceType2();
+		InterfaceType b = new ConcreteInterfaceType2();
+		
 		return result;
 	}
 
