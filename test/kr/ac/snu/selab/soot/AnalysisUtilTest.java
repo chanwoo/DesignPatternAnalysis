@@ -2,6 +2,7 @@ package kr.ac.snu.selab.soot;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
@@ -134,6 +135,12 @@ public class AnalysisUtilTest {
 			CallGraph cg = Scene.v().getCallGraph();
 			AnalysisUtil au = new AnalysisUtil();
 			assertNotNull("Target classes not found", classList);
+			Map<String, SootClass> classMap = new HashMap<String, SootClass>();
+			
+			for (SootClass aClass : classList) {
+				classMap.put(aClass.toString(), aClass);
+			}
+			
 
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {
@@ -161,6 +168,30 @@ public class AnalysisUtilTest {
 						}
 						
 						methodLocals = au.methodLocals(aMethod);
+						
+						String typeStr1 = locals.get("temp$0").getType().toString();
+						String typeStr2 = locals.get("temp$1").getType().toString();
+						SootClass i = classMap.get(typeStr1);
+						SootClass c = classMap.get(typeStr2);						
+						
+						assertNotNull("SootClass.toString() != Type.toString()", i);
+						assertNotNull("SootClass.toString() != Type.toString()", c);
+						
+						SootClass d = classMap.get("D");
+						SootClass subD = classMap.get("SubD");
+						SootClass subI = classMap.get("SubI");
+						
+						assertNotNull("SootClass.toString() != Type.toString()", d);
+						assertNotNull("SootClass.toString() != Type.toString()", subD);
+						assertNotNull("SootClass.toString() != Type.toString()", subI);
+						
+						assertTrue(au.isSubtypeIncluding(i, i, hierarchy));
+						assertTrue(au.isSubtypeIncluding(c, c, hierarchy));
+						assertTrue(au.isSubtypeIncluding(c, i, hierarchy));
+						assertTrue(au.isSubtypeIncluding(subD, d, hierarchy));
+						assertTrue(au.isSubtypeIncluding(subI, i, hierarchy));
+						assertFalse(au.isSubtypeIncluding(c, d, hierarchy));
+						
 					}
 				}
 			}

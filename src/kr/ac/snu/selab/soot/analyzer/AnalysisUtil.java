@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import soot.Body;
+import soot.Hierarchy;
 import soot.Local;
+import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
 import soot.Unit;
@@ -138,6 +140,34 @@ public class AnalysisUtil {
 		}
 		
 		return locals;
+	}
+	
+	public boolean isSubtypeIncluding(SootClass a, SootClass b, Hierarchy hierarchy) {
+		boolean result = false;
+		boolean isAInterface = a.isInterface();
+		boolean isBInterface = b.isInterface();
+		
+		if (isAInterface && isBInterface) {
+			if (hierarchy.isInterfaceSubinterfaceOf(a, b) || a.equals(b)) {
+				result = true;
+			}
+		} 
+		else if (!isAInterface && isBInterface) {
+			List<SootClass> implementers = hierarchy.getImplementersOf(b);
+			if (implementers.contains(a)) {
+				result = true;
+			}
+		}
+		else if (isAInterface && !isBInterface) {
+			// do nothing
+		}
+		else if (!isAInterface && !isBInterface) {
+			if (hierarchy.isClassSubclassOfIncluding(a, b)) {
+				result = true;
+			}
+		}
+		
+		return result;
 	}
 
 }
