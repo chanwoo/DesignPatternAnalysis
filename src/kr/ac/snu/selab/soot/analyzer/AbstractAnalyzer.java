@@ -38,7 +38,9 @@ public abstract class AbstractAnalyzer extends BodyTransformer {
 		List<SootClass> classList = new ArrayList<SootClass>();
 		classList.addAll(Scene.v().getApplicationClasses());
 
-		analyze(classList, hierarchy);
+		//******* This part should be reflected in other analyzer and analysis classes to use soot call graph
+		analyze(classList, hierarchy, cg);
+		//*******
 
 		postAnalysis();
 	}
