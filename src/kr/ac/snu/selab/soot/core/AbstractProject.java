@@ -4,6 +4,7 @@ import java.io.File;
 
 public abstract class AbstractProject {
 	private String projectName;
+	private boolean useSimpleCallGraph;
 
 	public AbstractProject(String aProjectName) {
 		projectName = aProjectName;
@@ -23,5 +24,13 @@ public abstract class AbstractProject {
 
 	public String getIncludePackage() {
 		return null;
+	}
+
+	public boolean isUseSimpleCallGraph() {
+		return useSimpleCallGraph;
+	}
+
+	public void setUseSimpleCallGraph(boolean simple) {
+		this.useSimpleCallGraph = simple;
 	}
 }

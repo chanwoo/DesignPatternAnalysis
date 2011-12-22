@@ -1,5 +1,7 @@
 package kr.ac.snu.selab.soot.core;
 
+import java.util.ArrayList;
+
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.code.CodeAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.decNcor.DecNCorAnalyzer;
@@ -8,10 +10,15 @@ import kr.ac.snu.selab.soot.analyzer.role.RoleAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.sta.StatePatternAnalyzer;
 import kr.ac.snu.selab.soot.callgraph.CallGraphTXTCreator;
 import kr.ac.snu.selab.soot.callgraph.CallGraphXMLCreator;
+
+import org.apache.log4j.Logger;
+
 import soot.PackManager;
 import soot.Transform;
 
 public class AnalyzerRunner {
+
+	private static Logger logger = Logger.getLogger(AnalyzerRunner.class);
 
 	public static void run(AbstractProject project, String analyzerName,
 			boolean noJimpleOutput) throws InvalidAnalyzerException {
@@ -49,20 +56,60 @@ public class AnalyzerRunner {
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.Experiment", analyzer));
 
-		String includePackage = project.getIncludePackage();
-		if (includePackage == null || includePackage.equals("")) {
-			final String[] arguments = { "-cp", project.getClassPath(), "-f",
-					(noJimpleOutput) ? "n" : "J", "-d",
-					project.getJimpleDirectory(), "--process-dir",
-					project.getSourceDirectory(), "-w", "-p", "cg.spark",
-					"verbose:true,on-fly-cg:true", "-p", "jb", "use-original-names:true"};
-			soot.Main.main(arguments);
+		ArrayList<String> params = new ArrayList<String>();
+
+		// Class path
+		params.add("-cp");
+		params.add(project.getClassPath());
+
+		// Output format
+		params.add("-f");
+		if (noJimpleOutput) {
+			// No output
+			params.add("n");
 		} else {
-			final String[] arguments = { "-cp", project.getClassPath(), "-f",
-					(noJimpleOutput) ? "n" : "J", "-d",
-					project.getJimpleDirectory(), "--process-dir",
-					project.getSourceDirectory(), "-i", includePackage };
-			soot.Main.main(arguments);
+			// Jimple
+			params.add("J");
 		}
+
+		// Output directory
+		params.add("-d");
+		params.add(project.getJimpleDirectory());
+
+		params.add("--process-dir");
+		params.add(project.getSourceDirectory());
+
+		// FIXME: Maybe, useless
+		params.add("-p");
+		params.add("jb");
+		params.add("use-original-names:true");
+
+		String includePackage = project.getIncludePackage();
+		if (includePackage != null && !includePackage.equals("")) {
+			params.add("-i");
+			params.add(includePackage);
+		}
+
+		if (!project.isUseSimpleCallGraph()) {
+			// Whole program analysis
+			params.add("-w");
+
+			// Use spark
+			params.add("-p");
+			params.add("cg.spark");
+			params.add("on-fly-cg:true");
+			// params.add("verbose:true,on-fly-cg:true");
+		}
+
+		String[] arguments = new String[params.size()];
+		params.toArray(arguments);
+		StringBuffer buffer = new StringBuffer();
+		for (String arg : arguments) {
+			buffer.append(arg);
+			buffer.append(" ");
+		}
+		logger.debug("java soot.Main " + buffer.toString());
+
+		soot.Main.main(arguments);
 	}
 }

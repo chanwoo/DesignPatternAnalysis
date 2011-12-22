@@ -32,13 +32,16 @@ public abstract class AbstractAnalyzer extends BodyTransformer {
 
 		preAnalysis();
 
-		CallGraph cg = Scene.v().getCallGraph();
-		
 		Hierarchy hierarchy = Scene.v().getActiveHierarchy();
 		List<SootClass> classList = new ArrayList<SootClass>();
 		classList.addAll(Scene.v().getApplicationClasses());
 
-		analyze(classList, hierarchy);
+		if (project.isUseSimpleCallGraph()) {
+			analyze(classList, hierarchy);
+		} else {
+			CallGraph cg = Scene.v().getCallGraph();
+			analyze(classList, hierarchy, cg);
+		}
 
 		postAnalysis();
 	}
@@ -48,14 +51,11 @@ public abstract class AbstractAnalyzer extends BodyTransformer {
 
 	protected void postAnalysis() {
 	}
-	
-	protected void analyze(List<SootClass> classList,
-			Hierarchy hierarchy, CallGraph cg) {
-		//abstract method for callgraph delivering
+
+	protected void analyze(List<SootClass> classList, Hierarchy hierarchy,
+			CallGraph cg) {
 	}
 
-	protected void analyze(List<SootClass> classList,
-			Hierarchy hierarchy) {
-		//abstract method - Deprecated 
+	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
 	}
 }

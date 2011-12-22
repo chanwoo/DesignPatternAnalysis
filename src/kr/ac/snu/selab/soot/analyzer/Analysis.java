@@ -37,19 +37,10 @@ public class Analysis {
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
 		fieldMap = new HashMap<String, SootField>();
-		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>(); // This
-																						// is
-																						// a
-																						// map
-																						// that
-																						// has
-																						// keys
-																						// of
-																						// (class,
-																						// subsignature
-																						// of
-																						// method)
-																						// pair.
+		/*
+		 * This is a map that has keys of (class, subsignature of method) pair.
+		 */
+		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>();
 
 		classList = aClassList;
 		for (SootClass aClass : classList) {
@@ -234,7 +225,7 @@ public class Analysis {
 		}
 		return result;
 	}
-	
+
 	public boolean isClassOfSubTypeExcluding(SootClass aClass, SootClass aType) {
 		boolean result = false;
 		if (aType.isInterface() && !(aClass.isInterface())) {
@@ -328,24 +319,23 @@ public class Analysis {
 			Value rightOp = assignStmt.getRightOp();
 			SootClass rightOpType = null;
 			String rightOpTypeKey = rightOp.getType().toString();
-//			if (!(rightOpTypeKey.startsWith("null"))) {
-				if (classMap.containsKey(rightOpTypeKey)) {
-					rightOpType = classMap.get(rightOpTypeKey);
+			// if (!(rightOpTypeKey.startsWith("null"))) {
+			if (classMap.containsKey(rightOpTypeKey)) {
+				rightOpType = classMap.get(rightOpTypeKey);
 
-//					if ((rightOpType != null)
-//							&& isClassOfSubType(rightOpType, aType)) {
-						String leftSideString = assignStmt.getLeftOp()
-								.toString();
-						if (leftSideString.startsWith("this.")) {
-							leftSideString = leftSideString.substring(5);
-						}
-						// Only field variable
-						if (leftSideString.startsWith("<")) {
-							result = leftSideString;
-						}
-//					}
+				// if ((rightOpType != null)
+				// && isClassOfSubType(rightOpType, aType)) {
+				String leftSideString = assignStmt.getLeftOp().toString();
+				if (leftSideString.startsWith("this.")) {
+					leftSideString = leftSideString.substring(5);
 				}
-//			}
+				// Only field variable
+				if (leftSideString.startsWith("<")) {
+					result = leftSideString;
+				}
+				// }
+			}
+			// }
 		}
 		return result;
 	}
