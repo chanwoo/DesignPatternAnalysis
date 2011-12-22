@@ -24,23 +24,25 @@ public class AnalysisUtil {
 		
 	}
 	
-	public Map<String, Local> paramLocals(SootMethod aMethod) {
-		Map<String, Local> paramLocals = new HashMap<String, Local>();
+	public Map<String, LocalInfo> paramLocals(SootMethod aMethod) {
+		Map<String, LocalInfo> paramLocals = new HashMap<String, LocalInfo>();
 		
 		if (aMethod.hasActiveBody()) {
 			Body body = aMethod.getActiveBody();
 			int numOfParams = aMethod.getParameterCount();
 			for (int i = 0; i < numOfParams; i++) {
 				Local local = body.getParameterLocal(i);
-				paramLocals.put(local.toString(), local);
+				LocalInfo localInfo = new LocalInfo();
+				localInfo.setLocal(local);
+				paramLocals.put(local.toString(), localInfo);
 			}
 		}
 		
 		return paramLocals;
 	}
 	
-	public Map<Local, SootField> fieldLocals(SootMethod aMethod) {
-		Map<Local, SootField> fieldLocals = new HashMap<Local, SootField>();
+	public Map<String, LocalInfo> fieldLocals(SootMethod aMethod) {
+		Map<String, LocalInfo> fieldLocals = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);
 		
 		List<Unit> units = units(aMethod);
@@ -51,16 +53,20 @@ public class AnalysisUtil {
 				Value leftVal = stmt.getLeftOp();
 				Local local = locals.get(leftVal.toString());
 				SootField field = stmt.getFieldRef().getField();
+				LocalInfo localInfo = new LocalInfo();
+				localInfo.setLocal(local);
+				localInfo.setField(field);
+				localInfo.setUnit(unit);
 				
-				fieldLocals.put(local, field);
+				fieldLocals.put(local.toString(), localInfo);
 			}
 		}
 		
 		return fieldLocals;
 	}
 	
-	public Map<Local, SootMethod> methodLocals(SootMethod aMethod) {
-		Map<Local, SootMethod> methodLocals = new HashMap<Local, SootMethod>();
+	public Map<String, LocalInfo> methodLocals(SootMethod aMethod) {
+		Map<String, LocalInfo> methodLocals = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);
 		
 		List<Unit> units = units(aMethod);
@@ -71,8 +77,12 @@ public class AnalysisUtil {
 				Value leftVal = stmt.getLeftOp();
 				Local local = locals.get(leftVal.toString());
 				SootMethod method = stmt.getInvokeExpr().getMethod();
+				LocalInfo localInfo = new LocalInfo();
+				localInfo.setLocal(local);
+				localInfo.setMethod(method);
+				localInfo.setUnit(unit);
 				
-				methodLocals.put(local, method);
+				methodLocals.put(local.toString(), localInfo);
 			}
 		}
 		

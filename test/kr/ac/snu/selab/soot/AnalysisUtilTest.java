@@ -1,9 +1,9 @@
 package kr.ac.snu.selab.soot;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +16,7 @@ import java.util.Map;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
+import kr.ac.snu.selab.soot.analyzer.LocalInfo;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 
@@ -42,23 +43,21 @@ public class AnalysisUtilTest {
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	List<Unit> units;
-	Map<String, Local> paramLocals;
-	Map<Local, SootField> fieldLocals;
+	Map<String, LocalInfo> paramLocals;
+	Map<String, LocalInfo> fieldLocals;
 	Map<String, Local> locals;
 	int numOfFieldInRightStmt;
 	int numOfInvokeInRightStmt;
-	Map<Local, SootMethod> methodLocals;
+	Map<String, LocalInfo> methodLocals;
 	
 
 	@Before
 	public void prepare() throws Throwable {
 		units = new ArrayList<Unit>();
-		paramLocals = new HashMap<String, Local>();
-		fieldLocals = new HashMap<Local, SootField>();
 		locals = new HashMap<String, Local>();
 		numOfFieldInRightStmt = 0;
 		numOfInvokeInRightStmt = 0;
-		methodLocals = new HashMap<Local, SootMethod>();
+
 
 		ProjectManager projects = ProjectManager.getInstance();
 		FileInputStream fis = null;
@@ -98,8 +97,8 @@ public class AnalysisUtilTest {
 		assertEquals(5, fieldLocals.size());
 		
 		List<String> fieldLocalStrs = new ArrayList<String>();
-		for (Local local : fieldLocals.keySet()) {
-			fieldLocalStrs.add(local.toString());
+		for (String localStr : fieldLocals.keySet()) {
+			fieldLocalStrs.add(localStr);
 		}
 		
 		assertTrue(fieldLocalStrs.contains("temp$0"));
@@ -113,8 +112,8 @@ public class AnalysisUtilTest {
 		assertEquals(5, methodLocals.size());
 		
 		List<String> methodLocalStrs = new ArrayList<String>();
-		for (Local local : methodLocals.keySet()) {
-			methodLocalStrs.add(local.toString());
+		for (String localStr : methodLocals.keySet()) {
+			methodLocalStrs.add(localStr);
 		}
 		
 		// temp$2, 4, 5, 6, 9
