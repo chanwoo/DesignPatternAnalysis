@@ -20,7 +20,8 @@ public class RoleAnalyzer extends AbstractAnalyzer {
 
 	@Override
 	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
-		Analysis analysis = new Analysis(classList, hierarchy);
+		Analysis analysis = new Analysis(classList, hierarchy,
+				project.isUseSimpleCallGraph());
 
 		Map<String, Integer> analysisFileNameMap = new HashMap<String, Integer>();
 

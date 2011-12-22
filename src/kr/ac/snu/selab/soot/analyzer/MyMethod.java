@@ -38,7 +38,7 @@ public class MyMethod extends MyNode {
 	public List<Unit> getCallStatementList() {
 		return callStatementList;
 	}
-	
+
 	public List<Unit> getCreateStatementList() {
 		return callStatementList;
 	}
@@ -66,11 +66,11 @@ public class MyMethod extends MyNode {
 	public void setIsStore(boolean value) {
 
 	}
-	
+
 	public boolean isInjector() {
 		return isInjector;
 	}
-	
+
 	public void setIsInjector(boolean value) {
 		isInjector = value;
 	}

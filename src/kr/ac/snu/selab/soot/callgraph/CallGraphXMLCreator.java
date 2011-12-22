@@ -41,7 +41,7 @@ public class CallGraphXMLCreator extends AbstractAnalyzer {
 			}
 		}
 
-		CallGraph cg = new CallGraph();
+		SimpleCallGraph cg = new SimpleCallGraph();
 		cg = cg.load(callGraphTXTPath, methodMap);
 		MyUtil.stringToFile(cg.toXML(), outputPath);
 	}

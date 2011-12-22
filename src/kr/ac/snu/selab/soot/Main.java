@@ -94,6 +94,10 @@ public class Main {
 			outputDirectory.mkdirs();
 		}
 
+		boolean useSimpleCallGraph = Boolean.parseBoolean(optionMap
+				.get("simple_call_graph"));
+		project.setUseSimpleCallGraph(useSimpleCallGraph);
+
 		String analyzer = optionMap.get("analyzer");
 		boolean noJimpleOutput = Boolean.parseBoolean(optionMap
 				.get("no_jimple"));
@@ -122,12 +126,16 @@ public class Main {
 		Option noJimpleOutput = OptionBuilder
 				.withDescription("Do not generate jimple files")
 				.withLongOpt("no-jimple").create("nj");
+		Option useSimpleCallGraph = OptionBuilder
+				.withDescription("Use simple call graph")
+				.withLongOpt("simple-call-graph").create("scg");
 
 		Options options = new Options();
 
 		options.addOption(analyzer);
 		options.addOption(projectFilePath);
 		options.addOption(noJimpleOutput);
+		options.addOption(useSimpleCallGraph);
 
 		CommandLine cmd = null;
 		try {
@@ -166,6 +174,12 @@ public class Main {
 			map.put("no_jimple", "true");
 		} else {
 			map.put("no_jimple", "false");
+		}
+
+		if (cmd.hasOption("scg")) {
+			map.put("simple_call_graph", "true");
+		} else {
+			map.put("simple_call_graph", "false");
 		}
 
 		return map;

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
+import kr.ac.snu.selab.soot.callgraph.SimpleCallGraph;
+import kr.ac.snu.selab.soot.callgraph.SootCallGraph;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
@@ -37,19 +39,10 @@ public class Analysis {
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
 		fieldMap = new HashMap<String, SootField>();
-		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>(); // This
-																						// is
-																						// a
-																						// map
-																						// that
-																						// has
-																						// keys
-																						// of
-																						// (class,
-																						// subsignature
-																						// of
-																						// method)
-																						// pair.
+		/*
+		 * This is a map that has keys of (class, subsignature of method) pair.
+		 */
+		methodMapBySubSignature = new HashMap<Map<SootClass, String>, SootMethod>();
 
 		classList = aClassList;
 		for (SootClass aClass : classList) {
@@ -68,7 +61,8 @@ public class Analysis {
 		hierarchy = aHierarchy;
 	}
 
-	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
+	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy,
+			boolean useSimpleCallGraph) {
 		classList = new ArrayList<SootClass>();
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
@@ -89,7 +83,11 @@ public class Analysis {
 			}
 		}
 		hierarchy = aHierarchy;
-		callGraph = new CallGraph(classList, methodMap, aHierarchy);
+		if (useSimpleCallGraph) {
+			callGraph = new SimpleCallGraph(classList, methodMap, aHierarchy);
+		} else {
+			callGraph = new SootCallGraph(classList);
+		}
 
 	}
 
@@ -234,7 +232,7 @@ public class Analysis {
 		}
 		return result;
 	}
-	
+
 	public boolean isClassOfSubTypeExcluding(SootClass aClass, SootClass aType) {
 		boolean result = false;
 		if (aType.isInterface() && !(aClass.isInterface())) {
@@ -328,24 +326,23 @@ public class Analysis {
 			Value rightOp = assignStmt.getRightOp();
 			SootClass rightOpType = null;
 			String rightOpTypeKey = rightOp.getType().toString();
-//			if (!(rightOpTypeKey.startsWith("null"))) {
-				if (classMap.containsKey(rightOpTypeKey)) {
-					rightOpType = classMap.get(rightOpTypeKey);
+			// if (!(rightOpTypeKey.startsWith("null"))) {
+			if (classMap.containsKey(rightOpTypeKey)) {
+				rightOpType = classMap.get(rightOpTypeKey);
 
-//					if ((rightOpType != null)
-//							&& isClassOfSubType(rightOpType, aType)) {
-						String leftSideString = assignStmt.getLeftOp()
-								.toString();
-						if (leftSideString.startsWith("this.")) {
-							leftSideString = leftSideString.substring(5);
-						}
-						// Only field variable
-						if (leftSideString.startsWith("<")) {
-							result = leftSideString;
-						}
-//					}
+				// if ((rightOpType != null)
+				// && isClassOfSubType(rightOpType, aType)) {
+				String leftSideString = assignStmt.getLeftOp().toString();
+				if (leftSideString.startsWith("this.")) {
+					leftSideString = leftSideString.substring(5);
 				}
-//			}
+				// Only field variable
+				if (leftSideString.startsWith("<")) {
+					result = leftSideString;
+				}
+				// }
+			}
+			// }
 		}
 		return result;
 	}
