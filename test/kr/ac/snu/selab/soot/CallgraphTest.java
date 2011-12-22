@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.List;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
-import kr.ac.snu.selab.soot.analyzer.sta.StatePatternAnalysis;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 
@@ -20,14 +19,14 @@ import org.junit.Test;
 
 import soot.Hierarchy;
 import soot.PackManager;
+import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.Transform;
 import soot.jimple.toolkits.callgraph.CallGraph;
-import soot.jimple.toolkits.callgraph.Edge;
 
 public class CallgraphTest {
-	
+
 	private static Logger logger = Logger.getLogger(CallgraphTest.class);
 
 	private static final String PROJECTS_NAME = "SparkTest";
@@ -60,9 +59,10 @@ public class CallgraphTest {
 
 		PackManager.v().getPack("jtp")
 				.add(new Transform("jtp.Experiment", analyzer));
-		
-		final String[] arguments = { "-cp", project.getClassPath(), "-w",
-				"-d", project.getJimpleDirectory(), "--process-dir", project.getSourceDirectory()};
+
+		final String[] arguments = { "-cp", project.getClassPath(), "-w", "-d",
+				project.getJimpleDirectory(), "--process-dir",
+				project.getSourceDirectory() };
 		soot.Main.main(arguments);
 	}
 
@@ -78,29 +78,33 @@ public class CallgraphTest {
 		}
 
 		@Override
-		protected void analyze(List<SootClass> classList, Hierarchy hierarchy, CallGraph cg) {
+		protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
+			CallGraph cg = Scene.v().getCallGraph();
 			assertNotNull("Target classes not found", classList);
 			// assertEquals(7, classList.size());
 			targetClassCount = classList.size();
-			
+
 			logger.debug("cg size: " + cg.size());
 			logger.debug("class number: " + classList.size());
-			
+
 			for (SootClass aClass : classList) {
 				logger.debug("get in the loop");
 				for (SootMethod aMethod : aClass.getMethods()) {
 					logger.debug("**************************");
-					logger.debug("Callgraph of Method: " + aMethod.getSubSignature());
+					logger.debug("Callgraph of Method: "
+							+ aMethod.getSubSignature());
 					while (cg.edgesInto(aMethod).hasNext()) {
-						SootMethod srcMethod = cg.edgesInto(aMethod).next().getSrc().method();
+						SootMethod srcMethod = cg.edgesInto(aMethod).next()
+								.getSrc().method();
 						logger.debug(srcMethod.getSubSignature() + "=====>");
 					}
-					
+
 					while (cg.edgesOutOf(aMethod).hasNext()) {
-						SootMethod tgtMethod = cg.edgesOutOf(aMethod).next().getSrc().method();
+						SootMethod tgtMethod = cg.edgesOutOf(aMethod).next()
+								.getSrc().method();
 						logger.debug("=====>" + tgtMethod.getSubSignature());
 					}
-					
+
 					logger.debug("**************************");
 				}
 			}

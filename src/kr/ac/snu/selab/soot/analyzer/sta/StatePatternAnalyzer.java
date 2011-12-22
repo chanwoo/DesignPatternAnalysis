@@ -16,7 +16,7 @@ public class StatePatternAnalyzer extends AbstractAnalyzer {
 	@Override
 	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
 		StatePatternAnalysis analysis = new StatePatternAnalysis(classList,
-				hierarchy);
+				hierarchy, project.isUseSimpleCallGraph());
 		analysis.writeAnalysisResultOverAllAbstractTypes(outputDirectory);
 	}
 

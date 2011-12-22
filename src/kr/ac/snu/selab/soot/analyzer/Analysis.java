@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
+import kr.ac.snu.selab.soot.callgraph.SimpleCallGraph;
+import kr.ac.snu.selab.soot.callgraph.SootCallGraph;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
@@ -59,7 +61,8 @@ public class Analysis {
 		hierarchy = aHierarchy;
 	}
 
-	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
+	public Analysis(List<SootClass> aClassList, Hierarchy aHierarchy,
+			boolean useSimpleCallGraph) {
 		classList = new ArrayList<SootClass>();
 		classMap = new HashMap<String, SootClass>();
 		methodMap = new HashMap<String, SootMethod>();
@@ -80,7 +83,11 @@ public class Analysis {
 			}
 		}
 		hierarchy = aHierarchy;
-		callGraph = new CallGraph(classList, methodMap, aHierarchy);
+		if (useSimpleCallGraph) {
+			callGraph = new SimpleCallGraph(classList, methodMap, aHierarchy);
+		} else {
+			callGraph = new SootCallGraph(classList);
+		}
 
 	}
 

@@ -8,15 +8,15 @@ import soot.Hierarchy;
 import soot.SootClass;
 
 public class DecNCorAnalyzer extends AbstractAnalyzer {
-	
+
 	public DecNCorAnalyzer(AbstractProject project) {
 		super(project);
 	}
 
 	@Override
 	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
-		DecNCorAnalysis analysis = new DecNCorAnalysis(classList,
-				hierarchy);
+		DecNCorAnalysis analysis = new DecNCorAnalysis(classList, hierarchy,
+				project.isUseSimpleCallGraph());
 		analysis.writeAnalysisResultOverAllAbstractTypes(outputDirectory);
 	}
 

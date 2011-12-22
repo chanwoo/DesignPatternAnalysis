@@ -20,7 +20,7 @@ public class PathFromCallerAnalyzer extends AbstractAnalyzer {
 	@Override
 	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
 		PathFromCallerAnalysis analysis = new PathFromCallerAnalysis(classList,
-				hierarchy);
+				hierarchy, project.isUseSimpleCallGraph());
 
 		Map<String, Integer> analysisFileNameMap = new HashMap<String, Integer>();
 

@@ -40,8 +40,8 @@ public class StatePatternAnalysis extends Analysis {
 
 	private static Logger logger = Logger.getLogger(StatePatternAnalysis.class);
 
-	public StatePatternAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
-		super(aClassList, aHierarchy);
+	public StatePatternAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy, boolean useSimpleCallGraph) {
+		super(aClassList, aHierarchy, useSimpleCallGraph);
 	}
 
 	// private boolean isCreatorMethodOfType(SootMethod aMethod, SootClass

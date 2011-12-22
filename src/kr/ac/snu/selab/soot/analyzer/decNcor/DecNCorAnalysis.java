@@ -28,8 +28,9 @@ import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 
 public class DecNCorAnalysis extends Analysis {
-	public DecNCorAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy) {
-		super(aClassList, aHierarchy);
+	public DecNCorAnalysis(List<SootClass> aClassList, Hierarchy aHierarchy,
+			boolean useSimpleCallGraph) {
+		super(aClassList, aHierarchy, useSimpleCallGraph);
 	}
 
 	private static Logger logger = Logger.getLogger(DecNCorAnalysis.class);

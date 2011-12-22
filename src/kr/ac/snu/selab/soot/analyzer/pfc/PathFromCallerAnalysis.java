@@ -21,8 +21,8 @@ import soot.SootMethod;
 
 public class PathFromCallerAnalysis extends Analysis {
 	public PathFromCallerAnalysis(List<SootClass> aClassList,
-			Hierarchy aHierarchy) {
-		super(aClassList, aHierarchy);
+			Hierarchy aHierarchy, boolean useSimpleCallGraph) {
+		super(aClassList, aHierarchy, useSimpleCallGraph);
 	}
 
 	public AnalysisResult analyzeOverType(SootClass aType) {

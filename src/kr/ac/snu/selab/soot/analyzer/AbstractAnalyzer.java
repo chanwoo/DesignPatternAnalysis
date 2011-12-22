@@ -10,7 +10,6 @@ import soot.BodyTransformer;
 import soot.Hierarchy;
 import soot.Scene;
 import soot.SootClass;
-import soot.jimple.toolkits.callgraph.CallGraph;
 
 public abstract class AbstractAnalyzer extends BodyTransformer {
 	private static boolean touch = false;
@@ -36,12 +35,7 @@ public abstract class AbstractAnalyzer extends BodyTransformer {
 		List<SootClass> classList = new ArrayList<SootClass>();
 		classList.addAll(Scene.v().getApplicationClasses());
 
-		if (project.isUseSimpleCallGraph()) {
-			analyze(classList, hierarchy);
-		} else {
-			CallGraph cg = Scene.v().getCallGraph();
-			analyze(classList, hierarchy, cg);
-		}
+		analyze(classList, hierarchy);
 
 		postAnalysis();
 	}
@@ -50,10 +44,6 @@ public abstract class AbstractAnalyzer extends BodyTransformer {
 	}
 
 	protected void postAnalysis() {
-	}
-
-	protected void analyze(List<SootClass> classList, Hierarchy hierarchy,
-			CallGraph cg) {
 	}
 
 	protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
