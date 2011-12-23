@@ -213,13 +213,13 @@ public class AnalysisUtilTest {
 	}
 	
 	@Test
-	public void typeFilterTest() {
-		assertEquals(1, au.typeFilter(allLocalInfos, c, hierarchy, classMap).size());
-		assertEquals(16, au.typeFilter(allLocalInfos, i, hierarchy, classMap).size());
+	public void typeFilterOfLocalMapTest() {
+		assertEquals(1, au.typeFilterOfLocalMap(allLocalInfos, c, hierarchy, classMap).size());
+		assertEquals(16, au.typeFilterOfLocalMap(allLocalInfos, i, hierarchy, classMap).size());
 		SootClass t = classMap.get("T");
-		assertEquals(1, au.typeFilter(allLocalInfos, t, hierarchy, classMap).size());
-		assertEquals(0, au.typeFilter(allLocalInfos, subD, hierarchy, classMap).size());
-		assertEquals(0, au.typeFilter(allLocalInfos, subI, hierarchy, classMap).size());
+		assertEquals(1, au.typeFilterOfLocalMap(allLocalInfos, t, hierarchy, classMap).size());
+		assertEquals(0, au.typeFilterOfLocalMap(allLocalInfos, subD, hierarchy, classMap).size());
+		assertEquals(0, au.typeFilterOfLocalMap(allLocalInfos, subI, hierarchy, classMap).size());
 	}
 	
 	private class TestRunner extends AbstractAnalyzer {
@@ -249,7 +249,7 @@ public class AnalysisUtilTest {
 						// preparation for localsTest
 						locals = au.locals(aMethod);
 						
-						// preparation for typeFileterTest
+						// preparation for typeFileterOfLocalMapTest
 						allLocalInfos = new HashMap<String, LocalInfo>();
 						for (Entry<String, Local> entry : locals.entrySet()) {
 							LocalInfo localInfo = new LocalInfo();

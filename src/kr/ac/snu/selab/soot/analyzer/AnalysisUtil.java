@@ -194,7 +194,7 @@ public class AnalysisUtil {
 		return localOfReturn;
 	}
 	
-	public Map<String, LocalInfo> typeFilter(Map<String, LocalInfo> aLocalInfoMap, 
+	public Map<String, LocalInfo> typeFilterOfLocalMap(Map<String, LocalInfo> aLocalInfoMap, 
 			SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
 		Map<String, LocalInfo> filteredMap = new HashMap<String, LocalInfo>();
 		
