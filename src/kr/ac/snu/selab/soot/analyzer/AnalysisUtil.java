@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import soot.Body;
 import soot.Hierarchy;
@@ -12,6 +13,7 @@ import soot.Local;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
+import soot.Type;
 import soot.Unit;
 import soot.Value;
 import soot.jimple.InvokeExpr;
@@ -190,7 +192,24 @@ public class AnalysisUtil {
 		}
 		
 		return localOfReturn;
-	} 
+	}
+	
+	public Map<String, LocalInfo> typeFilter(Map<String, LocalInfo> aLocalInfoMap, 
+			SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
+		Map<String, LocalInfo> filteredMap = new HashMap<String, LocalInfo>();
+		
+		for (Entry<String, LocalInfo> entry : aLocalInfoMap.entrySet()) {
+			LocalInfo localInfo = entry.getValue();
+			Type localType = localInfo.local().getType();
+			SootClass localTypeClass = classMap.get(localType.toString());
+			
+			if (isSubtypeIncluding(localTypeClass, aType, hierarchy)) {
+				filteredMap.put(entry.getKey(), localInfo);
+			}
+		}
+		
+		return filteredMap;
+	}
 	
 	public boolean isFieldInRightSide(Unit unit) {
 		boolean result = false;

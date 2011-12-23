@@ -9,10 +9,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
@@ -43,10 +43,12 @@ public class AnalysisUtilTest {
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	static AnalysisUtil au;
+	static Map<String, SootClass> classMap;
 	static Hierarchy hierarchy;
 	
 	static List<Unit> units;
 	static Map<String, Local> locals;
+	static Map<String, LocalInfo> allLocalInfos;
 	
 	// In
 	static Map<String, LocalInfo> localsOfMethodParam;
@@ -110,18 +112,6 @@ public class AnalysisUtilTest {
 				"-d", project.getJimpleDirectory(), "--process-dir", project.getSourceDirectory()};
 
 		soot.Main.main(arguments);
-	}
-
-	@Test
-	public void test() {
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	
 	@Test
@@ -222,6 +212,16 @@ public class AnalysisUtilTest {
 		assertTrue(localsRightOfField.containsKey("temp$9"));
 	}
 	
+	@Test
+	public void typeFilterTest() {
+		assertEquals(1, au.typeFilter(allLocalInfos, c, hierarchy, classMap).size());
+		assertEquals(16, au.typeFilter(allLocalInfos, i, hierarchy, classMap).size());
+		SootClass t = classMap.get("T");
+		assertEquals(1, au.typeFilter(allLocalInfos, t, hierarchy, classMap).size());
+		assertEquals(0, au.typeFilter(allLocalInfos, subD, hierarchy, classMap).size());
+		assertEquals(0, au.typeFilter(allLocalInfos, subI, hierarchy, classMap).size());
+	}
+	
 	private class TestRunner extends AbstractAnalyzer {
 		public TestRunner(AbstractProject project) {
 			super(project);
@@ -232,7 +232,7 @@ public class AnalysisUtilTest {
 			CallGraph cg = Scene.v().getCallGraph();
 			assertNotNull("Target classes not found", classList);
 			hierarchy = aHierarchy;
-			Map<String, SootClass> classMap = new HashMap<String, SootClass>();
+			classMap = new HashMap<String, SootClass>();
 			
 			for (SootClass aClass : classList) {
 				classMap.put(aClass.toString(), aClass);
@@ -248,6 +248,14 @@ public class AnalysisUtilTest {
 						
 						// preparation for localsTest
 						locals = au.locals(aMethod);
+						
+						// preparation for typeFileterTest
+						allLocalInfos = new HashMap<String, LocalInfo>();
+						for (Entry<String, Local> entry : locals.entrySet()) {
+							LocalInfo localInfo = new LocalInfo();
+							localInfo.setLocal(entry.getValue());
+							allLocalInfos.put(entry.getKey(), localInfo);
+						}
 						
 						for (Unit unit : units) {
 							// preparation for isFieldInRightSideTest
