@@ -27,6 +27,7 @@ public class AnalysisUtil {
 		
 	}
 	
+	// In
 	public Map<String, LocalInfo> localsOfMethodParam(SootMethod aMethod) {
 		Map<String, LocalInfo> localsOfMethodParam = new HashMap<String, LocalInfo>();
 		
@@ -45,6 +46,7 @@ public class AnalysisUtil {
 		return localsOfMethodParam;
 	}
 	
+	// In
 	public Map<String, LocalInfo> localsLeftOfField(SootMethod aMethod) {
 		Map<String, LocalInfo> localsLeftOfField = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);
@@ -70,31 +72,7 @@ public class AnalysisUtil {
 		return localsLeftOfField;
 	}
 	
-	public Map<String, LocalInfo> localsRightOfField(SootMethod aMethod) {
-		Map<String, LocalInfo> localsRightOfField = new HashMap<String, LocalInfo>();
-		Map<String, Local> locals = locals(aMethod);
-		
-		List<Unit> units = units(aMethod);
-
-		for (Unit unit : units) {
-			if (isFieldInLeftSide(unit)) {
-				JAssignStmt stmt = (JAssignStmt)unit;
-				Value rightVal = stmt.getRightOp();
-				Local local = locals.get(rightVal.toString());
-				SootField field = stmt.getFieldRef().getField();
-				LocalInfo localInfo = new LocalInfo();
-				localInfo.setLocal(local);
-				localInfo.setField(field);
-				localInfo.setMethod(aMethod);
-				localInfo.setUnit(unit);
-				
-				localsRightOfField.put(local.toString(), localInfo);
-			}
-		}
-		
-		return localsRightOfField;
-	}
-	
+	// In
 	public Map<String, LocalInfo> localsLeftOfInvoke(SootMethod aMethod) {
 		Map<String, LocalInfo> localsLeftOfInvoke = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);
@@ -119,6 +97,7 @@ public class AnalysisUtil {
 		return localsLeftOfInvoke;
 	}
 	
+	// Out
 	public Map<String, LocalInfo> localsOfInvokeParam(SootMethod aMethod) {
 		Map<String, LocalInfo> localsOfInvokeParam = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);
@@ -163,8 +142,33 @@ public class AnalysisUtil {
 		return localsOfInvokeParam;
 	}
 	
+	// Out
+	public Map<String, LocalInfo> localsRightOfField(SootMethod aMethod) {
+		Map<String, LocalInfo> localsRightOfField = new HashMap<String, LocalInfo>();
+		Map<String, Local> locals = locals(aMethod);
+		
+		List<Unit> units = units(aMethod);
+
+		for (Unit unit : units) {
+			if (isFieldInLeftSide(unit)) {
+				JAssignStmt stmt = (JAssignStmt)unit;
+				Value rightVal = stmt.getRightOp();
+				Local local = locals.get(rightVal.toString());
+				SootField field = stmt.getFieldRef().getField();
+				LocalInfo localInfo = new LocalInfo();
+				localInfo.setLocal(local);
+				localInfo.setField(field);
+				localInfo.setMethod(aMethod);
+				localInfo.setUnit(unit);
+				
+				localsRightOfField.put(local.toString(), localInfo);
+			}
+		}
+		
+		return localsRightOfField;
+	}
 	
-	
+	// Out
 	public Map<String, LocalInfo> localOfReturn(SootMethod aMethod) {
 		Map<String, LocalInfo> localOfReturn = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);

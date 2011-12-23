@@ -42,14 +42,32 @@ public class AnalysisUtilTest {
 	private static final String PROJECTS_NAME = "SparkTest";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
+	static AnalysisUtil au;
+	static Hierarchy hierarchy;
+	
 	static List<Unit> units;
+	static Map<String, Local> locals;
+	
+	// In
 	static Map<String, LocalInfo> localsOfMethodParam;
 	static Map<String, LocalInfo> localsLeftOfField;
-	static Map<String, Local> locals;
+	static Map<String, LocalInfo> localsLeftOfInvoke;
+	
+	// Out
+	static Map<String, LocalInfo> localsOfInvokeParam;
+	static Map<String, LocalInfo> localsRightOfField;
+	static Map<String, LocalInfo> localOfReturn;
+	
 	static int numOfFieldInRightStmt;
 	static int numOfFieldInLeftStmt;
 	static int numOfInvokeInRightStmt;
-	static Map<String, LocalInfo> localsLeftOfInvoke;
+	
+	static SootClass c;
+	static SootClass d;
+	static SootClass i;
+	static SootClass subD;
+	static SootClass subI;
+	
 	static boolean touch = false;
 	
 	@Before
@@ -58,8 +76,8 @@ public class AnalysisUtilTest {
 		
 		touch = true;
 		
-		units = new ArrayList<Unit>();
-		locals = new HashMap<String, Local>();
+		au = new AnalysisUtil();
+		
 		numOfFieldInRightStmt = 0;
 		numOfFieldInLeftStmt = 0;
 		numOfInvokeInRightStmt = 0;
@@ -96,30 +114,64 @@ public class AnalysisUtilTest {
 
 	@Test
 	public void test() {
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	@Test
+	public void unitsTest() {
+		assertEquals(27, units.size());
+	}
+	
+	@Test
+	public void localsTest() {
 		assertEquals(17, locals.size());
-		assertEquals(2, localsOfMethodParam.size());
+	}
+	
+	@Test
+	public void isFieldInRightSideTest() {
 		assertEquals(5, numOfFieldInRightStmt);
+	}
+	
+	@Test
+	public void isFieldInLeftSideTest() {
+		assertEquals(5, numOfFieldInLeftStmt);
+	}
+	
+	@Test
+	public void isInvokeInRightSideTest() {
+		assertEquals(5, numOfInvokeInRightStmt);
+	}
+	
+	@Test
+	public void localsOfMethodParamTest() {
+		assertEquals(2, localsOfMethodParam.size());
+	}
+	
+	@Test
+	public void localsLeftOfFieldTest() {
 		assertEquals(5, localsLeftOfField.size());
 		
-		List<String> localsLeftOfFieldStrs = new ArrayList<String>();
-		for (String localStr : localsLeftOfField.keySet()) {
-			localsLeftOfFieldStrs.add(localStr);
-		}
+		Set<String> localsLeftOfFieldStrs = localsLeftOfField.keySet();
 		
 		assertTrue(localsLeftOfFieldStrs.contains("temp$0"));
 		assertTrue(localsLeftOfFieldStrs.contains("temp$3"));
 		assertTrue(localsLeftOfFieldStrs.contains("temp$7"));
 		assertTrue(localsLeftOfFieldStrs.contains("temp$8"));
 		assertTrue(localsLeftOfFieldStrs.contains("temp$10"));
-		
-		assertEquals(5, numOfInvokeInRightStmt);
-		
+	}
+	
+	@Test
+	public void localsLeftOfInvokeTest() {
 		assertEquals(5, localsLeftOfInvoke.size());
 		
-		List<String> localsLeftOfInvokeStrs = new ArrayList<String>();
-		for (String localStr : localsLeftOfInvoke.keySet()) {
-			localsLeftOfInvokeStrs.add(localStr);
-		}
+		Set<String> localsLeftOfInvokeStrs = localsLeftOfInvoke.keySet();
 		
 		// temp$2, 4, 5, 6, 9
 		assertTrue(localsLeftOfInvokeStrs.contains("temp$2"));
@@ -130,20 +182,56 @@ public class AnalysisUtilTest {
 	}
 	
 	@Test
-	public void test2() {
-		assertEquals(27, units.size());
+	public void isSubtypeIncludingTest() {
+		assertNotNull("SootClass.toString() != Type.toString()", i);
+		assertNotNull("SootClass.toString() != Type.toString()", c);
+		assertNotNull("SootClass.toString() != Type.toString()", d);
+		assertNotNull("SootClass.toString() != Type.toString()", subD);
+		assertNotNull("SootClass.toString() != Type.toString()", subI);
+		
+		assertTrue(au.isSubtypeIncluding(i, i, hierarchy));
+		assertTrue(au.isSubtypeIncluding(c, c, hierarchy));
+		assertTrue(au.isSubtypeIncluding(c, i, hierarchy));
+		assertTrue(au.isSubtypeIncluding(subD, d, hierarchy));
+		assertTrue(au.isSubtypeIncluding(subI, i, hierarchy));
+		assertFalse(au.isSubtypeIncluding(c, d, hierarchy));
 	}
-
+	
+	// Out
+	@Test
+	public void localOfReturnTest() {
+		assertEquals("temp$10", localOfReturn.values().iterator().next().local().toString());
+	}
+	
+	// Out
+	@Test
+	public void localsOfInvokeParamTest() {
+		assertEquals(3, localsOfInvokeParam.size());
+		assertTrue(localsOfInvokeParam.containsKey("arg1"));
+		assertTrue(localsOfInvokeParam.containsKey("temp$0"));
+		assertTrue(localsOfInvokeParam.containsKey("dummy"));
+	}
+	
+	// Out
+	@Test
+	public void localsRightOfFieldTest() {
+		assertTrue(localsRightOfField.containsKey("newB"));
+		assertTrue(localsRightOfField.containsKey("temp$3"));
+		assertTrue(localsRightOfField.containsKey("temp$7"));
+		assertTrue(localsRightOfField.containsKey("temp$8"));
+		assertTrue(localsRightOfField.containsKey("temp$9"));
+	}
+	
 	private class TestRunner extends AbstractAnalyzer {
 		public TestRunner(AbstractProject project) {
 			super(project);
 		}
 
 		@Override
-		protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
+		protected void analyze(List<SootClass> classList, Hierarchy aHierarchy) {
 			CallGraph cg = Scene.v().getCallGraph();
-			AnalysisUtil au = new AnalysisUtil();
 			assertNotNull("Target classes not found", classList);
+			hierarchy = aHierarchy;
 			Map<String, SootClass> classMap = new HashMap<String, SootClass>();
 			
 			for (SootClass aClass : classList) {
@@ -155,70 +243,61 @@ public class AnalysisUtilTest {
 				for (SootMethod aMethod : aClass.getMethods()) {
 					if (aMethod.getName().equals("inout")) {
 						
+						// preparation for unitsTest
 						units = au.units(aMethod);
 						
+						// preparation for localsTest
 						locals = au.locals(aMethod);
-					
-						localsOfMethodParam = au.localsOfMethodParam(aMethod);
-						
-						// temp$0, temp$3, temp$7, temp$8, temp$10
-						localsLeftOfField = au.localsLeftOfField(aMethod);
 						
 						for (Unit unit : units) {
+							// preparation for isFieldInRightSideTest
 							if (au.isFieldInRightSide(unit)) {
 								numOfFieldInRightStmt++;
 							}
-							
+							// preparation for isInvokeInRightSideTest
 							if (au.isInvokeInRightSide(unit)) {
 								numOfInvokeInRightStmt++;
 							}
-							
+							// preparation for isFieldInLeftSideTest
 							if (au.isFieldInLeftSide(unit)) {
 								numOfFieldInLeftStmt++;
 							}
 						}
+					
+						// preparation for localsOfMethodParamTest
+						// In
+						localsOfMethodParam = au.localsOfMethodParam(aMethod);
 						
+						// preparation for localsLeftOfFieldTest
+						// In
+						// temp$0, temp$3, temp$7, temp$8, temp$10
+						localsLeftOfField = au.localsLeftOfField(aMethod);
+						
+						// preparation for localsLeftOfInvokeTest
+						// In
 						localsLeftOfInvoke = au.localsLeftOfInvoke(aMethod);
 						
+						// preparation for isSubtypeIncludingTest
 						String typeStr1 = locals.get("temp$0").getType().toString();
 						String typeStr2 = locals.get("temp$1").getType().toString();
-						SootClass i = classMap.get(typeStr1);
-						SootClass c = classMap.get(typeStr2);						
+						i = classMap.get(typeStr1);
+						c = classMap.get(typeStr2);
+						d = classMap.get("D");
+						subD = classMap.get("SubD");
+						subI = classMap.get("SubI");
 						
-						assertNotNull("SootClass.toString() != Type.toString()", i);
-						assertNotNull("SootClass.toString() != Type.toString()", c);
+						// preparation for localOfReturnTest
+						// Out
+						localOfReturn = au.localOfReturn(aMethod);
 						
-						SootClass d = classMap.get("D");
-						SootClass subD = classMap.get("SubD");
-						SootClass subI = classMap.get("SubI");
+						// preparation for localsOfInvokeParamTest
+						// Out
+						localsOfInvokeParam = au.localsOfInvokeParam(aMethod);
 						
-						assertNotNull("SootClass.toString() != Type.toString()", d);
-						assertNotNull("SootClass.toString() != Type.toString()", subD);
-						assertNotNull("SootClass.toString() != Type.toString()", subI);
+						// preparation for localsRightOfFieldTest
+						// Out
+						localsRightOfField = au.localsRightOfField(aMethod);
 						
-						assertTrue(au.isSubtypeIncluding(i, i, hierarchy));
-						assertTrue(au.isSubtypeIncluding(c, c, hierarchy));
-						assertTrue(au.isSubtypeIncluding(c, i, hierarchy));
-						assertTrue(au.isSubtypeIncluding(subD, d, hierarchy));
-						assertTrue(au.isSubtypeIncluding(subI, i, hierarchy));
-						assertFalse(au.isSubtypeIncluding(c, d, hierarchy));
-						
-						assertEquals("temp$10", au.localOfReturn(aMethod).values().iterator().next().local().toString());
-						
-						Map<String, LocalInfo> localsOfInvokeParam = au.localsOfInvokeParam(aMethod);
-						assertEquals(3, localsOfInvokeParam.size());
-						assertTrue(localsOfInvokeParam.containsKey("arg1"));
-						assertTrue(localsOfInvokeParam.containsKey("temp$0"));
-						assertTrue(localsOfInvokeParam.containsKey("dummy"));
-						
-						assertEquals(5, numOfFieldInLeftStmt);
-						
-						Set<String> localsRightOfFieldStrs = au.localsRightOfField(aMethod).keySet();
-						assertTrue(localsRightOfFieldStrs.contains("newB"));
-						assertTrue(localsRightOfFieldStrs.contains("temp$3"));
-						assertTrue(localsRightOfFieldStrs.contains("temp$7"));
-						assertTrue(localsRightOfFieldStrs.contains("temp$8"));
-						assertTrue(localsRightOfFieldStrs.contains("temp$9"));
 					}
 				}
 			}
