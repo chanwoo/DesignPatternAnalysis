@@ -10,6 +10,9 @@ import java.util.Map.Entry;
 import soot.Body;
 import soot.Hierarchy;
 import soot.Local;
+import soot.PointsToAnalysis;
+import soot.PointsToSet;
+import soot.Scene;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
@@ -20,6 +23,8 @@ import soot.jimple.InvokeExpr;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
 import soot.jimple.internal.JReturnStmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
 
 
 
@@ -41,6 +46,7 @@ public class AnalysisUtil {
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
 				localInfo.setMethod(aMethod);
+				localInfo.setParamNum(i);
 				localsOfMethodParam.put(local.toString(), localInfo);
 			}
 		}
@@ -211,6 +217,86 @@ public class AnalysisUtil {
 		return filteredMap;
 	}
 	
+	public List<String> methodStrsInto(SootMethod aMethod, CallGraph cg) {
+		List<String> callers = new ArrayList();
+		
+		Iterator<Edge> iter = cg.edgesInto(aMethod);
+		while (iter.hasNext()) {
+			callers.add(iter.next().src().getSignature());
+		}
+		
+		return callers;
+	}
+	
+//	Map<String, LocalInfo> localsLeftOfFieldMap = typeFilterOfLocalMap(localsLeftOfField(aMethod), aType, hierarchy, classMap);
+//	Map<String, LocalInfo> localsLeftOfInvokeMap = typeFilterOfLocalMap(localsLeftOfInvoke(aMethod), aType, hierarchy, classMap);
+//	
+//	Map<String, LocalInfo> localsOfInvokeParamMap = typeFilterOfLocalMap(localsOfInvokeParam(aMethod), aType, hierarchy, classMap);
+//	Map<String, LocalInfo> localsRightOfFieldMap = typeFilterOfLocalMap(localsRightOfField(aMethod), aType, hierarchy, classMap);
+	
+	public MethodInternalPath analyzeMethodParamToReturn(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
+		MethodInternalPath mip = new MethodInternalPath();
+		PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
+		
+		Map<String, LocalInfo> localsOfMethodParamMap = typeFilterOfLocalMap(localsOfMethodParam(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> localOfReturnMap = typeFilterOfLocalMap(localOfReturn(aMethod), aType, hierarchy, classMap);
+		
+		if (!localOfReturnMap.isEmpty()) {
+			LocalInfo localInfoOfReturn = localOfReturnMap.values().iterator().next();
+			Local localOfReturn = localInfoOfReturn.local();
+
+			PointsToSet set1 = pta.reachingObjects(localOfReturn);
+
+			if (!localsOfMethodParamMap.isEmpty()) {
+				for (LocalInfo localInfoOfMethodParam : localsOfMethodParamMap.values()) {
+					Local localOfMethodParam = localInfoOfMethodParam.local();
+
+					PointsToSet set2 = pta.reachingObjects(localOfMethodParam);
+
+					if (set1.hasNonEmptyIntersection(set2)) {
+						mip.setMethodParamToReturn(localInfoOfMethodParam.paramNum());
+						break;
+					}
+				}
+			}
+
+		}
+		return mip;
+	}
+	
+	public Map<SootClass, List<Creator>> creators(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap, Hierarchy hierarchy) {
+		Map<SootClass, List<Creator>> creators = new HashMap<SootClass, List<Creator>>();
+		List<Unit> units = units(aMethod);
+		String newExprClassStr = "class soot.jimple.internal.JNewExpr";
+		
+		for (Unit unit : units) {
+			if (unit instanceof JAssignStmt) {
+				JAssignStmt stmt = (JAssignStmt)unit;
+				Value rightVal = stmt.getRightOp();
+				if (rightVal.getClass().toString().equals(newExprClassStr)) {
+					Type type = rightVal.getType();
+					SootClass typeClass = classMap.get(type.toString());
+					if (isSubtypeIncluding(typeClass, aType, hierarchy)) {
+						Creator creator = new Creator(unit, aType, aMethod.getDeclaringClass(), aMethod, typeClass);
+						
+						if (creators.containsKey(aType)) {
+							List<Creator> creatorList = creators.get(aType);
+							creatorList.add(creator);
+							creators.put(aType, creatorList);
+						}
+						else {
+							List<Creator> creatorList = new ArrayList<Creator>();
+							creatorList.add(creator);
+							creators.put(aType, creatorList);
+						}
+					}
+				}
+			}
+		}
+		
+		return creators;
+	}
+	
 	public boolean isFieldInRightSide(Unit unit) {
 		boolean result = false;
 		
@@ -294,26 +380,29 @@ public class AnalysisUtil {
 	
 	public boolean isSubtypeIncluding(SootClass a, SootClass b, Hierarchy hierarchy) {
 		boolean result = false;
-		boolean isAInterface = a.isInterface();
-		boolean isBInterface = b.isInterface();
 		
-		if (isAInterface && isBInterface) {
-			if (hierarchy.isInterfaceSubinterfaceOf(a, b) || a.equals(b)) {
-				result = true;
+		if (!(a == null) && !(b == null)) {
+			boolean isAInterface = a.isInterface();
+			boolean isBInterface = b.isInterface();
+
+			if (isAInterface && isBInterface) {
+				if (hierarchy.isInterfaceSubinterfaceOf(a, b) || a.equals(b)) {
+					result = true;
+				}
+			} 
+			else if (!isAInterface && isBInterface) {
+				List<SootClass> implementers = hierarchy.getImplementersOf(b);
+				if (implementers.contains(a)) {
+					result = true;
+				}
 			}
-		} 
-		else if (!isAInterface && isBInterface) {
-			List<SootClass> implementers = hierarchy.getImplementersOf(b);
-			if (implementers.contains(a)) {
-				result = true;
+			else if (isAInterface && !isBInterface) {
+				// do nothing
 			}
-		}
-		else if (isAInterface && !isBInterface) {
-			// do nothing
-		}
-		else if (!isAInterface && !isBInterface) {
-			if (hierarchy.isClassSubclassOfIncluding(a, b)) {
-				result = true;
+			else if (!isAInterface && !isBInterface) {
+				if (hierarchy.isClassSubclassOfIncluding(a, b)) {
+					result = true;
+				}
 			}
 		}
 		

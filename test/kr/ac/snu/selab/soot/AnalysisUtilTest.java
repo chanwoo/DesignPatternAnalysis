@@ -17,7 +17,9 @@ import java.util.Set;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
+import kr.ac.snu.selab.soot.analyzer.Creator;
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
+import kr.ac.snu.selab.soot.analyzer.MethodInternalPath;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 
@@ -64,11 +66,22 @@ public class AnalysisUtilTest {
 	static int numOfFieldInLeftStmt;
 	static int numOfInvokeInRightStmt;
 	
+	static SootClass a;
+	static SootClass b;
 	static SootClass c;
 	static SootClass d;
 	static SootClass i;
 	static SootClass subD;
 	static SootClass subI;
+	
+	static Map<SootClass, List<Creator>> creatorsOfI;
+	static Map<SootClass, List<Creator>> creatorsOfA;
+	static Map<SootClass, List<Creator>> creatorsOfB;
+	static Map<SootClass, List<Creator>> creatorsOfC;
+	
+	static MethodInternalPath mip_methodParamToReturn1;
+	static MethodInternalPath mip_methodParamToReturn2;
+	static MethodInternalPath mip_methodParamToReturn3;
 	
 	static boolean touch = false;
 	
@@ -222,6 +235,21 @@ public class AnalysisUtilTest {
 		assertEquals(0, au.typeFilterOfLocalMap(allLocalInfos, subI, hierarchy, classMap).size());
 	}
 	
+	@Test
+	public void creatorsTest() {
+		assertEquals(2, creatorsOfI.get(i).size());
+		assertEquals(1, creatorsOfA.get(a).size());
+		assertEquals(1, creatorsOfB.get(b).size());
+		assertTrue(creatorsOfC.isEmpty());
+	}
+	
+	@Test
+	public void analyzeMethodParamToReturnTest() {
+		assertEquals(2, mip_methodParamToReturn1.methodParamToReturn());
+		assertEquals(3, mip_methodParamToReturn2.methodParamToReturn());
+		assertEquals(3, mip_methodParamToReturn3.methodParamToReturn());
+	}
+	
 	private class TestRunner extends AbstractAnalyzer {
 		public TestRunner(AbstractProject project) {
 			super(project);
@@ -238,9 +266,35 @@ public class AnalysisUtilTest {
 				classMap.put(aClass.toString(), aClass);
 			}
 			
-
+			i = classMap.get("I");
+			a = classMap.get("A");
+			b = classMap.get("B");
+			c = classMap.get("C");
+			d = classMap.get("D");
+			subD = classMap.get("SubD");
+			subI = classMap.get("SubI");
+			
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {
+					if (aMethod.getName().equals("callInout")) {
+						// preparation for creatorsTest
+						creatorsOfI = au.creators(aMethod, i, classMap, hierarchy);
+						creatorsOfA = au.creators(aMethod, a, classMap, hierarchy);
+						creatorsOfB = au.creators(aMethod, b, classMap, hierarchy);
+						creatorsOfC = au.creators(aMethod, c, classMap, hierarchy);
+					}
+					
+					if (aMethod.getName().equals("methodForAnalyzeMethodParamToReturnTest")) {
+						// preparation for analyzeMethodParamToReturnTest
+						mip_methodParamToReturn1 = au.analyzeMethodParamToReturn(aMethod, i, hierarchy, classMap);
+					}
+					
+					if (aMethod.getName().equals("methodForAnalyzeMethodParamToReturnTest2")) {
+						// preparation for analyzeMethodParamToReturnTest
+						mip_methodParamToReturn2 = au.analyzeMethodParamToReturn(aMethod, i, hierarchy, classMap);
+						mip_methodParamToReturn3 = au.analyzeMethodParamToReturn(aMethod, d, hierarchy, classMap);
+					}
+					
 					if (aMethod.getName().equals("inout")) {
 						
 						// preparation for unitsTest
@@ -285,15 +339,6 @@ public class AnalysisUtilTest {
 						// In
 						localsLeftOfInvoke = au.localsLeftOfInvoke(aMethod);
 						
-						// preparation for isSubtypeIncludingTest
-						String typeStr1 = locals.get("temp$0").getType().toString();
-						String typeStr2 = locals.get("temp$1").getType().toString();
-						i = classMap.get(typeStr1);
-						c = classMap.get(typeStr2);
-						d = classMap.get("D");
-						subD = classMap.get("SubD");
-						subI = classMap.get("SubI");
-						
 						// preparation for localOfReturnTest
 						// Out
 						localOfReturn = au.localOfReturn(aMethod);
@@ -305,6 +350,8 @@ public class AnalysisUtilTest {
 						// preparation for localsRightOfFieldTest
 						// Out
 						localsRightOfField = au.localsRightOfField(aMethod);
+						
+						
 						
 					}
 				}

@@ -1,4 +1,5 @@
 public class S {
+	I a, b;
 	
 	public I callInout(T t) {
 		I arg1 = new A();
@@ -23,6 +24,22 @@ public class S {
 	
 	public I methodD() {
 		return new D();
+	}
+	
+	public I methodForAnalyzeMethodParamToReturnTest(int num, T t, C c, D d) {
+		a = c;
+		
+		I local = a
+		
+		return local;
+	}
+	
+	public D methodForAnalyzeMethodParamToReturnTest2(int num, T t, C c, D d) {
+		D local = d;
+		
+		D local2 = local;
+		
+		return local2;
 	}
 	
 }

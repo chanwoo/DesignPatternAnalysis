@@ -11,12 +11,14 @@ public class LocalInfo {
 	private SootMethod method;
 	private SootField field;
 	private Unit unit;
+	private int paramNum;
 	
 	public LocalInfo() {
 		local = null;
 		method = null;
 		field = null;
 		unit = null;
+		paramNum = -1;
 	}
 	
 	public void setLocal(Local aLocal) {
@@ -49,6 +51,14 @@ public class LocalInfo {
 	
 	public Unit unit() {
 		return unit;
+	}
+	
+	public int paramNum() {
+		return paramNum;
+	}
+	
+	public void setParamNum(int i) {
+		paramNum = i;
 	}
 
 }
