@@ -14,7 +14,10 @@ import soot.SootField;
 import soot.SootMethod;
 import soot.Unit;
 import soot.Value;
+import soot.jimple.InvokeExpr;
 import soot.jimple.internal.JAssignStmt;
+import soot.jimple.internal.JInvokeStmt;
+import soot.jimple.internal.JReturnStmt;
 
 
 
@@ -24,8 +27,8 @@ public class AnalysisUtil {
 		
 	}
 	
-	public Map<String, LocalInfo> paramLocals(SootMethod aMethod) {
-		Map<String, LocalInfo> paramLocals = new HashMap<String, LocalInfo>();
+	public Map<String, LocalInfo> localsOfMethodParam(SootMethod aMethod) {
+		Map<String, LocalInfo> localsOfMethodParam = new HashMap<String, LocalInfo>();
 		
 		if (aMethod.hasActiveBody()) {
 			Body body = aMethod.getActiveBody();
@@ -34,21 +37,22 @@ public class AnalysisUtil {
 				Local local = body.getParameterLocal(i);
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
-				paramLocals.put(local.toString(), localInfo);
+				localInfo.setMethod(aMethod);
+				localsOfMethodParam.put(local.toString(), localInfo);
 			}
 		}
 		
-		return paramLocals;
+		return localsOfMethodParam;
 	}
 	
-	public Map<String, LocalInfo> fieldLocals(SootMethod aMethod) {
-		Map<String, LocalInfo> fieldLocals = new HashMap<String, LocalInfo>();
+	public Map<String, LocalInfo> localsLeftOfField(SootMethod aMethod) {
+		Map<String, LocalInfo> localsLeftOfField = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);
 		
 		List<Unit> units = units(aMethod);
 
 		for (Unit unit : units) {
-			if (isFieldInRightStmt(unit)) {
+			if (isFieldInRightSide(unit)) {
 				JAssignStmt stmt = (JAssignStmt)unit;
 				Value leftVal = stmt.getLeftOp();
 				Local local = locals.get(leftVal.toString());
@@ -56,23 +60,49 @@ public class AnalysisUtil {
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
 				localInfo.setField(field);
+				localInfo.setMethod(aMethod);
 				localInfo.setUnit(unit);
 				
-				fieldLocals.put(local.toString(), localInfo);
+				localsLeftOfField.put(local.toString(), localInfo);
 			}
 		}
 		
-		return fieldLocals;
+		return localsLeftOfField;
 	}
 	
-	public Map<String, LocalInfo> methodLocals(SootMethod aMethod) {
-		Map<String, LocalInfo> methodLocals = new HashMap<String, LocalInfo>();
+	public Map<String, LocalInfo> localsRightOfField(SootMethod aMethod) {
+		Map<String, LocalInfo> localsRightOfField = new HashMap<String, LocalInfo>();
+		Map<String, Local> locals = locals(aMethod);
+		
+		List<Unit> units = units(aMethod);
+
+		for (Unit unit : units) {
+			if (isFieldInLeftSide(unit)) {
+				JAssignStmt stmt = (JAssignStmt)unit;
+				Value rightVal = stmt.getRightOp();
+				Local local = locals.get(rightVal.toString());
+				SootField field = stmt.getFieldRef().getField();
+				LocalInfo localInfo = new LocalInfo();
+				localInfo.setLocal(local);
+				localInfo.setField(field);
+				localInfo.setMethod(aMethod);
+				localInfo.setUnit(unit);
+				
+				localsRightOfField.put(local.toString(), localInfo);
+			}
+		}
+		
+		return localsRightOfField;
+	}
+	
+	public Map<String, LocalInfo> localsLeftOfInvoke(SootMethod aMethod) {
+		Map<String, LocalInfo> localsLeftOfInvoke = new HashMap<String, LocalInfo>();
 		Map<String, Local> locals = locals(aMethod);
 		
 		List<Unit> units = units(aMethod);
 		
 		for (Unit unit : units) {
-			if (isInvokeInRightStmt(unit)) {
+			if (isInvokeInRightSide(unit)) {
 				JAssignStmt stmt = (JAssignStmt)unit;
 				Value leftVal = stmt.getLeftOp();
 				Local local = locals.get(leftVal.toString());
@@ -82,14 +112,83 @@ public class AnalysisUtil {
 				localInfo.setMethod(method);
 				localInfo.setUnit(unit);
 				
-				methodLocals.put(local.toString(), localInfo);
+				localsLeftOfInvoke.put(local.toString(), localInfo);
 			}
 		}
 		
-		return methodLocals;
+		return localsLeftOfInvoke;
 	}
 	
-	public boolean isFieldInRightStmt(Unit unit) {
+	public Map<String, LocalInfo> localsOfInvokeParam(SootMethod aMethod) {
+		Map<String, LocalInfo> localsOfInvokeParam = new HashMap<String, LocalInfo>();
+		Map<String, Local> locals = locals(aMethod);
+		
+		List<Unit> units = units(aMethod);
+		
+		for (Unit unit : units) {
+			if (unit instanceof JAssignStmt) {
+				JAssignStmt stmt = (JAssignStmt)unit;
+				if (stmt.containsInvokeExpr()) {
+					InvokeExpr invokeExpr = stmt.getInvokeExpr();
+					List<Value> args = invokeExpr.getArgs();
+					for (Value arg : args) {
+						Local local = locals.get(arg.toString());
+						LocalInfo localInfo = new LocalInfo();
+						localInfo.setLocal(local);
+						localInfo.setMethod(invokeExpr.getMethod());
+						localInfo.setUnit(unit);
+
+						localsOfInvokeParam.put(local.toString(), localInfo);
+					}
+				}
+			}
+			else if (unit instanceof JInvokeStmt) {
+				JInvokeStmt stmt = (JInvokeStmt)unit;
+				if (stmt.containsInvokeExpr()) {
+					InvokeExpr invokeExpr = stmt.getInvokeExpr();
+					List<Value> args = invokeExpr.getArgs();
+					for (Value arg : args) {
+						Local local = locals.get(arg.toString());
+						LocalInfo localInfo = new LocalInfo();
+						localInfo.setLocal(local);
+						localInfo.setMethod(invokeExpr.getMethod());
+						localInfo.setUnit(unit);
+
+						localsOfInvokeParam.put(local.toString(), localInfo);
+					}
+				}
+			}
+		}
+		
+		return localsOfInvokeParam;
+	}
+	
+	
+	
+	public Map<String, LocalInfo> localOfReturn(SootMethod aMethod) {
+		Map<String, LocalInfo> localOfReturn = new HashMap<String, LocalInfo>();
+		Map<String, Local> locals = locals(aMethod);
+		
+		List<Unit> units = units(aMethod);
+		
+		for (Unit unit : units) {
+			if (unit instanceof JReturnStmt) {
+				JReturnStmt stmt = (JReturnStmt)unit;
+				Value returnVal = stmt.getOp();
+				Local local = locals.get(returnVal.toString());
+				LocalInfo localInfo = new LocalInfo();
+				localInfo.setLocal(local);
+				localInfo.setMethod(aMethod);
+				localInfo.setUnit(unit);
+				
+				localOfReturn.put(local.toString(), localInfo);
+			}
+		}
+		
+		return localOfReturn;
+	} 
+	
+	public boolean isFieldInRightSide(Unit unit) {
 		boolean result = false;
 		
 		if (unit instanceof JAssignStmt) {
@@ -107,7 +206,25 @@ public class AnalysisUtil {
 		return result;
 	}
 	
-	public boolean isInvokeInRightStmt(Unit unit) {
+	public boolean isFieldInLeftSide(Unit unit) {
+		boolean result = false;
+		
+		if (unit instanceof JAssignStmt) {
+			String instanceFieldRef = "class soot.jimple.internal.JInstanceFieldRef";
+			String staticFieldRef = "class soot.jimple.StaticFieldRef";
+			
+			JAssignStmt stmt = (JAssignStmt)unit;	
+			String classString = stmt.getLeftOp().getClass().toString();
+				
+			if (classString.equals(instanceFieldRef) || classString.equals(staticFieldRef)) {
+				result = true;
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean isInvokeInRightSide(Unit unit) {
 		boolean result = false;
 		
 		if (unit instanceof JAssignStmt) {
