@@ -1,53 +1,27 @@
 package kr.ac.snu.selab.soot.graph.refgraph;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
 import kr.ac.snu.selab.soot.graph.Node;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
 public class LocalInfoNode extends Node {
 
-	private LocalInfoNode[] sourceNodes, targetNodes;
+	private ArrayList<LocalInfoNode> sourceNodes, targetNodes;
 
 	public LocalInfoNode(LocalInfo element) {
 		super(element);
+		sourceNodes = new ArrayList<LocalInfoNode>();
+		targetNodes = new ArrayList<LocalInfoNode>();
 	}
 
-	void collectConnectedNodes() {
-		collectSources();
-		collectTargets();
-	}
-
-	private void collectSources() {
-		LocalInfo info = (LocalInfo) element;
-
-		// find source nodes
-		LocalInfo[] srcs = info.getSources();
-
-		int length = srcs.length;
-		sourceNodes = new LocalInfoNode[length];
-		for (int i = 0; i < length; i++) {
-			sourceNodes[i] = new LocalInfoNode(srcs[i]);
-		}
-	}
-
-	private void collectTargets() {
-		LocalInfo info = (LocalInfo) element;
-
-		// find source nodes
-		LocalInfo[] targets = info.getTargets();
-
-		int length = targets.length;
-		targetNodes = new LocalInfoNode[length];
-		for (int i = 0; i < length; i++) {
-			targetNodes[i] = new LocalInfoNode(targets[i]);
-		}
-	}
-
-	LocalInfoNode[] getSources() {
+	List<LocalInfoNode> getSources() {
 		return sourceNodes;
 	}
 
-	LocalInfoNode[] getTargets() {
+	List<LocalInfoNode> getTargets() {
 		return targetNodes;
 	}
 
@@ -67,6 +41,14 @@ public class LocalInfoNode extends Node {
 
 	@Override
 	public void writeXML(XMLWriter writer) {
+	}
+
+	void addSource(LocalInfoNode node) {
+		sourceNodes.add(node);
+	}
+
+	void addTarget(LocalInfoNode node) {
+		targetNodes.add(node);
 	}
 
 }

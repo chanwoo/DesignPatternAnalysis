@@ -1,34 +1,59 @@
 package kr.ac.snu.selab.soot.graph.refgraph;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import soot.SootMethod;
+
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
 import kr.ac.snu.selab.soot.graph.Graph;
-import soot.SootMethod;
 
 public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 
-	private ArrayList<LocalInfoNode> nodes;
-	private HashMap<String, LocalInfoNode> nodeMap;
+	private HashMap<String, LocalInfoNode> nodes;
+	private HashMap<String, LocalInfoNode> nodesInMethodMap;
 
 	public ReferenceFlowGraph() {
-		nodes = new ArrayList<LocalInfoNode>();
-		nodeMap = new HashMap<String, LocalInfoNode>();
+		nodes = new HashMap<String, LocalInfoNode>();
+		nodesInMethodMap = new HashMap<String, LocalInfoNode>();
 	}
 
-	public void add(LocalInfo localInfo) {
-		LocalInfoNode node = new LocalInfoNode(localInfo);
-		if (nodes.contains(node)) {
+	public void addNode(LocalInfo localInfo) {
+		String key = localInfo.toString();
+		if (nodes.containsKey(key)) {
 			return;
 		}
-		node.collectConnectedNodes();
-		nodes.add(node);
 
+		LocalInfoNode node = new LocalInfoNode(localInfo);
+		nodes.put(key, node);
 		SootMethod method = localInfo.method();
-		String methodName = method.getName();
-		nodeMap.put(methodName, node);
+		if (method != null) {
+			nodesInMethodMap.put(method.getName(), node);
+		}
+	}
+
+	public void addEdge(LocalInfo from, LocalInfo to) {
+		String fromKey = from.toString();
+		String toKey = to.toString();
+		LocalInfoNode sourceNode = null, targetNode = null;
+
+		if (!nodes.containsKey(fromKey)) {
+			addNode(from);
+		}
+		sourceNode = nodes.get(fromKey);
+
+		if (!nodes.containsKey(toKey)) {
+			addNode(to);
+		}
+		targetNode = nodes.get(toKey);
+
+		sourceNode.addTarget(targetNode);
+		targetNode.addSource(sourceNode);
+	}
+
+	public LocalInfoNode find(LocalInfo localInfo) {
+		String key = localInfo.toString();
+		return nodes.get(key);
 	}
 
 	@Override
