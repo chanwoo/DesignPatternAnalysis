@@ -46,9 +46,9 @@ public class AnalysisUtil {
 			for (int i = 0; i < numOfParams; i++) {
 				Local local = body.getParameterLocal(i);
 				LocalInfo localInfo = new LocalInfo();
+				localInfo.setCategory("in_methodParam");
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
-				localInfo.setMethod(aMethod);
 				localInfo.setParamNum(i);
 				localsOfMethodParam.put(local.toString(), localInfo);
 			}
@@ -71,10 +71,10 @@ public class AnalysisUtil {
 				Local local = locals.get(leftVal.toString());
 				SootField field = stmt.getFieldRef().getField();
 				LocalInfo localInfo = new LocalInfo();
+				localInfo.setCategory("in_field");
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setField(field);
-				localInfo.setMethod(aMethod);
 				localInfo.setUnit(unit);
 				
 				localsLeftOfField.put(local.toString(), localInfo);
@@ -98,6 +98,7 @@ public class AnalysisUtil {
 				Local local = locals.get(leftVal.toString());
 				SootMethod method = stmt.getInvokeExpr().getMethod();
 				LocalInfo localInfo = new LocalInfo();
+				localInfo.setCategory("in_invoke");
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setMethod(method);
@@ -123,15 +124,20 @@ public class AnalysisUtil {
 				if (stmt.containsInvokeExpr()) {
 					InvokeExpr invokeExpr = stmt.getInvokeExpr();
 					List<Value> args = invokeExpr.getArgs();
+					int argNum = 0;
 					for (Value arg : args) {
 						Local local = locals.get(arg.toString());
 						LocalInfo localInfo = new LocalInfo();
+						localInfo.setCategory("out_invokeParam");
 						localInfo.setLocal(local);
 						localInfo.setDeclaringMethod(aMethod);
 						localInfo.setMethod(invokeExpr.getMethod());
+						localInfo.setParamNum(argNum);
 						localInfo.setUnit(unit);
 
 						localsOfInvokeParam.put(local.toString(), localInfo);
+						
+						argNum++;
 					}
 				}
 			}
@@ -140,15 +146,20 @@ public class AnalysisUtil {
 				if (stmt.containsInvokeExpr()) {
 					InvokeExpr invokeExpr = stmt.getInvokeExpr();
 					List<Value> args = invokeExpr.getArgs();
+					int argNum = 0;
 					for (Value arg : args) {
 						Local local = locals.get(arg.toString());
 						LocalInfo localInfo = new LocalInfo();
+						localInfo.setCategory("out_invokeParam");
 						localInfo.setLocal(local);
 						localInfo.setDeclaringMethod(aMethod);
 						localInfo.setMethod(invokeExpr.getMethod());
+						localInfo.setParamNum(argNum);
 						localInfo.setUnit(unit);
 
 						localsOfInvokeParam.put(local.toString(), localInfo);
+						
+						argNum++;
 					}
 				}
 			}
@@ -171,10 +182,10 @@ public class AnalysisUtil {
 				Local local = locals.get(rightVal.toString());
 				SootField field = stmt.getFieldRef().getField();
 				LocalInfo localInfo = new LocalInfo();
+				localInfo.setCategory("out_field");
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setField(field);
-				localInfo.setMethod(aMethod);
 				localInfo.setUnit(unit);
 				
 				localsRightOfField.put(local.toString(), localInfo);
@@ -197,9 +208,9 @@ public class AnalysisUtil {
 				Value returnVal = stmt.getOp();
 				Local local = locals.get(returnVal.toString());
 				LocalInfo localInfo = new LocalInfo();
+				localInfo.setCategory("out_return");
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
-				localInfo.setMethod(aMethod);
 				localInfo.setUnit(unit);
 				
 				localOfReturn.put(local.toString(), localInfo);

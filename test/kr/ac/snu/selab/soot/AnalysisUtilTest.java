@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +156,10 @@ public class AnalysisUtilTest {
 	@Test
 	public void localsOfMethodParamTest() {
 		assertEquals(2, localsOfMethodParam.size());
+		
+		Set<String> localsOfMethodParamStrs = localsOfMethodParam.keySet();
+		assertTrue(localsOfMethodParamStrs.contains("arg1"));
+		assertTrue(localsOfMethodParamStrs.contains("arg2"));
 	}
 	
 	@Test
@@ -248,6 +253,72 @@ public class AnalysisUtilTest {
 		assertEquals(2, mip_methodParamToReturn1.methodParamToReturn());
 		assertEquals(3, mip_methodParamToReturn2.methodParamToReturn());
 		assertEquals(3, mip_methodParamToReturn3.methodParamToReturn());
+	}
+	
+	@Test
+	public void toString_LocalInfo_Test() {
+		List<String> inMethodParamStr = new ArrayList<String>();
+		
+		for (LocalInfo localInfo : localsOfMethodParam.values()) {
+			inMethodParamStr.add(localInfo.toString());
+		}
+		
+		assertTrue(inMethodParamStr.contains("in_methodParam_<T: I inout(I,I)>_arg1_0"));
+		assertTrue(inMethodParamStr.contains("in_methodParam_<T: I inout(I,I)>_arg2_1"));
+		
+		List<String> inFieldStr = new ArrayList<String>();
+		
+		for (LocalInfo localInfo : localsLeftOfField.values()) {
+			inFieldStr.add(localInfo.toString());
+		}
+		
+		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$0_-1"));
+		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$3_-1"));
+		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$7_-1"));
+		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$8_-1"));
+		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$10_-1"));
+		
+		List<String> inInvokeStr = new ArrayList<String>();
+		
+		for (LocalInfo localInfo : localsLeftOfInvoke.values()) {
+			inInvokeStr.add(localInfo.toString());
+		}
+		
+		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$2_-1"));
+		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$4_-1"));
+		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$5_-1"));
+		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$6_-1"));
+		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$9_-1"));
+
+		List<String> outInvokeParamStr = new ArrayList<String>();
+		
+		for (LocalInfo localInfo : localsOfInvokeParam.values()) {
+			outInvokeParamStr.add(localInfo.toString());
+		}
+		
+		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_arg1_0"));
+		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_temp$0_0"));
+		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_dummy_0"));
+		
+		List<String> outFieldStr = new ArrayList<String>();
+		
+		for (LocalInfo localInfo : localsRightOfField.values()) {
+			outFieldStr.add(localInfo.toString());
+		}
+		
+		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_newB_-1"));
+		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$3_-1"));
+		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$7_-1"));
+		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$8_-1"));
+		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$9_-1"));
+		
+		List<String> outReturnStr = new ArrayList<String>();
+		
+		for (LocalInfo localInfo : localOfReturn.values()) {
+			outReturnStr.add(localInfo.toString());
+		}
+		
+		assertTrue(outReturnStr.contains("out_return_<T: I inout(I,I)>_temp$10_-1"));
 	}
 	
 	private class TestRunner extends AbstractAnalyzer {
