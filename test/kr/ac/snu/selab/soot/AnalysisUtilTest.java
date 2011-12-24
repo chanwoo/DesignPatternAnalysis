@@ -20,9 +20,14 @@ import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
 import kr.ac.snu.selab.soot.analyzer.Creator;
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
+import kr.ac.snu.selab.soot.analyzer.MethodInfo;
 import kr.ac.snu.selab.soot.analyzer.MethodInternalPath;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
+import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
+import kr.ac.snu.selab.soot.graph.refgraph.ReferenceFlowGraph;
+import kr.ac.snu.selab.soot.util.XMLWriter;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -48,6 +53,7 @@ public class AnalysisUtilTest {
 	static AnalysisUtil au;
 	static Map<String, SootClass> classMap;
 	static Hierarchy hierarchy;
+	static CallGraph cg;
 	
 	static List<Unit> units;
 	static Map<String, Local> locals;
@@ -88,6 +94,9 @@ public class AnalysisUtilTest {
 	static MethodInternalPath mip_methodParamToReturn3;
 	
 	static Map<LocalInfo, LocalInfo> internalEdges;
+	static MethodInfo methodInfo;
+	static Map<SootMethod, MethodInfo> methodInfoMap;
+	static SootMethod inout;
 	
 	static boolean touch = false;
 	
@@ -363,8 +372,59 @@ public class AnalysisUtilTest {
 	public void internalEdgesTest() {
 		assertTrue(9 <= internalEdges.size());
 		for (LocalInfo start : internalEdges.keySet()) {
-			logger.debug(start.key() + " ===> " + internalEdges.get(start).key());
+			//logger.debug(start.key() + " ===> " + internalEdges.get(start).key());
 		}
+	}
+	
+	@Test
+	public void analyzeMethodTest() {
+		assertEquals(methodInfo.creation().size(), 1);
+		assertEquals(methodInfo.methodParamIn().size(), 2);
+		assertEquals(methodInfo.fieldIn().size(), 5);
+		assertEquals(methodInfo.invokeIn().size(), 5);
+		assertEquals(methodInfo.invokeParamOut().size(), 3);
+		assertEquals(methodInfo.fieldOut().size(), 5);
+		assertEquals(methodInfo.returnOut().size(), 1);
+		assertEquals(methodInfo.internalEdges().size(), 11);
+	}
+	
+	@Test
+	public void methodInfoMaptest() {
+		assertTrue(methodInfoMap.size() >= 22);
+		MethodInfo inoutInfo = methodInfoMap.get(inout);
+		for (LocalInfo localInfo : inoutInfo.creation().values()) {
+			logger.debug("inoutInfo.creation().values() => " + localInfo.key());
+		}
+		assertEquals(inoutInfo.creation().size(), 1);
+		assertEquals(inoutInfo.methodParamIn().size(), 2);
+		assertEquals(inoutInfo.fieldIn().size(), 5);
+		assertEquals(inoutInfo.invokeIn().size(), 5);
+		assertEquals(inoutInfo.invokeParamOut().size(), 3);
+		assertEquals(inoutInfo.fieldOut().size(), 5);
+		assertEquals(inoutInfo.returnOut().size(), 1);
+		assertEquals(inoutInfo.internalEdges().size(), 11);
+	}
+	
+	@Test
+	public void referenceFlowGraphTest() {
+		ReferenceFlowGraph graph = au.referenceFlowGraph(i, classMap, hierarchy, cg);
+		logger.debug("graph.numOfNodes() => " + graph.numOfNodes());
+		logger.debug("graph.startNodes().size() => " + graph.startNodes().size());
+	}
+	
+	@Test
+	public void referenceFlowsTest() {
+		Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows = au.referenceFlows(i, classMap, hierarchy, cg);
+		logger.debug("referenceFlows.size() => " + referenceFlows.size());
+		
+		XMLWriter writer = new XMLWriter("/Users/chanwoo/Downloads/paths.xml");
+		for (LocalInfoNode key : referenceFlows.keySet()) {
+			List<Path<LocalInfoNode>> pathList = referenceFlows.get(key);
+			for (Path path : pathList) {
+				path.writeXML(writer);
+			}
+		}
+		writer.close();
 	}
 	
 	private class TestRunner extends AbstractAnalyzer {
@@ -374,7 +434,7 @@ public class AnalysisUtilTest {
 
 		@Override
 		protected void analyze(List<SootClass> classList, Hierarchy aHierarchy) {
-			CallGraph cg = Scene.v().getCallGraph();
+			cg = Scene.v().getCallGraph();
 			assertNotNull("Target classes not found", classList);
 			hierarchy = aHierarchy;
 			classMap = new HashMap<String, SootClass>();
@@ -391,9 +451,13 @@ public class AnalysisUtilTest {
 			subD = classMap.get("SubD");
 			subI = classMap.get("SubI");
 			
+			// preparation for methodInfoMapTest
+			methodInfoMap = au.methodInfoMap(i, classMap, hierarchy);
+			
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {
 					if (aMethod.getName().equals("callInout")) {
+						
 						// preparation for creatorsTest
 						creatorsOfI = au.creators(aMethod, i, classMap, hierarchy);
 						creatorsOfA = au.creators(aMethod, a, classMap, hierarchy);
@@ -413,6 +477,9 @@ public class AnalysisUtilTest {
 					}
 					
 					if (aMethod.getName().equals("inout")) {
+						
+						// preparation for methodInfoMapTest
+						inout = aMethod;
 						
 						// preparation for unitsTest
 						units = au.units(aMethod);
@@ -474,6 +541,9 @@ public class AnalysisUtilTest {
 						
 						// preparation for internalEdgeTest
 						internalEdges = au.internalEdges(aMethod, i, hierarchy, classMap);
+						
+						// preparation for analyzeMethodTest
+						methodInfo = au.analyzeMethod(aMethod, i, hierarchy, classMap);
 					}
 				}
 			}

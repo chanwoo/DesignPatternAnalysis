@@ -155,15 +155,18 @@ public class AnalysisUtil {
 					List<Value> args = invokeExpr.getArgs();
 					int argNum = 0;
 					for (Value arg : args) {
-						Local local = locals.get(arg.toString());
-						LocalInfo localInfo = new InvokeParamOut();
-						localInfo.setLocal(local);
-						localInfo.setDeclaringMethod(aMethod);
-						localInfo.setMethod(invokeExpr.getMethod());
-						localInfo.setParamNum(argNum);
-						localInfo.setUnit(unit);
+						String key = arg.toString();
+						if (locals.containsKey(key)) {
+							Local local = locals.get(key);
+							LocalInfo localInfo = new InvokeParamOut();
+							localInfo.setLocal(local);
+							localInfo.setDeclaringMethod(aMethod);
+							localInfo.setMethod(invokeExpr.getMethod());
+							localInfo.setParamNum(argNum);
+							localInfo.setUnit(unit);
 
-						localsOfInvokeParam.put(local.toString(), localInfo);
+							localsOfInvokeParam.put(local.toString(), localInfo);
+						}
 						
 						argNum++;
 					}
@@ -176,15 +179,18 @@ public class AnalysisUtil {
 					List<Value> args = invokeExpr.getArgs();
 					int argNum = 0;
 					for (Value arg : args) {
-						Local local = locals.get(arg.toString());
-						LocalInfo localInfo = new InvokeParamOut();
-						localInfo.setLocal(local);
-						localInfo.setDeclaringMethod(aMethod);
-						localInfo.setMethod(invokeExpr.getMethod());
-						localInfo.setParamNum(argNum);
-						localInfo.setUnit(unit);
+						String key = arg.toString();
+						if (locals.containsKey(key)) {
+							Local local = locals.get(key);
+							LocalInfo localInfo = new InvokeParamOut();
+							localInfo.setLocal(local);
+							localInfo.setDeclaringMethod(aMethod);
+							localInfo.setMethod(invokeExpr.getMethod());
+							localInfo.setParamNum(argNum);
+							localInfo.setUnit(unit);
 
-						localsOfInvokeParam.put(local.toString(), localInfo);
+							localsOfInvokeParam.put(local.toString(), localInfo);
+						}
 						
 						argNum++;
 					}
@@ -206,15 +212,18 @@ public class AnalysisUtil {
 			if (isFieldInLeftSide(unit)) {
 				JAssignStmt stmt = (JAssignStmt)unit;
 				Value rightVal = stmt.getRightOp();
-				Local local = locals.get(rightVal.toString());
-				SootField field = stmt.getFieldRef().getField();
-				LocalInfo localInfo = new FieldOut();
-				localInfo.setLocal(local);
-				localInfo.setDeclaringMethod(aMethod);
-				localInfo.setField(field);
-				localInfo.setUnit(unit);
-				
-				localsRightOfField.put(local.toString(), localInfo);
+				String key = rightVal.toString();
+				if (locals.containsKey(key)) {
+					Local local = locals.get(key);
+					SootField field = stmt.getFieldRef().getField();
+					LocalInfo localInfo = new FieldOut();
+					localInfo.setLocal(local);
+					localInfo.setDeclaringMethod(aMethod);
+					localInfo.setField(field);
+					localInfo.setUnit(unit);
+
+					localsRightOfField.put(local.toString(), localInfo);
+				}
 			}
 		}
 		
@@ -232,13 +241,16 @@ public class AnalysisUtil {
 			if (unit instanceof JReturnStmt) {
 				JReturnStmt stmt = (JReturnStmt)unit;
 				Value returnVal = stmt.getOp();
-				Local local = locals.get(returnVal.toString());
-				LocalInfo localInfo = new ReturnOut();
-				localInfo.setLocal(local);
-				localInfo.setDeclaringMethod(aMethod);
-				localInfo.setUnit(unit);
-				
-				localOfReturn.put(local.toString(), localInfo);
+				String key = returnVal.toString();
+				if (locals.containsKey(key)) {
+					Local local = locals.get(key);
+					LocalInfo localInfo = new ReturnOut();
+					localInfo.setLocal(local);
+					localInfo.setDeclaringMethod(aMethod);
+					localInfo.setUnit(unit);
+
+					localOfReturn.put(local.toString(), localInfo);
+				}
 			}
 		}
 		
@@ -249,13 +261,13 @@ public class AnalysisUtil {
 			SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
 		Map<String, LocalInfo> filteredMap = new HashMap<String, LocalInfo>();
 		
-		for (Entry<String, LocalInfo> entry : aLocalInfoMap.entrySet()) {
-			LocalInfo localInfo = entry.getValue();
+		for (String key : aLocalInfoMap.keySet()) {
+			LocalInfo localInfo = aLocalInfoMap.get(key);
 			Type localType = localInfo.local().getType();
 			SootClass localTypeClass = typeToClass(localType, classMap);
 			
 			if (isSubtypeIncluding(localTypeClass, aType, hierarchy)) {
-				filteredMap.put(entry.getKey(), localInfo);
+				filteredMap.put(key, localInfo);
 			}
 		}
 		
@@ -310,7 +322,12 @@ public class AnalysisUtil {
 	}
 	
 	public SootClass typeToClass(Type aType, Map<String, SootClass> classMap) {
-		return classMap.get(aType.toString());
+		SootClass result = null;
+		String key = aType.toString();
+		if (classMap.containsKey(key)) {
+			result = classMap.get(key);
+		}
+		return result;
 	}
 	
 	public Map<LocalInfo, LocalInfo> internalEdges(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {

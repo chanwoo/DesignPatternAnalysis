@@ -1,14 +1,21 @@
 package kr.ac.snu.selab.soot.graph.refgraph;
 
+import java.io.CharArrayWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
+import kr.ac.snu.selab.soot.analyzer.MyMethod;
 import kr.ac.snu.selab.soot.graph.Node;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
 public class LocalInfoNode extends Node {
-
+	
+	private static Logger log = Logger.getLogger(LocalInfoNode.class);
+	
 	private ArrayList<LocalInfoNode> sourceNodes, targetNodes;
 
 	public LocalInfoNode(LocalInfo element) {
@@ -36,11 +43,20 @@ public class LocalInfoNode extends Node {
 
 	@Override
 	public String toXML() {
-		return null;
+		CharArrayWriter writer = new CharArrayWriter();
+		XMLWriter w = new XMLWriter(writer);
+		writeXML(w);
+		w.close();
+		return writer.toString();
 	}
 
 	@Override
 	public void writeXML(XMLWriter writer) {
+		try {
+			writer.simpleElement("LocalInfo", element.toString());
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 
 	void addSource(LocalInfoNode node) {
