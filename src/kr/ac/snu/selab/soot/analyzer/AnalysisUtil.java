@@ -277,7 +277,19 @@ public class AnalysisUtil {
 		return mip;
 	}
 	
-//	public Map<LocalInfo, LocalInfo> methodParam_return
+	public boolean isConnected(LocalInfo a, LocalInfo b) {
+		boolean result = false;
+		PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
+		
+		PointsToSet set1 = pta.reachingObjects(a.local());
+		PointsToSet set2 = pta.reachingObjects(b.local());
+		
+		if (set1.hasNonEmptyIntersection(set2)) {
+			result = true;
+		}
+		
+		return result;
+	}
 	
 	public Map<SootClass, List<Creator>> creators(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap, Hierarchy hierarchy) {
 		Map<SootClass, List<Creator>> creators = new HashMap<SootClass, List<Creator>>();

@@ -321,6 +321,14 @@ public class AnalysisUtilTest {
 		assertTrue(outReturnStr.contains("out_return_<T: I inout(I,I)>_temp$10_-1"));
 	}
 	
+	@Test
+	public void isConnectedTest() {
+		assertTrue(au.isConnected(localsLeftOfField.get("temp$10"), localOfReturn.get("temp$10")));
+		assertFalse(au.isConnected(localsOfInvokeParam.get("dummy"), localOfReturn.get("temp$10")));
+		assertTrue(au.isConnected(localsOfMethodParam.get("arg2"), localsOfInvokeParam.get("dummy")));
+		assertFalse(au.isConnected(localsOfMethodParam.get("arg1"), localsOfInvokeParam.get("dummy")));
+	}
+	
 	private class TestRunner extends AbstractAnalyzer {
 		public TestRunner(AbstractProject project) {
 			super(project);
