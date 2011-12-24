@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
+import kr.ac.snu.selab.soot.graph.refgraph.ReferenceFlowGraph;
 import soot.Body;
 import soot.Hierarchy;
 import soot.Local;
@@ -409,4 +411,36 @@ public class AnalysisUtil {
 		return result;
 	}
 
+
+	public MethodInternalPath analyzeMethodParamToReturn2(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap, ReferenceFlowGraph refGraph) {
+		MethodInternalPath mip = new MethodInternalPath();
+		PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
+		
+		Map<String, LocalInfo> localsOfMethodParamMap = typeFilterOfLocalMap(localsOfMethodParam(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> localOfReturnMap = typeFilterOfLocalMap(localOfReturn(aMethod), aType, hierarchy, classMap);
+		
+		if (!localOfReturnMap.isEmpty()) {
+			LocalInfo localInfoOfReturn = localOfReturnMap.values().iterator().next();
+			Local localOfReturn = localInfoOfReturn.local();
+
+			PointsToSet set1 = pta.reachingObjects(localOfReturn);
+
+			if (!localsOfMethodParamMap.isEmpty()) {
+				for (LocalInfo localInfoOfMethodParam : localsOfMethodParamMap.values()) {
+					Local localOfMethodParam = localInfoOfMethodParam.local();
+
+					PointsToSet set2 = pta.reachingObjects(localOfMethodParam);
+
+					if (set1.hasNonEmptyIntersection(set2)) {
+						mip.setMethodParamToReturn(localInfoOfMethodParam.paramNum());
+						
+						refGraph.addEdge(localInfoOfMethodParam, localInfoOfReturn);
+						break;
+					}
+				}
+			}
+
+		}
+		return mip;
+	}
 }
