@@ -279,13 +279,16 @@ public class AnalysisUtil {
 	
 	public boolean isConnected(LocalInfo a, LocalInfo b) {
 		boolean result = false;
-		PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
 		
-		PointsToSet set1 = pta.reachingObjects(a.local());
-		PointsToSet set2 = pta.reachingObjects(b.local());
-		
-		if (set1.hasNonEmptyIntersection(set2)) {
-			result = true;
+		if ((a != null) && (b != null)) {
+			PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
+
+			PointsToSet set1 = pta.reachingObjects(a.local());
+			PointsToSet set2 = pta.reachingObjects(b.local());
+
+			if (set1.hasNonEmptyIntersection(set2)) {
+				result = true;
+			}
 		}
 		
 		return result;

@@ -323,6 +323,15 @@ public class AnalysisUtilTest {
 	
 	@Test
 	public void isConnectedTest() {
+		assertTrue(au.isConnected(localsOfMethodParam.get("arg1"), localsOfInvokeParam.get("arg1")));
+		assertTrue(au.isConnected(localsOfMethodParam.get("arg2"), localsOfInvokeParam.get("dummy")));
+		assertTrue(au.isConnected(localsLeftOfField.get("temp$0"), localsOfInvokeParam.get("temp$0")));
+	//	assertTrue(au.isConnected(localsLeftOfField.get("temp$1"), localsRightOfField.get("newB")));  creation should be considered
+		assertFalse(au.isConnected(localsLeftOfInvoke.get("temp$2"), localsRightOfField.get("temp$3")));
+		assertFalse(au.isConnected(localsLeftOfInvoke.get("temp$4"), localsLeftOfInvoke.get("temp$9")));
+	//	assertFalse(au.isConnected(localsLeftOfInvoke.get("temp$5"), localsLeftOfInvoke.get("temp$6"))); because of context insensitive analysis
+		assertTrue(au.isConnected(localsLeftOfField.get("temp$7"), localsLeftOfField.get("temp$8")));
+		
 		assertTrue(au.isConnected(localsLeftOfField.get("temp$10"), localOfReturn.get("temp$10")));
 		assertFalse(au.isConnected(localsOfInvokeParam.get("dummy"), localOfReturn.get("temp$10")));
 		assertTrue(au.isConnected(localsOfMethodParam.get("arg2"), localsOfInvokeParam.get("dummy")));
