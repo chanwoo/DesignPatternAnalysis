@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import kr.ac.snu.selab.soot.graph.GraphPathCollector;
+import kr.ac.snu.selab.soot.graph.MyNode;
+import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.graph.collectors.ReverseAllPathCollector;
 import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
 import kr.ac.snu.selab.soot.graph.refgraph.ReferenceFlowGraph;
 import soot.Body;
@@ -534,6 +538,21 @@ public class AnalysisUtil {
 		}
 		
 		return graph;
+	}
+	
+	public Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows(SootClass aType, 
+			Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
+		Map<LocalInfoNode, List<Path<LocalInfoNode>>> result = new HashMap<LocalInfoNode, List<Path<LocalInfoNode>>>();
+		ReferenceFlowGraph graph = referenceFlowGraph(aType, classMap, hierarchy, cg);
+		List<LocalInfoNode> startNodes = graph.startNodes();
+		
+		for (LocalInfoNode startNode : startNodes) {
+			GraphPathCollector<LocalInfoNode> pathCollector = new ReverseAllPathCollector<LocalInfoNode>(startNode, graph);
+			List<Path<LocalInfoNode>> pathList = pathCollector.run();
+			result.put(startNode, pathList);
+		}
+		
+		return result;
 	}
 	
 	
