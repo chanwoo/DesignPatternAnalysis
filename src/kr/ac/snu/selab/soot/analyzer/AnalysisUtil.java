@@ -248,7 +248,7 @@ public class AnalysisUtil {
 		for (Entry<String, LocalInfo> entry : aLocalInfoMap.entrySet()) {
 			LocalInfo localInfo = entry.getValue();
 			Type localType = localInfo.local().getType();
-			SootClass localTypeClass = classMap.get(localType.toString());
+			SootClass localTypeClass = typeToClass(localType, classMap);
 			
 			if (isSubtypeIncluding(localTypeClass, aType, hierarchy)) {
 				filteredMap.put(entry.getKey(), localInfo);
@@ -304,6 +304,45 @@ public class AnalysisUtil {
 		}
 		return mip;
 	}
+	
+	public SootClass typeToClass(Type aType, Map<String, SootClass> classMap) {
+		return classMap.get(aType.toString());
+	}
+	
+	public Map<LocalInfo, LocalInfo> internalEdges(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
+		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+		List<LocalInfo> starts = new ArrayList<LocalInfo>();
+		List<LocalInfo> ends = new ArrayList<LocalInfo>();
+		
+		Map<String, LocalInfo> methodParamInMap = typeFilterOfLocalMap(localsOfMethodParam(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> fieldInMap = typeFilterOfLocalMap(localsLeftOfField(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> invokeInMap = typeFilterOfLocalMap(localsLeftOfInvoke(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> creationMap = typeFilterOfLocalMap(creations(aMethod), aType, hierarchy, classMap);
+		
+		starts.addAll(methodParamInMap.values());
+		starts.addAll(fieldInMap.values());
+		starts.addAll(invokeInMap.values());
+		starts.addAll(creationMap.values());
+		
+		Map<String, LocalInfo> returnOutMap = typeFilterOfLocalMap(localOfReturn(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> invokeParamOutMap = typeFilterOfLocalMap(localsOfInvokeParam(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> fieldOutMap = typeFilterOfLocalMap(localsRightOfField(aMethod), aType, hierarchy, classMap);
+		
+		ends.addAll(returnOutMap.values());
+		ends.addAll(invokeParamOutMap.values());
+		ends.addAll(fieldOutMap.values());
+		
+		for (LocalInfo start : starts) {
+			for (LocalInfo end : ends) {
+				if (isConnected(start, end)) {
+					edges.put(start, end);
+				}
+			}
+		}
+		
+		return edges;
+	}
+	
 	
 	public boolean isConnected(LocalInfo a, LocalInfo b) {
 		boolean result = false;

@@ -87,6 +87,8 @@ public class AnalysisUtilTest {
 	static MethodInternalPath mip_methodParamToReturn2;
 	static MethodInternalPath mip_methodParamToReturn3;
 	
+	static Map<LocalInfo, LocalInfo> internalEdges;
+	
 	static boolean touch = false;
 	
 	@Before
@@ -347,6 +349,24 @@ public class AnalysisUtilTest {
 		assertTrue(creations.containsKey("temp$1"));
 	}
 	
+	// number of edges of T.inout method should be >= 9
+	// arg1 -> setA(arg1)
+	// b -> setA(b)
+	// arg2 -> dummy -> callI(dummy)
+	// new C() -> b
+	// b -> a
+	// T.publicStaticFieldOfT -> a
+	// publicStaticFieldOfT -> a
+	// T.staticMethodA() -> b
+	// publicStaticFieldOfT -> a -> return
+	@Test
+	public void internalEdgesTest() {
+		assertTrue(9 <= internalEdges.size());
+		for (LocalInfo start : internalEdges.keySet()) {
+			logger.debug(start.key() + " ===> " + internalEdges.get(start).key());
+		}
+	}
+	
 	private class TestRunner extends AbstractAnalyzer {
 		public TestRunner(AbstractProject project) {
 			super(project);
@@ -451,6 +471,9 @@ public class AnalysisUtilTest {
 						// preparation for creationsTest
 						// Creation
 						creations = au.creations(aMethod);
+						
+						// preparation for internalEdgeTest
+						internalEdges = au.internalEdges(aMethod, i, hierarchy, classMap);
 					}
 				}
 			}
