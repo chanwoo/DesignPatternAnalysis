@@ -391,6 +391,147 @@ public class AnalysisUtil {
 		return info;
 	}
 	
+	public Map<SootMethod, MethodInfo> methodInfoMap(SootClass aType, Map<String, SootClass> classMap, Hierarchy hierarchy) {
+		Map<SootMethod, MethodInfo> methodInfoMap = new HashMap<SootMethod, MethodInfo>();
+		
+		for (SootClass aClass : classMap.values()) {
+			for (SootMethod aMethod : aClass.getMethods()) {
+				methodInfoMap.put(aMethod, analyzeMethod(aMethod, aType, hierarchy, classMap));
+			}
+		}
+		
+		return methodInfoMap;
+	}
+	
+	public Map<SootField, LocalInfo> fieldInfoMap(SootClass aType, Map<String, SootClass> classMap, Hierarchy hierarchy) {
+		Map<SootField, LocalInfo> fieldInfoMap = new HashMap<SootField, LocalInfo>();
+		
+		for (SootClass aClass : classMap.values()) {
+			for (SootField aField : aClass.getFields()) {
+				SootClass fieldType = null;
+				String key = aField.getType().toString();
+				if (classMap.containsKey(key)) {
+					fieldType = classMap.get(key);
+				}
+				if ((fieldType != null) && (isSubtypeIncluding(fieldType, aType, hierarchy))) {
+					LocalInfo localInfo = new Field();
+					localInfo.setDeclaringField(aField);
+					fieldInfoMap.put(aField, localInfo);
+				}
+			}
+		}
+
+		return fieldInfoMap;
+	}
+	
+	public Map<LocalInfo, LocalInfo> invokeParamOut_to_methodParamIn(Map<SootMethod, MethodInfo> methodInfoMap, CallGraph cg) {
+		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+		
+		for (MethodInfo methodInfo : methodInfoMap.values()) {
+			Map<String, LocalInfo> methodParamInMap = methodInfo.methodParamIn();
+			for (LocalInfo methodParamIn : methodParamInMap.values()) {
+				Iterator<Edge> edgeIter = cg.edgesInto(methodParamIn.declaringMethod());
+				while (edgeIter.hasNext()) {
+					Edge edge = edgeIter.next();
+					SootMethod caller = edge.src();
+					MethodInfo methodInfoOfCaller = methodInfoMap.get(caller);
+					Map<String, LocalInfo> invokeParamOutMap = methodInfoOfCaller.invokeParamOut();
+					
+					for (LocalInfo invokeParamOut : invokeParamOutMap.values()) {
+						if (invokeParamOut.method().equals(methodParamIn.declaringMethod()) &&
+								invokeParamOut.paramNum() == methodParamIn.paramNum()) {
+							edges.put(invokeParamOut, methodParamIn);
+						}
+					}
+				}
+			}
+		}
+		
+		return edges;
+	}
+	
+	public Map<LocalInfo, LocalInfo> returnOut_to_InvokeIn(Map<SootMethod, MethodInfo> methodInfoMap) {
+		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+		
+		for (MethodInfo methodInfo : methodInfoMap.values()) {
+			Map<String, LocalInfo> invokeInMap = methodInfo.invokeIn();
+			for (LocalInfo invokeIn : invokeInMap.values()) {
+				SootMethod callee = invokeIn.method();
+				MethodInfo methodInfoOfCallee = methodInfoMap.get(callee);
+				for (LocalInfo returnOut : methodInfoOfCallee.returnOut().values()) {
+					edges.put(returnOut, invokeIn);
+				}
+			}
+		}
+		
+		return edges;
+	}
+	
+	public Map<LocalInfo, LocalInfo> field_to_fieldIn(Map<SootMethod, MethodInfo> methodInfoMap, Map<SootField, LocalInfo> fieldInfoMap) {
+		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+		
+		for (MethodInfo methodInfo : methodInfoMap.values()) {
+			Map<String, LocalInfo> fieldInMap = methodInfo.fieldIn();
+			for (LocalInfo fieldIn : fieldInMap.values()) {
+				SootField field = fieldIn.field();
+				LocalInfo fieldInfo = fieldInfoMap.get(field);
+				edges.put(fieldInfo, fieldIn);
+			}
+		}
+		
+		return edges;
+	}
+	
+	public Map<LocalInfo, LocalInfo> fieldOut_to_field(Map<SootMethod, MethodInfo> methodInfoMap, Map<SootField, LocalInfo> fieldInfoMap) {
+		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+		
+		for (MethodInfo methodInfo : methodInfoMap.values()) {
+			Map<String, LocalInfo> fieldOutMap = methodInfo.fieldOut();
+			for (LocalInfo fieldOut : fieldOutMap.values()) {
+				SootField field = fieldOut.field();
+				LocalInfo fieldInfo = fieldInfoMap.get(field);
+				edges.put(fieldOut, fieldInfo);
+			}
+		}
+		
+		return edges;
+	}
+	
+	public ReferenceFlowGraph referenceFlowGraph(SootClass aType, Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
+		ReferenceFlowGraph graph = new ReferenceFlowGraph();		
+		Map<SootMethod, MethodInfo> methodInfoMap = methodInfoMap(aType, classMap, hierarchy);
+		Map<SootField, LocalInfo> fieldInfoMap = fieldInfoMap(aType, classMap, hierarchy);
+		
+		for (MethodInfo methodInfo : methodInfoMap.values()) {
+			Map<LocalInfo, LocalInfo> internalEdges = methodInfo.internalEdges();
+			for (LocalInfo from : internalEdges.keySet()) {
+				graph.addEdge(from, internalEdges.get(from));
+			}
+		}
+		
+		Map<LocalInfo, LocalInfo> invokeParamOut_to_methodParamIn = invokeParamOut_to_methodParamIn(methodInfoMap, cg);
+		for (LocalInfo from : invokeParamOut_to_methodParamIn.keySet()) {
+			graph.addEdge(from, invokeParamOut_to_methodParamIn.get(from));
+		}
+		
+		Map<LocalInfo, LocalInfo> returnOut_to_InvokeIn = returnOut_to_InvokeIn(methodInfoMap);
+		for (LocalInfo from : returnOut_to_InvokeIn.keySet()) {
+			graph.addEdge(from, returnOut_to_InvokeIn.get(from));
+		}
+		
+		Map<LocalInfo, LocalInfo> field_to_fieldIn = field_to_fieldIn(methodInfoMap, fieldInfoMap);
+		for (LocalInfo from : field_to_fieldIn.keySet()) {
+			graph.addEdge(from, field_to_fieldIn.get(from));
+		}
+		
+		Map<LocalInfo, LocalInfo> fieldOut_to_field = fieldOut_to_field(methodInfoMap, fieldInfoMap);
+		for (LocalInfo from : fieldOut_to_field.keySet()) {
+			graph.addEdge(from, fieldOut_to_field.get(from));
+		}
+		
+		return graph;
+	}
+	
 	
 	public boolean isConnected(LocalInfo a, LocalInfo b) {
 		boolean result = false;

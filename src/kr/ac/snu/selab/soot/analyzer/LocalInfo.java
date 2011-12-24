@@ -1,6 +1,7 @@
 package kr.ac.snu.selab.soot.analyzer;
 
 import soot.Local;
+import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
 import soot.Unit;
@@ -116,5 +117,5 @@ public class LocalInfo {
 	public void setParamNum(int i) {
 		paramNum = i;
 	}
-
+	
 }

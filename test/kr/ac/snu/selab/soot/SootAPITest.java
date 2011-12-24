@@ -149,6 +149,12 @@ public class SootAPITest {
 									logger.debug("SootMethod InvokeExpr.getMethod() => " + stmt.getInvokeExpr().getMethod());
 									logger.debug("SootMethodRef InvokeExpr.getMethodRef() => " + stmt.getInvokeExpr().getMethodRef());
 									
+									logger.debug("List<ValueBox> InvokeExpr.getUseBoxes() =>");
+									List<ValueBox> useBoxes = stmt.getInvokeExpr().getUseBoxes();
+									for (ValueBox box : useBoxes) {
+										logger.debug(box.getValue().toString());
+									}
+									
 									List<Local> args = new ArrayList<Local>();
 									args = stmt.getInvokeExpr().getArgs();
 									
@@ -184,8 +190,15 @@ public class SootAPITest {
 								for (Value value : values) {
 									logger.debug("value => " + value);
 									logger.debug("value.getClass() => " + value.getClass());
-								} 
+								}
 								
+								if (stmt.containsInvokeExpr()) {
+									logger.debug("List<ValueBox> InvokeExpr.getUseBoxes() =>");
+									List<ValueBox> useBoxes = stmt.getInvokeExpr().getUseBoxes();
+									for (ValueBox box : useBoxes) {
+										logger.debug(box.getValue().toString());
+									}
+								}
 							}
 						}
 					}
