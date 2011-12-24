@@ -36,6 +36,34 @@ public class AnalysisUtil {
 		
 	}
 	
+	// Creation
+	public Map<String, LocalInfo> creations(SootMethod aMethod) {
+		Map<String, LocalInfo> creations = new HashMap<String, LocalInfo>();
+		Map<String, Local> locals = locals(aMethod);
+
+		List<Unit> units = units(aMethod);
+		String newExprClassStr = "class soot.jimple.internal.JNewExpr";
+
+		for (Unit unit : units) {
+			if (unit instanceof JAssignStmt) {
+				JAssignStmt stmt = (JAssignStmt)unit;
+				Value rightVal = stmt.getRightOp();
+				if (rightVal.getClass().toString().equals(newExprClassStr)) {
+					Value leftVal = stmt.getLeftOp();
+					Local local = locals.get(leftVal.toString());
+					LocalInfo localInfo = new Creation();
+					localInfo.setLocal(local);
+					localInfo.setDeclaringMethod(aMethod);
+					localInfo.setUnit(unit);
+
+					creations.put(local.toString(), localInfo);	
+				}
+			}
+		}
+
+		return creations;
+	}
+	
 	// In
 	public Map<String, LocalInfo> localsOfMethodParam(SootMethod aMethod) {
 		Map<String, LocalInfo> localsOfMethodParam = new HashMap<String, LocalInfo>();

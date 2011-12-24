@@ -63,6 +63,9 @@ public class AnalysisUtilTest {
 	static Map<String, LocalInfo> localsRightOfField;
 	static Map<String, LocalInfo> localOfReturn;
 	
+	// Creation
+	static Map<String, LocalInfo> creations;
+	
 	static int numOfFieldInRightStmt;
 	static int numOfFieldInLeftStmt;
 	static int numOfInvokeInRightStmt;
@@ -326,7 +329,7 @@ public class AnalysisUtilTest {
 		assertTrue(au.isConnected(localsOfMethodParam.get("arg1"), localsOfInvokeParam.get("arg1")));
 		assertTrue(au.isConnected(localsOfMethodParam.get("arg2"), localsOfInvokeParam.get("dummy")));
 		assertTrue(au.isConnected(localsLeftOfField.get("temp$0"), localsOfInvokeParam.get("temp$0")));
-	//	assertTrue(au.isConnected(localsLeftOfField.get("temp$1"), localsRightOfField.get("newB")));  creation should be considered
+		assertTrue(au.isConnected(creations.get("temp$1"), localsRightOfField.get("newB")));
 		assertFalse(au.isConnected(localsLeftOfInvoke.get("temp$2"), localsRightOfField.get("temp$3")));
 		assertFalse(au.isConnected(localsLeftOfInvoke.get("temp$4"), localsLeftOfInvoke.get("temp$9")));
 	//	assertFalse(au.isConnected(localsLeftOfInvoke.get("temp$5"), localsLeftOfInvoke.get("temp$6"))); because of context insensitive analysis
@@ -336,6 +339,12 @@ public class AnalysisUtilTest {
 		assertFalse(au.isConnected(localsOfInvokeParam.get("dummy"), localOfReturn.get("temp$10")));
 		assertTrue(au.isConnected(localsOfMethodParam.get("arg2"), localsOfInvokeParam.get("dummy")));
 		assertFalse(au.isConnected(localsOfMethodParam.get("arg1"), localsOfInvokeParam.get("dummy")));
+	}
+	
+	@Test
+	public void creationsTest() {
+		assertEquals(creations.size(), 1);
+		assertTrue(creations.containsKey("temp$1"));
 	}
 	
 	private class TestRunner extends AbstractAnalyzer {
@@ -439,8 +448,9 @@ public class AnalysisUtilTest {
 						// Out
 						localsRightOfField = au.localsRightOfField(aMethod);
 						
-						
-						
+						// preparation for creationsTest
+						// Creation
+						creations = au.creations(aMethod);
 					}
 				}
 			}
