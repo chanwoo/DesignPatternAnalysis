@@ -1,23 +1,37 @@
 package kr.ac.snu.selab.soot.graph.refgraph;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import soot.SootMethod;
+import java.util.List;
 
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
 import kr.ac.snu.selab.soot.graph.Graph;
+import soot.SootMethod;
 
 public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 
 	private HashMap<String, LocalInfoNode> nodes;
 	private HashMap<String, LocalInfoNode> nodesInMethodMap;
+	private List<LocalInfoNode> startNodes;
 
 	public ReferenceFlowGraph() {
 		nodes = new HashMap<String, LocalInfoNode>();
 		nodesInMethodMap = new HashMap<String, LocalInfoNode>();
+		startNodes = new ArrayList<LocalInfoNode>();
 	}
-
+	
+	public List<LocalInfoNode> startNodes() {
+		return startNodes;
+	}
+	
+	public void addStartNodes(Collection<LocalInfo> localInfos) {
+		for (LocalInfo localInfo: localInfos) {
+			startNodes.add(new LocalInfoNode(localInfo));
+		}
+	}
+	
 	public void addNode(LocalInfo localInfo) {
 		String key = localInfo.key();
 		if (nodes.containsKey(key)) {

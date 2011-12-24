@@ -259,7 +259,7 @@ public class AnalysisUtil {
 	}
 	
 	public List<String> methodStrsInto(SootMethod aMethod, CallGraph cg) {
-		List<String> callers = new ArrayList();
+		List<String> callers = new ArrayList<String>();
 		
 		Iterator<Edge> iter = cg.edgesInto(aMethod);
 		while (iter.hasNext()) {
@@ -527,6 +527,10 @@ public class AnalysisUtil {
 		Map<LocalInfo, LocalInfo> fieldOut_to_field = fieldOut_to_field(methodInfoMap, fieldInfoMap);
 		for (LocalInfo from : fieldOut_to_field.keySet()) {
 			graph.addEdge(from, fieldOut_to_field.get(from));
+		}
+		
+		for (MethodInfo methodInfo : methodInfoMap.values()) {
+			graph.addStartNodes(methodInfo.creation().values());
 		}
 		
 		return graph;
