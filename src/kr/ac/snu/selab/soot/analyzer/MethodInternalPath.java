@@ -1,5 +1,7 @@
 package kr.ac.snu.selab.soot.analyzer;
 
+import java.util.Map;
+
 import soot.SootClass;
 import soot.SootMethod;
 
@@ -7,7 +9,7 @@ public class MethodInternalPath {
 	private SootMethod method;
 	private SootClass type;
 	
-	private Map<int, LocalInfo> methodParam;
+	private Map<Integer, LocalInfo> methodParam;
 	
 	private int methodParamToReturn;
 	

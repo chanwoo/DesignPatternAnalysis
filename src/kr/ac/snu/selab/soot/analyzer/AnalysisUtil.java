@@ -45,6 +45,7 @@ public class AnalysisUtil {
 				Local local = body.getParameterLocal(i);
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
+				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setMethod(aMethod);
 				localInfo.setParamNum(i);
 				localsOfMethodParam.put(local.toString(), localInfo);
@@ -69,6 +70,7 @@ public class AnalysisUtil {
 				SootField field = stmt.getFieldRef().getField();
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
+				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setField(field);
 				localInfo.setMethod(aMethod);
 				localInfo.setUnit(unit);
@@ -95,6 +97,7 @@ public class AnalysisUtil {
 				SootMethod method = stmt.getInvokeExpr().getMethod();
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
+				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setMethod(method);
 				localInfo.setUnit(unit);
 				
@@ -122,6 +125,7 @@ public class AnalysisUtil {
 						Local local = locals.get(arg.toString());
 						LocalInfo localInfo = new LocalInfo();
 						localInfo.setLocal(local);
+						localInfo.setDeclaringMethod(aMethod);
 						localInfo.setMethod(invokeExpr.getMethod());
 						localInfo.setUnit(unit);
 
@@ -138,6 +142,7 @@ public class AnalysisUtil {
 						Local local = locals.get(arg.toString());
 						LocalInfo localInfo = new LocalInfo();
 						localInfo.setLocal(local);
+						localInfo.setDeclaringMethod(aMethod);
 						localInfo.setMethod(invokeExpr.getMethod());
 						localInfo.setUnit(unit);
 
@@ -165,6 +170,7 @@ public class AnalysisUtil {
 				SootField field = stmt.getFieldRef().getField();
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
+				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setField(field);
 				localInfo.setMethod(aMethod);
 				localInfo.setUnit(unit);
@@ -190,6 +196,7 @@ public class AnalysisUtil {
 				Local local = locals.get(returnVal.toString());
 				LocalInfo localInfo = new LocalInfo();
 				localInfo.setLocal(local);
+				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setMethod(aMethod);
 				localInfo.setUnit(unit);
 				

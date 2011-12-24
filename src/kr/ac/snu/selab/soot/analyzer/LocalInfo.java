@@ -8,6 +8,7 @@ import soot.Unit;
 public class LocalInfo {
 	
 	private Local local;
+	private SootMethod declaringMethod;
 	private SootMethod method;
 	private SootField field;
 	private Unit unit;
@@ -15,10 +16,19 @@ public class LocalInfo {
 	
 	public LocalInfo() {
 		local = null;
+		declaringMethod = null;
 		method = null;
 		field = null;
 		unit = null;
 		paramNum = -1;
+	}
+	
+	public SootMethod declaringMethod() {
+		return declaringMethod;
+	}
+	
+	public void setDeclaringMethod(SootMethod aMethod) {
+		declaringMethod = aMethod;
 	}
 	
 	public void setLocal(Local aLocal) {
