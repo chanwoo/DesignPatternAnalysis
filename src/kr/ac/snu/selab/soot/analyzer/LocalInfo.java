@@ -28,6 +28,10 @@ public class LocalInfo {
 	}
 	
 	public String toString() {
+		return key();
+	}
+	
+	public String key() {
 		String keyStr = null;
 		
 		String firstStr = category;

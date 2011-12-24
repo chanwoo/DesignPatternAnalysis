@@ -19,7 +19,7 @@ public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 	}
 
 	public void addNode(LocalInfo localInfo) {
-		String key = localInfo.toString();
+		String key = localInfo.key();
 		if (nodes.containsKey(key)) {
 			return;
 		}
@@ -33,8 +33,8 @@ public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 	}
 
 	public void addEdge(LocalInfo from, LocalInfo to) {
-		String fromKey = from.toString();
-		String toKey = to.toString();
+		String fromKey = from.key();
+		String toKey = to.key();
 		LocalInfoNode sourceNode = null, targetNode = null;
 
 		if (!nodes.containsKey(fromKey)) {
@@ -52,7 +52,7 @@ public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 	}
 
 	public LocalInfoNode find(LocalInfo localInfo) {
-		String key = localInfo.toString();
+		String key = localInfo.key();
 		return nodes.get(key);
 	}
 

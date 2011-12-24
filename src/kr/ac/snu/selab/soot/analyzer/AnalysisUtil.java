@@ -45,8 +45,7 @@ public class AnalysisUtil {
 			int numOfParams = aMethod.getParameterCount();
 			for (int i = 0; i < numOfParams; i++) {
 				Local local = body.getParameterLocal(i);
-				LocalInfo localInfo = new LocalInfo();
-				localInfo.setCategory("in_methodParam");
+				LocalInfo localInfo = new MethodParamIn();
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setParamNum(i);
@@ -70,8 +69,7 @@ public class AnalysisUtil {
 				Value leftVal = stmt.getLeftOp();
 				Local local = locals.get(leftVal.toString());
 				SootField field = stmt.getFieldRef().getField();
-				LocalInfo localInfo = new LocalInfo();
-				localInfo.setCategory("in_field");
+				LocalInfo localInfo = new FieldIn();
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setField(field);
@@ -97,8 +95,7 @@ public class AnalysisUtil {
 				Value leftVal = stmt.getLeftOp();
 				Local local = locals.get(leftVal.toString());
 				SootMethod method = stmt.getInvokeExpr().getMethod();
-				LocalInfo localInfo = new LocalInfo();
-				localInfo.setCategory("in_invoke");
+				LocalInfo localInfo = new InvokeIn();
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setMethod(method);
@@ -127,8 +124,7 @@ public class AnalysisUtil {
 					int argNum = 0;
 					for (Value arg : args) {
 						Local local = locals.get(arg.toString());
-						LocalInfo localInfo = new LocalInfo();
-						localInfo.setCategory("out_invokeParam");
+						LocalInfo localInfo = new InvokeParamOut();
 						localInfo.setLocal(local);
 						localInfo.setDeclaringMethod(aMethod);
 						localInfo.setMethod(invokeExpr.getMethod());
@@ -149,8 +145,7 @@ public class AnalysisUtil {
 					int argNum = 0;
 					for (Value arg : args) {
 						Local local = locals.get(arg.toString());
-						LocalInfo localInfo = new LocalInfo();
-						localInfo.setCategory("out_invokeParam");
+						LocalInfo localInfo = new InvokeParamOut();
 						localInfo.setLocal(local);
 						localInfo.setDeclaringMethod(aMethod);
 						localInfo.setMethod(invokeExpr.getMethod());
@@ -181,8 +176,7 @@ public class AnalysisUtil {
 				Value rightVal = stmt.getRightOp();
 				Local local = locals.get(rightVal.toString());
 				SootField field = stmt.getFieldRef().getField();
-				LocalInfo localInfo = new LocalInfo();
-				localInfo.setCategory("out_field");
+				LocalInfo localInfo = new FieldOut();
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setField(field);
@@ -207,8 +201,7 @@ public class AnalysisUtil {
 				JReturnStmt stmt = (JReturnStmt)unit;
 				Value returnVal = stmt.getOp();
 				Local local = locals.get(returnVal.toString());
-				LocalInfo localInfo = new LocalInfo();
-				localInfo.setCategory("out_return");
+				LocalInfo localInfo = new ReturnOut();
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setUnit(unit);
@@ -283,6 +276,8 @@ public class AnalysisUtil {
 		}
 		return mip;
 	}
+	
+//	public Map<LocalInfo, LocalInfo> methodParam_return
 	
 	public Map<SootClass, List<Creator>> creators(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap, Hierarchy hierarchy) {
 		Map<SootClass, List<Creator>> creators = new HashMap<SootClass, List<Creator>>();

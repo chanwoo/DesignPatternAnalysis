@@ -256,11 +256,11 @@ public class AnalysisUtilTest {
 	}
 	
 	@Test
-	public void toString_LocalInfo_Test() {
+	public void key_LocalInfo_Test() {
 		List<String> inMethodParamStr = new ArrayList<String>();
 		
 		for (LocalInfo localInfo : localsOfMethodParam.values()) {
-			inMethodParamStr.add(localInfo.toString());
+			inMethodParamStr.add(localInfo.key());
 		}
 		
 		assertTrue(inMethodParamStr.contains("in_methodParam_<T: I inout(I,I)>_arg1_0"));
@@ -269,7 +269,7 @@ public class AnalysisUtilTest {
 		List<String> inFieldStr = new ArrayList<String>();
 		
 		for (LocalInfo localInfo : localsLeftOfField.values()) {
-			inFieldStr.add(localInfo.toString());
+			inFieldStr.add(localInfo.key());
 		}
 		
 		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$0_-1"));
@@ -281,7 +281,7 @@ public class AnalysisUtilTest {
 		List<String> inInvokeStr = new ArrayList<String>();
 		
 		for (LocalInfo localInfo : localsLeftOfInvoke.values()) {
-			inInvokeStr.add(localInfo.toString());
+			inInvokeStr.add(localInfo.key());
 		}
 		
 		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$2_-1"));
@@ -293,7 +293,7 @@ public class AnalysisUtilTest {
 		List<String> outInvokeParamStr = new ArrayList<String>();
 		
 		for (LocalInfo localInfo : localsOfInvokeParam.values()) {
-			outInvokeParamStr.add(localInfo.toString());
+			outInvokeParamStr.add(localInfo.key());
 		}
 		
 		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_arg1_0"));
@@ -303,7 +303,7 @@ public class AnalysisUtilTest {
 		List<String> outFieldStr = new ArrayList<String>();
 		
 		for (LocalInfo localInfo : localsRightOfField.values()) {
-			outFieldStr.add(localInfo.toString());
+			outFieldStr.add(localInfo.key());
 		}
 		
 		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_newB_-1"));
@@ -315,7 +315,7 @@ public class AnalysisUtilTest {
 		List<String> outReturnStr = new ArrayList<String>();
 		
 		for (LocalInfo localInfo : localOfReturn.values()) {
-			outReturnStr.add(localInfo.toString());
+			outReturnStr.add(localInfo.key());
 		}
 		
 		assertTrue(outReturnStr.contains("out_return_<T: I inout(I,I)>_temp$10_-1"));
