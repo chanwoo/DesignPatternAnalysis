@@ -343,6 +343,54 @@ public class AnalysisUtil {
 		return edges;
 	}
 	
+	public MethodInfo analyzeMethod(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
+		MethodInfo info = new MethodInfo();
+		
+		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+		List<LocalInfo> starts = new ArrayList<LocalInfo>();
+		List<LocalInfo> ends = new ArrayList<LocalInfo>();
+		
+		Map<String, LocalInfo> methodParamInMap = typeFilterOfLocalMap(localsOfMethodParam(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> fieldInMap = typeFilterOfLocalMap(localsLeftOfField(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> invokeInMap = typeFilterOfLocalMap(localsLeftOfInvoke(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> creationMap = typeFilterOfLocalMap(creations(aMethod), aType, hierarchy, classMap);
+		
+		starts.addAll(methodParamInMap.values());
+		starts.addAll(fieldInMap.values());
+		starts.addAll(invokeInMap.values());
+		starts.addAll(creationMap.values());
+		
+		Map<String, LocalInfo> returnOutMap = typeFilterOfLocalMap(localOfReturn(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> invokeParamOutMap = typeFilterOfLocalMap(localsOfInvokeParam(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> fieldOutMap = typeFilterOfLocalMap(localsRightOfField(aMethod), aType, hierarchy, classMap);
+		
+		ends.addAll(returnOutMap.values());
+		ends.addAll(invokeParamOutMap.values());
+		ends.addAll(fieldOutMap.values());
+		
+		for (LocalInfo start : starts) {
+			for (LocalInfo end : ends) {
+				if (isConnected(start, end)) {
+					edges.put(start, end);
+				}
+			}
+		}
+		
+		info.setMethodParamIn(methodParamInMap);
+		info.setFieldIn(fieldInMap);
+		info.setInvokeIn(invokeInMap);
+		
+		info.setCreation(creationMap);
+		
+		info.setReturnOut(returnOutMap);
+		info.setInvokeParamOut(invokeParamOutMap);
+		info.setFieldOut(fieldOutMap);
+		
+		info.setInternalEdges(edges);
+		
+		return info;
+	}
+	
 	
 	public boolean isConnected(LocalInfo a, LocalInfo b) {
 		boolean result = false;
