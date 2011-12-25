@@ -1,6 +1,5 @@
 package kr.ac.snu.selab.soot;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.File;

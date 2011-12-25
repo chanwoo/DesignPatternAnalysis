@@ -5,17 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
-import kr.ac.snu.selab.soot.analyzer.MyMethod;
 import kr.ac.snu.selab.soot.graph.Node;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
+import org.apache.log4j.Logger;
+
 public class LocalInfoNode extends Node {
-	
+
 	private static Logger log = Logger.getLogger(LocalInfoNode.class);
-	
+
 	private ArrayList<LocalInfoNode> sourceNodes, targetNodes;
 
 	public LocalInfoNode(LocalInfo element) {
@@ -67,4 +66,11 @@ public class LocalInfoNode extends Node {
 		targetNodes.add(node);
 	}
 
+	@Override
+	public String toString() {
+		if (element == null)
+			return "Empty node";
+		
+		return element.toString();
+	}
 }
