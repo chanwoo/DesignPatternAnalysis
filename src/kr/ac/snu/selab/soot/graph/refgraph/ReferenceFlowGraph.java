@@ -7,11 +7,11 @@ import java.util.List;
 
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
 import kr.ac.snu.selab.soot.graph.Graph;
-import soot.SootMethod;
 
 public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 
 	private HashMap<String, LocalInfoNode> nodes;
+	// XXX: Remove this field if it is useless
 	private HashMap<String, LocalInfoNode> nodesInMethodMap;
 	private List<LocalInfoNode> startNodes;
 
@@ -36,9 +36,6 @@ public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 			if (nodes.containsKey(key)) {
 				startNodes.add(nodes.get(key));
 			}
-//			else {
-//				startNodes.add(new LocalInfoNode(localInfo));
-//			}
 		}
 	}
 
