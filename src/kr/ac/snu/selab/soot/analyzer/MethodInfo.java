@@ -1,5 +1,6 @@
 package kr.ac.snu.selab.soot.analyzer;
 
+import java.util.List;
 import java.util.Map;
 
 public class MethodInfo {
@@ -13,7 +14,7 @@ public class MethodInfo {
 	private Map<String, LocalInfo> invokeParamOut;
 	private Map<String, LocalInfo> fieldOut;
 	
-	private Map<LocalInfo, LocalInfo> internalEdges;
+	private List<Pair<LocalInfo, LocalInfo>> internalEdges;
 	
 	public MethodInfo() {
 			
@@ -75,12 +76,12 @@ public class MethodInfo {
 		fieldOut = aMap;
 	}
 	
-	public Map<LocalInfo, LocalInfo> internalEdges() {
+	public List<Pair<LocalInfo, LocalInfo>> internalEdges() {
 		return internalEdges;
 	}
 	
-	public void setInternalEdges(Map<LocalInfo, LocalInfo> aMap) {
-		internalEdges = aMap;
+	public void setInternalEdges(List<Pair<LocalInfo, LocalInfo>> edges) {
+		internalEdges = edges;
 	}
 
 }

@@ -15,7 +15,7 @@ public abstract class GraphPathCollector<N extends Node> {
 	protected N startNode;
 	protected Graph<N> graph;
 
-	private static final int PATH_SET_SIZE_LIMIT = 100;
+	private static final int PATH_SET_SIZE_LIMIT = 300;
 
 	public GraphPathCollector(N aStartNode, Graph<N> aGraph) {
 		pathsMap = new HashMap<String, ArrayList<Path<N>>>();

@@ -58,7 +58,7 @@ public class AnalysisUtil {
 					localInfo.setDeclaringMethod(aMethod);
 					localInfo.setUnit(unit);
 
-					creations.put(local.toString(), localInfo);	
+					creations.put(localInfo.toString(), localInfo);	
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class AnalysisUtil {
 				localInfo.setLocal(local);
 				localInfo.setDeclaringMethod(aMethod);
 				localInfo.setParamNum(i);
-				localsOfMethodParam.put(local.toString(), localInfo);
+				localsOfMethodParam.put(localInfo.toString(), localInfo);
 			}
 		}
 		
@@ -105,7 +105,7 @@ public class AnalysisUtil {
 				localInfo.setField(field);
 				localInfo.setUnit(unit);
 				
-				localsLeftOfField.put(local.toString(), localInfo);
+				localsLeftOfField.put(localInfo.toString(), localInfo);
 			}
 		}
 		
@@ -131,7 +131,7 @@ public class AnalysisUtil {
 				localInfo.setMethod(method);
 				localInfo.setUnit(unit);
 				
-				localsLeftOfInvoke.put(local.toString(), localInfo);
+				localsLeftOfInvoke.put(localInfo.toString(), localInfo);
 			}
 		}
 		
@@ -163,7 +163,7 @@ public class AnalysisUtil {
 							localInfo.setParamNum(argNum);
 							localInfo.setUnit(unit);
 
-							localsOfInvokeParam.put(local.toString(), localInfo);
+							localsOfInvokeParam.put(localInfo.toString(), localInfo);
 						}
 						
 						argNum++;
@@ -187,7 +187,7 @@ public class AnalysisUtil {
 							localInfo.setParamNum(argNum);
 							localInfo.setUnit(unit);
 
-							localsOfInvokeParam.put(local.toString(), localInfo);
+							localsOfInvokeParam.put(localInfo.toString(), localInfo);
 						}
 						
 						argNum++;
@@ -220,7 +220,7 @@ public class AnalysisUtil {
 					localInfo.setField(field);
 					localInfo.setUnit(unit);
 
-					localsRightOfField.put(local.toString(), localInfo);
+					localsRightOfField.put(localInfo.toString(), localInfo);
 				}
 			}
 		}
@@ -247,7 +247,7 @@ public class AnalysisUtil {
 					localInfo.setDeclaringMethod(aMethod);
 					localInfo.setUnit(unit);
 
-					localOfReturn.put(local.toString(), localInfo);
+					localOfReturn.put(localInfo.toString(), localInfo);
 				}
 			}
 		}
@@ -328,8 +328,8 @@ public class AnalysisUtil {
 		return result;
 	}
 	
-	public Map<LocalInfo, LocalInfo> internalEdges(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
-		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+	public List<Pair<LocalInfo, LocalInfo>> internalEdges(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
+		List<Pair<LocalInfo, LocalInfo>> edges = new ArrayList<Pair<LocalInfo, LocalInfo>>();
 		List<LocalInfo> starts = new ArrayList<LocalInfo>();
 		List<LocalInfo> ends = new ArrayList<LocalInfo>();
 		
@@ -354,7 +354,8 @@ public class AnalysisUtil {
 		for (LocalInfo start : starts) {
 			for (LocalInfo end : ends) {
 				if (isConnected(start, end)) {
-					edges.put(start, end);
+					Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(start, end);
+					edges.add(pair);
 				}
 			}
 		}
@@ -365,7 +366,7 @@ public class AnalysisUtil {
 	public MethodInfo analyzeMethod(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap) {
 		MethodInfo info = new MethodInfo();
 		
-		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+		List<Pair<LocalInfo, LocalInfo>> edges = new ArrayList<Pair<LocalInfo, LocalInfo>>();
 		List<LocalInfo> starts = new ArrayList<LocalInfo>();
 		List<LocalInfo> ends = new ArrayList<LocalInfo>();
 		
@@ -390,7 +391,8 @@ public class AnalysisUtil {
 		for (LocalInfo start : starts) {
 			for (LocalInfo end : ends) {
 				if (isConnected(start, end)) {
-					edges.put(start, end);
+					Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(start, end);
+					edges.add(pair);
 				}
 			}
 		}
@@ -432,7 +434,7 @@ public class AnalysisUtil {
 				if (classMap.containsKey(key)) {
 					fieldType = classMap.get(key);
 				}
-				if ((fieldType != null) && (isSubtypeIncluding(fieldType, aType, hierarchy))) {
+				if ((fieldType != null) && (fieldType.equals(aType))) {
 					LocalInfo localInfo = new Field();
 					localInfo.setDeclaringField(aField);
 					fieldInfoMap.put(aField, localInfo);
@@ -443,8 +445,8 @@ public class AnalysisUtil {
 		return fieldInfoMap;
 	}
 	
-	public Map<LocalInfo, LocalInfo> invokeParamOut_to_methodParamIn(Map<SootMethod, MethodInfo> methodInfoMap, CallGraph cg) {
-		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+	public List<Pair<LocalInfo, LocalInfo>> invokeParamOut_to_methodParamIn(Map<SootMethod, MethodInfo> methodInfoMap, CallGraph cg) {
+		List<Pair<LocalInfo, LocalInfo>> edges = new ArrayList<Pair<LocalInfo, LocalInfo>>();
 		
 		for (MethodInfo methodInfo : methodInfoMap.values()) {
 			Map<String, LocalInfo> methodParamInMap = methodInfo.methodParamIn();
@@ -459,7 +461,8 @@ public class AnalysisUtil {
 					for (LocalInfo invokeParamOut : invokeParamOutMap.values()) {
 						if (invokeParamOut.method().equals(methodParamIn.declaringMethod()) &&
 								invokeParamOut.paramNum() == methodParamIn.paramNum()) {
-							edges.put(invokeParamOut, methodParamIn);
+							Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(invokeParamOut, methodParamIn);
+							edges.add(pair);
 						}
 					}
 				}
@@ -469,8 +472,8 @@ public class AnalysisUtil {
 		return edges;
 	}
 	
-	public Map<LocalInfo, LocalInfo> returnOut_to_InvokeIn(Map<SootMethod, MethodInfo> methodInfoMap) {
-		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+	public List<Pair<LocalInfo, LocalInfo>> returnOut_to_InvokeIn(Map<SootMethod, MethodInfo> methodInfoMap) {
+		List<Pair<LocalInfo, LocalInfo>> edges = new ArrayList<Pair<LocalInfo, LocalInfo>>();
 		
 		for (MethodInfo methodInfo : methodInfoMap.values()) {
 			Map<String, LocalInfo> invokeInMap = methodInfo.invokeIn();
@@ -478,7 +481,8 @@ public class AnalysisUtil {
 				SootMethod callee = invokeIn.method();
 				MethodInfo methodInfoOfCallee = methodInfoMap.get(callee);
 				for (LocalInfo returnOut : methodInfoOfCallee.returnOut().values()) {
-					edges.put(returnOut, invokeIn);
+					Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(returnOut, invokeIn);
+					edges.add(pair);
 				}
 			}
 		}
@@ -486,15 +490,16 @@ public class AnalysisUtil {
 		return edges;
 	}
 	
-	public Map<LocalInfo, LocalInfo> field_to_fieldIn(Map<SootMethod, MethodInfo> methodInfoMap, Map<SootField, LocalInfo> fieldInfoMap) {
-		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+	public List<Pair<LocalInfo, LocalInfo>> field_to_fieldIn(Map<SootMethod, MethodInfo> methodInfoMap, Map<SootField, LocalInfo> fieldInfoMap) {
+		List<Pair<LocalInfo, LocalInfo>> edges = new ArrayList<Pair<LocalInfo, LocalInfo>>();
 		
 		for (MethodInfo methodInfo : methodInfoMap.values()) {
 			Map<String, LocalInfo> fieldInMap = methodInfo.fieldIn();
 			for (LocalInfo fieldIn : fieldInMap.values()) {
 				SootField field = fieldIn.field();
 				LocalInfo fieldInfo = fieldInfoMap.get(field);
-				edges.put(fieldInfo, fieldIn);
+				Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(fieldInfo, fieldIn);
+				edges.add(pair);
 			}
 		}
 		
@@ -522,25 +527,25 @@ public class AnalysisUtil {
 		Map<SootField, LocalInfo> fieldInfoMap = fieldInfoMap(aType, classMap, hierarchy);
 		
 		for (MethodInfo methodInfo : methodInfoMap.values()) {
-			Map<LocalInfo, LocalInfo> internalEdges = methodInfo.internalEdges();
-			for (LocalInfo from : internalEdges.keySet()) {
-				graph.addEdge(from, internalEdges.get(from));
+			List<Pair<LocalInfo, LocalInfo>> internalEdges = methodInfo.internalEdges();
+			for (Pair<LocalInfo, LocalInfo> pair : internalEdges) {
+				graph.addEdge(pair.first(), pair.second());
 			}
 		}
 		
-		Map<LocalInfo, LocalInfo> invokeParamOut_to_methodParamIn = invokeParamOut_to_methodParamIn(methodInfoMap, cg);
-		for (LocalInfo from : invokeParamOut_to_methodParamIn.keySet()) {
-			graph.addEdge(from, invokeParamOut_to_methodParamIn.get(from));
+		List<Pair<LocalInfo, LocalInfo>> invokeParamOut_to_methodParamIn = invokeParamOut_to_methodParamIn(methodInfoMap, cg);
+		for (Pair<LocalInfo, LocalInfo> pair : invokeParamOut_to_methodParamIn) {
+			graph.addEdge(pair.first(), pair.second());
 		}
 		
-		Map<LocalInfo, LocalInfo> returnOut_to_InvokeIn = returnOut_to_InvokeIn(methodInfoMap);
-		for (LocalInfo from : returnOut_to_InvokeIn.keySet()) {
-			graph.addEdge(from, returnOut_to_InvokeIn.get(from));
+		List<Pair<LocalInfo, LocalInfo>> returnOut_to_InvokeIn = returnOut_to_InvokeIn(methodInfoMap);
+		for (Pair<LocalInfo, LocalInfo> pair : returnOut_to_InvokeIn) {
+			graph.addEdge(pair.first(), pair.second());
 		}
 		
-		Map<LocalInfo, LocalInfo> field_to_fieldIn = field_to_fieldIn(methodInfoMap, fieldInfoMap);
-		for (LocalInfo from : field_to_fieldIn.keySet()) {
-			graph.addEdge(from, field_to_fieldIn.get(from));
+		List<Pair<LocalInfo, LocalInfo>> field_to_fieldIn = field_to_fieldIn(methodInfoMap, fieldInfoMap);
+		for (Pair<LocalInfo, LocalInfo> pair : field_to_fieldIn) {
+			graph.addEdge(pair.first(), pair.second());
 		}
 		
 		Map<LocalInfo, LocalInfo> fieldOut_to_field = fieldOut_to_field(methodInfoMap, fieldInfoMap);
