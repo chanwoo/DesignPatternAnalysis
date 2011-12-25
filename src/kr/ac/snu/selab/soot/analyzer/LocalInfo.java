@@ -45,7 +45,10 @@ public class LocalInfo {
 			secondStr = declaringField.toString();
 		}
 		
-		String thirdStr = local.toString();
+		String thirdStr = "";
+		if (local != null) {
+			thirdStr = local.toString();
+		}
 		
 		String fourthStr = (new Integer(paramNum)).toString();
 		

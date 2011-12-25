@@ -98,6 +98,9 @@ public class AnalysisUtilTest {
 	static Map<SootMethod, MethodInfo> methodInfoMap;
 	static SootMethod inout;
 	
+	static ReferenceFlowGraph referenceFlowGraph;
+	static Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows;
+	
 	static boolean touch = false;
 	
 	@Before
@@ -389,7 +392,7 @@ public class AnalysisUtilTest {
 	}
 	
 	@Test
-	public void methodInfoMaptest() {
+	public void methodInfoMapTest() {
 		assertTrue(methodInfoMap.size() >= 22);
 		MethodInfo inoutInfo = methodInfoMap.get(inout);
 		for (LocalInfo localInfo : inoutInfo.creation().values()) {
@@ -407,14 +410,12 @@ public class AnalysisUtilTest {
 	
 	@Test
 	public void referenceFlowGraphTest() {
-		ReferenceFlowGraph graph = au.referenceFlowGraph(i, classMap, hierarchy, cg);
-		logger.debug("graph.numOfNodes() => " + graph.numOfNodes());
-		logger.debug("graph.startNodes().size() => " + graph.startNodes().size());
+		logger.debug("referenceFlowGraph.numOfNodes() => " + referenceFlowGraph.numOfNodes());
+		logger.debug("referenceFlowGraph.startNodes().size() => " + referenceFlowGraph.startNodes().size());
 	}
 	
 	@Test
 	public void referenceFlowsTest() {
-		Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows = au.referenceFlows(i, classMap, hierarchy, cg);
 		logger.debug("referenceFlows.size() => " + referenceFlows.size());
 		
 		XMLWriter writer = new XMLWriter("/Users/chanwoo/Downloads/paths.xml");
@@ -451,8 +452,16 @@ public class AnalysisUtilTest {
 			subD = classMap.get("SubD");
 			subI = classMap.get("SubI");
 			
+			referenceFlowGraph = au.referenceFlowGraph(i, classMap, hierarchy, cg);
+			
 			// preparation for methodInfoMapTest
 			methodInfoMap = au.methodInfoMap(i, classMap, hierarchy);
+			
+			// preparation for referenceFlowGraphTest
+			referenceFlowGraph = au.referenceFlowGraph(i, classMap, hierarchy, cg);
+			
+			// preparation for referenceFlowsTest
+			referenceFlows = au.referenceFlows(i, classMap, hierarchy, cg);
 			
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {
