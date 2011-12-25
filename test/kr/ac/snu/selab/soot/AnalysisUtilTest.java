@@ -101,6 +101,11 @@ public class AnalysisUtilTest {
 	static ReferenceFlowGraph referenceFlowGraph;
 	static Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows;
 	
+	// for paramter number consistency test
+	static Map<String, LocalInfo> localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest;
+	static Map<String, LocalInfo> localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest2;
+	static Map<String, LocalInfo> localsOfInvokeParam_main;
+	
 	static boolean touch = false;
 	
 	@Before
@@ -272,71 +277,71 @@ public class AnalysisUtilTest {
 		assertEquals(3, mip_methodParamToReturn3.methodParamToReturn());
 	}
 	
-	@Test
-	public void key_LocalInfo_Test() {
-		List<String> inMethodParamStr = new ArrayList<String>();
-		
-		for (LocalInfo localInfo : localsOfMethodParam.values()) {
-			inMethodParamStr.add(localInfo.key());
-		}
-		
-		assertTrue(inMethodParamStr.contains("in_methodParam_<T: I inout(I,I)>_arg1_0"));
-		assertTrue(inMethodParamStr.contains("in_methodParam_<T: I inout(I,I)>_arg2_1"));
-		
-		List<String> inFieldStr = new ArrayList<String>();
-		
-		for (LocalInfo localInfo : localsLeftOfField.values()) {
-			inFieldStr.add(localInfo.key());
-		}
-		
-		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$0_-1"));
-		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$3_-1"));
-		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$7_-1"));
-		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$8_-1"));
-		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$10_-1"));
-		
-		List<String> inInvokeStr = new ArrayList<String>();
-		
-		for (LocalInfo localInfo : localsLeftOfInvoke.values()) {
-			inInvokeStr.add(localInfo.key());
-		}
-		
-		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$2_-1"));
-		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$4_-1"));
-		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$5_-1"));
-		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$6_-1"));
-		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$9_-1"));
-
-		List<String> outInvokeParamStr = new ArrayList<String>();
-		
-		for (LocalInfo localInfo : localsOfInvokeParam.values()) {
-			outInvokeParamStr.add(localInfo.key());
-		}
-		
-		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_arg1_0"));
-		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_temp$0_0"));
-		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_dummy_0"));
-		
-		List<String> outFieldStr = new ArrayList<String>();
-		
-		for (LocalInfo localInfo : localsRightOfField.values()) {
-			outFieldStr.add(localInfo.key());
-		}
-		
-		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_newB_-1"));
-		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$3_-1"));
-		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$7_-1"));
-		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$8_-1"));
-		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$9_-1"));
-		
-		List<String> outReturnStr = new ArrayList<String>();
-		
-		for (LocalInfo localInfo : localOfReturn.values()) {
-			outReturnStr.add(localInfo.key());
-		}
-		
-		assertTrue(outReturnStr.contains("out_return_<T: I inout(I,I)>_temp$10_-1"));
-	}
+//	@Test
+//	public void key_LocalInfo_Test() {
+//		List<String> inMethodParamStr = new ArrayList<String>();
+//		
+//		for (LocalInfo localInfo : localsOfMethodParam.values()) {
+//			inMethodParamStr.add(localInfo.key());
+//		}
+//		
+//		assertTrue(inMethodParamStr.contains("in_methodParam_<T: I inout(I,I)>_arg1_0"));
+//		assertTrue(inMethodParamStr.contains("in_methodParam_<T: I inout(I,I)>_arg2_1"));
+//		
+//		List<String> inFieldStr = new ArrayList<String>();
+//		
+//		for (LocalInfo localInfo : localsLeftOfField.values()) {
+//			inFieldStr.add(localInfo.key());
+//		}
+//		
+//		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$0_-1"));
+//		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$3_-1"));
+//		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$7_-1"));
+//		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$8_-1"));
+//		assertTrue(inFieldStr.contains("in_field_<T: I inout(I,I)>_temp$10_-1"));
+//		
+//		List<String> inInvokeStr = new ArrayList<String>();
+//		
+//		for (LocalInfo localInfo : localsLeftOfInvoke.values()) {
+//			inInvokeStr.add(localInfo.key());
+//		}
+//		
+//		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$2_-1"));
+//		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$4_-1"));
+//		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$5_-1"));
+//		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$6_-1"));
+//		assertTrue(inInvokeStr.contains("in_invoke_<T: I inout(I,I)>_temp$9_-1"));
+//
+//		List<String> outInvokeParamStr = new ArrayList<String>();
+//		
+//		for (LocalInfo localInfo : localsOfInvokeParam.values()) {
+//			outInvokeParamStr.add(localInfo.key());
+//		}
+//		
+//		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_arg1_0"));
+//		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_temp$0_0"));
+//		assertTrue(outInvokeParamStr.contains("out_invokeParam_<T: I inout(I,I)>_dummy_0"));
+//		
+//		List<String> outFieldStr = new ArrayList<String>();
+//		
+//		for (LocalInfo localInfo : localsRightOfField.values()) {
+//			outFieldStr.add(localInfo.key());
+//		}
+//		
+//		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_newB_-1"));
+//		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$3_-1"));
+//		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$7_-1"));
+//		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$8_-1"));
+//		assertTrue(outFieldStr.contains("out_field_<T: I inout(I,I)>_temp$9_-1"));
+//		
+//		List<String> outReturnStr = new ArrayList<String>();
+//		
+//		for (LocalInfo localInfo : localOfReturn.values()) {
+//			outReturnStr.add(localInfo.key());
+//		}
+//		
+//		assertTrue(outReturnStr.contains("out_return_<T: I inout(I,I)>_temp$10_-1"));
+//	}
 	
 	@Test
 	public void isConnectedTest() {
@@ -436,6 +441,28 @@ public class AnalysisUtilTest {
 		writer.close();
 	}
 	
+	@Test
+	public void paramNumConsistencyTest() {
+		Map<String, LocalInfo> mp2 = localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest2;
+		Map<String, LocalInfo> mp1 = localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest;
+		Map<String, LocalInfo> ip = localsOfInvokeParam_main;
+		
+		logger.debug("localsOfInvokeParam_main");
+		for (LocalInfo localInfo : ip.values()) {
+			logger.debug("LocalInfo => " + localInfo.toString());
+		}
+		
+		logger.debug("localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest");
+		for (LocalInfo localInfo : mp1.values()) {
+			logger.debug("LocalInfo => " + localInfo.toString());
+		}
+		
+		logger.debug("localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest2");
+		for (LocalInfo localInfo : mp2.values()) {
+			logger.debug("LocalInfo => " + localInfo.toString());
+		}
+	}
+	
 	private class TestRunner extends AbstractAnalyzer {
 		public TestRunner(AbstractProject project) {
 			super(project);
@@ -460,8 +487,6 @@ public class AnalysisUtilTest {
 			subD = classMap.get("SubD");
 			subI = classMap.get("SubI");
 			
-			referenceFlowGraph = au.referenceFlowGraph(i, classMap, hierarchy, cg);
-			
 			// preparation for methodInfoMapTest
 			methodInfoMap = au.methodInfoMap(i, classMap, hierarchy);
 			
@@ -473,6 +498,10 @@ public class AnalysisUtilTest {
 			
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {
+					if (aMethod.getName().equals("main")) {
+						localsOfInvokeParam_main = au.localsOfInvokeParam(aMethod);
+					}
+					
 					if (aMethod.getName().equals("callInout")) {
 						
 						// preparation for creatorsTest
@@ -485,12 +514,16 @@ public class AnalysisUtilTest {
 					if (aMethod.getName().equals("methodForAnalyzeMethodParamToReturnTest")) {
 						// preparation for analyzeMethodParamToReturnTest
 						mip_methodParamToReturn1 = au.analyzeMethodParamToReturn(aMethod, i, hierarchy, classMap);
+						
+						localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest = au.localsOfMethodParam(aMethod);
 					}
 					
 					if (aMethod.getName().equals("methodForAnalyzeMethodParamToReturnTest2")) {
 						// preparation for analyzeMethodParamToReturnTest
 						mip_methodParamToReturn2 = au.analyzeMethodParamToReturn(aMethod, i, hierarchy, classMap);
 						mip_methodParamToReturn3 = au.analyzeMethodParamToReturn(aMethod, d, hierarchy, classMap);
+						
+						localsOfMethodParam_methodForAnalyzeMethodParamToReturnTest2 = au.localsOfMethodParam(aMethod);
 					}
 					
 					if (aMethod.getName().equals("inout")) {

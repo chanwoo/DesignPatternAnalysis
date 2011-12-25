@@ -35,24 +35,42 @@ public class LocalInfo {
 	public String key() {
 		String keyStr = null;
 		
-		String firstStr = category;
+		String categoryStr = category;
 		
-		String secondStr = "";
-		if (declaringMethod != null) {
-			secondStr = declaringMethod.getSignature();
-		}
-		else if (declaringField != null) {
-			secondStr = declaringField.toString();
-		}
-		
-		String thirdStr = "";
+		String localStr = "";
 		if (local != null) {
-			thirdStr = local.toString();
+			localStr = local.toString();
 		}
 		
-		String fourthStr = (new Integer(paramNum)).toString();
+		String declaringMethodStr = "";
+		if (declaringMethod != null) {
+			declaringMethodStr = declaringMethod.getSignature();
+		}
 		
-		keyStr = firstStr + "_" + secondStr + "_" + thirdStr + "_" + fourthStr;
+		String declaringFieldStr = "";
+		if (declaringField != null) {
+			declaringFieldStr = declaringField.toString();
+		}
+		
+		String methodStr = "";
+		if (method != null) {
+			methodStr = method.toString();
+		}
+		
+		String fieldStr = "";
+		if (field != null) {
+			fieldStr = field.toString();
+		}
+		
+		String paramNumStr = (new Integer(paramNum)).toString();
+		
+		keyStr = "category: " + categoryStr + "_" + 
+				 "local: " + localStr + "_" + 
+				 "declaringMethod: " + declaringMethodStr + "_" + 
+				 "declaringField: " + declaringFieldStr + "_" + 
+				 "method: " + methodStr + "_" +
+				 "field: " + fieldStr + "_" +
+				 "ParamNum: " + paramNumStr;
 		
 		return keyStr;
 	}
