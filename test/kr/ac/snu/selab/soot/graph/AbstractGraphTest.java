@@ -58,7 +58,7 @@ public abstract class AbstractGraphTest {
 
 	protected abstract void initializeGraph();
 
-	protected static class StringGraph extends Graph<StringNode> {
+	protected static class StringGraph extends DefaultHashMapGraph<StringNode> {
 	}
 
 	protected static class StringNode extends Node {

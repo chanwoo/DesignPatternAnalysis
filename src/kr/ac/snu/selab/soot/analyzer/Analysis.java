@@ -9,6 +9,7 @@ import java.util.Map;
 import kr.ac.snu.selab.soot.callgraph.CallGraph;
 import kr.ac.snu.selab.soot.callgraph.SimpleCallGraph;
 import kr.ac.snu.selab.soot.callgraph.SootCallGraph;
+import kr.ac.snu.selab.soot.graph.DefaultHashMapGraph;
 import kr.ac.snu.selab.soot.graph.Graph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MyNode;
@@ -565,7 +566,7 @@ public class Analysis {
 
 	public Graph<MyNode> getGraphFromMethodAnalysisResultList(
 			List<MethodAnalysisResult> resultList) {
-		Graph<MyNode> graph = new Graph<MyNode>();
+		DefaultHashMapGraph<MyNode> graph = new DefaultHashMapGraph<MyNode>();
 		HashMap<String, HashSet<MyNode>> sourceMap = graph.getSourceMap();
 		HashMap<String, HashSet<MyNode>> targetMap = graph.getTargetMap();
 

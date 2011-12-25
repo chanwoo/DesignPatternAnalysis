@@ -5,10 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
-import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.graph.collectors.ReverseAllPathCollector;
 import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
