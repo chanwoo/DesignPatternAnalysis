@@ -15,6 +15,11 @@ public class MetaInfo extends Node {
 	public MetaInfo(Object element) {
 		super(element);
 	}
+	
+	@Override
+	public int hashCode() {
+		return element.toString().hashCode();
+	}
 
 	@Override
 	public String toXML() {

@@ -51,7 +51,6 @@ public class Path<N extends Node> {
 			return false;
 		}
 
-		// if (compare.last() != last()) {
 		if (!compare.last().equals(last())) {
 			return false;
 		}

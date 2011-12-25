@@ -32,6 +32,10 @@ public class LocalInfo {
 		return key();
 	}
 	
+	public int hashCode() {
+		return toString().hashCode();
+	}
+	
 	public String key() {
 		String keyStr = null;
 		

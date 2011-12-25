@@ -17,9 +17,8 @@ public abstract class Node {
 		return element.toString();
 	}
 
-	@Override
 	public int hashCode() {
-		return element.hashCode();
+		return element.toString().hashCode();
 	}
 
 	@Override

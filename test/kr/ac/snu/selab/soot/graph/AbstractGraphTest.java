@@ -65,6 +65,10 @@ public abstract class AbstractGraphTest {
 		public StringNode(String text) {
 			super(text);
 		}
+		
+		public int hashCode() {
+			return element.toString().hashCode();
+		}
 
 		@Override
 		public void writeXML(XMLWriter writer) {

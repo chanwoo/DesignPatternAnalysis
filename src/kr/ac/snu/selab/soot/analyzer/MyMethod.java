@@ -30,6 +30,10 @@ public class MyMethod extends MyNode {
 		callStatementList = new ArrayList<Unit>();
 		createStatementList = new ArrayList<Unit>();
 	}
+	
+	public int hashCode() {
+		return element.toString().hashCode();
+	}
 
 	public SootMethod getMethod() {
 		return (SootMethod) element;

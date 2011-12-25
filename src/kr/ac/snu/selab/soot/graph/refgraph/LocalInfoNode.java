@@ -30,6 +30,10 @@ public class LocalInfoNode extends Node {
 	List<LocalInfoNode> getTargets() {
 		return targetNodes;
 	}
+	
+	public int hashCode() {
+		return element.toString().hashCode();
+	}
 
 	@Override
 	public boolean equals(Object o) {

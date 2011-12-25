@@ -19,6 +19,10 @@ public class MyField extends MyNode {
 		super(aField);
 		isStore = false;
 	}
+	
+	public int hashCode() {
+		return element.toString().hashCode();
+	}
 
 	public boolean isCreator() {
 		return false;
