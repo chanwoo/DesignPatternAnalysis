@@ -12,7 +12,7 @@ import java.util.Set;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
-import kr.ac.snu.selab.soot.graph.collectors.ReverseAllPathCollector;
+import kr.ac.snu.selab.soot.graph.collectors.ReferenceFlowCollector;
 import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
 import kr.ac.snu.selab.soot.graph.refgraph.ReferenceFlowGraph;
 import soot.Body;
@@ -85,6 +85,63 @@ public class AnalysisUtil {
 		}
 
 		return creations;
+	}
+	
+	// Call
+	public Map<String, LocalInfo> calls(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap) {
+		Map<String, LocalInfo> calls = new HashMap<String, LocalInfo>();
+		Map<String, Local> locals = locals(aMethod);
+		
+		String virtualInvoke = "class soot.jimple.internal.JVirtualInvokeExpr";
+		String interfaceInvoke = "class soot.jimple.internal.JInterfaceInvokeExpr";
+		
+		List<Unit> units = units(aMethod);
+		
+		for (Unit unit : units) {
+			if (unit instanceof JAssignStmt) {
+				JAssignStmt stmt = (JAssignStmt)unit;
+				if (stmt.containsInvokeExpr()) {
+					String classString = stmt.getInvokeExpr().getClass().toString();
+					if (classString.equals(virtualInvoke) || classString.equals(interfaceInvoke)) {
+						Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
+						Local receiverLocal = locals.get(receiver.toString());
+						SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
+						if (receiverType.equals(aType)) {
+							LocalInfo localInfo = new Call();
+							localInfo.setLocal(receiverLocal);
+							localInfo.setDeclaringMethod(aMethod);
+							localInfo.setMethod(stmt.getInvokeExpr().getMethod());
+							localInfo.setUnit(unit);
+
+							calls.put(localInfo.toString(), localInfo);
+						}
+					}
+				}
+			}
+			else if (unit instanceof JInvokeStmt) {
+				JInvokeStmt stmt = (JInvokeStmt)unit;
+				if (stmt.containsInvokeExpr()) {
+					String classString = stmt.getInvokeExpr().getClass().toString();
+					if (classString.equals(virtualInvoke) || classString.equals(interfaceInvoke)) {
+						Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
+						Local receiverLocal = locals.get(receiver.toString());
+						SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
+						if (receiverType.equals(aType)) {
+							LocalInfo localInfo = new Call();
+							localInfo.setLocal(receiverLocal);
+							localInfo.setDeclaringMethod(aMethod);
+							localInfo.setMethod(stmt.getInvokeExpr().getMethod());
+							localInfo.setUnit(unit);
+
+							calls.put(localInfo.toString(), localInfo);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		return calls;
 	}
 	
 	// In
@@ -404,10 +461,12 @@ public class AnalysisUtil {
 		Map<String, LocalInfo> returnOutMap = typeFilterOfLocalMap(localOfReturn(aMethod), aType, hierarchy, classMap);
 		Map<String, LocalInfo> invokeParamOutMap = typeFilterOfLocalMap(localsOfInvokeParam(aMethod), aType, hierarchy, classMap);
 		Map<String, LocalInfo> fieldOutMap = typeFilterOfLocalMap(localsRightOfField(aMethod), aType, hierarchy, classMap);
+		Map<String, LocalInfo> callMap = calls(aMethod, aType, classMap);
 		
 		ends.addAll(returnOutMap.values());
 		ends.addAll(invokeParamOutMap.values());
 		ends.addAll(fieldOutMap.values());
+		ends.addAll(callMap.values());
 		
 		for (LocalInfo start : starts) {
 			for (LocalInfo end : ends) {
@@ -427,6 +486,8 @@ public class AnalysisUtil {
 		info.setReturnOut(returnOutMap);
 		info.setInvokeParamOut(invokeParamOutMap);
 		info.setFieldOut(fieldOutMap);
+		
+		info.setCall(callMap);
 		
 		info.setInternalEdges(edges);
 		
@@ -579,6 +640,10 @@ public class AnalysisUtil {
 			graph.addStartNodes(methodInfo.creation().values());
 		}
 		
+		for (MethodInfo methodInfo : methodInfoMap.values()) {
+			graph.addEndNodes(methodInfo.call().values());
+		}
+		
 		return graph;
 	}
 	
@@ -589,7 +654,7 @@ public class AnalysisUtil {
 		List<LocalInfoNode> startNodes = graph.startNodes();
 		
 		for (LocalInfoNode startNode : startNodes) {
-			GraphPathCollector<LocalInfoNode> pathCollector = new ReverseAllPathCollector<LocalInfoNode>(startNode, graph);
+			GraphPathCollector<LocalInfoNode> pathCollector = new ReferenceFlowCollector<LocalInfoNode>(startNode, graph);
 			List<Path<LocalInfoNode>> pathList = pathCollector.run();
 			result.put(startNode, pathList);
 		}
@@ -644,7 +709,7 @@ public class AnalysisUtil {
 						}
 						// Caller Check
 						if (!metaInfo.isCaller()) {
-							if (isCaller(localInfo, aType, classMap)) {
+							if (localInfo instanceof Call) {
 								Caller caller = new Caller();
 								caller.setInterfaceType(aType);
 								metaInfo.addRole(caller);

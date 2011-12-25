@@ -9,6 +9,7 @@ public class MethodInfo {
 	private Map<String, LocalInfo> invokeIn;
 	
 	private Map<String, LocalInfo> creation;
+	private Map<String, LocalInfo> call;
 	
 	private Map<String, LocalInfo> returnOut;
 	private Map<String, LocalInfo> invokeParamOut;
@@ -50,6 +51,14 @@ public class MethodInfo {
 	
 	public void setCreation(Map<String, LocalInfo> aMap) {
 		creation = aMap;
+	}
+	
+	public Map<String, LocalInfo> call() {
+		return call;
+	}
+	
+	public void setCall(Map<String, LocalInfo> aMap) {
+		call = aMap;
 	}
 	
 	public Map<String, LocalInfo> returnOut() {
