@@ -25,6 +25,10 @@ public class Path<N extends Node> {
 		return p;
 	}
 	
+	public int hashCode() {
+		return nodeList.hashCode();
+	}
+	
 	public boolean equals(Object anObject) {
 		if (anObject.getClass() != getClass())
 			return false;
