@@ -375,7 +375,7 @@ public class AnalysisUtilTest {
 	public void internalEdgesTest() {
 		assertTrue(9 <= internalEdges.size());
 		for (LocalInfo start : internalEdges.keySet()) {
-			//logger.debug(start.key() + " ===> " + internalEdges.get(start).key());
+			logger.debug(start.key() + " ===> " + internalEdges.get(start).key());
 		}
 	}
 	
@@ -424,6 +424,7 @@ public class AnalysisUtilTest {
 			for (LocalInfoNode key : referenceFlows.keySet()) {
 				List<Path<LocalInfoNode>> pathList = referenceFlows.get(key);
 				for (Path path : pathList) {
+					logger.debug("path size => " + path.length());
 					path.writeXML(writer);
 				}
 			}
