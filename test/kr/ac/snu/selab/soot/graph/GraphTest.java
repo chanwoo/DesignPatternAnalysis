@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collection;
 import java.util.HashSet;
 
 import org.junit.Before;
@@ -17,7 +18,7 @@ public class GraphTest extends AbstractGraphTest {
 
 	@Test
 	public void test() {
-		HashSet<StringNode> nodes = graph.sourceNodes(new StringNode("a"));
+		Collection<StringNode> nodes = graph.sourceNodes(new StringNode("a"));
 		assertEquals(2, nodes.size());
 
 		assertTrue(nodes.contains(new StringNode("b")));

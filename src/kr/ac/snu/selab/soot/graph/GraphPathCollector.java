@@ -1,6 +1,7 @@
 package kr.ac.snu.selab.soot.graph;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -79,7 +80,7 @@ public abstract class GraphPathCollector<N extends Node> {
 			hitSet.add(nodeKey);
 		}
 
-		HashSet<N> nextNodes = getChildren(aNode);
+		Collection<N> nextNodes = getChildren(aNode);
 		for (N node : nextNodes) {
 			if (output.size() >= pathThreshold) {
 				// For performance
@@ -106,7 +107,7 @@ public abstract class GraphPathCollector<N extends Node> {
 		return DONE;
 	}
 
-	protected HashSet<N> getChildren(N aNode) {
+	protected Collection<N> getChildren(N aNode) {
 		if (isForwardSearch()) {
 			return graph.targetNodes(aNode);
 		} else {

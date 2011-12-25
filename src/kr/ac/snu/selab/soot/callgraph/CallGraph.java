@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import kr.ac.snu.selab.soot.graph.Graph;
+import kr.ac.snu.selab.soot.graph.DefaultHashMapGraph;
 import kr.ac.snu.selab.soot.graph.MyNode;
 import kr.ac.snu.selab.soot.util.MyUtil;
 import soot.Hierarchy;
 import soot.SootClass;
 import soot.SootMethod;
 
-public abstract class CallGraph extends Graph<MyNode> {
+public abstract class CallGraph extends DefaultHashMapGraph<MyNode> {
 	private List<SootClass> getSubTypeClassOf(SootClass aType,
 			Hierarchy aHierarchy) {
 		if (aType.isInterface()) {

@@ -1,7 +1,7 @@
 package kr.ac.snu.selab.soot.graph.collectors;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Set;
 
 import kr.ac.snu.selab.soot.graph.Graph;
@@ -60,7 +60,7 @@ public class TriggeringPathCollector<N extends Node> extends GraphPathCollector<
 			hitSet.add(nodeKey);
 		}
 
-		HashSet<N> nextNodes = getChildren(aNode);
+		Collection<N> nextNodes = getChildren(aNode);
 		for (N node : nextNodes) {
 			if (output.size() >= pathThreshold) {
 				// For performance

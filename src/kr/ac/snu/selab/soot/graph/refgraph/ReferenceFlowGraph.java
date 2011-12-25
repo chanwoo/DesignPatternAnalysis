@@ -3,14 +3,13 @@ package kr.ac.snu.selab.soot.graph.refgraph;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 import kr.ac.snu.selab.soot.analyzer.LocalInfo;
 import kr.ac.snu.selab.soot.graph.Graph;
 import soot.SootMethod;
 
-public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
+public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 
 	private HashMap<String, LocalInfoNode> nodes;
 	private HashMap<String, LocalInfoNode> nodesInMethodMap;
@@ -21,22 +20,22 @@ public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 		nodesInMethodMap = new HashMap<String, LocalInfoNode>();
 		startNodes = new ArrayList<LocalInfoNode>();
 	}
-	
+
 	// XXX: For test. Delete it later!
 	public int numOfNodes() {
 		return nodes.size();
 	}
-	
+
 	public List<LocalInfoNode> startNodes() {
 		return startNodes;
 	}
-	
+
 	public void addStartNodes(Collection<LocalInfo> localInfos) {
-		for (LocalInfo localInfo: localInfos) {
+		for (LocalInfo localInfo : localInfos) {
 			startNodes.add(new LocalInfoNode(localInfo));
 		}
 	}
-	
+
 	public void addNode(LocalInfo localInfo) {
 		String key = localInfo.key();
 		if (nodes.containsKey(key)) {
@@ -76,20 +75,44 @@ public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 	}
 
 	@Override
-	public HashSet<LocalInfoNode> sourceNodes(LocalInfoNode aNode) {
-		HashSet<LocalInfoNode> set = new HashSet<LocalInfoNode>();
-		for (LocalInfoNode node : aNode.getSources()) {
-			set.add(node);
-		}
-		return set;
+	public Collection<LocalInfoNode> sourceNodes(LocalInfoNode aNode) {
+		return aNode.getSources();
 	}
 
 	@Override
-	public HashSet<LocalInfoNode> targetNodes(LocalInfoNode aNode) {
-		HashSet<LocalInfoNode> set = new HashSet<LocalInfoNode>();
-		for (LocalInfoNode node : aNode.getTargets()) {
-			set.add(node);
-		}
-		return set;
+	public Collection<LocalInfoNode> targetNodes(LocalInfoNode aNode) {
+		return aNode.getTargets();
+	}
+
+	@Override
+	public String toXML() {
+		String result = "";
+		result = result + "<Graph>";
+		// result = result + "<SourceMap>";
+		// for (String key : sourceMap.keySet()) {
+		// result = result + "<Key>";
+		// result = result + MyUtil.removeBracket(key);
+		// result = result + "</Key>";
+		// result = result + "<Values>";
+		// for (N aNode : sourceMap.get(key)) {
+		// result = result + aNode.toXML();
+		// }
+		// result = result + "</Values>";
+		// }
+		// result = result + "</SourceMap>";
+		// result = result + "<TargetMap>";
+		// for (String key : targetMap.keySet()) {
+		// result = result + "<Key>";
+		// result = result + MyUtil.removeBracket(key);
+		// result = result + "</Key>";
+		// result = result + "<Values>";
+		// for (N aNode : targetMap.get(key)) {
+		// result = result + aNode.toXML();
+		// }
+		// result = result + "</Values>";
+		// }
+		// result = result + "</TargetMap>";
+		result = result + "</Graph>";
+		return result;
 	}
 }
