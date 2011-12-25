@@ -144,6 +144,7 @@ public class SootAPITest {
 								JInvokeStmt stmt = (JInvokeStmt)aUnit;
 								if (stmt.containsInvokeExpr()) {
 									logger.debug("InvokeExpr JInvokeStmt.getInvokeExpr() =>" + stmt.getInvokeExpr());
+									logger.debug("InvokeExpr JInvokeStmt.getInvokeExpr().getClass().toString()=>" + stmt.getInvokeExpr().getClass().toString());
 									logger.debug("ValueBox JInvokeStmt.getInvokeExprBox() => " + stmt.getInvokeExprBox());
 									logger.debug("Type InvokeExpr.getType() => " + stmt.getInvokeExpr().getType());
 									logger.debug("SootMethod InvokeExpr.getMethod() => " + stmt.getInvokeExpr().getMethod());
@@ -177,6 +178,9 @@ public class SootAPITest {
 								logger.debug("JAssingStmt.getRightOp() => " + stmt.getRightOp().toString());
 								logger.debug("JAssignStmt.getRightOp().getType() => " + stmt.getRightOp().getType().toString());
 								logger.debug("JAssingStmt.getRightOp().getClass() => " + stmt.getRightOp().getClass().toString());
+								if (stmt.containsInvokeExpr()) {
+									logger.debug("JAssingStmt.getInvokeExpr().getClass().toString() => " + stmt.getInvokeExpr().getClass().toString());
+								}
 								
 								logger.debug("--------RightOp--------");
 								List<ValueBox> valueboxes = stmt.getRightOp().getUseBoxes();

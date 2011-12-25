@@ -15,8 +15,8 @@ public class Store extends Role {
 		super();
 		setRoleName("Store");
 		setInterfaceType(anInterfaceType);
-		setRclass(aRelatedClass);
-		setRfield(aRelatedField);
+		setDeclaringClass(aRelatedClass);
+		setDeclaringField(aRelatedField);
 	}
 
 }

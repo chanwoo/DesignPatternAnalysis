@@ -1,5 +1,7 @@
 package kr.ac.snu.selab.soot.analyzer;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
@@ -8,18 +10,18 @@ import soot.Unit;
 public class Role {
 	private String roleName;
 	private Unit unit;
-	private SootClass rclass;
-	private SootMethod rmethod;
-	private SootField rfield;
+	private SootClass declaringClass;
+	private SootMethod declaringMethod;
+	private SootField declaringField;
 	private SootClass interfaceType;
 	private SootClass concreteType;
 	
 	public Role() {
 		setRoleName(null);
 		setUnit(null);
-		setRclass(null);
-		setRmethod(null);
-		setRfield(null);
+		setDeclaringClass(null);
+		setDeclaringMethod(null);
+		setDeclaringField(null);
 		setInterfaceType(null);
 		setConcreteType(null);
 	}
@@ -27,11 +29,25 @@ public class Role {
 	public Role(Unit aUnit, SootClass anInterfaceType) {
 		setRoleName(null);
 		setUnit(aUnit);
-		setRclass(null);
-		setRmethod(null);
-		setRfield(null);
+		setDeclaringClass(null);
+		setDeclaringMethod(null);
+		setDeclaringField(null);
 		setInterfaceType(anInterfaceType);
 		setConcreteType(null);
+	}
+	
+	@Override
+	public int hashCode() {
+		HashCodeBuilder builder = new HashCodeBuilder();
+		
+		builder.append(roleName);
+		builder.append(unit);
+		builder.append(declaringClass);
+		builder.append(declaringMethod);
+		builder.append(interfaceType);
+		builder.append(concreteType);
+		
+		return builder.toHashCode();
 	}
 	
 	public String roleName() {
@@ -58,28 +74,28 @@ public class Role {
 		interfaceType = aType;
 	}
 	
-	public SootClass rclass() {
-		return rclass;
+	public SootClass declaringClass() {
+		return declaringClass;
 	}
 	
-	public void setRclass(SootClass aClass) {
-		rclass = aClass;
+	public void setDeclaringClass(SootClass aClass) {
+		declaringClass = aClass;
 	}
 
-	public SootMethod rmethod() {
-		return rmethod;
+	public SootMethod declaringMethod() {
+		return declaringMethod;
 	}
 	
-	public void setRmethod(SootMethod aMethod) {
-		rmethod = aMethod;
+	public void setDeclaringMethod(SootMethod aMethod) {
+		declaringMethod = aMethod;
 	}
 	
-	public SootField rfield() {
-		return rfield;
+	public SootField declaringField() {
+		return declaringField;
 	}
 	
-	public void setRfield(SootField aField) {
-		rfield = aField;
+	public void setDeclaringField(SootField aField) {
+		declaringField = aField;
 	}
 	
 	public SootClass concreteType() {

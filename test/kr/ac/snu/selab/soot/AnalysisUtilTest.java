@@ -615,7 +615,8 @@ public class AnalysisUtilTest {
 			// preparation for referenceFlowsTest
 			//referenceFlows = au.referenceFlows(i, classMap, hierarchy, cg);
 			
-			abstractReferenceFlows = au.abstractReferenceFlows(i, classMap, hierarchy, cg);
+			Map<String, MetaInfo> metaInfoMap = au.metaInfoMap(classList);
+			abstractReferenceFlows = au.abstractReferenceFlows(i, classMap, hierarchy, cg, metaInfoMap);
 
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {

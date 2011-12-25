@@ -51,10 +51,6 @@ public class Path<N extends Node> {
 			return false;
 		}
 
-		if (!compare.last().equals(last())) {
-			return false;
-		}
-
 		boolean result = true;
 		int length = length();
 		for (int i = 0; i < length; i++) {

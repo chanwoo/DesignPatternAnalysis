@@ -1,6 +1,7 @@
 package kr.ac.snu.selab.soot.analyzer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,6 +27,7 @@ import soot.SootMethod;
 import soot.Type;
 import soot.Unit;
 import soot.Value;
+import soot.ValueBox;
 import soot.jimple.InvokeExpr;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JInvokeStmt;
@@ -39,6 +41,22 @@ public class AnalysisUtil {
 	
 	public AnalysisUtil() {
 		
+	}
+	
+	public Map<String, MetaInfo> metaInfoMap(Collection<SootClass> classes) {
+		Map<String, MetaInfo> metaInfoMap = new HashMap<String, MetaInfo>();
+		for (SootClass aClass : classes) {
+			for (SootMethod aMethod : aClass.getMethods()) {
+				MetaInfo metaInfo = new MetaInfo(aMethod);
+				metaInfoMap.put(aMethod.getSignature(), metaInfo);
+			}
+			for (SootField aField : aClass.getFields()) {
+				MetaInfo metaInfo = new MetaInfo(aField);
+				metaInfoMap.put(aField.getSignature(), metaInfo);
+			}
+		}
+		
+		return metaInfoMap;
 	}
 	
 	// Creation
@@ -524,7 +542,8 @@ public class AnalysisUtil {
 		return edges;
 	}
 	
-	public ReferenceFlowGraph referenceFlowGraph(SootClass aType, Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
+	public ReferenceFlowGraph referenceFlowGraph(SootClass aType, Map<String, SootClass> classMap, 
+			Hierarchy hierarchy, CallGraph cg) {
 		ReferenceFlowGraph graph = new ReferenceFlowGraph();		
 		Map<SootMethod, MethodInfo> methodInfoMap = methodInfoMap(aType, classMap, hierarchy);
 		Map<SootField, LocalInfo> fieldInfoMap = fieldInfoMap(aType, classMap, hierarchy);
@@ -578,21 +597,22 @@ public class AnalysisUtil {
 		return result;
 	}
 	
-	public MetaInfo toMetaInfo(LocalInfo localInfo) {
+	public MetaInfo getMetaInfo(LocalInfo localInfo, Map<String, MetaInfo> metaInfoMap) {
 		MetaInfo result = null;
 		
 		if (localInfo.declaringMethod() != null) {
-			result = new MetaInfo(localInfo.declaringMethod());
+			result = metaInfoMap.get(localInfo.declaringMethod().getSignature());
 		}
 		else if (localInfo.declaringField() != null) {
-			result = new MetaInfo(localInfo.declaringField());
+			result = metaInfoMap.get(localInfo.declaringField().getSignature());
 		}
 		
 		return result;
 	}
 	
 	public Set<Path<MetaInfo>> abstractReferenceFlows(SootClass aType, 
-			Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
+			Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg, 
+			Map<String, MetaInfo> metaInfoMap) {
 		Set<Path<MetaInfo>> absFlowSet = new HashSet<Path<MetaInfo>>();
 		
 		Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows = referenceFlows(aType, classMap, hierarchy, cg);
@@ -601,16 +621,61 @@ public class AnalysisUtil {
 			for (Path<LocalInfoNode> path : list) {
 				Path<MetaInfo> newPath = new Path<MetaInfo>();
 				for (LocalInfoNode node : path.getNodeList()) {
+					LocalInfo localInfo = (LocalInfo)node.getElement();
+					MetaInfo metaInfo = getMetaInfo(localInfo, metaInfoMap);
+					
 					if (newPath.isEmpty()) {
-						newPath.add(toMetaInfo((LocalInfo)node.getElement()));
+						// Creator
+						newPath.add(metaInfo);
+						if (!metaInfo.isCreator()) {
+							Creator creator = new Creator();
+							creator.setInterfaceType(aType);
+							metaInfo.addRole(creator);
+						}
 					}
 					else {
-						MetaInfo metaInfo = toMetaInfo((LocalInfo)node.getElement());
+						// Store Check
+						if (!metaInfo.isStore()) {
+							if (localInfo.declaringField() != null) {
+								Store store = new Store();
+								store.setInterfaceType(aType);
+								metaInfo.addRole(store);     
+							}
+						}
+						// Caller Check
+						if (!metaInfo.isCaller()) {
+							if (isCaller(localInfo, aType, classMap)) {
+								Caller caller = new Caller();
+								caller.setInterfaceType(aType);
+								metaInfo.addRole(caller);
+							}
+						}
+						
 						if (!metaInfo.getElement().equals(newPath.last().getElement())) {
 							newPath.add(metaInfo);
 						}
 					}
 				}
+				// Injector Check
+				List<MetaInfo> metaInfoList = newPath.getNodeList();
+				int index = 0;
+				for (MetaInfo metaInfo : metaInfoList) {
+					if (metaInfo.isStore()) {
+						int injectorIndex = index - 2;
+						if (injectorIndex > 0) {
+							MetaInfo injectorSuspect = metaInfoList.get(injectorIndex);
+							if ((!injectorSuspect.isInjector()) && 
+									(injectorSuspect.getElement() instanceof SootMethod)) {
+								Injector injector = new Injector();
+								injector.setInterfaceType(aType);
+								injectorSuspect.addRole(injector);
+							}
+						}
+					}
+					
+					index++;
+				}
+				
 				absFlowSet.add(newPath);
 			}
 		}
@@ -618,6 +683,45 @@ public class AnalysisUtil {
 		return absFlowSet;
 	}
 	
+	public boolean isCaller(LocalInfo localInfo, SootClass aType, Map<String, SootClass> classMap) {
+		boolean result = false;
+		
+		String virtualInvoke = "class soot.jimple.internal.JVirtualInvokeExpr";
+		String interfaceInvoke = "class soot.jimple.internal.JInterfaceInvokeExpr";
+		
+		String category = localInfo.category();
+		if ((category.equals("in_invoke")) || (category.equals("out_invokeParam"))) {
+			SootMethod declaringMethod = localInfo.declaringMethod();
+			Map<String, Local> locals = locals(declaringMethod);
+			Unit unit = localInfo.unit();
+			if (unit instanceof JAssignStmt) {
+				JAssignStmt stmt = (JAssignStmt)unit;
+				String classString = stmt.getInvokeExpr().getClass().toString();
+				if (classString.equals(virtualInvoke) || classString.equals(interfaceInvoke)) {
+					Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
+					Local receiverLocal = locals.get(receiver.toString());
+					SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
+					if (receiverType.equals(aType)) {
+						result = true;
+					}
+				}
+			}
+			else if (unit instanceof JInvokeStmt) {
+				JInvokeStmt stmt = (JInvokeStmt)unit;
+				String classString = stmt.getInvokeExpr().getClass().toString();
+				if (classString.equals(virtualInvoke) || classString.equals(interfaceInvoke)) {
+					Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
+					Local receiverLocal = locals.get(receiver.toString());
+					SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
+					if (receiverType.equals(aType)) {
+						result = true;
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
 	
 	public boolean isConnected(LocalInfo a, LocalInfo b) {
 		boolean result = false;
@@ -710,12 +814,14 @@ public class AnalysisUtil {
 		
 		if (unit instanceof JAssignStmt) {
 			String virtualInvoke = "class soot.jimple.internal.JVirtualInvokeExpr";
+			String interfaceInvoke = "class soot.jimple.internal.JInterfaceInvokeExpr";
 			String staticInvoke = "class soot.jimple.internal.JStaticInvokeExpr";
 			
 			JAssignStmt stmt = (JAssignStmt)unit;
 			String classString = stmt.getRightOp().getClass().toString();
 			
-			if (classString.equals(virtualInvoke) || classString.equals(staticInvoke)) {
+			if (classString.equals(virtualInvoke) || classString.equals(staticInvoke) || 
+					classString.equals(interfaceInvoke)) {
 				result = true;
 			}
 		}

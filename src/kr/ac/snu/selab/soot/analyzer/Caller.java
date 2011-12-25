@@ -17,8 +17,8 @@ public class Caller extends Role {
 	public Caller(Unit aUnit, SootClass anInterfaceType, SootClass aRelatedClass, SootMethod aRelatedMethod, SootMethod aCalledMethod) {
 		super(aUnit, anInterfaceType);
 		setRoleName("Caller");
-		setRclass(aRelatedClass);
-		setRmethod(aRelatedMethod);
+		setDeclaringClass(aRelatedClass);
+		setDeclaringMethod(aRelatedMethod);
 		setCalledMethod(aCalledMethod);
 	}
 	

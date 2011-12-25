@@ -15,9 +15,9 @@ public class Injector extends Role {
 	public Injector(Unit aUnit, SootClass anInterfaceType, SootClass aRelatedClass, SootMethod aRelatedMethod, SootField aRelatedField, SootClass aConcreteType) {
 		super(aUnit, anInterfaceType);
 		setRoleName("Injector");
-		setRclass(aRelatedClass);
-		setRmethod(aRelatedMethod);
-		setRfield(aRelatedField);
+		setDeclaringClass(aRelatedClass);
+		setDeclaringMethod(aRelatedMethod);
+		setDeclaringField(aRelatedField);
 		setConcreteType(aConcreteType);
 	}	
 }
