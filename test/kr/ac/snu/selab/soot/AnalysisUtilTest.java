@@ -419,11 +419,18 @@ public class AnalysisUtilTest {
 		logger.debug("referenceFlows.size() => " + referenceFlows.size());
 		
 		XMLWriter writer = new XMLWriter("/Users/chanwoo/Downloads/paths.xml");
-		for (LocalInfoNode key : referenceFlows.keySet()) {
-			List<Path<LocalInfoNode>> pathList = referenceFlows.get(key);
-			for (Path path : pathList) {
-				path.writeXML(writer);
+		try {
+			writer.startElement("ReferenceFlows");
+			for (LocalInfoNode key : referenceFlows.keySet()) {
+				List<Path<LocalInfoNode>> pathList = referenceFlows.get(key);
+				for (Path path : pathList) {
+					path.writeXML(writer);
+				}
 			}
+			writer.endElement();
+		}
+		catch (IOException e) {
+			logger.error(e.getMessage(), e);
 		}
 		writer.close();
 	}
