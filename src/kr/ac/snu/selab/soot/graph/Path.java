@@ -7,6 +7,7 @@ import java.util.List;
 
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 
 public class Path<N extends Node> {
@@ -24,28 +25,40 @@ public class Path<N extends Node> {
 		p.nodeList.addAll(nodeList);
 		return p;
 	}
-	
+
+	@Override
 	public int hashCode() {
+		HashCodeBuilder builder = new HashCodeBuilder();
+		for (N node : nodeList) {
+			builder.append(node.element);
+		}
+		return builder.toHashCode();
+	}
+
+	public int hashCode1() {
 		return nodeList.hashCode();
 	}
-	
+
+	@Override
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object anObject) {
 		if (anObject.getClass() != getClass())
 			return false;
-		
-		Path compare = (Path)anObject;
-		
+
+		Path<N> compare = (Path<N>) anObject;
+
 		if (compare.length() != length()) {
 			return false;
 		}
-		
-		if (compare.last() != last()) {
+
+		// if (compare.last() != last()) {
+		if (!compare.last().equals(last())) {
 			return false;
 		}
-		
+
 		boolean result = true;
 		int length = length();
-		for (int i = 0 ; i < length ; i++) {
+		for (int i = 0; i < length; i++) {
 			if (!compare.getNodeList().get(i).equals(getNodeList().get(i))) {
 				result = false;
 				break;
