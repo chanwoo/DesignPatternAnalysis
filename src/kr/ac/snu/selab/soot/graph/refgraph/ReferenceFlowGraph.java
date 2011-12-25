@@ -22,7 +22,7 @@ public class ReferenceFlowGraph extends Graph<LocalInfoNode> {
 		startNodes = new ArrayList<LocalInfoNode>();
 	}
 	
-	// For test. Delete it later!
+	// XXX: For test. Delete it later!
 	public int numOfNodes() {
 		return nodes.size();
 	}
