@@ -90,6 +90,10 @@ public class AnalysisUtil {
 	// Call
 	public Map<String, LocalInfo> calls(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap) {
 		Map<String, LocalInfo> calls = new HashMap<String, LocalInfo>();
+		if (aType == null) {
+			return calls;
+		}
+		
 		Map<String, Local> locals = locals(aMethod);
 		
 		String virtualInvoke = "class soot.jimple.internal.JVirtualInvokeExpr";
@@ -106,14 +110,16 @@ public class AnalysisUtil {
 						Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
 						Local receiverLocal = locals.get(receiver.toString());
 						SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
-						if (receiverType.equals(aType)) {
-							LocalInfo localInfo = new Call();
-							localInfo.setLocal(receiverLocal);
-							localInfo.setDeclaringMethod(aMethod);
-							localInfo.setMethod(stmt.getInvokeExpr().getMethod());
-							localInfo.setUnit(unit);
+						if (receiverType != null) {
+							if (receiverType.equals(aType)) {
+								LocalInfo localInfo = new Call();
+								localInfo.setLocal(receiverLocal);
+								localInfo.setDeclaringMethod(aMethod);
+								localInfo.setMethod(stmt.getInvokeExpr().getMethod());
+								localInfo.setUnit(unit);
 
-							calls.put(localInfo.toString(), localInfo);
+								calls.put(localInfo.toString(), localInfo);
+							}
 						}
 					}
 				}
@@ -126,20 +132,21 @@ public class AnalysisUtil {
 						Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
 						Local receiverLocal = locals.get(receiver.toString());
 						SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
-						if (receiverType.equals(aType)) {
-							LocalInfo localInfo = new Call();
-							localInfo.setLocal(receiverLocal);
-							localInfo.setDeclaringMethod(aMethod);
-							localInfo.setMethod(stmt.getInvokeExpr().getMethod());
-							localInfo.setUnit(unit);
+						if (receiverType != null) {
+							if (receiverType.equals(aType)) {
+								LocalInfo localInfo = new Call();
+								localInfo.setLocal(receiverLocal);
+								localInfo.setDeclaringMethod(aMethod);
+								localInfo.setMethod(stmt.getInvokeExpr().getMethod());
+								localInfo.setUnit(unit);
 
-							calls.put(localInfo.toString(), localInfo);
+								calls.put(localInfo.toString(), localInfo);
+							}
 						}
 					}
 				}
 			}
 		}
-		
 		
 		return calls;
 	}
@@ -727,7 +734,7 @@ public class AnalysisUtil {
 				for (MetaInfo metaInfo : metaInfoList) {
 					if (metaInfo.isStore()) {
 						int injectorIndex = index - 2;
-						if (injectorIndex > 0) {
+						if (injectorIndex >= 0) {
 							MetaInfo injectorSuspect = metaInfoList.get(injectorIndex);
 							if ((!injectorSuspect.isInjector()) && 
 									(injectorSuspect.getElement() instanceof SootMethod)) {
