@@ -24,6 +24,31 @@ public class Path<N extends Node> {
 		p.nodeList.addAll(nodeList);
 		return p;
 	}
+	
+	public boolean equals(Object anObject) {
+		if (anObject.getClass() != getClass())
+			return false;
+		
+		Path compare = (Path)anObject;
+		
+		if (compare.length() != length()) {
+			return false;
+		}
+		
+		if (compare.last() != last()) {
+			return false;
+		}
+		
+		boolean result = true;
+		int length = length();
+		for (int i = 0 ; i < length ; i++) {
+			if (!compare.getNodeList().get(i).equals(getNodeList().get(i))) {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
 
 	public void add(N aNode) {
 		nodeList.add(aNode);

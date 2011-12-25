@@ -2,11 +2,14 @@ package kr.ac.snu.selab.soot.analyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
+import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.graph.collectors.ReverseAllPathCollector;
 import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
@@ -573,6 +576,46 @@ public class AnalysisUtil {
 		}
 		
 		return result;
+	}
+	
+	public MetaInfo toMetaInfo(LocalInfo localInfo) {
+		MetaInfo result = null;
+		
+		if (localInfo.declaringMethod() != null) {
+			result = new MetaInfo(localInfo.declaringMethod());
+		}
+		else if (localInfo.declaringField() != null) {
+			result = new MetaInfo(localInfo.declaringField());
+		}
+		
+		return result;
+	}
+	
+	public Set<Path<MetaInfo>> abstractReferenceFlows(SootClass aType, 
+			Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
+		Set<Path<MetaInfo>> absFlowSet = new HashSet<Path<MetaInfo>>();
+		
+		Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows = referenceFlows(aType, classMap, hierarchy, cg);
+		
+		for (List<Path<LocalInfoNode>> list : referenceFlows.values()) {
+			for (Path<LocalInfoNode> path : list) {
+				Path<MetaInfo> newPath = new Path<MetaInfo>();
+				for (LocalInfoNode node : path.getNodeList()) {
+					if (newPath.isEmpty()) {
+						newPath.add(toMetaInfo((LocalInfo)node.getElement()));
+					}
+					else {
+						MetaInfo metaInfo = toMetaInfo((LocalInfo)node.getElement());
+						if (!metaInfo.getElement().equals(newPath.last().getElement())) {
+							newPath.add(metaInfo);
+						}
+					}
+				}
+				absFlowSet.add(newPath);
+			}
+		}
+		
+		return absFlowSet;
 	}
 	
 	

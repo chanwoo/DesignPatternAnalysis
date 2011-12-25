@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
@@ -26,6 +27,7 @@ import kr.ac.snu.selab.soot.analyzer.MethodInternalPath;
 import kr.ac.snu.selab.soot.analyzer.Pair;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
+import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
 import kr.ac.snu.selab.soot.graph.refgraph.ReferenceFlowGraph;
@@ -102,6 +104,7 @@ public class AnalysisUtilTest {
 
 	static ReferenceFlowGraph referenceFlowGraph;
 	static Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows;
+	static Set<Path<MetaInfo>> abstractReferenceFlows;
 
 	
 	// for paramter number consistency test
@@ -457,9 +460,46 @@ public class AnalysisUtilTest {
 //				+ referenceFlowGraph.startNodes().size());
 //	}
 
+//	@Test
+//	public void referenceFlowsTest() {
+////		logger.debug("referenceFlows.size() => " + referenceFlows.size());
+//
+//		// FIXME: Fix these codes!!!
+//		File outputDir = new File("/Users/chanwoo/Downloads");
+//		if (!outputDir.exists() || !outputDir.isDirectory()) {
+//			outputDir = new File("/Users/dolicoli/Downloads");
+//		}
+//		File output = new File(outputDir, "paths.xml");
+//		XMLWriter writer = null;
+//		try {
+//			writer = new XMLWriter(new FileWriter(output));
+//		} catch (IOException e) {
+//			logger.error(e);
+//		}
+//
+//		if (writer == null) {
+//			fail("Can not open output file.");
+//			return;
+//		}
+//
+//		try {
+//			writer.startElement("ReferenceFlows");
+//			for (LocalInfoNode key : referenceFlows.keySet()) {
+//				List<Path<LocalInfoNode>> pathList = referenceFlows.get(key);
+//				for (Path<LocalInfoNode> path : pathList) {
+////					logger.debug("path size => " + path.length());
+//					path.writeXML(writer);
+//				}
+//			}
+//			writer.endElement();
+//		} catch (IOException e) {
+//			logger.error(e.getMessage(), e);
+//		}
+//		writer.close();
+//	}
+	
 	@Test
-	public void referenceFlowsTest() {
-//		logger.debug("referenceFlows.size() => " + referenceFlows.size());
+	public void abstractReferenceFlowsTest() {
 
 		// FIXME: Fix these codes!!!
 		File outputDir = new File("/Users/chanwoo/Downloads");
@@ -480,13 +520,9 @@ public class AnalysisUtilTest {
 		}
 
 		try {
-			writer.startElement("ReferenceFlows");
-			for (LocalInfoNode key : referenceFlows.keySet()) {
-				List<Path<LocalInfoNode>> pathList = referenceFlows.get(key);
-				for (Path<LocalInfoNode> path : pathList) {
-//					logger.debug("path size => " + path.length());
-					path.writeXML(writer);
-				}
+			writer.startElement("abstractReferenceFlows");
+			for (Path<MetaInfo> path : abstractReferenceFlows) {
+				path.writeXML(writer);
 			}
 			writer.endElement();
 		} catch (IOException e) {
@@ -577,7 +613,9 @@ public class AnalysisUtilTest {
 					cg);
 
 			// preparation for referenceFlowsTest
-			referenceFlows = au.referenceFlows(i, classMap, hierarchy, cg);
+			//referenceFlows = au.referenceFlows(i, classMap, hierarchy, cg);
+			
+			abstractReferenceFlows = au.abstractReferenceFlows(i, classMap, hierarchy, cg);
 
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {
