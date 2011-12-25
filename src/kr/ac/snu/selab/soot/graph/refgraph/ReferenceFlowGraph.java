@@ -31,8 +31,14 @@ public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 	}
 
 	public void addStartNodes(Collection<LocalInfo> localInfos) {
-		for (LocalInfo localInfo : localInfos) {
-			startNodes.add(new LocalInfoNode(localInfo));
+		for (LocalInfo localInfo: localInfos) {
+			String key = localInfo.key();
+			if (nodes.containsKey(key)) {
+				startNodes.add(nodes.get(key));
+			}
+//			else {
+//				startNodes.add(new LocalInfoNode(localInfo));
+//			}
 		}
 	}
 
@@ -44,10 +50,11 @@ public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 
 		LocalInfoNode node = new LocalInfoNode(localInfo);
 		nodes.put(key, node);
-		SootMethod method = localInfo.method();
-		if (method != null) {
-			nodesInMethodMap.put(method.getName(), node);
-		}
+		
+//		SootMethod declaringMethod = localInfo.declaringMethod();
+//		if (declaringMethod != null) {
+//			nodesInMethodMap.put(declaringMethod.getSignature(), node);
+//		}
 	}
 
 	public void addEdge(LocalInfo from, LocalInfo to) {
