@@ -13,9 +13,10 @@ public class ReferenceFlowCollector<N extends Node> extends GraphPathCollector<N
 	@Override
 	protected boolean isGoal(N aNode) {
 		boolean result = false;
-		if (((ReferenceFlowGraph)graph).endNodes().contains(aNode) || 
-				getChildren(aNode).isEmpty() || 
-				hitSet.contains(aNode.key())) {
+		if (((ReferenceFlowGraph)graph).endNodes().contains(aNode)) // || 
+//				getChildren(aNode).isEmpty() || 
+//				hitSet.contains(aNode.key())) 
+		{
 			result = true;
 		}
 		return result;
