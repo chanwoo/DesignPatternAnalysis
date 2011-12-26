@@ -87,6 +87,7 @@ public class SootAPITest {
 			super(project);
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		protected void analyze(List<SootClass> classList, Hierarchy hierarchy) {
 			CallGraph cg = Scene.v().getCallGraph();

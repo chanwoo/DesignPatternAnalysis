@@ -35,10 +35,6 @@ public class Path<N extends Node> {
 		return builder.toHashCode();
 	}
 
-	public int hashCode1() {
-		return nodeList.hashCode();
-	}
-
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean equals(Object anObject) {

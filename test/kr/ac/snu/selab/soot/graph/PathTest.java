@@ -41,21 +41,6 @@ public class PathTest {
 	}
 
 	@Test
-	public void testHashCode() {
-		Path<SampleNode> path1 = new Path<SampleNode>();
-		path1.add(new SampleNode(new NodeElement("A")));
-		path1.add(new SampleNode(new NodeElement("B")));
-		path1.add(new SampleNode(new NodeElement("C")));
-
-		Path<SampleNode> path2 = new Path<SampleNode>();
-		path2.add(new SampleNode(new NodeElement("A")));
-		path2.add(new SampleNode(new NodeElement("B")));
-		path2.add(new SampleNode(new NodeElement("C")));
-
-		assertFalse(path1.hashCode1() != path2.hashCode1());
-	}
-
-	@Test
 	public void testHashCodeWithHashCodeBuilder() {
 		Path<SampleNode> path1 = new Path<SampleNode>();
 		path1.add(new SampleNode(new NodeElement("A")));
@@ -130,6 +115,7 @@ public class PathTest {
 	}
 
 	private static class NoHashCodeNodeElement {
+		@SuppressWarnings("unused")
 		String value;
 
 		NoHashCodeNodeElement(String v) {

@@ -223,6 +223,7 @@ public class DecNCorAnalysis extends Analysis {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean isClassOfDirectSubTypeExcluding(SootClass aClass,
 			SootClass aType) {
 		boolean result = false;

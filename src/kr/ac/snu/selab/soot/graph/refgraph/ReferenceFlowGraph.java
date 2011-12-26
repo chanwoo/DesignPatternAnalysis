@@ -13,23 +13,15 @@ import kr.ac.snu.selab.soot.graph.Graph;
 public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 
 	private HashMap<String, LocalInfoNode> nodes;
-	// XXX: Remove this field if it is useless
-	private HashMap<String, LocalInfoNode> nodesInMethodMap;
 	private List<LocalInfoNode> startNodes;
 	private Set<LocalInfoNode> endNodes;
 
 	public ReferenceFlowGraph() {
 		nodes = new HashMap<String, LocalInfoNode>();
-		nodesInMethodMap = new HashMap<String, LocalInfoNode>();
 		startNodes = new ArrayList<LocalInfoNode>();
 		endNodes = new HashSet<LocalInfoNode>();
 	}
 
-	// XXX: For test. Delete it later!
-	public int numOfNodes() {
-		return nodes.size();
-	}
-	
 	public Set<LocalInfoNode> endNodes() {
 		return endNodes;
 	}
@@ -64,11 +56,6 @@ public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 
 		LocalInfoNode node = new LocalInfoNode(localInfo);
 		nodes.put(key, node);
-		
-//		SootMethod declaringMethod = localInfo.declaringMethod();
-//		if (declaringMethod != null) {
-//			nodesInMethodMap.put(declaringMethod.getSignature(), node);
-//		}
 	}
 
 	public void addEdge(LocalInfo from, LocalInfo to) {
@@ -103,37 +90,5 @@ public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 	@Override
 	public Collection<LocalInfoNode> targetNodes(LocalInfoNode aNode) {
 		return aNode.getTargets();
-	}
-
-	@Override
-	public String toXML() {
-		String result = "";
-		result = result + "<Graph>";
-		// result = result + "<SourceMap>";
-		// for (String key : sourceMap.keySet()) {
-		// result = result + "<Key>";
-		// result = result + MyUtil.removeBracket(key);
-		// result = result + "</Key>";
-		// result = result + "<Values>";
-		// for (N aNode : sourceMap.get(key)) {
-		// result = result + aNode.toXML();
-		// }
-		// result = result + "</Values>";
-		// }
-		// result = result + "</SourceMap>";
-		// result = result + "<TargetMap>";
-		// for (String key : targetMap.keySet()) {
-		// result = result + "<Key>";
-		// result = result + MyUtil.removeBracket(key);
-		// result = result + "</Key>";
-		// result = result + "<Values>";
-		// for (N aNode : targetMap.get(key)) {
-		// result = result + aNode.toXML();
-		// }
-		// result = result + "</Values>";
-		// }
-		// result = result + "</TargetMap>";
-		result = result + "</Graph>";
-		return result;
 	}
 }
