@@ -801,19 +801,19 @@ public class AnalysisUtil {
 	}
 	
 	public void checkCaller(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, RoleRepository roles) {
-//		if (!metaInfo.isCaller()) {
 			if (localInfo instanceof Call) {
 				Caller caller = new Caller();
 				caller.setInterfaceType(aType);
+				caller.setDeclaringClass(localInfo.declaringMethod().getDeclaringClass());
+				caller.setDeclaringMethod(localInfo.declaringMethod());
+				caller.setCalledMethod(localInfo.method());
 				metaInfo.addRole(caller);
 				roles.addCaller(metaInfo);
 			}
-//		}
 	}
 	
 	public void checkStore(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, 
 			Map<String, SootClass> classMap, RoleRepository roles) {
-//		if (!metaInfo.isStore()) {
 			if (localInfo.declaringField() != null) {
 				SootClass fieldType = typeToClass(localInfo.declaringField().getType(), classMap);
 				if (fieldType.equals(aType)) {
@@ -823,19 +823,16 @@ public class AnalysisUtil {
 					roles.addStore(metaInfo);
 				}
 			}
-//		}
 	}
 	
 	public void checkCreator(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, RoleRepository roles,
 			Map<String, SootClass> classMap) {
-//		if (!metaInfo.isCreator()) {
 			Creator creator = new Creator();
 			creator.setInterfaceType(aType);
 			creator.setDeclaringClass(((SootMethod)metaInfo.getElement()).getDeclaringClass());
 			creator.setConcreteType(typeToClass(localInfo.local().getType(), classMap));
 			metaInfo.addRole(creator);
 			roles.addCreator(metaInfo);
-//		}
 	}
 	
 	public void checkInjector(SootClass aType, Path<MetaInfo> absReferenceFlow, 
@@ -1078,36 +1075,18 @@ public class AnalysisUtil {
 		return result;
 	}
 
-
-	public MethodInternalPath analyzeMethodParamToReturn2(SootMethod aMethod, SootClass aType, Hierarchy hierarchy, Map<String, SootClass> classMap, ReferenceFlowGraph refGraph) {
-		MethodInternalPath mip = new MethodInternalPath();
-		PointsToAnalysis pta = Scene.v().getPointsToAnalysis();
+	public boolean doesHaveParam(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap) {
+		boolean result = false;
 		
-		Map<String, LocalInfo> localsOfMethodParamMap = typeFilterOfLocalMap(localsOfMethodParam(aMethod), aType, hierarchy, classMap);
-		Map<String, LocalInfo> localOfReturnMap = typeFilterOfLocalMap(localOfReturn(aMethod), aType, hierarchy, classMap);
+		List<Type> paramTypes = aMethod.getParameterTypes();
 		
-		if (!localOfReturnMap.isEmpty()) {
-			LocalInfo localInfoOfReturn = localOfReturnMap.values().iterator().next();
-			Local localOfReturn = localInfoOfReturn.local();
-
-			PointsToSet set1 = pta.reachingObjects(localOfReturn);
-
-			if (!localsOfMethodParamMap.isEmpty()) {
-				for (LocalInfo localInfoOfMethodParam : localsOfMethodParamMap.values()) {
-					Local localOfMethodParam = localInfoOfMethodParam.local();
-
-					PointsToSet set2 = pta.reachingObjects(localOfMethodParam);
-
-					if (set1.hasNonEmptyIntersection(set2)) {
-						mip.setMethodParamToReturn(localInfoOfMethodParam.paramNum());
-						
-						refGraph.addEdge(localInfoOfMethodParam, localInfoOfReturn);
-						break;
-					}
-				}
+		for (Type paramType : paramTypes) {
+			if (aType.equals(typeToClass(paramType, classMap))) {
+				result = true;
+				break;
 			}
-
 		}
-		return mip;
+		
+		return result;
 	}
 }

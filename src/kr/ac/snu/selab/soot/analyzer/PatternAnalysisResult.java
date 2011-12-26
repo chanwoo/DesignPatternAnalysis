@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import kr.ac.snu.selab.soot.graph.MetaInfo;
+import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
 import soot.SootClass;
@@ -18,11 +20,21 @@ public class PatternAnalysisResult {
 	private String patternName;
 	private Set<SootClass> interfaceTypes;
 	private Map<SootClass, RoleRepository> rolesPerType;
+	private Map<SootClass, Set<Path<MetaInfo>>> referenceFlowsPerType;
 	
 	public PatternAnalysisResult() {
 		patternName = null;
 		interfaceTypes = new HashSet<SootClass>();
 		rolesPerType = new HashMap<SootClass, RoleRepository>();
+		referenceFlowsPerType = new HashMap<SootClass, Set<Path<MetaInfo>>>();
+	}
+	
+	public Map<SootClass, Set<Path<MetaInfo>>> referenceFlowsPerType() {
+		return referenceFlowsPerType;
+	}
+	
+	public void addReferenceFlowsPerType(SootClass interfaceType, Set<Path<MetaInfo>> flows) {
+		referenceFlowsPerType.put(interfaceType, flows);
 	}
 	
 	public String patternName() {
@@ -85,10 +97,19 @@ public class PatternAnalysisResult {
 			writer.endElement();
 			
 			writer.startElement("RolesPerType");
-			
 			for (SootClass type : rolesPerType.keySet()) {
 				writer.simpleElement("InterfaceType", type.toString());
 				rolesPerType.get(type).writeXML(writer);
+			}
+			writer.endElement();
+			
+			writer.startElement("ReferenceFlowsPerType");
+			for (SootClass type : referenceFlowsPerType.keySet()) {
+				writer.simpleElement("InterfaceType", type.toString());
+				writer.startElement("ReferenceFlows");
+				for (Path<MetaInfo> flow : referenceFlowsPerType.get(type))
+					flow.writeXML(writer);
+				writer.endElement();
 			}
 			writer.endElement();
 			

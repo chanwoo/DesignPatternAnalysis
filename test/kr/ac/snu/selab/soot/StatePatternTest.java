@@ -38,7 +38,7 @@ public class StatePatternTest {
 
 	private static Logger logger = Logger.getLogger(StatePatternTest.class);
 
-	private static final String PROJECTS_NAME = "spe";
+	private static final String PROJECTS_NAME = "state";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	static AnalysisUtil au;
@@ -86,7 +86,7 @@ public class StatePatternTest {
 		final String[] arguments = { "-cp", project.getClassPath(), "-f", "J",
 				"-w", "-p", "cg.spark", "verbose:true,on-fly-cg:true", "-d",
 				project.getJimpleDirectory(), "--process-dir",
-				project.getSourceDirectory() };
+				project.getSourceDirectory(), "-main-class", "MiniCeilingFanSimulator" };
 
 		soot.Main.main(arguments);
 	}
