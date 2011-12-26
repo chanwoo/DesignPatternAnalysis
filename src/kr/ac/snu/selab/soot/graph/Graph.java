@@ -7,7 +7,4 @@ public interface Graph<N extends Node> {
 	Collection<N> sourceNodes(N aNode);
 
 	Collection<N> targetNodes(N aNode);
-
-	String toXML();
-
 }

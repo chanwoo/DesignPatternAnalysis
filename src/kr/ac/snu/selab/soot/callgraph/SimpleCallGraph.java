@@ -167,8 +167,7 @@ public class SimpleCallGraph extends CallGraph {
 		return g;
 	}
 
-	@Override
-	public String toXML() {
+	String toXML() {
 		String result = "";
 		result = result + "<CallGraph>";
 		result = result + "<SourceToTargetSetList>";

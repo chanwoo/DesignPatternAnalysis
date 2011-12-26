@@ -325,6 +325,7 @@ public class Analysis {
 		if (aUnit instanceof JAssignStmt) {
 			JAssignStmt assignStmt = (JAssignStmt) aUnit;
 			Value rightOp = assignStmt.getRightOp();
+			@SuppressWarnings("unused")
 			SootClass rightOpType = null;
 			String rightOpTypeKey = rightOp.getType().toString();
 			// if (!(rightOpTypeKey.startsWith("null"))) {

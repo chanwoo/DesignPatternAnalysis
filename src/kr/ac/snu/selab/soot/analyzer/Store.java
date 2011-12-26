@@ -2,7 +2,6 @@ package kr.ac.snu.selab.soot.analyzer;
 
 import soot.SootClass;
 import soot.SootField;
-import soot.Unit;
 
 public class Store extends Role {
 	

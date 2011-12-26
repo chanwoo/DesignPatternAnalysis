@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import kr.ac.snu.selab.soot.util.MyUtil;
-
 public class DefaultHashMapGraph<N extends Node> implements Graph<N> {
 	protected HashMap<String, HashSet<N>> sourceMap;
 	protected HashMap<String, HashSet<N>> targetMap;
@@ -42,37 +40,4 @@ public class DefaultHashMapGraph<N extends Node> implements Graph<N> {
 		}
 		return result;
 	}
-
-	@Override
-	public String toXML() {
-		String result = "";
-		result = result + "<Graph>";
-		result = result + "<SourceMap>";
-		for (String key : sourceMap.keySet()) {
-			result = result + "<Key>";
-			result = result + MyUtil.removeBracket(key);
-			result = result + "</Key>";
-			result = result + "<Values>";
-			for (N aNode : sourceMap.get(key)) {
-				result = result + aNode.toXML();
-			}
-			result = result + "</Values>";
-		}
-		result = result + "</SourceMap>";
-		result = result + "<TargetMap>";
-		for (String key : targetMap.keySet()) {
-			result = result + "<Key>";
-			result = result + MyUtil.removeBracket(key);
-			result = result + "</Key>";
-			result = result + "<Values>";
-			for (N aNode : targetMap.get(key)) {
-				result = result + aNode.toXML();
-			}
-			result = result + "</Values>";
-		}
-		result = result + "</TargetMap>";
-		result = result + "</Graph>";
-		return result;
-	}
-
 }
