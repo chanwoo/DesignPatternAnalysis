@@ -38,7 +38,7 @@ public class StatePatternTest {
 
 	private static Logger logger = Logger.getLogger(StatePatternTest.class);
 
-	private static final String PROJECTS_NAME = "StatePatternExample";
+	private static final String PROJECTS_NAME = "jhd6";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	static AnalysisUtil au;
