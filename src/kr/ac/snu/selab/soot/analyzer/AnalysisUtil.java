@@ -525,7 +525,7 @@ public class AnalysisUtil {
 				if (classMap.containsKey(key)) {
 					fieldType = classMap.get(key);
 				}
-				if ((fieldType != null) && (fieldType.equals(aType))) {
+				if ((fieldType != null) && (isSubtypeIncluding(fieldType, aType, hierarchy))) {
 					LocalInfo localInfo = new Field();
 					localInfo.setDeclaringField(aField);
 					fieldInfoMap.put(aField, localInfo);
@@ -588,24 +588,29 @@ public class AnalysisUtil {
 			Map<String, LocalInfo> fieldInMap = methodInfo.fieldIn();
 			for (LocalInfo fieldIn : fieldInMap.values()) {
 				SootField field = fieldIn.field();
-				LocalInfo fieldInfo = fieldInfoMap.get(field);
-				Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(fieldInfo, fieldIn);
-				edges.add(pair);
+				if (fieldInfoMap.containsKey(field)) {
+					LocalInfo fieldInfo = fieldInfoMap.get(field);
+					Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(fieldInfo, fieldIn);
+					edges.add(pair);
+				}
 			}
 		}
 		
 		return edges;
 	}
 	
-	public Map<LocalInfo, LocalInfo> fieldOut_to_field(Map<SootMethod, MethodInfo> methodInfoMap, Map<SootField, LocalInfo> fieldInfoMap) {
-		Map<LocalInfo, LocalInfo> edges = new HashMap<LocalInfo, LocalInfo>();
+	public List<Pair<LocalInfo, LocalInfo>> fieldOut_to_field(Map<SootMethod, MethodInfo> methodInfoMap, Map<SootField, LocalInfo> fieldInfoMap) {
+		List<Pair<LocalInfo, LocalInfo>> edges = new ArrayList<Pair<LocalInfo, LocalInfo>>();
 		
 		for (MethodInfo methodInfo : methodInfoMap.values()) {
 			Map<String, LocalInfo> fieldOutMap = methodInfo.fieldOut();
-			for (LocalInfo fieldOut : fieldOutMap.values()) {
-				SootField field = fieldOut.field();
-				LocalInfo fieldInfo = fieldInfoMap.get(field);
-				edges.put(fieldOut, fieldInfo);
+			for (LocalInfo fieldOutInfo : fieldOutMap.values()) {
+				SootField field = fieldOutInfo.field();
+				if (fieldInfoMap.containsKey(field)) {
+					LocalInfo fieldInfo = fieldInfoMap.get(field);
+					Pair<LocalInfo, LocalInfo> pair = new Pair<LocalInfo, LocalInfo>(fieldOutInfo, fieldInfo);
+					edges.add(pair);
+				}
 			}
 		}
 		
@@ -648,7 +653,6 @@ public class AnalysisUtil {
 		boolean result = false;
 		
 		for (MetaInfo from : froms) {
-			List<Path<MetaInfo>> pathList = new ArrayList<Path<MetaInfo>>();
 			CallPathChecker pathChecker = new CallPathChecker(from, metaInfoCallGraph);
 			pathChecker.setEndNodes(tos);
 			if (pathChecker.check()) {
@@ -711,9 +715,9 @@ public class AnalysisUtil {
 			graph.addEdge(pair.first(), pair.second());
 		}
 		
-		Map<LocalInfo, LocalInfo> fieldOut_to_field = fieldOut_to_field(methodInfoMap, fieldInfoMap);
-		for (LocalInfo from : fieldOut_to_field.keySet()) {
-			graph.addEdge(from, fieldOut_to_field.get(from));
+		List<Pair<LocalInfo, LocalInfo>> fieldOut_to_field = fieldOut_to_field(methodInfoMap, fieldInfoMap);
+		for (Pair<LocalInfo, LocalInfo> pair : fieldOut_to_field) {
+			graph.addEdge(pair.first(), pair.second());
 		}
 		
 		for (MethodInfo methodInfo : methodInfoMap.values()) {
@@ -783,10 +787,13 @@ public class AnalysisUtil {
 						// Store Check
 						if (!metaInfo.isStore()) {
 							if (localInfo.declaringField() != null) {
-								Store store = new Store();
-								store.setInterfaceType(aType);
-								metaInfo.addRole(store);
-								roles.addStore(metaInfo);
+								SootClass fieldType = typeToClass(localInfo.declaringField().getType(), classMap);
+								if (fieldType.equals(aType)) {
+									Store store = new Store();
+									store.setInterfaceType(aType);
+									metaInfo.addRole(store);
+									roles.addStore(metaInfo);
+								}
 							}
 						}
 						// Caller Check
@@ -806,18 +813,31 @@ public class AnalysisUtil {
 				}
 				// Injector Check
 				List<MetaInfo> metaInfoList = newPath.getNodeList();
+				Set<MetaInfo> metaInfoSet = new HashSet<MetaInfo>();
+				metaInfoSet.addAll(metaInfoList);
 				int index = 0;
 				for (MetaInfo metaInfo : metaInfoList) {
 					if (metaInfo.isStore()) {
-						int injectorIndex = index - 2;
-						if (injectorIndex >= 0) {
-							MetaInfo injectorSuspect = metaInfoList.get(injectorIndex);
-							if ((!injectorSuspect.isInjector()) && 
-									(injectorSuspect.getElement() instanceof SootMethod)) {
-								Injector injector = new Injector();
-								injector.setInterfaceType(aType);
-								injectorSuspect.addRole(injector);
-								roles.addInjector(injectorSuspect);
+						
+						int setterIndex = index - 1;
+						if (setterIndex >= 0) {
+							MetaInfo setter = metaInfoList.get(setterIndex);
+							
+							Set<SootMethod> injectorMethods = new HashSet<SootMethod>();
+							Iterator<Edge> edgeIter = cg.edgesInto((SootMethod)setter.getElement());
+							while(edgeIter.hasNext()) {
+								injectorMethods.add(edgeIter.next().src());
+							}
+							for (SootMethod injectorMethod : injectorMethods) {
+								String key = injectorMethod.getSignature();
+								if (metaInfoMap.containsKey(key)) {
+									if ((!metaInfoMap.get(key).isInjector()) && (metaInfoSet.contains(metaInfoMap.get(key)))) {
+										Injector injector = new Injector();
+										injector.setInterfaceType(aType);
+										metaInfoMap.get(key).addRole(injector);
+										roles.addInjector(metaInfoMap.get(key));
+									}
+								}
 							}
 						}
 					}
