@@ -55,10 +55,4 @@ public class MetaInfoCallGraph implements Graph<MetaInfo> {
 	public Collection<MetaInfo> targetNodes(MetaInfo aNode) {
 		return aNode.getTargets();
 	}
-	
-	@Override
-	public String toXML() {
-		String result = "";
-		return result;
-	}
 }
