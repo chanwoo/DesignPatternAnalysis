@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import kr.ac.snu.selab.soot.analyzer.PatternAnalysisResult;
 import kr.ac.snu.selab.soot.analyzer.StatePattern;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
+import kr.ac.snu.selab.soot.util.XMLWriter;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -30,12 +32,13 @@ import soot.Transform;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 public class StatePatternTest {
 
 	private static Logger logger = Logger.getLogger(StatePatternTest.class);
 
-	private static final String PROJECTS_NAME = "StrategyPatternExample";
+	private static final String PROJECTS_NAME = "StatePatternExample";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	static AnalysisUtil au;
@@ -44,6 +47,8 @@ public class StatePatternTest {
 	static CallGraph cg;
 
 	static PatternAnalysisResult result;
+	
+	static AbstractProject project;
 	
 	static boolean touch = false;
 
@@ -70,7 +75,7 @@ public class StatePatternTest {
 			}
 		}
 
-		AbstractProject project = projects.getProject(PROJECTS_NAME);
+		project = projects.getProject(PROJECTS_NAME);
 		assertNotNull("Cannot find project!!!", project);
 
 		AbstractAnalyzer analyzer = new TestRunner(project);
@@ -87,8 +92,31 @@ public class StatePatternTest {
 	}
 	
 	@Test
+	public void writePatternAnalysisResult() {
+		File outputDir = new File(project.getOutputDirectory().getAbsolutePath());
+		File output = new File(outputDir, "StatePatternAnalysisResult.xml");
+		
+		XMLWriter writer = null;
+		try {
+			writer = new XMLWriter(new FileWriter(output));
+		} catch (IOException e) {
+			logger.error(e);
+		}
+
+		if (writer == null) {
+			fail("Can not open output file.");
+			return;
+		}
+		
+		result.writeXML(writer);
+		
+		writer.close();
+	}
+	
+	@Test
 	public void statePatternTest() {
-		assertFalse(result.patternExistence());
+		assertTrue(result.patternExistence());
+		
 	}
 
 
