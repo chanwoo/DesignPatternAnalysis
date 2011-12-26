@@ -106,7 +106,6 @@ public class MetaInfo extends Node {
 
 	@Override
 	public String toXML() {
-		// TODO Auto-generated method stub
 		CharArrayWriter writer = new CharArrayWriter();
 		XMLWriter w = new XMLWriter(writer);
 		writeXML(w);
@@ -116,8 +115,6 @@ public class MetaInfo extends Node {
 
 	@Override
 	public void writeXML(XMLWriter writer) {
-		
-		// TODO Auto-generated method stub
 		try {
 			writer.simpleElement("MetaInfo", element.toString() + roleStr());
 		} catch (IOException e) {

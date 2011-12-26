@@ -25,11 +25,6 @@ public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 		endNodes = new HashSet<LocalInfoNode>();
 	}
 
-	// XXX: For test. Delete it later!
-	public int numOfNodes() {
-		return nodes.size();
-	}
-	
 	public Set<LocalInfoNode> endNodes() {
 		return endNodes;
 	}
