@@ -25,6 +25,7 @@ import kr.ac.snu.selab.soot.analyzer.LocalInfo;
 import kr.ac.snu.selab.soot.analyzer.MethodInfo;
 import kr.ac.snu.selab.soot.analyzer.MethodInternalPath;
 import kr.ac.snu.selab.soot.analyzer.Pair;
+import kr.ac.snu.selab.soot.analyzer.RoleRepository;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
@@ -616,7 +617,8 @@ public class AnalysisUtilTest {
 			//referenceFlows = au.referenceFlows(i, classMap, hierarchy, cg);
 			
 			Map<String, MetaInfo> metaInfoMap = au.metaInfoMap(classList);
-			abstractReferenceFlows = au.abstractReferenceFlows(i, classMap, hierarchy, cg, metaInfoMap);
+			RoleRepository roles = new RoleRepository();
+			abstractReferenceFlows = au.abstractReferenceFlows(i, classMap, hierarchy, cg, metaInfoMap, roles);
 
 			for (SootClass aClass : classList) {
 				for (SootMethod aMethod : aClass.getMethods()) {

@@ -2,7 +2,9 @@ package kr.ac.snu.selab.soot.graph;
 
 import java.io.CharArrayWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import kr.ac.snu.selab.soot.analyzer.Caller;
@@ -19,6 +21,8 @@ public class MetaInfo extends Node {
 	
 	private static Logger log = Logger.getLogger(LocalInfoNode.class);
 	
+	private List<MetaInfo> sourceNodes, targetNodes;
+	
 	private Set<Role> roles;
 	private Set<Role> callers;
 	private Set<Role> creators;
@@ -32,6 +36,25 @@ public class MetaInfo extends Node {
 		creators = new HashSet<Role>();
 		injectors = new HashSet<Role>();
 		stores = new HashSet<Role>();
+		
+		sourceNodes = new ArrayList<MetaInfo>();
+		targetNodes = new ArrayList<MetaInfo>();
+	}
+	
+	public List<MetaInfo> getSources() {
+		return sourceNodes;
+	}
+
+	public List<MetaInfo> getTargets() {
+		return targetNodes;
+	}
+	
+	public void addSource(MetaInfo node) {
+		sourceNodes.add(node);
+	}
+
+	public void addTarget(MetaInfo node) {
+		targetNodes.add(node);
 	}
 	
 	public Set<Role> roles() {
@@ -88,6 +111,10 @@ public class MetaInfo extends Node {
 		else {
 			return false;
 		}
+	}
+	
+	public String toString() {
+		return element.toString();
 	}
 	
 	@Override

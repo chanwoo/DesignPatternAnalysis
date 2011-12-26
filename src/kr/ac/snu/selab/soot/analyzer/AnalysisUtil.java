@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import kr.ac.snu.selab.soot.callgraph.MetaInfoCallGraph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
+import kr.ac.snu.selab.soot.graph.collectors.CallPathCollector;
 import kr.ac.snu.selab.soot.graph.collectors.ReferenceFlowCollector;
 import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
 import kr.ac.snu.selab.soot.graph.refgraph.ReferenceFlowGraph;
@@ -610,6 +612,78 @@ public class AnalysisUtil {
 		return edges;
 	}
 	
+	public MetaInfoCallGraph metaInfoCallGraph(CallGraph cg, Map<String, MetaInfo> metaInfoMap) {
+		MetaInfoCallGraph graph = new MetaInfoCallGraph();
+		
+		for (MetaInfo metaInfo : metaInfoMap.values()) {
+			if (metaInfo.getElement() instanceof SootMethod) {
+				SootMethod method = (SootMethod)(metaInfo.getElement());
+				
+				Iterator<Edge> edgesIntoIter = cg.edgesInto(method);
+				while(edgesIntoIter.hasNext()) {
+					Edge edge = edgesIntoIter.next();
+					SootMethod srcMethod = edge.src();
+					if (metaInfoMap.containsKey(srcMethod.getSignature())) {
+						MetaInfo srcMetaInfo = metaInfoMap.get(srcMethod.getSignature());
+						graph.addEdge(srcMetaInfo, metaInfo);
+					}
+				}
+				
+				Iterator<Edge> edgesOutOfIter = cg.edgesOutOf(method);
+				while(edgesOutOfIter.hasNext()) {
+					Edge edge = edgesOutOfIter.next();
+					SootMethod tgtMethod = edge.tgt();
+					if (metaInfoMap.containsKey(tgtMethod.getSignature())) {
+						MetaInfo tgtMethodInfo = metaInfoMap.get(tgtMethod.getSignature());
+						graph.addEdge(metaInfo, tgtMethodInfo);
+					}
+				}
+			}
+		}
+		
+		return graph;
+	}
+	
+	public boolean doesCall(Set<MetaInfo> froms, Set<MetaInfo> tos, MetaInfoCallGraph metaInfoCallGraph) {
+		boolean result = false;
+		
+		for (MetaInfo from : froms) {
+			List<Path<MetaInfo>> pathList = new ArrayList<Path<MetaInfo>>();
+			CallPathCollector<MetaInfo> pathCollector = new CallPathCollector<MetaInfo>(from, metaInfoCallGraph);
+			pathCollector.setEndNodes(tos);
+			pathList = pathCollector.run();
+			if (!pathList.isEmpty()) {
+				result = true;
+				break;
+			}
+		}
+				
+		return result;
+	}
+	
+	public boolean isAbstract(SootClass aClass) {
+		boolean result = false;
+		if (aClass.isInterface() || aClass.isAbstract()) {
+			result = true;
+		}
+		return result;
+	}
+	
+	public Set<SootClass> abstractClasses(Map<String, SootClass> classMap) {
+		Set<SootClass> result = new HashSet<SootClass>();
+		
+		for (SootClass aClass : classMap.values()) {
+			if (isAbstract(aClass)) {
+				result.add(aClass);
+			}
+		}
+		return result;
+	}
+	
+	public PatternAnalysisResult analyzePattern(PatternAnalysis analysis, Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
+		return analysis.perform(classMap, hierarchy, cg, this);
+	}
+	
 	public ReferenceFlowGraph referenceFlowGraph(SootClass aType, Map<String, SootClass> classMap, 
 			Hierarchy hierarchy, CallGraph cg) {
 		ReferenceFlowGraph graph = new ReferenceFlowGraph();		
@@ -684,7 +758,7 @@ public class AnalysisUtil {
 	
 	public Set<Path<MetaInfo>> abstractReferenceFlows(SootClass aType, 
 			Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg, 
-			Map<String, MetaInfo> metaInfoMap) {
+			Map<String, MetaInfo> metaInfoMap, RoleRepository roles) {
 		Set<Path<MetaInfo>> absFlowSet = new HashSet<Path<MetaInfo>>();
 		
 		Map<LocalInfoNode, List<Path<LocalInfoNode>>> referenceFlows = referenceFlows(aType, classMap, hierarchy, cg);
@@ -703,6 +777,7 @@ public class AnalysisUtil {
 							Creator creator = new Creator();
 							creator.setInterfaceType(aType);
 							metaInfo.addRole(creator);
+							roles.addCraetor(metaInfo);
 						}
 					}
 					else {
@@ -711,7 +786,8 @@ public class AnalysisUtil {
 							if (localInfo.declaringField() != null) {
 								Store store = new Store();
 								store.setInterfaceType(aType);
-								metaInfo.addRole(store);     
+								metaInfo.addRole(store);
+								roles.addStore(metaInfo);
 							}
 						}
 						// Caller Check
@@ -720,6 +796,7 @@ public class AnalysisUtil {
 								Caller caller = new Caller();
 								caller.setInterfaceType(aType);
 								metaInfo.addRole(caller);
+								roles.addCaller(metaInfo);
 							}
 						}
 						
@@ -741,6 +818,7 @@ public class AnalysisUtil {
 								Injector injector = new Injector();
 								injector.setInterfaceType(aType);
 								injectorSuspect.addRole(injector);
+								roles.addInjector(injectorSuspect);
 							}
 						}
 					}
