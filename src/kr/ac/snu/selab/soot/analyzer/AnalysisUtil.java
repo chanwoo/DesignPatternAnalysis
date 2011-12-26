@@ -661,7 +661,7 @@ public class AnalysisUtil {
 		return result;
 	}
 	
-	public boolean isAbstract(SootClass aClass) {
+	public boolean isInterface(SootClass aClass) {
 		boolean result = false;
 		if (aClass.isInterface() || aClass.isAbstract()) {
 			result = true;
@@ -669,11 +669,11 @@ public class AnalysisUtil {
 		return result;
 	}
 	
-	public Set<SootClass> abstractClasses(Map<String, SootClass> classMap) {
+	public Set<SootClass> interfaceTypes(Map<String, SootClass> classMap) {
 		Set<SootClass> result = new HashSet<SootClass>();
 		
 		for (SootClass aClass : classMap.values()) {
-			if (isAbstract(aClass)) {
+			if (isInterface(aClass)) {
 				result.add(aClass);
 			}
 		}

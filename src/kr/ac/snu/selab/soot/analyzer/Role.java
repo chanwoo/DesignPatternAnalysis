@@ -1,6 +1,12 @@
 package kr.ac.snu.selab.soot.analyzer;
 
+import java.io.IOException;
+
+import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
+import kr.ac.snu.selab.soot.util.XMLWriter;
+
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.log4j.Logger;
 
 import soot.SootClass;
 import soot.SootField;
@@ -8,6 +14,8 @@ import soot.SootMethod;
 import soot.Unit;
 
 public class Role {
+	private static Logger log = Logger.getLogger(Role.class);
+	
 	private String roleName;
 	private Unit unit;
 	private SootClass declaringClass;
@@ -104,5 +112,30 @@ public class Role {
 	
 	public void setConcreteType(SootClass aType) {
 		concreteType = aType;
+	}
+	
+	public String toString() {
+		String result;
+		
+		String roleNameStr = "(" + roleName() + ")";
+		String declaringMethodStr = "";
+		String declaringFieldStr = "";
+		if (declaringMethod() != null) {
+			declaringMethodStr = declaringMethod().getSignature();
+		}
+		else if (declaringField() != null) {
+			declaringFieldStr = declaringField().getSignature();
+		}
+		
+		result = roleNameStr + declaringMethodStr + declaringFieldStr;
+		return result;
+	}
+	
+	public void writeXML(XMLWriter writer) {
+		try {
+			writer.simpleElement("Role", toString());
+		} catch (IOException e) {
+			log.error(e.getMessage(), e);
+		}
 	}
 }

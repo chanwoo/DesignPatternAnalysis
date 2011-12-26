@@ -18,18 +18,20 @@ public class StatePattern extends PatternAnalysis {
 		PatternAnalysisResult result = new PatternAnalysisResult();
 		result.setPatternName("State");
 		
-		Set<SootClass> abstractClasses = au.abstractClasses(classMap);
+		Set<SootClass> interfaceTypes = au.interfaceTypes(classMap);
 
-		for (SootClass absType : abstractClasses) {
+		for (SootClass interfaceType : interfaceTypes) {
 			RoleRepository roles = new RoleRepository();
 			Map<String, MetaInfo> metaInfoMap = au.metaInfoMap(classMap.values());
 			Set<Path<MetaInfo>> abstractReferenceFlows = new HashSet<Path<MetaInfo>>();
 			MetaInfoCallGraph metaInfoCallGraph = au.metaInfoCallGraph(cg, metaInfoMap);
 
-			abstractReferenceFlows = au.abstractReferenceFlows(absType, classMap, hierarchy, cg, metaInfoMap, roles);
+			abstractReferenceFlows = au.abstractReferenceFlows(interfaceType, classMap, hierarchy, cg, metaInfoMap, roles);
 
 			if (au.doesCall(roles.callers(), roles.injectors(), metaInfoCallGraph)) {
 				result.setPatternExistence(true);
+				result.addInterfaceType(interfaceType);
+				result.addRoles(interfaceType, roles);
 			}
 		}
 		
