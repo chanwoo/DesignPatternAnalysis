@@ -119,7 +119,6 @@ public class StatePatternTest {
 		
 	}
 
-
 	private class TestRunner extends AbstractAnalyzer {
 		public TestRunner(AbstractProject project) {
 			super(project);

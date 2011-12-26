@@ -13,8 +13,8 @@ import kr.ac.snu.selab.soot.callgraph.MetaInfoCallGraph;
 import kr.ac.snu.selab.soot.graph.GraphPathCollector;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
-import kr.ac.snu.selab.soot.graph.collectors.CallPathCollector;
 import kr.ac.snu.selab.soot.graph.collectors.ReferenceFlowCollector;
+import kr.ac.snu.selab.soot.graph.pathcheckers.CallPathChecker;
 import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
 import kr.ac.snu.selab.soot.graph.refgraph.ReferenceFlowGraph;
 import soot.Body;
@@ -649,10 +649,9 @@ public class AnalysisUtil {
 		
 		for (MetaInfo from : froms) {
 			List<Path<MetaInfo>> pathList = new ArrayList<Path<MetaInfo>>();
-			CallPathCollector<MetaInfo> pathCollector = new CallPathCollector<MetaInfo>(from, metaInfoCallGraph);
-			pathCollector.setEndNodes(tos);
-			pathList = pathCollector.run();
-			if (!pathList.isEmpty()) {
+			CallPathChecker pathChecker = new CallPathChecker(from, metaInfoCallGraph);
+			pathChecker.setEndNodes(tos);
+			if (pathChecker.check()) {
 				result = true;
 				break;
 			}
