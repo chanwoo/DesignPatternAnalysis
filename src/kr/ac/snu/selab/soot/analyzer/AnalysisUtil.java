@@ -776,80 +776,99 @@ public class AnalysisUtil {
 					if (newPath.isEmpty()) {
 						// Creator
 						newPath.add(metaInfo);
-						if (!metaInfo.isCreator()) {
-							Creator creator = new Creator();
-							creator.setInterfaceType(aType);
-							metaInfo.addRole(creator);
-							roles.addCraetor(metaInfo);
-						}
+						checkCreator(aType, metaInfo, roles);
 					}
 					else {
 						// Store Check
-						if (!metaInfo.isStore()) {
-							if (localInfo.declaringField() != null) {
-								SootClass fieldType = typeToClass(localInfo.declaringField().getType(), classMap);
-								if (fieldType.equals(aType)) {
-									Store store = new Store();
-									store.setInterfaceType(aType);
-									metaInfo.addRole(store);
-									roles.addStore(metaInfo);
-								}
-							}
-						}
+						checkStore(aType, metaInfo, localInfo, classMap, roles);
 						// Caller Check
-						if (!metaInfo.isCaller()) {
-							if (localInfo instanceof Call) {
-								Caller caller = new Caller();
-								caller.setInterfaceType(aType);
-								metaInfo.addRole(caller);
-								roles.addCaller(metaInfo);
-							}
-						}
+						checkCaller(aType, metaInfo, localInfo, roles);
 						
 						if (!metaInfo.getElement().equals(newPath.last().getElement())) {
 							newPath.add(metaInfo);
 						}
 					}
 				}
+				
 				// Injector Check
-				List<MetaInfo> metaInfoList = newPath.getNodeList();
-				Set<MetaInfo> metaInfoSet = new HashSet<MetaInfo>();
-				metaInfoSet.addAll(metaInfoList);
-				int index = 0;
-				for (MetaInfo metaInfo : metaInfoList) {
-					if (metaInfo.isStore()) {
-						
-						int setterIndex = index - 1;
-						if (setterIndex >= 0) {
-							MetaInfo setter = metaInfoList.get(setterIndex);
-							
-							Set<SootMethod> injectorMethods = new HashSet<SootMethod>();
-							Iterator<Edge> edgeIter = cg.edgesInto((SootMethod)setter.getElement());
-							while(edgeIter.hasNext()) {
-								injectorMethods.add(edgeIter.next().src());
-							}
-							for (SootMethod injectorMethod : injectorMethods) {
-								String key = injectorMethod.getSignature();
-								if (metaInfoMap.containsKey(key)) {
-									if ((!metaInfoMap.get(key).isInjector()) && (metaInfoSet.contains(metaInfoMap.get(key)))) {
-										Injector injector = new Injector();
-										injector.setInterfaceType(aType);
-										metaInfoMap.get(key).addRole(injector);
-										roles.addInjector(metaInfoMap.get(key));
-									}
-								}
-							}
-						}
-					}
-					
-					index++;
-				}
+				checkInjector(aType, newPath, metaInfoMap, cg, roles);
 				
 				absFlowSet.add(newPath);
 			}
 		}
 		
 		return absFlowSet;
+	}
+	
+	public void checkCaller(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, RoleRepository roles) {
+		if (!metaInfo.isCaller()) {
+			if (localInfo instanceof Call) {
+				Caller caller = new Caller();
+				caller.setInterfaceType(aType);
+				metaInfo.addRole(caller);
+				roles.addCaller(metaInfo);
+			}
+		}
+	}
+	
+	public void checkStore(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, 
+			Map<String, SootClass> classMap, RoleRepository roles) {
+		if (!metaInfo.isStore()) {
+			if (localInfo.declaringField() != null) {
+				SootClass fieldType = typeToClass(localInfo.declaringField().getType(), classMap);
+				if (fieldType.equals(aType)) {
+					Store store = new Store();
+					store.setInterfaceType(aType);
+					metaInfo.addRole(store);
+					roles.addStore(metaInfo);
+				}
+			}
+		}
+	}
+	
+	public void checkCreator(SootClass aType, MetaInfo metaInfo, RoleRepository roles) {
+		if (!metaInfo.isCreator()) {
+			Creator creator = new Creator();
+			creator.setInterfaceType(aType);
+			metaInfo.addRole(creator);
+			roles.addCraetor(metaInfo);
+		}
+	}
+	
+	public void checkInjector(SootClass aType, Path<MetaInfo> absReferenceFlow, 
+			Map<String, MetaInfo> metaInfoMap, CallGraph cg, RoleRepository roles) {
+		List<MetaInfo> metaInfoList = absReferenceFlow.getNodeList();
+		Set<MetaInfo> metaInfoSet = new HashSet<MetaInfo>();
+		metaInfoSet.addAll(metaInfoList);
+		int index = 0;
+		for (MetaInfo metaInfo : metaInfoList) {
+			if (metaInfo.isStore()) {
+				
+				int setterIndex = index - 1;
+				if (setterIndex >= 0) {
+					MetaInfo setter = metaInfoList.get(setterIndex);
+					
+					Set<SootMethod> injectorMethods = new HashSet<SootMethod>();
+					Iterator<Edge> edgeIter = cg.edgesInto((SootMethod)setter.getElement());
+					while(edgeIter.hasNext()) {
+						injectorMethods.add(edgeIter.next().src());
+					}
+					for (SootMethod injectorMethod : injectorMethods) {
+						String key = injectorMethod.getSignature();
+						if (metaInfoMap.containsKey(key)) {
+							if ((!metaInfoMap.get(key).isInjector()) && (metaInfoSet.contains(metaInfoMap.get(key)))) {
+								Injector injector = new Injector();
+								injector.setInterfaceType(aType);
+								metaInfoMap.get(key).addRole(injector);
+								roles.addInjector(metaInfoMap.get(key));
+							}
+						}
+					}
+				}
+			}
+			
+			index++;
+		}
 	}
 	
 	public boolean isCaller(LocalInfo localInfo, SootClass aType, Map<String, SootClass> classMap) {
