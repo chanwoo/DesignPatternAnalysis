@@ -776,7 +776,7 @@ public class AnalysisUtil {
 					if (newPath.isEmpty()) {
 						// Creator
 						newPath.add(metaInfo);
-						checkCreator(aType, metaInfo, roles);
+						checkCreator(aType, metaInfo, localInfo, roles, classMap);
 					}
 					else {
 						// Store Check
@@ -801,19 +801,19 @@ public class AnalysisUtil {
 	}
 	
 	public void checkCaller(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, RoleRepository roles) {
-		if (!metaInfo.isCaller()) {
+//		if (!metaInfo.isCaller()) {
 			if (localInfo instanceof Call) {
 				Caller caller = new Caller();
 				caller.setInterfaceType(aType);
 				metaInfo.addRole(caller);
 				roles.addCaller(metaInfo);
 			}
-		}
+//		}
 	}
 	
 	public void checkStore(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, 
 			Map<String, SootClass> classMap, RoleRepository roles) {
-		if (!metaInfo.isStore()) {
+//		if (!metaInfo.isStore()) {
 			if (localInfo.declaringField() != null) {
 				SootClass fieldType = typeToClass(localInfo.declaringField().getType(), classMap);
 				if (fieldType.equals(aType)) {
@@ -823,16 +823,19 @@ public class AnalysisUtil {
 					roles.addStore(metaInfo);
 				}
 			}
-		}
+//		}
 	}
 	
-	public void checkCreator(SootClass aType, MetaInfo metaInfo, RoleRepository roles) {
-		if (!metaInfo.isCreator()) {
+	public void checkCreator(SootClass aType, MetaInfo metaInfo, LocalInfo localInfo, RoleRepository roles,
+			Map<String, SootClass> classMap) {
+//		if (!metaInfo.isCreator()) {
 			Creator creator = new Creator();
 			creator.setInterfaceType(aType);
+			creator.setDeclaringClass(((SootMethod)metaInfo.getElement()).getDeclaringClass());
+			creator.setConcreteType(typeToClass(localInfo.local().getType(), classMap));
 			metaInfo.addRole(creator);
-			roles.addCraetor(metaInfo);
-		}
+			roles.addCreator(metaInfo);
+//		}
 	}
 	
 	public void checkInjector(SootClass aType, Path<MetaInfo> absReferenceFlow, 

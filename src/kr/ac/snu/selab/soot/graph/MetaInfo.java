@@ -58,7 +58,23 @@ public class MetaInfo extends Node {
 	}
 	
 	public Set<Role> roles() {
-		return roles();
+		return roles;
+	}
+	
+	public Set<Role> creators() {
+		return creators;
+	}
+	
+	public Set<Role> callers() {
+		return callers;
+	}
+	
+	public Set<Role> injectors() {
+		return injectors;
+	}
+	
+	public Set<Role> stores() {
+		return stores;
 	}
 	
 	public void addRole(Role role) {

@@ -4,11 +4,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import kr.ac.snu.selab.soot.graph.MetaInfo;
-import kr.ac.snu.selab.soot.graph.refgraph.LocalInfoNode;
 import kr.ac.snu.selab.soot.util.XMLWriter;
+
+import org.apache.log4j.Logger;
 
 public class RoleRepository {
 	private static Logger log = Logger.getLogger(RoleRepository.class);
@@ -45,7 +44,7 @@ public class RoleRepository {
 		callers.add(metaInfo);
 	}
 	
-	public void addCraetor(MetaInfo metaInfo) {
+	public void addCreator(MetaInfo metaInfo) {
 		creators.add(metaInfo);
 	}
 	

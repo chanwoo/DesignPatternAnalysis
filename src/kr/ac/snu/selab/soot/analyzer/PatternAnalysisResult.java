@@ -16,13 +16,11 @@ public class PatternAnalysisResult {
 	private static Logger log = Logger.getLogger(PatternAnalysisResult.class);
 	
 	private String patternName;
-	private boolean patternExistence;
 	private Set<SootClass> interfaceTypes;
 	private Map<SootClass, RoleRepository> rolesPerType;
 	
 	public PatternAnalysisResult() {
 		patternName = null;
-		patternExistence = false;
 		interfaceTypes = new HashSet<SootClass>();
 		rolesPerType = new HashMap<SootClass, RoleRepository>();
 	}
@@ -42,10 +40,6 @@ public class PatternAnalysisResult {
 		else {
 			return false;
 		}
-	}
-	
-	public void setPatternExistence(boolean value) {
-		patternExistence = value;
 	}
 	
 	public Set<SootClass> interfaceTypes() {
