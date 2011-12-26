@@ -59,6 +59,11 @@ public class ReferenceFlowGraph implements Graph<LocalInfoNode> {
 	}
 
 	public void addEdge(LocalInfo from, LocalInfo to) {
+		if (from == null || to == null) {
+			// TODO: Add a breakpoint here and check !!
+			int j = 3;
+			j++;
+		}
 		String fromKey = from.key();
 		String toKey = to.key();
 		LocalInfoNode sourceNode = null, targetNode = null;
