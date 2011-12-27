@@ -37,7 +37,7 @@ public class VisitorPatternTest {
 
 	private static Logger logger = Logger.getLogger(VisitorPatternTest.class);
 
-	private static final String PROJECTS_NAME = "mapper";
+	private static final String PROJECTS_NAME = "ajp_visitor";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	static AnalysisUtil au;
@@ -85,7 +85,7 @@ public class VisitorPatternTest {
 		final String[] arguments = { "-cp", project.getClassPath(), "-f", "J",
 				"-w", "-p", "cg.spark", "verbose:true,on-fly-cg:true", "-d",
 				project.getJimpleDirectory(), "--process-dir",
-				project.getSourceDirectory() };
+				project.getSourceDirectory(), "-main-class", "RunPattern" };
 
 		soot.Main.main(arguments);
 	}

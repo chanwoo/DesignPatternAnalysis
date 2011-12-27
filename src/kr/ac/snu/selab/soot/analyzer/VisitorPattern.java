@@ -31,20 +31,25 @@ public class VisitorPattern extends PatternAnalysis {
 	
 			result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
 			
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy);
+			
 			for (MetaInfo metaInfoOfCaller : roles.callers()) {
 				for (Role role : metaInfoOfCaller.callers()) {
 					Caller caller = (Caller)role;
 					SootMethod calledMethod = caller.calledMethod();
 					SootClass callerClass = caller.declaringClass();
-					if (au.doesHaveParam(calledMethod, callerClass, classMap)) {
-						result.addInterfaceType(interfaceType);
-						if (result.rolesPerType().containsKey(interfaceType)) {
-							result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-						}
-						else {
-							RoleRepository relatedRoles = new RoleRepository();
-							relatedRoles.addCaller(metaInfoOfCaller);
-							result.addRoles(interfaceType, relatedRoles);
+					if (calledMethod.getParameterCount() == 1) {
+						SootClass parameterType = au.typeToClass(calledMethod.getParameterType(0), classMap);
+						if (au.isSubtypeIncluding(callerClass, parameterType, hierarchy)) {
+							result.addInterfaceType(interfaceType);
+							if (result.rolesPerType().containsKey(interfaceType)) {
+								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+							}
+							else {
+								RoleRepository relatedRoles = new RoleRepository();
+								relatedRoles.addCaller(metaInfoOfCaller);
+								result.addRoles(interfaceType, relatedRoles);
+							}
 						}
 					}
 				}

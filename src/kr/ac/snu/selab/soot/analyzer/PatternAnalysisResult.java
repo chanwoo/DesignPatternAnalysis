@@ -105,8 +105,8 @@ public class PatternAnalysisResult {
 			
 			writer.startElement("ReferenceFlowsPerType");
 			for (SootClass type : referenceFlowsPerType.keySet()) {
-				writer.simpleElement("InterfaceType", type.toString());
 				writer.startElement("ReferenceFlows");
+				writer.simpleElement("InterfaceType", type.toString());
 				for (Path<MetaInfo> flow : referenceFlowsPerType.get(type))
 					flow.writeXML(writer);
 				writer.endElement();

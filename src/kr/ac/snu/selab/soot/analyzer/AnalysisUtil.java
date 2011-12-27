@@ -89,6 +89,41 @@ public class AnalysisUtil {
 		return creations;
 	}
 	
+	// Independent Role Analysis over a Type
+	public void analyzeRole(SootClass aType, Map<String, MetaInfo> metaInfoMap, RoleRepository roles,
+			Map<String, SootClass> classMap, Hierarchy hierarchy) {
+		for (String key : metaInfoMap.keySet()) {
+			MetaInfo metaInfo = metaInfoMap.get(key);
+			if (metaInfo.getElement() instanceof SootMethod) {
+				SootMethod method = (SootMethod)metaInfo.getElement();
+				Map<String, LocalInfo> callLocalInfos = calls(method, aType, classMap);
+				Map<String, LocalInfo> creationLocalInfos = typeFilterOfLocalMap(creations(method), aType, hierarchy, classMap);
+				
+				for (LocalInfo callLocalInfo : callLocalInfos.values()) {
+					checkCaller(aType, metaInfo, callLocalInfo, roles);
+				}
+				
+				for (LocalInfo creationLocalInfo : creationLocalInfos.values()) {
+					checkCreator(aType, metaInfo, creationLocalInfo, roles, classMap);
+				}
+			}
+			
+			else if (metaInfo.getElement() instanceof SootField) {
+				SootField field = (SootField)metaInfo.getElement();
+				
+				SootClass fieldType = typeToClass(field.getType(), classMap);
+				if (fieldType != null) {
+					if (fieldType.equals(aType)) {
+						Store store = new Store();
+						store.setInterfaceType(aType);
+						metaInfo.addRole(store);
+						roles.addStore(metaInfo);
+					}
+				}
+			}
+		}
+	}
+	
 	// Call
 	public Map<String, LocalInfo> calls(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap) {
 		Map<String, LocalInfo> calls = new HashMap<String, LocalInfo>();
@@ -1089,4 +1124,5 @@ public class AnalysisUtil {
 		
 		return result;
 	}
+	
 }

@@ -30,21 +30,21 @@ public class PrototypePattern extends PatternAnalysis {
 
 			abstractReferenceFlows = au.abstractReferenceFlows(interfaceType, classMap, hierarchy, cg, metaInfoMap, roles);
 	
-			for (MetaInfo metaInfoOfCreator : roles.creators()) {
-				for (Role creator : metaInfoOfCreator.creators()) {
+			for (MetaInfo creatorMetaInfo : roles.creators()) {
+				for (Role creator : creatorMetaInfo.creators()) {
 					if (creator.declaringClass().equals(creator.concreteType()) &&
 							au.isSubtypeIncluding(creator.declaringClass(), interfaceType, hierarchy)) {
-						Set<MetaInfo> metaInfoOfCreatorSet = new HashSet<MetaInfo>();
-						metaInfoOfCreatorSet.add(metaInfoOfCreator);
+						Set<MetaInfo> setOfCreatorMetaInfo = new HashSet<MetaInfo>();
+						setOfCreatorMetaInfo.add(creatorMetaInfo);
 
-						if (au.doesCall(roles.callers(), metaInfoOfCreatorSet, metaInfoCallGraph)) {
+						if (au.doesCall(roles.callers(), setOfCreatorMetaInfo, metaInfoCallGraph)) {
 							result.addInterfaceType(interfaceType);
 							if (result.rolesPerType().containsKey(interfaceType)) {
-								result.rolesPerType().get(interfaceType).addCreator(metaInfoOfCreator);
+								result.rolesPerType().get(interfaceType).addCreator(creatorMetaInfo);
 							}
 							else {
 								RoleRepository relatedRoles = new RoleRepository();
-								relatedRoles.addCreator(metaInfoOfCreator);
+								relatedRoles.addCreator(creatorMetaInfo);
 								result.addRoles(interfaceType, relatedRoles);
 							}
 						}
