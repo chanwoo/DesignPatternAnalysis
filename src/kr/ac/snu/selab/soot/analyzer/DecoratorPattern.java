@@ -27,6 +27,8 @@ public class DecoratorPattern extends PatternAnalysis {
 	
 			//result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
 			
+			if (au.directSubClassesOf(interfaceType, hierarchy).size() >= 2) {
+			
 			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
 			
 			for (MetaInfo metaInfoOfCaller : roles.callers()) {
@@ -34,7 +36,7 @@ public class DecoratorPattern extends PatternAnalysis {
 					Caller caller = (Caller)role;
 					SootClass callerClass = caller.declaringClass();
 					if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
-						if (!hierarchy.getDirectSubclassesOf(callerClass).isEmpty()) {
+						if (hierarchy.getDirectSubclassesOf(callerClass).size() >= 2) {
 							result.addInterfaceType(interfaceType);
 							if (result.rolesPerType().containsKey(interfaceType)) {
 								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
@@ -47,6 +49,7 @@ public class DecoratorPattern extends PatternAnalysis {
 						}
 					}
 				}
+			}
 			}
 		}
 		

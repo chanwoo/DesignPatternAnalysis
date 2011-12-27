@@ -1174,4 +1174,19 @@ public class AnalysisUtil {
 		return result;
 	}
 	
+	public Set<SootClass> directSubClassesOf(SootClass aClass, Hierarchy hierarchy) {
+		Set<SootClass> classes = new HashSet<SootClass>();
+		
+		if (aClass.isInterface()) {
+			List<SootClass> implementors = hierarchy.getDirectImplementersOf(aClass);
+			classes.addAll(implementors);
+		}
+		else {
+			List<SootClass> subclasses = hierarchy.getDirectSubclassesOf(aClass);
+			classes.addAll(subclasses);
+		}
+		
+		return classes;
+	}
+	
 }
