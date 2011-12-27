@@ -3,6 +3,7 @@ package kr.ac.snu.selab.soot.core;
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,6 +20,8 @@ import org.xml.sax.SAXParseException;
 public class ProjectManager {
 	private static Logger log = Logger.getLogger(ProjectManager.class);
 
+	private static final String TARGET_DIRECTORY = "subjectsOfAnalysis";
+
 	private static ProjectManager instance = null;
 
 	public static ProjectManager getInstance() {
@@ -27,8 +30,11 @@ public class ProjectManager {
 		return instance;
 	}
 
+	private String targetRootPath = null;
 	private HashMap<String, AbstractProject> map;
 	private HashMap<String, String> abvMap;
+
+	private Map<String, String> jreLibraryMap;
 
 	private ProjectManager() {
 		map = new HashMap<String, AbstractProject>();
@@ -52,6 +58,11 @@ public class ProjectManager {
 			throw new ProjectFileParseException(
 					"Unable to read project file: unknown error!!");
 		}
+
+		findTargetRoot();
+
+		loadJreLibraries();
+
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
@@ -90,6 +101,30 @@ public class ProjectManager {
 		}
 	}
 
+	private void findTargetRoot() throws ProjectFileParseException {
+		File rootDirectory = new File(System.getProperty("user.dir"));
+		File targetRoot = new File(rootDirectory, TARGET_DIRECTORY);
+		if (targetRoot == null || !targetRoot.exists()
+				|| !targetRoot.isDirectory()) {
+			targetRootPath = null;
+			throw new ProjectFileParseException("Can not find target directory");
+		}
+		targetRootPath = targetRoot.getAbsolutePath();
+	}
+
+	private void loadJreLibraries() {
+		jreLibraryMap = new HashMap<String, String>();
+		String jreLibraryPath = System.getProperty("sun.boot.class.path");
+		String[] tokens = jreLibraryPath.split(File.pathSeparator);
+		for (String path : tokens) {
+			int lastIndexOfSeparator = path.lastIndexOf(File.separatorChar);
+			if (lastIndexOfSeparator < 0)
+				continue;
+			String fileName = path.substring(lastIndexOfSeparator + 1);
+			jreLibraryMap.put(fileName, path);
+		}
+	}
+
 	private Project parseProject(Element projectElement) {
 
 		String projectName = projectElement.getAttribute("name");
@@ -110,7 +145,7 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.projectRoot = replaceKeywords(text, project);
+		project.projectRoot = replaceKeywords(text, project, targetRootPath);
 
 		nodeList = projectElement.getElementsByTagName("source");
 		assert (nodeList != null);
@@ -121,7 +156,7 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.sourcePath = replaceKeywords(text, project);
+		project.sourcePath = replaceKeywords(text, project, targetRootPath);
 
 		nodeList = projectElement.getElementsByTagName("classpaths");
 		assert (nodeList != null);
@@ -139,7 +174,7 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.setOutputPath(replaceKeywords(text, project));
+		project.setOutputPath(replaceKeywords(text, project, targetRootPath));
 
 		nodeList = projectElement.getElementsByTagName("jimple");
 		assert (nodeList != null);
@@ -150,7 +185,8 @@ public class ProjectManager {
 		text = element.getAttribute("path");
 		assert (text != null);
 		text = text.trim();
-		project.setOutputJimplePath(replaceKeywords(text, project));
+		project.setOutputJimplePath(replaceKeywords(text, project,
+				targetRootPath));
 
 		nodeList = projectElement.getElementsByTagName("include_package");
 		if (nodeList != null && nodeList.getLength() > 0) {
@@ -171,13 +207,23 @@ public class ProjectManager {
 		Node node = null;
 		Element element = null;
 		String text = null;
-
-		nodeList = parent.getElementsByTagName("path");
-		assert (nodeList != null);
-		int length = nodeList.getLength();
-		assert (length > 0);
-
 		StringBuffer buffer = new StringBuffer();
+
+		if (jreLibraryMap.containsKey("classes.jar")) {
+			String path = jreLibraryMap.get("classes.jar");
+			buffer.append(path);
+			buffer.append(File.pathSeparator);
+		}
+
+		if (jreLibraryMap.containsKey("rt.jar")) {
+			String path = jreLibraryMap.get("rt.jar");
+			buffer.append(path);
+			buffer.append(File.pathSeparator);
+		}
+
+		nodeList = parent.getElementsByTagName("jre_path");
+		int length = nodeList.getLength();
+
 		for (int i = 0; i < length; i++) {
 			node = nodeList.item(i);
 			assert (node.getNodeType() == Node.ELEMENT_NODE);
@@ -185,7 +231,27 @@ public class ProjectManager {
 			text = element.getTextContent();
 			assert (text != null);
 			text = text.trim();
-			buffer.append(replaceKeywords(text, project));
+			if (!jreLibraryMap.containsKey(text)) {
+				continue;
+			}
+			String path = jreLibraryMap.get(text);
+			buffer.append(replaceKeywords(path, project, targetRootPath));
+			buffer.append(File.pathSeparator);
+		}
+
+		nodeList = parent.getElementsByTagName("path");
+		assert (nodeList != null);
+		length = nodeList.getLength();
+		assert (length > 0);
+
+		for (int i = 0; i < length; i++) {
+			node = nodeList.item(i);
+			assert (node.getNodeType() == Node.ELEMENT_NODE);
+			element = (Element) node;
+			text = element.getTextContent();
+			assert (text != null);
+			text = text.trim();
+			buffer.append(replaceKeywords(text, project, targetRootPath));
 			if (i < length - 1)
 				buffer.append(File.pathSeparator);
 		}
@@ -193,12 +259,17 @@ public class ProjectManager {
 		project.setClassPath(buffer.toString());
 	}
 
-	private static String replaceKeywords(String text, Project project) {
+	private static String replaceKeywords(String text, Project project,
+			String targetRootPath) {
+		text = replaceText(text, "\\$\\{ROOT\\}", targetRootPath);
 		text = replaceText(text, "\\$\\{PROJECT_NAME\\}",
 				project.getProjectName());
 		text = replaceText(text, "\\$\\{PROJECT_ROOT\\}", project.projectRoot);
 		text = replaceText(text, "\\$\\{SRC_PATH\\}", project.sourcePath);
 		text = replaceText(text, "\\$\\{OUTPUT_PATH\\}", project.outputPath);
+		text = replaceText(text, "\\/", File.separator);
+		text = replaceText(text, "\\\\", File.separator);
+
 		return text;
 	}
 
