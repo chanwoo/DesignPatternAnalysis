@@ -91,7 +91,7 @@ public class AnalysisUtil {
 	
 	// Independent Role Analysis over a Type
 	public void analyzeRole(SootClass aType, Map<String, MetaInfo> metaInfoMap, RoleRepository roles,
-			Map<String, SootClass> classMap, Hierarchy hierarchy) {
+			Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
 		for (String key : metaInfoMap.keySet()) {
 			MetaInfo metaInfo = metaInfoMap.get(key);
 			if (metaInfo.getElement() instanceof SootMethod) {
@@ -106,6 +106,8 @@ public class AnalysisUtil {
 				for (LocalInfo creationLocalInfo : creationLocalInfos.values()) {
 					checkCreator(aType, metaInfo, creationLocalInfo, roles, classMap);
 				}
+				
+				checkInjector(method, aType, metaInfoMap, roles, classMap, hierarchy, cg);
 			}
 			
 			else if (metaInfo.getElement() instanceof SootField) {
@@ -118,6 +120,37 @@ public class AnalysisUtil {
 						store.setInterfaceType(aType);
 						metaInfo.addRole(store);
 						roles.addStore(metaInfo);
+					}
+				}
+			}
+		}
+	}
+	
+	public void checkInjector(SootMethod aMethod, SootClass aType, Map<String, MetaInfo> metaInfoMap, RoleRepository roles,
+			Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg) {
+		Map<String, LocalInfo> setterLocalInfos = typeFilterOfLocalMap(localsRightOfField(aMethod), aType, hierarchy, classMap);
+		for (LocalInfo localInfo : setterLocalInfos.values()) {
+			SootField field = localInfo.field();
+			SootClass fieldType = typeToClass(field.getType(), classMap);
+
+			if (fieldType.equals(aType)) {
+				SootMethod setterMethod = localInfo.declaringMethod();
+				if (metaInfoMap.containsKey(setterMethod.getSignature())) {
+					MetaInfo setterMetaInfo = metaInfoMap.get(setterMethod.getSignature());
+
+					Set<SootMethod> injectorMethods = new HashSet<SootMethod>();
+					Iterator<Edge> edgeIter = cg.edgesInto((SootMethod)setterMetaInfo.getElement());
+					while(edgeIter.hasNext()) {
+						injectorMethods.add(edgeIter.next().src());
+					}
+					for (SootMethod injectorMethod : injectorMethods) {
+						String key = injectorMethod.getSignature();
+						if (metaInfoMap.containsKey(key)) {
+							Injector injector = new Injector();
+							injector.setInterfaceType(aType);
+							metaInfoMap.get(key).addRole(injector);
+							roles.addInjector(metaInfoMap.get(key));
+						}
 					}
 				}
 			}
@@ -826,7 +859,7 @@ public class AnalysisUtil {
 				}
 				
 				// Injector Check
-				checkInjector(aType, newPath, metaInfoMap, cg, roles);
+				checkInjectorBasedOnFlow(aType, newPath, metaInfoMap, cg, roles);
 				
 				absFlowSet.add(newPath);
 			}
@@ -870,11 +903,11 @@ public class AnalysisUtil {
 			roles.addCreator(metaInfo);
 	}
 	
-	public void checkInjector(SootClass aType, Path<MetaInfo> absReferenceFlow, 
+	public void checkInjectorBasedOnFlow(SootClass aType, Path<MetaInfo> absReferenceFlow, 
 			Map<String, MetaInfo> metaInfoMap, CallGraph cg, RoleRepository roles) {
 		List<MetaInfo> metaInfoList = absReferenceFlow.getNodeList();
-		Set<MetaInfo> metaInfoSet = new HashSet<MetaInfo>();
-		metaInfoSet.addAll(metaInfoList);
+		Set<MetaInfo> metaInfoSetOfFlow = new HashSet<MetaInfo>();
+		metaInfoSetOfFlow.addAll(metaInfoList);
 		int index = 0;
 		for (MetaInfo metaInfo : metaInfoList) {
 			if (metaInfo.isStore()) {
@@ -891,7 +924,7 @@ public class AnalysisUtil {
 					for (SootMethod injectorMethod : injectorMethods) {
 						String key = injectorMethod.getSignature();
 						if (metaInfoMap.containsKey(key)) {
-							if ((!metaInfoMap.get(key).isInjector()) && (metaInfoSet.contains(metaInfoMap.get(key)))) {
+							if (metaInfoSetOfFlow.contains(metaInfoMap.get(key))) {
 								Injector injector = new Injector();
 								injector.setInterfaceType(aType);
 								metaInfoMap.get(key).addRole(injector);
@@ -1139,6 +1172,21 @@ public class AnalysisUtil {
 		}
 		
 		return result;
+	}
+	
+	public Set<SootClass> directSubClassesOf(SootClass aClass, Hierarchy hierarchy) {
+		Set<SootClass> classes = new HashSet<SootClass>();
+		
+		if (aClass.isInterface()) {
+			List<SootClass> implementors = hierarchy.getDirectImplementersOf(aClass);
+			classes.addAll(implementors);
+		}
+		else {
+			List<SootClass> subclasses = hierarchy.getDirectSubclassesOf(aClass);
+			classes.addAll(subclasses);
+		}
+		
+		return classes;
 	}
 	
 }

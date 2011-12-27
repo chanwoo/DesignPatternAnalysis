@@ -15,9 +15,9 @@ import java.util.Map;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
+import kr.ac.snu.selab.soot.analyzer.CompositePattern;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysis;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysisResult;
-import kr.ac.snu.selab.soot.analyzer.StatePattern;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 import kr.ac.snu.selab.soot.util.XMLWriter;
@@ -33,9 +33,9 @@ import soot.SootClass;
 import soot.Transform;
 import soot.jimple.toolkits.callgraph.CallGraph;
 
-public class StatePattern_StatePatternExample_Test {
+public class CompositePattern_JHD6_Test {
 
-	private static Logger logger = Logger.getLogger(StatePattern_StatePatternExample_Test.class);
+	private static Logger logger = Logger.getLogger(CompositePattern_JHD6_Test.class);
 
 	private static final String PROJECTS_NAME = "jhd6";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
@@ -93,7 +93,7 @@ public class StatePattern_StatePatternExample_Test {
 	@Test
 	public void writePatternAnalysisResult() {
 		File outputDir = new File(project.getOutputDirectory().getAbsolutePath());
-		File output = new File(outputDir, "StatePatternAnalysisResult.xml");
+		File output = new File(outputDir, "CompositePatternAnalysisResult.xml");
 		
 		XMLWriter writer = null;
 		try {
@@ -134,7 +134,7 @@ public class StatePattern_StatePatternExample_Test {
 				classMap.put(aClass.toString(), aClass);
 			}
 
-			PatternAnalysis analysis = new StatePattern();
+			PatternAnalysis analysis = new CompositePattern();
 			result = au.analyzePattern(analysis, classMap, aHierarchy, cg);
 		}
 	}

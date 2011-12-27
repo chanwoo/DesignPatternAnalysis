@@ -96,10 +96,12 @@ public class PatternAnalysisResult {
 			}
 			writer.endElement();
 			
-			writer.startElement("RolesPerType");
+			writer.startElement("RolesPerTypeList");
 			for (SootClass type : rolesPerType.keySet()) {
+				writer.startElement("RolesPerType");
 				writer.simpleElement("InterfaceType", type.toString());
 				rolesPerType.get(type).writeXML(writer);
+				writer.endElement();
 			}
 			writer.endElement();
 			
