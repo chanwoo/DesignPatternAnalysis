@@ -15,9 +15,9 @@ import java.util.Map;
 
 import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
+import kr.ac.snu.selab.soot.analyzer.DecoratorPattern;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysis;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysisResult;
-import kr.ac.snu.selab.soot.analyzer.PrototypePattern;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 import kr.ac.snu.selab.soot.util.XMLWriter;
@@ -134,7 +134,7 @@ public class DecoratorPattern_JHD6_Test {
 				classMap.put(aClass.toString(), aClass);
 			}
 
-			PatternAnalysis analysis = new PrototypePattern();
+			PatternAnalysis analysis = new DecoratorPattern();
 			result = au.analyzePattern(analysis, classMap, aHierarchy, cg);
 		}
 	}

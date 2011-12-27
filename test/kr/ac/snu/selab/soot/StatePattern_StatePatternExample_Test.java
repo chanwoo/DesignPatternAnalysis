@@ -1,6 +1,8 @@
 package kr.ac.snu.selab.soot;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,9 +32,6 @@ import soot.Scene;
 import soot.SootClass;
 import soot.Transform;
 import soot.jimple.toolkits.callgraph.CallGraph;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 
 public class StatePattern_StatePatternExample_Test {
 
