@@ -222,9 +222,9 @@ public class ClassPathTest extends TestCase {
    */
   private void displayNode(DefaultMutableTreeNode parent, String level) {
     System.out.println(level + parent.getUserObject());
-    Enumeration enum = parent.children();
-    while (enum.hasMoreElements()) {
-      DefaultMutableTreeNode child = (DefaultMutableTreeNode)enum.nextElement();
+    Enumeration enum1 = parent.children();
+    while (enum1.hasMoreElements()) {
+      DefaultMutableTreeNode child = (DefaultMutableTreeNode)enum1.nextElement();
       displayNode(child, level + "  ");
     }
   }

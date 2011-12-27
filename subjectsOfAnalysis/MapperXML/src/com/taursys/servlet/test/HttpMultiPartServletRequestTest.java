@@ -191,9 +191,9 @@ public class HttpMultiPartServletRequestTest extends TestCase {
 
     parser.processBlock();
     assertTrue("Expected NOT end of data", !parser.isEndOfData());
-    Enumeration enum = parser.getParameterNames();
-    while (enum.hasMoreElements()) {
-      if (((String)enum.nextElement()).equals("email"))
+    Enumeration enum1 = parser.getParameterNames();
+    while (enum1.hasMoreElements()) {
+      if (((String)enum1.nextElement()).equals("email"))
         return; //found
     }
     fail("Email parameter is not present");

@@ -341,9 +341,9 @@ public class ServletForm extends Form {
    */
   public Map createParameterMap() {
     HashMap map = new HashMap();
-    Enumeration enum = request.getParameterNames();
-    while (enum.hasMoreElements()) {
-      String key = (String)enum.nextElement();
+    Enumeration enum1 = request.getParameterNames();
+    while (enum1.hasMoreElements()) {
+      String key = (String)enum1.nextElement();
       map.put(key, request.getParameterValues(key));
     }
     return Collections.unmodifiableMap(map);
