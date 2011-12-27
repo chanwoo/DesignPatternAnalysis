@@ -27,7 +27,7 @@ public class DecoratorPattern extends PatternAnalysis {
 	
 			//result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
 			
-			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy);
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
 			
 			for (MetaInfo metaInfoOfCaller : roles.callers()) {
 				for (Role role : metaInfoOfCaller.callers()) {

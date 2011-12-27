@@ -30,7 +30,7 @@ public class PrototypePattern extends PatternAnalysis {
 	
 			result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
 			
-			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy);
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
 			
 			for (MetaInfo callerMetaInfo : roles.callers()) {
 				for (Role role : callerMetaInfo.callers()) {
