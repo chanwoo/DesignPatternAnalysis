@@ -20,7 +20,7 @@ import org.xml.sax.SAXParseException;
 public class ProjectManager {
 	private static Logger log = Logger.getLogger(ProjectManager.class);
 
-	private static final String TARGET_DIRECTORY = "subjectsOfAnalysis";
+	private static final String DEFAULT_ROOT_DIRECTORY = "subjectsOfAnalysis";
 
 	private static ProjectManager instance = null;
 
@@ -59,10 +59,6 @@ public class ProjectManager {
 					"Unable to read project file: unknown error!!");
 		}
 
-		findTargetRoot();
-
-		loadJreLibraries();
-
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
@@ -85,6 +81,20 @@ public class ProjectManager {
 			});
 			Document doc = dBuilder.parse(is);
 			doc.getDocumentElement().normalize();
+			String rootAttribute = doc.getDocumentElement()
+					.getAttribute("root");
+			if (rootAttribute == null || rootAttribute.equals("")) {
+				findDefaultTargetRoot();
+			} else {
+				rootAttribute = replaceText(rootAttribute, "\\/",
+						File.separator);
+				rootAttribute = replaceText(rootAttribute, "\\\\",
+						File.separator);
+				File rootDirectory = new File(rootAttribute);
+				targetRootPath = rootDirectory.getAbsolutePath();
+			}
+
+			loadJreLibraries();
 
 			NodeList nList = doc.getElementsByTagName("project");
 			for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -101,9 +111,9 @@ public class ProjectManager {
 		}
 	}
 
-	private void findTargetRoot() throws ProjectFileParseException {
+	private void findDefaultTargetRoot() throws ProjectFileParseException {
 		File rootDirectory = new File(System.getProperty("user.dir"));
-		File targetRoot = new File(rootDirectory, TARGET_DIRECTORY);
+		File targetRoot = new File(rootDirectory, DEFAULT_ROOT_DIRECTORY);
 		if (targetRoot == null || !targetRoot.exists()
 				|| !targetRoot.isDirectory()) {
 			targetRootPath = null;
