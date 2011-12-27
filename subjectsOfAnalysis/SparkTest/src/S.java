@@ -1,5 +1,9 @@
+import java.util.List;
+
 public class S {
 	I a, b;
+	List list;
+	List<T> tList;
 	
 	public I callInout(T t) {
 		I arg1 = new A();

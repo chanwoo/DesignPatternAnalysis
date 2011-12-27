@@ -22,6 +22,7 @@ import soot.Hierarchy;
 import soot.Local;
 import soot.PointsToAnalysis;
 import soot.PointsToSet;
+import soot.RefType;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootField;
@@ -1189,4 +1190,65 @@ public class AnalysisUtil {
 		return classes;
 	}
 	
+	public boolean isDelegateMethod(SootMethod aMethod, Map<String, SootClass> classMap) {
+		boolean result = false;
+		
+		Set<SootClass> fieldTypes = new HashSet<SootClass>();
+		
+		for (SootField field : aMethod.getDeclaringClass().getFields()) {
+			SootClass fieldType = typeToClass(field.getType(), classMap);
+			
+			if (fieldType != null) {
+				fieldTypes.add(fieldType);
+			}
+		}
+		
+		for (SootClass fieldType : fieldTypes) {
+			if (!calls(aMethod, fieldType, classMap).isEmpty()) {
+				result = true;
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean doesHaveCollection(SootClass aClass) {
+		
+		if (aClass.isInterface()) {
+			return false;
+		}
+		
+		Set<SootClass> collectionTypes = new HashSet<SootClass>();
+		SootClass listClass = RefType.v("java.util.List").getSootClass();
+		collectionTypes.add(listClass);
+		
+		for (SootField aField : aClass.getFields()) {
+			Type fieldType = aField.getType();
+			String fieldTypeStr = fieldType.toString();
+			
+			for (SootClass collectionType : collectionTypes) {
+				if (fieldTypeStr.equals(collectionType.toString())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+		
+//		List<SootClass> superClasses = hierarchy.getDirectSuperclassesOf(aClass);
+//		if (superClasses.isEmpty()) {
+//			return false;
+//		}
+//		else {
+//			boolean result = false;
+//			for (SootClass superClass : superClasses) {
+//				result = result || doesHaveCollection(superClass, hierarchy);
+//				if (result) {
+//					return true;
+//				}
+//			}
+//			return false;
+//		}
+	}
 }

@@ -1,6 +1,8 @@
 package kr.ac.snu.selab.soot;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,8 +24,10 @@ import soot.Body;
 import soot.Hierarchy;
 import soot.Local;
 import soot.PackManager;
+import soot.RefType;
 import soot.Scene;
 import soot.SootClass;
+import soot.SootField;
 import soot.SootMethod;
 import soot.Transform;
 import soot.Unit;
@@ -34,6 +38,7 @@ import soot.jimple.internal.JInvokeStmt;
 import soot.jimple.internal.JReturnStmt;
 import soot.jimple.internal.JReturnVoidStmt;
 import soot.jimple.toolkits.callgraph.CallGraph;
+
 
 public class SootAPITest {
 
@@ -102,6 +107,31 @@ public class SootAPITest {
 				logger.debug("###############################");
 				logger.debug("<Class> => " + aClass.toString());
 				logger.debug("###############################");
+				
+				if (aClass.getName().equals("SubD")) {
+					assertTrue(aClass.getFields().isEmpty());
+					for (SootField fieldOfSubD : aClass.getFields()) {
+						logger.debug("inherited field test");
+						logger.debug("aField => " + fieldOfSubD.getSignature());
+						logger.debug("aField.getType() => " + fieldOfSubD.getType().toString());
+					}
+				}
+				
+				for (SootField aField : aClass.getFields()) {
+					if (aField.getName().equals("list")) {
+						SootClass fieldClass = ((RefType)aField.getType()).getSootClass();
+						RefType listType = RefType.v("java.util.List");
+						SootClass listTypeClass = listType.getSootClass();
+						assertEquals(fieldClass, listTypeClass);
+					}
+					if (aField.getName().equals("tList")) {
+						SootClass fieldClass = ((RefType)aField.getType()).getSootClass();
+						RefType listType = RefType.v("java.util.List");
+						SootClass listTypeClass = listType.getSootClass();
+						assertEquals(fieldClass, listTypeClass);
+					}
+				}
+				
 				for (SootMethod aMethod : aClass.getMethods()) {
 					logger.debug("<Method> => " + aMethod.getSignature());
 					logger.debug("SootMethod.getName() => " + aMethod.getName());

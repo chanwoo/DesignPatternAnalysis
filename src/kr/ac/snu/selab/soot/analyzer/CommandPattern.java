@@ -6,14 +6,15 @@ import java.util.Set;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import soot.Hierarchy;
 import soot.SootClass;
+import soot.SootMethod;
 import soot.jimple.toolkits.callgraph.CallGraph;
 
-public class CompositePattern extends PatternAnalysis {
+public class CommandPattern extends PatternAnalysis {
 
 	public PatternAnalysisResult perform(Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg, AnalysisUtil au) {
 
 		PatternAnalysisResult result = new PatternAnalysisResult();
-		result.setPatternName("Composite");
+		result.setPatternName("Command");
 		
 		Set<SootClass> interfaceTypes = au.interfaceTypes(classMap);
 
@@ -35,18 +36,17 @@ public class CompositePattern extends PatternAnalysis {
 					for (Role role : metaInfoOfCaller.callers()) {
 						Caller caller = (Caller)role;
 						SootClass callerClass = caller.declaringClass();
-						if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
-							if (au.doesHaveCollection(callerClass) || au.doesHaveCollection(interfaceType)) {
-								if (hierarchy.getDirectSubclassesOf(callerClass).isEmpty()) {
-									result.addInterfaceType(interfaceType);
-									if (result.rolesPerType().containsKey(interfaceType)) {
-										result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-									}
-									else {
-										RoleRepository relatedRoles = new RoleRepository();
-										relatedRoles.addCaller(metaInfoOfCaller);
-										result.addRoles(interfaceType, relatedRoles);
-									}
+						SootMethod calledMethod = caller.calledMethod();
+						if (au.doesHaveCollection(callerClass)) {
+							if (au.isDelegateMethod(calledMethod, classMap)) {
+								result.addInterfaceType(interfaceType);
+								if (result.rolesPerType().containsKey(interfaceType)) {
+									result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+								}
+								else {
+									RoleRepository relatedRoles = new RoleRepository();
+									relatedRoles.addCaller(metaInfoOfCaller);
+									result.addRoles(interfaceType, relatedRoles);
 								}
 							}
 						}

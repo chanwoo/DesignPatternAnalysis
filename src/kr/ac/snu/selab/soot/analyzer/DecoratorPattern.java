@@ -13,46 +13,46 @@ public class DecoratorPattern extends PatternAnalysis {
 	public PatternAnalysisResult perform(Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg, AnalysisUtil au) {
 
 		PatternAnalysisResult result = new PatternAnalysisResult();
-		result.setPatternName("Composite");
+		result.setPatternName("Decorator");
 		
 		Set<SootClass> interfaceTypes = au.interfaceTypes(classMap);
 
 		for (SootClass interfaceType : interfaceTypes) {
-			
+
 			RoleRepository roles = new RoleRepository();
 			Map<String, MetaInfo> metaInfoMap = au.metaInfoMap(classMap.values());
 			//Set<Path<MetaInfo>> abstractReferenceFlows = new HashSet<Path<MetaInfo>>();
 
 			//abstractReferenceFlows = au.abstractReferenceFlows(interfaceType, classMap, hierarchy, cg, metaInfoMap, roles);
-	
+
 			//result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
-			
+
 			if (au.directSubClassesOf(interfaceType, hierarchy).size() >= 2) {
-			
-			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
-			
-			for (MetaInfo metaInfoOfCaller : roles.callers()) {
-				for (Role role : metaInfoOfCaller.callers()) {
-					Caller caller = (Caller)role;
-					SootClass callerClass = caller.declaringClass();
-					if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
-						if (hierarchy.getDirectSubclassesOf(callerClass).size() >= 2) {
-							result.addInterfaceType(interfaceType);
-							if (result.rolesPerType().containsKey(interfaceType)) {
-								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-							}
-							else {
-								RoleRepository relatedRoles = new RoleRepository();
-								relatedRoles.addCaller(metaInfoOfCaller);
-								result.addRoles(interfaceType, relatedRoles);
+
+				au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
+
+				for (MetaInfo metaInfoOfCaller : roles.callers()) {
+					for (Role role : metaInfoOfCaller.callers()) {
+						Caller caller = (Caller)role;
+						SootClass callerClass = caller.declaringClass();
+						if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
+							if (hierarchy.getDirectSubclassesOf(callerClass).size() >= 2) {
+								result.addInterfaceType(interfaceType);
+								if (result.rolesPerType().containsKey(interfaceType)) {
+									result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+								}
+								else {
+									RoleRepository relatedRoles = new RoleRepository();
+									relatedRoles.addCaller(metaInfoOfCaller);
+									result.addRoles(interfaceType, relatedRoles);
+								}
 							}
 						}
 					}
 				}
 			}
-			}
 		}
-		
+
 		return result;
 	}
 }

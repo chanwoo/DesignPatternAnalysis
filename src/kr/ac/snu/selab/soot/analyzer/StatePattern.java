@@ -30,7 +30,7 @@ public class StatePattern extends PatternAnalysis {
 			abstractReferenceFlows = au.abstractReferenceFlows(interfaceType, classMap, hierarchy, cg, metaInfoMap, roles);
 
 			result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
-			
+						
 			if (au.doesCall(roles.callers(), roles.injectors(), metaInfoCallGraph)) {
 				result.addInterfaceType(interfaceType);
 				result.addRoles(interfaceType, roles);
