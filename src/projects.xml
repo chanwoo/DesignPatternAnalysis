@@ -11,7 +11,7 @@
 			<path>${SRC_PATH}</path>
 		</classpaths>
 	</project>
-	<project name="Chain" abv="chain">
+	<project name="ApacheCommonChain" abv="chain">
 		<project_root path="${ROOT}/${PROJECT_NAME}"/>
 		<source path="${PROJECT_ROOT}/src"/>
 		<output path="${PROJECT_ROOT}/output"/>
@@ -19,7 +19,7 @@
 		<classpaths>	
 			<jre_path>jce.jar</jre_path>
 			<jre_path>ui.jar</jre_path>	
-			<path>${PROJECT_ROOT}/lib/commons-digester.jar</path>
+			<path>${PROJECT_ROOT}/lib/commons-digester-1.8.jar</path>
 			<path>${PROJECT_ROOT}/lib/commons-logging-1.1.1.jar</path>
 			<path>${PROJECT_ROOT}/lib/commons-collections-3.2.1.jar</path>
 			<path>${SRC_PATH}</path>

@@ -1213,6 +1213,60 @@ public class AnalysisUtil {
 		return result;
 	}
 	
+	public Set<LocalInfo> delegateInfos(SootMethod aMethod, Map<String, SootClass> classMap) {
+		Set<LocalInfo> delegateInfoSet = new HashSet<LocalInfo>();
+		
+		Set<SootClass> fieldTypes = new HashSet<SootClass>();
+		
+		for (SootField field : aMethod.getDeclaringClass().getFields()) {
+			SootClass fieldType = typeToClass(field.getType(), classMap);
+			
+			if (fieldType != null) {
+				fieldTypes.add(fieldType);
+			}
+		}
+		
+		for (SootClass fieldType : fieldTypes) {
+			Map<String, LocalInfo> callLocalInfoMap = calls(aMethod, fieldType, classMap);
+			if (!callLocalInfoMap.isEmpty()) {
+				delegateInfoSet.addAll(callLocalInfoMap.values());
+			}
+		}
+		
+		return delegateInfoSet;
+	}
+	
+	public Set<LocalInfo> delegateInfos(SootMethod aMethod, SootClass superClass, Map<String, SootClass> classMap) {
+		Set<LocalInfo> delegateInfoSet = new HashSet<LocalInfo>();
+		
+		Set<SootClass> fieldTypes = new HashSet<SootClass>();
+		
+		for (SootField field : aMethod.getDeclaringClass().getFields()) {
+			SootClass fieldType = typeToClass(field.getType(), classMap);
+			
+			if (fieldType != null) {
+				fieldTypes.add(fieldType);
+			}
+		}
+		
+		for (SootField field : superClass.getFields()) {
+			SootClass fieldType = typeToClass(field.getType(), classMap);
+
+			if (fieldType != null) {
+				fieldTypes.add(fieldType);
+			}
+		}
+		
+		for (SootClass fieldType : fieldTypes) {
+			Map<String, LocalInfo> callLocalInfoMap = calls(aMethod, fieldType, classMap);
+			if (!callLocalInfoMap.isEmpty()) {
+				delegateInfoSet.addAll(callLocalInfoMap.values());
+			}
+		}
+		
+		return delegateInfoSet;
+	}
+	
 	public boolean doesHaveCollection(SootClass aClass) {
 		
 		if (aClass.isInterface()) {
