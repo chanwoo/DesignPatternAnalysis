@@ -17,7 +17,7 @@ import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysis;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysisResult;
-import kr.ac.snu.selab.soot.analyzer.VisitorPattern;
+import kr.ac.snu.selab.soot.analyzer.PrototypePattern;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 import kr.ac.snu.selab.soot.util.XMLWriter;
@@ -33,11 +33,11 @@ import soot.SootClass;
 import soot.Transform;
 import soot.jimple.toolkits.callgraph.CallGraph;
 
-public class VisitorPatternTest {
+public class PrototypePattern_JHD6_Test {
 
-	private static Logger logger = Logger.getLogger(VisitorPatternTest.class);
+	private static Logger logger = Logger.getLogger(PrototypePattern_JHD6_Test.class);
 
-	private static final String PROJECTS_NAME = "ajp_visitor";
+	private static final String PROJECTS_NAME = "jhd6";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	static AnalysisUtil au;
@@ -85,7 +85,7 @@ public class VisitorPatternTest {
 		final String[] arguments = { "-cp", project.getClassPath(), "-f", "J",
 				"-w", "-p", "cg.spark", "verbose:true,on-fly-cg:true", "-d",
 				project.getJimpleDirectory(), "--process-dir",
-				project.getSourceDirectory(), "-main-class", "RunPattern" };
+				project.getSourceDirectory() };
 
 		soot.Main.main(arguments);
 	}
@@ -93,7 +93,7 @@ public class VisitorPatternTest {
 	@Test
 	public void writePatternAnalysisResult() {
 		File outputDir = new File(project.getOutputDirectory().getAbsolutePath());
-		File output = new File(outputDir, "VisitorPatternAnalysisResult.xml");
+		File output = new File(outputDir, "PrototypePatternAnalysisResult.xml");
 		
 		XMLWriter writer = null;
 		try {
@@ -134,7 +134,7 @@ public class VisitorPatternTest {
 				classMap.put(aClass.toString(), aClass);
 			}
 
-			PatternAnalysis analysis = new VisitorPattern();
+			PatternAnalysis analysis = new PrototypePattern();
 			result = au.analyzePattern(analysis, classMap, aHierarchy, cg);
 		}
 	}

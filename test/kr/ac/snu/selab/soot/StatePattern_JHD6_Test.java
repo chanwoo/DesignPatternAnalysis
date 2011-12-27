@@ -34,9 +34,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
-public class StatePatternTest {
+public class StatePattern_JHD6_Test {
 
-	private static Logger logger = Logger.getLogger(StatePatternTest.class);
+	private static Logger logger = Logger.getLogger(StatePattern_JHD6_Test.class);
 
 	private static final String PROJECTS_NAME = "state";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";

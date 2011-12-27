@@ -1125,4 +1125,20 @@ public class AnalysisUtil {
 		return result;
 	}
 	
+	public boolean doesHaveParamSubtypeIncluding(SootMethod aMethod, SootClass aType, 
+			         Map<String, SootClass> classMap, Hierarchy hierarchy) {
+		boolean result = false;
+		
+		List<Type> paramTypes = aMethod.getParameterTypes();
+		
+		for (Type paramType : paramTypes) {
+			if (isSubtypeIncluding(typeToClass(paramType, classMap), aType, hierarchy)) {
+				result = true;
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
 }

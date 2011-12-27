@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import kr.ac.snu.selab.soot.callgraph.MetaInfoCallGraph;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
 import soot.Hierarchy;
@@ -26,27 +25,28 @@ public class PrototypePattern extends PatternAnalysis {
 			RoleRepository roles = new RoleRepository();
 			Map<String, MetaInfo> metaInfoMap = au.metaInfoMap(classMap.values());
 			Set<Path<MetaInfo>> abstractReferenceFlows = new HashSet<Path<MetaInfo>>();
-			MetaInfoCallGraph metaInfoCallGraph = au.metaInfoCallGraph(cg, metaInfoMap);
 
 			abstractReferenceFlows = au.abstractReferenceFlows(interfaceType, classMap, hierarchy, cg, metaInfoMap, roles);
 	
-			for (MetaInfo creatorMetaInfo : roles.creators()) {
-				for (Role creator : creatorMetaInfo.creators()) {
-					if (creator.declaringClass().equals(creator.concreteType()) &&
-							au.isSubtypeIncluding(creator.declaringClass(), interfaceType, hierarchy)) {
-						Set<MetaInfo> setOfCreatorMetaInfo = new HashSet<MetaInfo>();
-						setOfCreatorMetaInfo.add(creatorMetaInfo);
-
-						if (au.doesCall(roles.callers(), setOfCreatorMetaInfo, metaInfoCallGraph)) {
-							result.addInterfaceType(interfaceType);
-							if (result.rolesPerType().containsKey(interfaceType)) {
-								result.rolesPerType().get(interfaceType).addCreator(creatorMetaInfo);
-							}
-							else {
-								RoleRepository relatedRoles = new RoleRepository();
-								relatedRoles.addCreator(creatorMetaInfo);
-								result.addRoles(interfaceType, relatedRoles);
-							}
+			result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
+			
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy);
+			
+			for (MetaInfo callerMetaInfo : roles.callers()) {
+				for (Role role : callerMetaInfo.callers()) {
+					Caller caller = (Caller)role;
+					SootMethod calledMethod = caller.calledMethod();
+					SootClass returnType = au.typeToClass(calledMethod.getReturnType(), classMap);
+					int numOfParam = calledMethod.getParameterCount();
+					if ((numOfParam == 0) && (interfaceType.equals(returnType))) {
+						result.addInterfaceType(interfaceType);
+						if (result.rolesPerType().containsKey(interfaceType)) {
+							result.rolesPerType().get(interfaceType).addCaller(callerMetaInfo);
+						}
+						else {
+							RoleRepository relatedRoles = new RoleRepository();
+							relatedRoles.addCaller(callerMetaInfo);
+							result.addRoles(interfaceType, relatedRoles);
 						}
 					}
 				}

@@ -17,7 +17,7 @@ import kr.ac.snu.selab.soot.analyzer.AbstractAnalyzer;
 import kr.ac.snu.selab.soot.analyzer.AnalysisUtil;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysis;
 import kr.ac.snu.selab.soot.analyzer.PatternAnalysisResult;
-import kr.ac.snu.selab.soot.analyzer.PrototypePattern;
+import kr.ac.snu.selab.soot.analyzer.VisitorPattern;
 import kr.ac.snu.selab.soot.core.AbstractProject;
 import kr.ac.snu.selab.soot.core.ProjectManager;
 import kr.ac.snu.selab.soot.util.XMLWriter;
@@ -33,11 +33,11 @@ import soot.SootClass;
 import soot.Transform;
 import soot.jimple.toolkits.callgraph.CallGraph;
 
-public class PrototypePatternTest {
+public class VisitorPattern_MapperXML_Test {
 
-	private static Logger logger = Logger.getLogger(PrototypePatternTest.class);
+	private static Logger logger = Logger.getLogger(VisitorPattern_MapperXML_Test.class);
 
-	private static final String PROJECTS_NAME = "jhd6";
+	private static final String PROJECTS_NAME = "mapper";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
 
 	static AnalysisUtil au;
@@ -85,7 +85,7 @@ public class PrototypePatternTest {
 		final String[] arguments = { "-cp", project.getClassPath(), "-f", "J",
 				"-w", "-p", "cg.spark", "verbose:true,on-fly-cg:true", "-d",
 				project.getJimpleDirectory(), "--process-dir",
-				project.getSourceDirectory() };
+				project.getSourceDirectory()};
 
 		soot.Main.main(arguments);
 	}
@@ -93,7 +93,7 @@ public class PrototypePatternTest {
 	@Test
 	public void writePatternAnalysisResult() {
 		File outputDir = new File(project.getOutputDirectory().getAbsolutePath());
-		File output = new File(outputDir, "PrototypePatternAnalysisResult.xml");
+		File output = new File(outputDir, "VisitorPatternAnalysisResult.xml");
 		
 		XMLWriter writer = null;
 		try {
@@ -134,7 +134,7 @@ public class PrototypePatternTest {
 				classMap.put(aClass.toString(), aClass);
 			}
 
-			PatternAnalysis analysis = new PrototypePattern();
+			PatternAnalysis analysis = new VisitorPattern();
 			result = au.analyzePattern(analysis, classMap, aHierarchy, cg);
 		}
 	}

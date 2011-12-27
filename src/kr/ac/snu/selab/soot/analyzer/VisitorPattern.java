@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import kr.ac.snu.selab.soot.callgraph.MetaInfoCallGraph;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
 import soot.Hierarchy;
@@ -38,18 +37,15 @@ public class VisitorPattern extends PatternAnalysis {
 					Caller caller = (Caller)role;
 					SootMethod calledMethod = caller.calledMethod();
 					SootClass callerClass = caller.declaringClass();
-					if (calledMethod.getParameterCount() == 1) {
-						SootClass parameterType = au.typeToClass(calledMethod.getParameterType(0), classMap);
-						if (au.isSubtypeIncluding(callerClass, parameterType, hierarchy)) {
-							result.addInterfaceType(interfaceType);
-							if (result.rolesPerType().containsKey(interfaceType)) {
-								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-							}
-							else {
-								RoleRepository relatedRoles = new RoleRepository();
-								relatedRoles.addCaller(metaInfoOfCaller);
-								result.addRoles(interfaceType, relatedRoles);
-							}
+					if (au.doesHaveParamSubtypeIncluding(calledMethod, callerClass, classMap, hierarchy)) {
+						result.addInterfaceType(interfaceType);
+						if (result.rolesPerType().containsKey(interfaceType)) {
+							result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+						}
+						else {
+							RoleRepository relatedRoles = new RoleRepository();
+							relatedRoles.addCaller(metaInfoOfCaller);
+							result.addRoles(interfaceType, relatedRoles);
 						}
 					}
 				}
