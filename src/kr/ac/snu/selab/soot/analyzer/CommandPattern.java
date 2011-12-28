@@ -27,27 +27,25 @@ public class CommandPattern extends PatternAnalysis {
 			//abstractReferenceFlows = au.abstractReferenceFlows(interfaceType, classMap, hierarchy, cg, metaInfoMap, roles);
 	
 			//result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
-			
-			if (au.directSubClassesOf(interfaceType, hierarchy).size() >= 2) {
 
-				au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
+			Map<SootClass, Set<SootClass>> superClassMap = au.superClassMap(classMap, hierarchy);
 
-				for (MetaInfo metaInfoOfCaller : roles.callers()) {
-					for (Role role : metaInfoOfCaller.callers()) {
-						Caller caller = (Caller)role;
-						SootClass callerClass = caller.declaringClass();
-						SootMethod calledMethod = caller.calledMethod();
-						if (au.doesHaveCollection(callerClass)) {
-							if (au.isDelegateMethod(calledMethod, classMap)) {
-								result.addInterfaceType(interfaceType);
-								if (result.rolesPerType().containsKey(interfaceType)) {
-									result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-								}
-								else {
-									RoleRepository relatedRoles = new RoleRepository();
-									relatedRoles.addCaller(metaInfoOfCaller);
-									result.addRoles(interfaceType, relatedRoles);
-								}
+			for (MetaInfo metaInfoOfCaller : roles.callers()) {
+				for (Role role : metaInfoOfCaller.callers()) {
+					Caller caller = (Caller)role;
+					SootClass callerClass = caller.declaringClass();
+					SootMethod calledMethod = caller.calledMethod();
+					if (au.doesHaveCollection(callerClass, superClassMap)) {
+						if (au.isDelegateMethod(calledMethod, classMap, superClassMap)) {
+							result.addInterfaceType(interfaceType);
+							if (result.rolesPerType().containsKey(interfaceType)) {
+								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+							}
+							else {
+								RoleRepository relatedRoles = new RoleRepository();
+								relatedRoles.addCaller(metaInfoOfCaller);
+								result.addRoles(interfaceType, relatedRoles);
 							}
 						}
 					}

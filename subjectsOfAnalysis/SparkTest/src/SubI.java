@@ -1,3 +1,3 @@
 public interface SubI implements I {
-	void foo();
+	public void foo();
 }

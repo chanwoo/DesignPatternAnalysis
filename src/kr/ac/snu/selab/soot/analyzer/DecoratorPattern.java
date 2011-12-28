@@ -6,6 +6,7 @@ import java.util.Set;
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import soot.Hierarchy;
 import soot.SootClass;
+import soot.SootMethod;
 import soot.jimple.toolkits.callgraph.CallGraph;
 
 public class DecoratorPattern extends PatternAnalysis {
@@ -14,7 +15,7 @@ public class DecoratorPattern extends PatternAnalysis {
 
 		PatternAnalysisResult result = new PatternAnalysisResult();
 		result.setPatternName("Decorator");
-		
+
 		Set<SootClass> interfaceTypes = au.interfaceTypes(classMap);
 
 		for (SootClass interfaceType : interfaceTypes) {
@@ -27,16 +28,17 @@ public class DecoratorPattern extends PatternAnalysis {
 
 			//result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
 
-			if (au.directSubClassesOf(interfaceType, hierarchy).size() >= 2) {
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
+			Map<SootClass, Set<SootClass>> superClassMap = au.superClassMap(classMap, hierarchy);
 
-				au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
-
-				for (MetaInfo metaInfoOfCaller : roles.callers()) {
-					for (Role role : metaInfoOfCaller.callers()) {
-						Caller caller = (Caller)role;
-						SootClass callerClass = caller.declaringClass();
+			for (MetaInfo metaInfoOfCaller : roles.callers()) {
+				for (Role role : metaInfoOfCaller.callers()) {
+					Caller caller = (Caller)role;
+					SootClass callerClass = caller.declaringClass();
+					SootMethod calledMethod = caller.calledMethod();
+					if (calledMethod.getParameterCount() == 1) {
 						if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
-							if (hierarchy.getDirectSubclassesOf(callerClass).size() >= 2) {
+//							if (!au.doesHaveCollection(callerClass, superClassMap)) {
 								result.addInterfaceType(interfaceType);
 								if (result.rolesPerType().containsKey(interfaceType)) {
 									result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
@@ -46,7 +48,7 @@ public class DecoratorPattern extends PatternAnalysis {
 									relatedRoles.addCaller(metaInfoOfCaller);
 									result.addRoles(interfaceType, relatedRoles);
 								}
-							}
+//							}
 						}
 					}
 				}

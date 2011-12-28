@@ -1,3 +1,3 @@
 public interface I {
-	void foo();
+	public void foo();
 }

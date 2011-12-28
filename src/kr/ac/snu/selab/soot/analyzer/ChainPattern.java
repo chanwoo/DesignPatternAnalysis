@@ -26,26 +26,23 @@ public class ChainPattern extends PatternAnalysis {
 			//abstractReferenceFlows = au.abstractReferenceFlows(interfaceType, classMap, hierarchy, cg, metaInfoMap, roles);
 	
 			//result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
-			
-			if (au.directSubClassesOf(interfaceType, hierarchy).size() >= 2) {
 
-				au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
 
-				for (MetaInfo metaInfoOfCaller : roles.callers()) {
-					for (Role role : metaInfoOfCaller.callers()) {
-						Caller caller = (Caller)role;
-						SootClass callerClass = caller.declaringClass();
-						if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
-							if (hierarchy.getDirectSubclassesOf(callerClass).isEmpty()) {
-								result.addInterfaceType(interfaceType);
-								if (result.rolesPerType().containsKey(interfaceType)) {
-									result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-								}
-								else {
-									RoleRepository relatedRoles = new RoleRepository();
-									relatedRoles.addCaller(metaInfoOfCaller);
-									result.addRoles(interfaceType, relatedRoles);
-								}
+			for (MetaInfo metaInfoOfCaller : roles.callers()) {
+				for (Role role : metaInfoOfCaller.callers()) {
+					Caller caller = (Caller)role;
+					SootClass callerClass = caller.declaringClass();
+					if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
+						if (hierarchy.getDirectSubclassesOf(callerClass).isEmpty()) {
+							result.addInterfaceType(interfaceType);
+							if (result.rolesPerType().containsKey(interfaceType)) {
+								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+							}
+							else {
+								RoleRepository relatedRoles = new RoleRepository();
+								relatedRoles.addCaller(metaInfoOfCaller);
+								result.addRoles(interfaceType, relatedRoles);
 							}
 						}
 					}

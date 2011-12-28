@@ -236,7 +236,7 @@ public class AnalysisUtilTest {
 		assertTrue(au.isSubtypeIncluding(d, i, hierarchy));
 		assertTrue(au.isSubtypeIncluding(subD, d, hierarchy));
 		assertTrue(au.isSubtypeIncluding(subI, i, hierarchy));
-		assertFalse(au.isSubtypeIncluding(c, d, hierarchy));
+		assertTrue(au.isSubtypeIncluding(c, d, hierarchy));
 	}
 
 	// Out
@@ -603,8 +603,18 @@ public class AnalysisUtilTest {
 			b = classMap.get("B");
 			c = classMap.get("C");
 			d = classMap.get("D");
+			SootClass e = classMap.get("E");
+			SootClass f = classMap.get("F");
+			SootClass g = classMap.get("G");
 			subD = classMap.get("SubD");
 			subI = classMap.get("SubI");
+			
+			Map<SootClass, Set<SootClass>> superClassMap = au.superClassMap(classMap, hierarchy);
+			
+			assertTrue(au.isSubtypeIncluding(e, i, hierarchy));
+			assertTrue(au.isSubtypeIncluding(f, i, hierarchy));
+			assertTrue(au.doesHaveCollection(e, superClassMap));
+			assertFalse(g.isInterface());
 
 			// preparation for methodInfoMapTest
 			methodInfoMap = au.methodInfoMap(i, classMap, hierarchy);

@@ -158,6 +158,63 @@ public class AnalysisUtil {
 		}
 	}
 	
+//	// Call without type constraint
+//	public Map<String, LocalInfo> calls(SootMethod aMethod, Map<String, SootClass> classMap) {
+//		Map<String, LocalInfo> calls = new HashMap<String, LocalInfo>();
+//
+//		Map<String, Local> locals = locals(aMethod);
+//
+//		String virtualInvoke = "class soot.jimple.internal.JVirtualInvokeExpr";
+//		String interfaceInvoke = "class soot.jimple.internal.JInterfaceInvokeExpr";
+//
+//		List<Unit> units = units(aMethod);
+//
+//		for (Unit unit : units) {
+//			if (unit instanceof JAssignStmt) {
+//				JAssignStmt stmt = (JAssignStmt)unit;
+//				if (stmt.containsInvokeExpr()) {
+//					String classString = stmt.getInvokeExpr().getClass().toString();
+//					if (classString.equals(virtualInvoke) || classString.equals(interfaceInvoke)) {
+//						Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
+//						Local receiverLocal = locals.get(receiver.toString());
+//						SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
+//						if (receiverType != null) {
+//							LocalInfo localInfo = new Call();
+//							localInfo.setLocal(receiverLocal);
+//							localInfo.setDeclaringMethod(aMethod);
+//							localInfo.setMethod(stmt.getInvokeExpr().getMethod());
+//							localInfo.setUnit(unit);
+//
+//							calls.put(localInfo.toString(), localInfo);
+//						}
+//					}
+//				}
+//			}
+//			else if (unit instanceof JInvokeStmt) {
+//				JInvokeStmt stmt = (JInvokeStmt)unit;
+//				if (stmt.containsInvokeExpr()) {
+//					String classString = stmt.getInvokeExpr().getClass().toString();
+//					if (classString.equals(virtualInvoke) || classString.equals(interfaceInvoke)) {
+//						Value receiver = ((ValueBox)stmt.getInvokeExpr().getUseBoxes().get(0)).getValue();
+//						Local receiverLocal = locals.get(receiver.toString());
+//						SootClass receiverType = typeToClass(receiverLocal.getType(), classMap);
+//						if (receiverType != null) {
+//							LocalInfo localInfo = new Call();
+//							localInfo.setLocal(receiverLocal);
+//							localInfo.setDeclaringMethod(aMethod);
+//							localInfo.setMethod(stmt.getInvokeExpr().getMethod());
+//							localInfo.setUnit(unit);
+//
+//							calls.put(localInfo.toString(), localInfo);
+//						}
+//					}
+//				}
+//			}
+//		}
+//		
+//		return calls;
+//	}
+	
 	// Call
 	public Map<String, LocalInfo> calls(SootMethod aMethod, SootClass aType, Map<String, SootClass> classMap) {
 		Map<String, LocalInfo> calls = new HashMap<String, LocalInfo>();
@@ -1190,12 +1247,15 @@ public class AnalysisUtil {
 		return classes;
 	}
 	
-	public boolean isDelegateMethod(SootMethod aMethod, Map<String, SootClass> classMap) {
+	public boolean isDelegateMethod(SootMethod aMethod, Map<String, SootClass> classMap,
+			Map<SootClass, Set<SootClass>> superClassMap) {
 		boolean result = false;
 		
 		Set<SootClass> fieldTypes = new HashSet<SootClass>();
 		
-		for (SootField field : aMethod.getDeclaringClass().getFields()) {
+		Set<SootField> fields = allFields(aMethod.getDeclaringClass(), superClassMap);
+		
+		for (SootField field : fields) {
 			SootClass fieldType = typeToClass(field.getType(), classMap);
 			
 			if (fieldType != null) {
@@ -1213,12 +1273,15 @@ public class AnalysisUtil {
 		return result;
 	}
 	
-	public Set<LocalInfo> delegateInfos(SootMethod aMethod, Map<String, SootClass> classMap) {
+	public Set<LocalInfo> delegateInfos(SootMethod aMethod, Map<String, SootClass> classMap,
+			Map<SootClass, Set<SootClass>> superClassMap) {
 		Set<LocalInfo> delegateInfoSet = new HashSet<LocalInfo>();
 		
 		Set<SootClass> fieldTypes = new HashSet<SootClass>();
 		
-		for (SootField field : aMethod.getDeclaringClass().getFields()) {
+		Set<SootField> fields = allFields(aMethod.getDeclaringClass(), superClassMap);
+		
+		for (SootField field : fields) {
 			SootClass fieldType = typeToClass(field.getType(), classMap);
 			
 			if (fieldType != null) {
@@ -1236,38 +1299,7 @@ public class AnalysisUtil {
 		return delegateInfoSet;
 	}
 	
-	public Set<LocalInfo> delegateInfos(SootMethod aMethod, SootClass superClass, Map<String, SootClass> classMap) {
-		Set<LocalInfo> delegateInfoSet = new HashSet<LocalInfo>();
-		
-		Set<SootClass> fieldTypes = new HashSet<SootClass>();
-		
-		for (SootField field : aMethod.getDeclaringClass().getFields()) {
-			SootClass fieldType = typeToClass(field.getType(), classMap);
-			
-			if (fieldType != null) {
-				fieldTypes.add(fieldType);
-			}
-		}
-		
-		for (SootField field : superClass.getFields()) {
-			SootClass fieldType = typeToClass(field.getType(), classMap);
-
-			if (fieldType != null) {
-				fieldTypes.add(fieldType);
-			}
-		}
-		
-		for (SootClass fieldType : fieldTypes) {
-			Map<String, LocalInfo> callLocalInfoMap = calls(aMethod, fieldType, classMap);
-			if (!callLocalInfoMap.isEmpty()) {
-				delegateInfoSet.addAll(callLocalInfoMap.values());
-			}
-		}
-		
-		return delegateInfoSet;
-	}
-	
-	public boolean doesHaveCollection(SootClass aClass) {
+	public boolean doesHaveCollection(SootClass aClass, Map<SootClass, Set<SootClass>> superClassMap) {
 		
 		if (aClass.isInterface()) {
 			return false;
@@ -1277,7 +1309,7 @@ public class AnalysisUtil {
 		SootClass listClass = RefType.v("java.util.List").getSootClass();
 		collectionTypes.add(listClass);
 		
-		for (SootField aField : aClass.getFields()) {
+		for (SootField aField : allFields(aClass, superClassMap)) {
 			Type fieldType = aField.getType();
 			String fieldTypeStr = fieldType.toString();
 			
@@ -1289,20 +1321,60 @@ public class AnalysisUtil {
 		}
 		
 		return false;
+	}
+	
+	public Set<SootField> allFields(SootClass aClass, Map<SootClass, Set<SootClass>> superClassMap) {
+		Set<SootField> fieldSet = new HashSet<SootField>();
 		
-//		List<SootClass> superClasses = hierarchy.getDirectSuperclassesOf(aClass);
-//		if (superClasses.isEmpty()) {
-//			return false;
-//		}
-//		else {
-//			boolean result = false;
-//			for (SootClass superClass : superClasses) {
-//				result = result || doesHaveCollection(superClass, hierarchy);
-//				if (result) {
-//					return true;
-//				}
-//			}
-//			return false;
-//		}
+		if (aClass.isInterface()) {
+			return fieldSet;
+		}
+		
+		fieldSet.addAll(aClass.getFields());
+		
+		if (superClassMap.containsKey(aClass)) {
+			for (SootClass superClass : superClassMap.get(aClass)) {
+				fieldSet.addAll(allFields(superClass, superClassMap));
+			}
+		}
+		
+		return fieldSet;
+	}
+	
+	public Map<SootClass, Set<SootClass>> superClassMap(Map<String, SootClass> classMap, Hierarchy hierarchy) {
+		Map<SootClass, Set<SootClass>> superClassMap = new HashMap<SootClass, Set<SootClass>>();
+		
+		for (SootClass aClass : classMap.values()) {
+			if (!aClass.isInterface()) {
+				List<SootClass> subClasses = hierarchy.getDirectSubclassesOf(aClass);
+				for (SootClass subClass : subClasses) {
+					if (superClassMap.containsKey(subClass)) {
+						Set<SootClass> superClassSet = superClassMap.get(subClass);
+						superClassSet.add(aClass);
+					}
+					else {
+						Set<SootClass> superClassSet = new HashSet<SootClass>();
+						superClassSet.add(aClass);
+						superClassMap.put(subClass, superClassSet);
+					}
+				}
+			}
+			else if (aClass.isInterface()) {
+				List<SootClass> implementors = hierarchy.getDirectImplementersOf(aClass);
+				for (SootClass implementor : implementors) {
+					if (superClassMap.containsKey(implementor)) {
+						Set<SootClass> superInterfaceSet = superClassMap.get(implementor);
+						superInterfaceSet.add(aClass);
+					}
+					else {
+						Set<SootClass> superInterfaceSet = new HashSet<SootClass>();
+						superInterfaceSet.add(aClass);
+						superClassMap.put(implementor, superInterfaceSet);
+					}
+				}
+			}
+		}
+		
+		return superClassMap;
 	}
 }

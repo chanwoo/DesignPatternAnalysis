@@ -27,32 +27,32 @@ public class CompositePattern extends PatternAnalysis {
 	
 			//result.addReferenceFlowsPerType(interfaceType, abstractReferenceFlows);
 			
-			if (au.directSubClassesOf(interfaceType, hierarchy).size() >= 2) {
+			au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
+			Map<SootClass, Set<SootClass>> superClassMap = au.superClassMap(classMap, hierarchy);
 
-				au.analyzeRole(interfaceType, metaInfoMap, roles, classMap, hierarchy, cg);
-
-				for (MetaInfo metaInfoOfCaller : roles.callers()) {
-					for (Role role : metaInfoOfCaller.callers()) {
-						Caller caller = (Caller)role;
-						SootClass callerClass = caller.declaringClass();
-						if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
-							if (au.doesHaveCollection(callerClass) || au.doesHaveCollection(interfaceType)) {
-								if (hierarchy.getDirectSubclassesOf(callerClass).isEmpty()) {
-									result.addInterfaceType(interfaceType);
-									if (result.rolesPerType().containsKey(interfaceType)) {
-										result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-									}
-									else {
-										RoleRepository relatedRoles = new RoleRepository();
-										relatedRoles.addCaller(metaInfoOfCaller);
-										result.addRoles(interfaceType, relatedRoles);
-									}
+			for (MetaInfo metaInfoOfCaller : roles.callers()) {
+				for (Role role : metaInfoOfCaller.callers()) {
+					Caller caller = (Caller)role;
+					SootClass callerClass = caller.declaringClass();
+					if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
+						if (au.doesHaveCollection(callerClass, superClassMap) || 
+								au.doesHaveCollection(interfaceType, superClassMap)) {
+							if (hierarchy.getDirectSubclassesOf(callerClass).isEmpty()) {
+								result.addInterfaceType(interfaceType);
+								if (result.rolesPerType().containsKey(interfaceType)) {
+									result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+								}
+								else {
+									RoleRepository relatedRoles = new RoleRepository();
+									relatedRoles.addCaller(metaInfoOfCaller);
+									result.addRoles(interfaceType, relatedRoles);
 								}
 							}
 						}
 					}
 				}
 			}
+
 		}
 		
 		return result;
