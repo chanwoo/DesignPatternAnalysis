@@ -35,7 +35,8 @@ import soot.jimple.toolkits.callgraph.CallGraph;
 
 public class ChainPattern_Apache_Test {
 
-	private static Logger logger = Logger.getLogger(ChainPattern_Apache_Test.class);
+	private static Logger logger = Logger
+			.getLogger(ChainPattern_Apache_Test.class);
 
 	private static final String PROJECTS_NAME = "chain";
 	private static final String PROJECTS_FILE_NAME = "projects.xml";
@@ -46,9 +47,9 @@ public class ChainPattern_Apache_Test {
 	static CallGraph cg;
 
 	static PatternAnalysisResult result;
-	
+
 	static AbstractProject project;
-	
+
 	static boolean touch = false;
 
 	@Before
@@ -89,12 +90,13 @@ public class ChainPattern_Apache_Test {
 
 		soot.Main.main(arguments);
 	}
-	
+
 	@Test
 	public void writePatternAnalysisResult() {
-		File outputDir = new File(project.getOutputDirectory().getAbsolutePath());
+		File outputDir = new File(project.getOutputDirectory()
+				.getAbsolutePath());
 		File output = new File(outputDir, "ChainPatternAnalysisResult.xml");
-		
+
 		XMLWriter writer = null;
 		try {
 			writer = new XMLWriter(new FileWriter(output));
@@ -106,16 +108,16 @@ public class ChainPattern_Apache_Test {
 			fail("Can not open output file.");
 			return;
 		}
-		
+
 		result.writeXML(writer);
-		
+
 		writer.close();
 	}
-	
+
 	@Test
 	public void statePatternTest() {
 		assertTrue(result.patternExistence());
-		
+
 	}
 
 	private class TestRunner extends AbstractAnalyzer {

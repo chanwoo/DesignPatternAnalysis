@@ -13,7 +13,10 @@
 	</project>
 	<project name="ApacheCommonChain" abv="chain">
 		<project_root path="${ROOT}/${PROJECT_NAME}"/>
+		<!--
 		<source path="${PROJECT_ROOT}/src"/>
+		-->
+		<source path="${PROJECT_ROOT}/apache-common-chain.jar"/>
 		<output path="${PROJECT_ROOT}/output"/>
 		<jimple path="${OUTPUT_PATH}/jimple"/>
 		<classpaths>	
@@ -22,6 +25,7 @@
 			<path>${PROJECT_ROOT}/lib/commons-digester-1.8.jar</path>
 			<path>${PROJECT_ROOT}/lib/commons-logging-1.1.1.jar</path>
 			<path>${PROJECT_ROOT}/lib/commons-collections-3.2.1.jar</path>
+			<path>${PROJECT_ROOT}/lib/commons-beanutils.jar</path>
 			<path>${SRC_PATH}</path>
 		</classpaths>
 	</project>
