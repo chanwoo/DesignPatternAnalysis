@@ -19,6 +19,7 @@
 		<source path="${PROJECT_ROOT}/apache-common-chain.jar"/>
 		<output path="${PROJECT_ROOT}/output"/>
 		<jimple path="${OUTPUT_PATH}/jimple"/>
+		<include_package name="org.apache.commons.chain" />
 		<classpaths>	
 			<jre_path>jce.jar</jre_path>
 			<jre_path>ui.jar</jre_path>	

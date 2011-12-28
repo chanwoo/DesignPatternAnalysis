@@ -86,7 +86,8 @@ public class ChainPattern_Apache_Test {
 		final String[] arguments = { "-cp", project.getClassPath(), "-f", "J",
 				"-w", "-p", "cg.spark", "verbose:true,on-fly-cg:true", "-d",
 				project.getJimpleDirectory(), "--process-dir",
-				project.getSourceDirectory(), "-main-class", "test.MyTest" };
+				project.getSourceDirectory(), "-main-class", "test.MyTest",
+				"-i", "org.apache.commons.chain" };
 
 		soot.Main.main(arguments);
 	}
