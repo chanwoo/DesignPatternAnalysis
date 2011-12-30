@@ -1,17 +1,20 @@
 package kr.ac.snu.selab.soot.analyzer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
 
 import kr.ac.snu.selab.soot.graph.MetaInfo;
 import kr.ac.snu.selab.soot.graph.Path;
 import kr.ac.snu.selab.soot.util.XMLWriter;
 
+import org.apache.log4j.Logger;
+
+import soot.Hierarchy;
 import soot.SootClass;
 
 public class PatternAnalysisResult {
@@ -21,12 +24,15 @@ public class PatternAnalysisResult {
 	private Set<SootClass> interfaceTypes;
 	private Map<SootClass, RoleRepository> rolesPerType;
 	private Map<SootClass, Set<Path<MetaInfo>>> referenceFlowsPerType;
+	private Hierarchy hierarchy;
+	private AnalysisUtil au;
 	
 	public PatternAnalysisResult() {
 		patternName = null;
 		interfaceTypes = new HashSet<SootClass>();
 		rolesPerType = new HashMap<SootClass, RoleRepository>();
 		referenceFlowsPerType = new HashMap<SootClass, Set<Path<MetaInfo>>>();
+		au = new AnalysisUtil();
 	}
 	
 	public Map<SootClass, Set<Path<MetaInfo>>> referenceFlowsPerType() {
@@ -35,6 +41,10 @@ public class PatternAnalysisResult {
 	
 	public void addReferenceFlowsPerType(SootClass interfaceType, Set<Path<MetaInfo>> flows) {
 		referenceFlowsPerType.put(interfaceType, flows);
+	}
+	
+	public void hierarchy(Hierarchy aHierarchy) {
+		hierarchy = aHierarchy;
 	}
 	
 	public String patternName() {
@@ -55,7 +65,7 @@ public class PatternAnalysisResult {
 	}
 	
 	public Set<SootClass> interfaceTypes() {
-		return interfaceTypes;
+		return au.topLevelClasses(interfaceTypes, hierarchy);
 	}
 	
 	public void addInterfaceType(SootClass aType) {

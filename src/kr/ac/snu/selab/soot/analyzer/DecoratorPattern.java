@@ -38,17 +38,15 @@ public class DecoratorPattern extends PatternAnalysis {
 					SootMethod calledMethod = caller.calledMethod();
 					if (calledMethod.getParameterCount() == 1) {
 						if (au.isSubtypeIncluding(callerClass, interfaceType, hierarchy)) {
-//							if (!au.doesHaveCollection(callerClass, superClassMap)) {
-								result.addInterfaceType(interfaceType);
-								if (result.rolesPerType().containsKey(interfaceType)) {
-									result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
-								}
-								else {
-									RoleRepository relatedRoles = new RoleRepository();
-									relatedRoles.addCaller(metaInfoOfCaller);
-									result.addRoles(interfaceType, relatedRoles);
-								}
-//							}
+							result.addInterfaceType(interfaceType);
+							if (result.rolesPerType().containsKey(interfaceType)) {
+								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);
+							}
+							else {
+								RoleRepository relatedRoles = new RoleRepository();
+								relatedRoles.addCaller(metaInfoOfCaller);
+								result.addRoles(interfaceType, relatedRoles);
+							}
 						}
 					}
 				}

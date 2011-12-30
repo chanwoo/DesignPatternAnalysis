@@ -15,6 +15,7 @@ public class ObserverPattern extends PatternAnalysis {
 	public PatternAnalysisResult perform(Map<String, SootClass> classMap, Hierarchy hierarchy, CallGraph cg, AnalysisUtil au) {
 
 		PatternAnalysisResult result = new PatternAnalysisResult();
+		result.hierarchy(hierarchy);
 		result.setPatternName("Observer");
 
 		Set<SootClass> interfaceTypes = au.interfaceTypes(classMap);
@@ -39,7 +40,7 @@ public class ObserverPattern extends PatternAnalysis {
 					SootClass callerClass = caller.declaringClass();
 					SootMethod calledMethod = caller.calledMethod();
 					if (au.doesHaveCollection(callerClass, superClassMap)) {
-						if (calledMethod.getParameterCount() > 0) {
+						if (calledMethod.getParameterCount() == 1) {
 							result.addInterfaceType(interfaceType);
 							if (result.rolesPerType().containsKey(interfaceType)) {
 								result.rolesPerType().get(interfaceType).addCaller(metaInfoOfCaller);

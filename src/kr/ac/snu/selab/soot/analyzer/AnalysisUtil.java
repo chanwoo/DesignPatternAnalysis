@@ -1377,4 +1377,41 @@ public class AnalysisUtil {
 		
 		return superClassMap;
 	}
+	
+	public Set<SootClass> topLevelClasses(Set<SootClass> classes, Hierarchy hierarchy) {
+		Set<SootClass> topLevelClasses = new HashSet<SootClass>();
+		Set<SootClass> subClasses = new HashSet<SootClass>();
+		List<SootClass> allClasses = new ArrayList<SootClass>();
+		allClasses.addAll(classes);
+		
+		int size = allClasses.size();
+		
+		for (int i = 0; i < size ; i++) {
+			for (int j = i+1; j < size; j++) {
+				SootClass iClass = allClasses.get(i);
+				SootClass jClass = allClasses.get(j);
+				if (isSubtypeIncluding(iClass, jClass, hierarchy)) {
+					subClasses.add(iClass);
+				}
+				else if (isSubtypeIncluding(jClass, iClass, hierarchy)) {
+					subClasses.add(jClass);
+				}
+			}
+		}
+		
+		for (SootClass aClass : allClasses) {
+			if (!subClasses.contains(aClass)) {
+				topLevelClasses.add(aClass);
+			}
+		}
+		
+		int sizeAfterTrim = topLevelClasses.size();
+
+		if (size == sizeAfterTrim) {
+			return topLevelClasses;
+		}
+		else {
+			return topLevelClasses(topLevelClasses, hierarchy);
+		}
+	}
 }
